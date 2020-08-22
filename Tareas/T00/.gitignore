@@ -1,0 +1,9 @@
+__pycache__/
+
+# Archivos Entregados
+parametros.py
+puntajes.txt
+tablero.py
+
+#Archivos temporales propios
+temp.py
