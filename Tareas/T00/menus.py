@@ -1,5 +1,5 @@
 import funciones as func
-
+from clases import Partida
 
 def menu_rankings(path):
     # manejo del archivo
@@ -33,6 +33,8 @@ def menu_rankings(path):
             print("Entrada Invalida!, por favor ingrese un valor valido")
 
 
+# muestra el menu de inicio, y en caso de crearse una partida la retorna como
+# un objeto "Partida", o sino solamente termina el ciclo y no retorna nada.
 def menu_inicio():
     while True:
         # UI del menu
@@ -65,7 +67,10 @@ def menu_inicio():
                         break
                 print("Entrada invalida,\
                      vuelva a señalar las dimensiones del tablero")
-            partida = func.crear_partida(apodo, filas, columnas)
+            partida = Partida(apodo, filas, columnas)
+
+            # pasa al menu Juego
+            menu_juego(partida)
         elif entrada_usuario == "1":  # ver rankings
             menu_rankings("puntajes.txt")
             pass
@@ -75,3 +80,7 @@ def menu_inicio():
             pass
         else:
             print("Entrada Invalida!, por favor ingrese un valor valido")
+
+
+def menu_juego(partida):
+    pass
