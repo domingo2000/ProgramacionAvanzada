@@ -8,9 +8,6 @@ def apodo_valido(apodo):  # revisa el apodo, retorna un booleando
         return(False)
 
 
-def crear_partida(apodo, filas, columnas):
-    print("Partida creada!")
-    print(f"Partida de {apodo}")
-    print(f"El tablero tiene tamaño [{filas} x {columnas}]")
-
-    return(clases.Partida(apodo, filas, columnas))
+def mi_funcion():
+    a = input("Ingresa un numero: ")
+    print(a)

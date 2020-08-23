@@ -1,6 +1,11 @@
 import funciones as func
 from clases import Partida
 
+
+def menu_juego(partida):
+    pass
+
+
 def menu_rankings(path):
     # manejo del archivo
     archivo = open(path, "r", encoding="utf-8")
@@ -66,7 +71,7 @@ def menu_inicio():
                     if (3 <= filas <= 15) and (3 <= columnas <= 15):
                         break
                 print("Entrada invalida,\
-                     vuelva a señalar las dimensiones del tablero")
+ vuelva a señalar las dimensiones del tablero")
             partida = Partida(apodo, filas, columnas)
 
             # pasa al menu Juego
@@ -80,7 +85,3 @@ def menu_inicio():
             pass
         else:
             print("Entrada Invalida!, por favor ingrese un valor valido")
-
-
-def menu_juego(partida):
-    pass
