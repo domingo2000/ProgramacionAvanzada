@@ -10,7 +10,7 @@ class Partida:
     def __init__(self, apodo, filas, columnas):
         self.apodo = apodo
         self.dimensiones = (filas, columnas)
-
+        self.bomba_especial_usada = False
         # Crea el tablero vacio
         self.tablero_rival = []
         self.tablero_propio = []
