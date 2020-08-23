@@ -1,13 +1,13 @@
 import funciones as func
 from clases import Partida
 import tablero
+import parametros
 
 
 def menu_juego(partida):
     bomba_especial_utilizada = False
     letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     while True:
-
         print("--- Menu Juego ---")
         tablero.print_tablero(partida.tablero_rival, partida.tablero_propio, utf8=True)
         print("[0] Rendirse")
@@ -18,55 +18,16 @@ def menu_juego(partida):
             print("Te has rendido")
             break  # por hacer guardar datos al rendirse en archivo
         elif entrada_usuario == "1":
-            # Lanzar una bomba
-            print("Seleccione el tipo de bomba")
-            print("[0] Regular")
-            print("[1] Especial")
-            tipo_bomba = input("Ingrese un valor para la bomba: ")
-
-            if tipo_bomba == "0":  # bombas regulares
-                while True:
-                    print("Indique la casilla donde va a atacar")
-                    coordenada_letra = input("Ingrese la coordenada letra: ")
-                    coordenada_num = input("Ingrese la coordenada numerica: ")
-                    if coordenada_num.isnumeric():
-                        x = int(coordenada_num)
-                    else:
-                        x = coordenada_num
-                    if len(coordenada_letra) == 1 and coordenada_letra in letras:
-                        y = letras.index(coordenada_letra)
-                    else:
-                        y = coordenada_letra
-
-                    if not(func.disparo_valido(partida, x, y)):
-                        print("Disparo no valido, ingrese coordenadas validas")
-                    else:
-                        break
-                # sigue con el bucle y se dispara
-                print(f"Ha disparado a la cordenada \
-    {coordenada_letra}, {coordenada_num}")
-                valor_casilla_rival = partida.tablero_rival[x][y] 
-                if valor_casilla_rival == "B":
-                    partida.tablero_rival[x][y] = "F"
-                elif valor_casilla_rival == " ":
-                    partida.tablero_rival[x][y] = "X"
-            elif tipo_bomba == "1":  # bombas especiales
-                if not(bomba_especial_utilizada):
-                    pass
-                    # por hacer programar tipos de bomba e implementar aqui
-                elif bomba_especial_utilizada:
-                    print("Usted ya jugo una bomba especial, elija la regular")
-                pass
-            else:
-                print("Entrada invalida, ingrese un valor valido")
-
-            pass
+            func.lanzar_bomba(partida)
         elif entrada_usuario == "2":
+            print("Saliendo...")
             # por hacer terminar codigo para salir del programa de una
             break
             pass
         else:
             print("Entrada Invalida! Ingresa una opcion valida")
+
+        # Turno Oponente
 
 
 def menu_rankings(path):
