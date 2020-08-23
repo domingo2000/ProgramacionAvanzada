@@ -18,7 +18,8 @@ def menu_juego(partida):
             print("Te has rendido")
             break  # por hacer guardar datos al rendirse en archivo
         elif entrada_usuario == "1":
-            func.lanzar_bomba(partida)
+            apunto = func.lanzar_bomba(partida)
+            print("debug")
         elif entrada_usuario == "2":
             print("Saliendo...")
             # por hacer terminar codigo para salir del programa de una

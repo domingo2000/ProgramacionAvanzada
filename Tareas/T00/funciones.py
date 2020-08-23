@@ -1,4 +1,5 @@
 import clases
+from parametros import RADIO_EXP
 
 
 def apodo_valido(apodo):  # revisa el apodo, retorna un booleando
@@ -36,12 +37,40 @@ def coordenadas_validas(partida, letra, num):
         return False
 
 
+# Elimina las coordenadas que estan fuera del mapa al explotar una bomba
+def coordenadas_en_mapa(partida, coordenadas):
+    coordenadas_mapa = set()
+    for coordenada in coordenadas:
+        x = coordenada[0]
+        y = coordenada[1]
+        if 0 <= x < partida.dimensiones[0] and 0 <= y < partida.dimensiones[1]:
+            coordenadas_mapa.add((x, y))
+    return coordenadas_mapa
+
+
 def coordenadas_bomba_cruz(partida, x, y):
     print("BOOM cruz")
+    coordenadas_explosion = set()
+    for i in range(RADIO_EXP):
+        coordenadas_explosion.add(((x - i), y))
+        coordenadas_explosion.add(((x + i), y))
+        coordenadas_explosion.add((x, (y - i)))
+        coordenadas_explosion.add((x, (y + i)))
+
+    coordenadas_explosion = coordenadas_en_mapa(partida, coordenadas_explosion)
+    return(coordenadas_explosion)
 
 
 def coordenadas_bomba_x(partida, x, y):
+    coordenadas_explosion = set()
+    for i in range(RADIO_EXP):
+        coordenadas_explosion.add(((x + i), (y + i)))
+        coordenadas_explosion.add(((x + i), (y - i)))
+        coordenadas_explosion.add(((x - i), (y - i)))
+        coordenadas_explosion.add(((x - i), (y + i)))
     print("BOOM X bomb")
+    coordenadas_explosion = coordenadas_en_mapa(partida, coordenadas_explosion)
+    return(coordenadas_explosion)
 
 
 def coordenadas_bomba_diamante(partida, x, y):
@@ -49,8 +78,23 @@ def coordenadas_bomba_diamante(partida, x, y):
 
 
 def atacar_coordenadas(partida, coordenadas):
-    print("Atacando coordenadas")
-# Lanza una bomba y cambia el tablero segun la bomba y las coordenadas
+    apunto = False
+    for coordenada in coordenadas:
+        x = coordenada[0]
+        y = coordenada[1]
+        casilla_atacada = partida.tablero_rival[x][y]
+        if casilla_atacada == "B":
+            partida.tablero_rival[x][y] = "F"
+            apunto = True
+        elif casilla_atacada == " ":
+            partida.tablero_rival[x][y] = "X"
+        elif casilla_atacada == "F" or casilla_atacada == "X":
+            continue
+    return apunto
+
+
+# Lanza una bomba y cambia el tablero segun la bomba y las coordenadas,
+# retorna si le apunto (True) o si no le apunto (False)
 def lanzar_bomba(partida):
     letras_tablero = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     while True:  # Bucle input tipo de bomba
@@ -72,10 +116,10 @@ def lanzar_bomba(partida):
                     casilla_atacada = partida.tablero_rival[x][y]
                     if casilla_atacada == " ":
                         partida.tablero_rival[x][y] = "X"
-                        break
+                        return False
                     elif casilla_atacada == "B":
                         partida.tablero_rival[x][y] = "F"
-                        break
+                        return True
                     elif casilla_atacada == "X" or casilla_atacada == "F":
                         print("Ya a atacado esa casilla, ingrese otra casilla")
                 else:  # coordenadas invalidas
@@ -113,23 +157,33 @@ def lanzar_bomba(partida):
                             
                     if entrada == "0":  # bomba cruz
                         coordenadas_atacadas = coordenadas_bomba_cruz(partida, x, y)
-                        atacar_coordenadas(partida, coordenadas_atacadas)
+                        apunto = atacar_coordenadas(partida, coordenadas_atacadas)
                         partida.bomba_especial_usada = True
-                        break
+                        if apunto:
+                            return True
+                        else:
+                            return False
                     elif entrada == "1":  # bomba X
                         coordenadas_atacadas = coordenadas_bomba_x(partida, x, y)
-                        atacar_coordenadas(partida, coordenadas_atacadas)
+                        apunto = atacar_coordenadas(partida, coordenadas_atacadas)
                         partida.bomba_especial_usada = True
-                        break
+                        if apunto == True:
+                            return True
+                        else:
+                            return False
                     elif entrada == "2":  # bomba diamante
                         coordenadas_atacadas = coordenadas_bomba_diamante(partida, x, y)
-                        atacar_coordenadas(partida, coordenadas_atacadas)
+                        apunto = atacar_coordenadas(partida, coordenadas_atacadas)
                         partida.bomba_especial_usada = True
-                        break
+                        if apunto == True:
+                            return True
+                        else:
+                            return False
                     else:  # entrada invalida
                         print("Entrada Invalida! Ingresa una opcion valida")
                         continue
-        else:  # Invalida
+        else:  # entrada Invalida
+            print("Entrada Invalida! Ingresa una opcion valida")
             continue
 
     pass
