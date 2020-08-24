@@ -1,5 +1,6 @@
 import clases
 from parametros import RADIO_EXP
+import random
 
 
 def apodo_valido(apodo):  # revisa el apodo, retorna un booleando
@@ -151,10 +152,10 @@ def lanzar_bomba(partida):
                                 print("Ya a atacado esa casilla, ingrese otra casilla")
                             elif casilla_atacada == " " or casilla_atacada == "B":
                                 break
-                            
+
                         else:  # coordenadas invalidas
                             print("Coordenadas Invalidas!, ingrese nuevamente")
-                            
+
                     if entrada == "0":  # bomba cruz
                         coordenadas_atacadas = coordenadas_bomba_cruz(partida, x, y)
                         apunto = atacar_coordenadas(partida, coordenadas_atacadas)
@@ -187,3 +188,23 @@ def lanzar_bomba(partida):
             continue
 
     pass
+
+
+# Ataca una coordenada aleatoria que no haya sido atacada previamente
+def ataque_oponente(partida):
+    letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    coordenada_valida = False
+    while not(coordenada_valida):
+        x = random.randint(0, partida.dimensiones[0] - 1)
+        y = random.randint(0, partida.dimensiones[1] - 1)
+        casilla_atacada = partida.tablero_propio[x][y]
+        if casilla_atacada == " ":
+            partida.tablero_propio[x][y] = "X"
+            coordenada_valida = True
+        elif casilla_atacada == "B":
+            partida.tablero_propio[x][y] = "F"
+            coordenada_valida = True
+        else:
+            coordenada_valida = False
+    letra = letras[y]
+    print(f"¡Tu oponente ha disparado a la coordenada {letra}{x}!")

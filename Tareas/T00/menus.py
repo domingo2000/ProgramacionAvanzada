@@ -14,21 +14,32 @@ def menu_juego(partida):
         print("[1] Lanzar una bomba")
         print("[2] Salir del programa")
         entrada_usuario = input("Ingresa tu eleccion: ")
-        if entrada_usuario == "0":
+        if entrada_usuario == "0":  # Rendirse
             print("Te has rendido")
+            puntaje = partida.calcular_puntaje()
+            print(f"Tu puntaje fue de {puntaje} puntos")
+            partida.guardar_puntaje(puntaje, "puntajes.txt")
             break  # por hacer guardar datos al rendirse en archivo
-        elif entrada_usuario == "1":
+        elif entrada_usuario == "1":  # Lanzar bomba
             apunto = func.lanzar_bomba(partida)
-            print("debug")
         elif entrada_usuario == "2":
             print("Saliendo...")
+            salir = True
+            return(salir)
             # por hacer terminar codigo para salir del programa de una
             break
-            pass
         else:
             print("Entrada Invalida! Ingresa una opcion valida")
 
         # Turno Oponente
+        if not(apunto):
+            func.ataque_oponente(partida)
+            print("El tablero actual es:")
+            tablero.print_tablero(partida.tablero_rival, partida.tablero_propio)
+            input("Presione enter para continuar: ")
+
+    salir = False
+    return salir
 
 
 def menu_rankings(path):
@@ -100,8 +111,9 @@ def menu_inicio():
             partida = Partida(apodo, filas, columnas)
 
             # pasa al menu Juego
-            menu_juego(partida)
-
+            salir = menu_juego(partida)
+            if salir:
+                break
         elif entrada_usuario == "1":  # ver rankings
             menu_rankings("puntajes.txt")
             pass

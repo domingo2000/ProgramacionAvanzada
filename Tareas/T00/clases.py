@@ -43,3 +43,28 @@ class Partida:
             x = coordenada_barco[0]
             y = coordenada_barco[1]
             self.tablero_propio[x][y] = "B"
+
+    # metodos
+    def calcular_puntaje(self):
+        filas = self.dimensiones[0]
+        columnas = self.dimensiones[1]
+        barcos = parametros.NUM_BARCOS
+        alidados_descubiertos = 0
+        enemigos_descubiertos = 0
+
+        for fila in self.tablero_rival:
+            for casilla in fila:
+                if casilla == "F":
+                    enemigos_descubiertos += 1
+        
+        for fila in self.tablero_propio:
+            for casilla in fila:
+                if casilla == "F":
+                    alidados_descubiertos += 1
+
+        puntaje = filas * columnas * barcos *(enemigos_descubiertos - alidados_descubiertos)
+        puntaje = max(0, puntaje)
+        return(puntaje)
+
+    def guardar_puntaje(self, puntaje, archivo):
+        pass
