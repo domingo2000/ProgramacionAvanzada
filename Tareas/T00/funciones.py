@@ -86,6 +86,7 @@ def atacar_coordenadas(partida, coordenadas):
         casilla_atacada = partida.tablero_rival[x][y]
         if casilla_atacada == "B":
             partida.tablero_rival[x][y] = "F"
+            partida.enemigos_descubiertos += 1
             apunto = True
         elif casilla_atacada == " ":
             partida.tablero_rival[x][y] = "X"
@@ -120,6 +121,7 @@ def lanzar_bomba(partida):
                         return False
                     elif casilla_atacada == "B":
                         partida.tablero_rival[x][y] = "F"
+                        partida.enemigos_descubiertos += 1
                         return True
                     elif casilla_atacada == "X" or casilla_atacada == "F":
                         print("Ya a atacado esa casilla, ingrese otra casilla")
@@ -192,19 +194,24 @@ def lanzar_bomba(partida):
 
 # Ataca una coordenada aleatoria que no haya sido atacada previamente
 def ataque_oponente(partida):
+    oponente_apunto = False
     letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     coordenada_valida = False
     while not(coordenada_valida):
         x = random.randint(0, partida.dimensiones[0] - 1)
         y = random.randint(0, partida.dimensiones[1] - 1)
+        print("debug")
         casilla_atacada = partida.tablero_propio[x][y]
         if casilla_atacada == " ":
             partida.tablero_propio[x][y] = "X"
             coordenada_valida = True
         elif casilla_atacada == "B":
             partida.tablero_propio[x][y] = "F"
+            partida.aliados_descubiertos += 1
             coordenada_valida = True
+            oponente_apunto = True
         else:
             coordenada_valida = False
     letra = letras[y]
     print(f"¡Tu oponente ha disparado a la coordenada {letra}{x}!")
+    return(oponente_apunto)

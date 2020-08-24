@@ -17,8 +17,8 @@ def menu_juego(partida):
         if entrada_usuario == "0":  # Rendirse
             print("Te has rendido")
             puntaje = partida.calcular_puntaje()
-            print(f"Tu puntaje fue de {puntaje} puntos")
-            partida.guardar_puntaje(puntaje, "puntajes.txt")
+            print(f"Tu puntaje fue de {partida.puntaje} puntos")
+            partida.guardar_puntaje("puntajes.txt")
             break  # por hacer guardar datos al rendirse en archivo
         elif entrada_usuario == "1":  # Lanzar bomba
             apunto = func.lanzar_bomba(partida)
@@ -33,11 +33,23 @@ def menu_juego(partida):
 
         # Turno Oponente
         if not(apunto):
-            func.ataque_oponente(partida)
-            print("El tablero actual es:")
-            tablero.print_tablero(partida.tablero_rival, partida.tablero_propio)
-            input("Presione enter para continuar: ")
+            oponente_apunto = True
+            while oponente_apunto and (partida.aliados_descubiertos < parametros.NUM_BARCOS):
+                oponente_apunto = func.ataque_oponente(partida)
+                print("El tablero actual es:")
+                tablero.print_tablero(partida.tablero_rival, partida.tablero_propio)
+                input("Presione enter para continuar: ")
 
+        #Chequea ganador
+        partida.ver_si_gano()
+        if partida.terminada:
+            print(f"Ha ganado {partida.ganador}!")
+            partida.calcular_puntaje()
+            print(f"Has conseguido {partida.puntaje} puntos!")
+            print("Tablero final:")
+            tablero.print_tablero(partida.tablero_rival, partida.tablero_propio)
+            partida.guardar_puntaje("puntajes.txt")
+            break
     salir = False
     return salir
 

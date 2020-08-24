@@ -11,6 +11,13 @@ class Partida:
         self.apodo = apodo
         self.dimensiones = (filas, columnas)
         self.bomba_especial_usada = False
+        self.aliados_descubiertos = 0
+        self.enemigos_descubiertos = 0
+        self.puntaje = 0
+        self.ganador = ""
+        self.perdedor = ""
+        self.terminada = False
+
         # Crea el tablero vacio
         self.tablero_rival = []
         self.tablero_propio = []
@@ -49,22 +56,28 @@ class Partida:
         filas = self.dimensiones[0]
         columnas = self.dimensiones[1]
         barcos = parametros.NUM_BARCOS
-        alidados_descubiertos = 0
-        enemigos_descubiertos = 0
+        aliados_descubiertos = self.aliados_descubiertos
+        enemigos_descubiertos = self.enemigos_descubiertos
 
-        for fila in self.tablero_rival:
-            for casilla in fila:
-                if casilla == "F":
-                    enemigos_descubiertos += 1
-
-        for fila in self.tablero_propio:
-            for casilla in fila:
-                if casilla == "F":
-                    alidados_descubiertos += 1
-
-        puntaje = filas * columnas * barcos * (enemigos_descubiertos - alidados_descubiertos)
+        puntaje = filas * columnas * barcos * (enemigos_descubiertos - aliados_descubiertos)
         puntaje = max(0, puntaje)
-        return(puntaje)
+        self.puntaje = puntaje
 
-    def guardar_puntaje(self, puntaje, archivo):
-        pass
+    def guardar_puntaje(self, path_archivo):
+        puntaje = self.puntaje
+        string_datos = f"\n{self.apodo},{self.puntaje}"
+        archivo = open(path_archivo, "a")
+        archivo.write(string_datos)
+        archivo.close()
+
+    def ver_si_gano(self):
+        if self.enemigos_descubiertos == parametros.NUM_BARCOS:
+            self.ganador = self.apodo
+            self.perdedor = "computador"
+            self.terminada = True
+        elif self.aliados_descubiertos == parametros.NUM_BARCOS:
+            self.ganador = "computador"
+            self.perdedor = self.apodo
+            self.terminada = True
+        else:
+            terminada = False
