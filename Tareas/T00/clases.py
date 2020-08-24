@@ -56,13 +56,13 @@ class Partida:
             for casilla in fila:
                 if casilla == "F":
                     enemigos_descubiertos += 1
-        
+
         for fila in self.tablero_propio:
             for casilla in fila:
                 if casilla == "F":
                     alidados_descubiertos += 1
 
-        puntaje = filas * columnas * barcos *(enemigos_descubiertos - alidados_descubiertos)
+        puntaje = filas * columnas * barcos * (enemigos_descubiertos - alidados_descubiertos)
         puntaje = max(0, puntaje)
         return(puntaje)
 

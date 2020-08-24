@@ -78,6 +78,7 @@ def menu_rankings(path):
 # un objeto "Partida", o sino solamente termina el ciclo y no retorna nada.
 def menu_inicio():
     while True:
+        volver = False
         # UI del menu
         print("---Menu de Inicio---")
         print("[0] Iniciar una Partida")
@@ -95,9 +96,24 @@ def menu_inicio():
                 if func.apodo_valido(apodo):
                     break
                 else:
-                    print("Apodo Inválido!, Por favor ingrese nuevamente")
+                    while True:
+                        print("Apodo Inválido!, Por favor ingrese nuevamente")
+                        print("[0] ingresar un nuevo apodo")
+                        print("[1] volver al menu de inicio")
+                        entrada = input("Escoja una opcion: ")
+                        if entrada == "0":
+                            volver = False
+                            break
+                        elif entrada == "1":
+                            volver = True
+                            break
+                    if volver:
+                        break
 
+            if volver:
+                continue
             while True:
+                print("Las filas y columnas deben tener un tamaño entre 3 y 15")
                 filas = input("Ingrese el numero de filas: ")
                 columnas = input("Ingrese el numero de columnas: ")
 
