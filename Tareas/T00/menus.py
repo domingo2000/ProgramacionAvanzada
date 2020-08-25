@@ -64,8 +64,11 @@ def menu_rankings(path):
         if "\n" in linea:
             linea = linea[:-1]
         dato = linea.split(",")
+        dato = [dato[0], int(dato[1])]
         datos.append(dato)
-
+    print(datos)
+    datos = sorted(datos, key=lambda dato: dato[1], reverse=True)
+    print(datos)
     # UI Rankings
     while True:
         print("--- Ranking de Puntajes ---")
@@ -74,6 +77,8 @@ def menu_rankings(path):
             nombre = dato[0]
             puntaje = dato[1]
             print(f"{lugar}) {nombre}: {puntaje} Pts")
+            if len(datos) >= 5 and lugar == 5:
+                break
             lugar += 1
         print("[0] Volver")
         # Entrada del usuario
