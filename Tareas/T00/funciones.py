@@ -200,7 +200,6 @@ def ataque_oponente(partida):
     while not(coordenada_valida):
         x = random.randint(0, partida.dimensiones[0] - 1)
         y = random.randint(0, partida.dimensiones[1] - 1)
-        print("debug")
         casilla_atacada = partida.tablero_propio[x][y]
         if casilla_atacada == " ":
             partida.tablero_propio[x][y] = "X"
