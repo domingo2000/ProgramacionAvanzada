@@ -76,6 +76,22 @@ def coordenadas_bomba_x(partida, x, y):
 
 def coordenadas_bomba_diamante(partida, x, y):
     print("BOOM diamante")
+    r = RADIO_EXP
+    coordenadas_explosion = set()
+
+    k = 1
+    for i in range(r):
+        coord_x = x - r + k
+        while coord_x <= (x + r - k):
+            coordenada_positiva = (y + i, coord_x)  # (coord_x, y + i)
+            coordenada_negativa = (y - i, coord_x)  # (coord_x, y - i)
+            coord_x += 1
+            coordenadas_explosion.add(coordenada_positiva)
+            coordenadas_explosion.add(coordenada_negativa)
+
+        k += 1
+        coordenadas_explosion = coordenadas_en_mapa(partida, coordenadas_explosion)
+    return(coordenadas_explosion)
 
 
 def atacar_coordenadas(partida, coordenadas):

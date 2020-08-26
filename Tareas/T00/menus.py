@@ -30,6 +30,7 @@ def menu_juego(partida):
             break
         else:
             print("Entrada Invalida! Ingresa una opcion valida")
+            continue
 
         # Turno Oponente
         if not(apunto):
@@ -66,9 +67,7 @@ def menu_rankings(path):
         dato = linea.split(",")
         dato = [dato[0], int(dato[1])]
         datos.append(dato)
-    print(datos)
     datos = sorted(datos, key=lambda dato: dato[1], reverse=True)
-    print(datos)
     # UI Rankings
     while True:
         print("--- Ranking de Puntajes ---")
@@ -149,10 +148,8 @@ def menu_inicio():
                 break
         elif entrada_usuario == "1":  # ver rankings
             menu_rankings("puntajes.txt")
-            pass
         elif entrada_usuario == "2":  # salir
             print("Hasta Luego, Gracias por jugar DCCombateNaval")
             break
-            pass
         else:
             print("Entrada Invalida!, por favor ingrese un valor valido")
