@@ -5,12 +5,19 @@ from copy import deepcopy
 class BolsilloCriaturas(list):
 
     def append(self, criatura):
-        # Completar
-        pass
+        if len(self) < 6:
+            super().append(criatura)
+        else:
+            print("Error: Ha llegado al limite de creaturas")
 
     def cantidad_criaturas_estrella(self):
-        # Completar
-        pass
+        cantidad_estrallas = 0
+        for creatura in self:
+            suma_puntos = creatura.hp_base + creatura.atk + creatura.sp_atk + \
+                          creatura.defense
+            if suma_puntos > 400:
+                cantidad_estrallas += 1
+        return cantidad_estrallas
 
     def __add__(self, bolsillo_enemigo):
         # Completar
