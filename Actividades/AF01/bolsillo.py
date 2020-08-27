@@ -20,8 +20,13 @@ class BolsilloCriaturas(list):
         return cantidad_estrallas
 
     def __add__(self, bolsillo_enemigo):
-        # Completar
-        pass
+        bolsillo_enemigo = sorted(bolsillo_enemigo, key=lambda criatura: criatura.atk + criatura.sp_atk)
+        self = sorted(self, key=lambda criatura: criatura.atk + criatura.sp_atk)
+        creatura_recibida = bolsillo_enemigo.pop()
+        creatura_dada = self.pop(0)
+        bolsillo_enemigo.append(creatura_dada)
+        self.append(creatura_recibida)
+
 
 
 if __name__ == '__main__':
