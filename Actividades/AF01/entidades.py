@@ -42,8 +42,8 @@ class Criatura:
 class Entrenador:
 
     def __init__(self, nombre, bolsillo):
-        # Completar
-        pass
+        self.nombre = nombre
+        self.bolsillo = bolsillo
 
 
 if __name__ == "__main__":
