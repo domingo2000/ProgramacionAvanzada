@@ -22,8 +22,8 @@ class BolsilloCriaturas(list):
     def __add__(self, bolsillo_enemigo):
         bolsillo_enemigo = sorted(bolsillo_enemigo, key=lambda criatura: criatura.atk + criatura.sp_atk)
         self = sorted(self, key=lambda criatura: criatura.atk + criatura.sp_atk)
-        creatura_recibida = bolsillo_enemigo.pop()
-        creatura_dada = self.pop(0)
+        creatura_recibida = bolsillo_enemigo.pop(0)
+        creatura_dada = self.pop()
         bolsillo_enemigo.append(creatura_dada)
         self.append(creatura_recibida)
 
@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     # Bolsillo enemigo de prueba
     bolsillo_enemigo = deepcopy(bolsillo)
-    bolsillo += bolsillo_enemigo
+    bolsillo + bolsillo_enemigo
     contador_fuerte = len([criatura for criatura in bolsillo if criatura.nombre == "Dani"])
     contador_debil = len([criatura for criatura in bolsillo if criatura.nombre == "Antonio"])
     if contador_fuerte == 2 and contador_debil == 0:

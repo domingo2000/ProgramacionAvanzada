@@ -4,19 +4,56 @@ from random import choice, sample
 from bolsillo import BolsilloCriaturas
 from entidades import Criatura, Entrenador
 
-
+# devuelve un diccionario de la forma {"Nombre_creatura, Creatura"}
 def cargar_criaturas(archivo_criaturas):
-    # Completar
-    pass
+    dict_creaturas = {}
+    archivo = open(archivo_criaturas, "r")
+    nombre_columnas = archivo.readline()[:-1].split(",")
+    for linea in archivo.readlines():
+        linea = linea[:-1].split(",")
+        nombre = linea[0]
+        tipo = linea[1]
+        hp = int(linea[2])
+        atk = int(linea[3])
+        sp_atk = int(linea[4])
+        defense = int(linea[5])
+        criatura = Criatura(nombre, tipo, hp, atk, sp_atk, defense)
+        dict_creaturas[linea[0]] = criatura
+    archivo.close()
+    return dict_creaturas
 
 
 def cargar_rivales(archivo_rivales):
+    rivales = []
     criaturas = cargar_criaturas("criaturas.csv")
+    archivo = open(archivo_rivales, "r")
+    nombre_columnas = archivo.readline()[:-1].split(",")
+    for linea in archivo.readlines():
+        datos = linea[:-1].split(",")
+        nombre_entrenador = datos[0]
+        nombre_creaturas = datos[1].split(";")
+        bolsillo = BolsilloCriaturas()
+        for nombre_creatura in nombre_creaturas:
+            creatura = criaturas[nombre_creatura]
+            bolsillo.append(creatura)
+        entrenador = Entrenador(nombre_entrenador, bolsillo)
+        rivales.append(entrenador)
+    return rivales
+    
     # Completar
 
 
 def crear_jugador(nombre):
     criaturas = cargar_criaturas("criaturas.csv")
+    bolsillo = BolsilloCriaturas()
+    lista_creaturas = list(criaturas.values())
+    # Elije 6 criaturas al azar
+    creaturas_al_azar = sample(lista_creaturas, 6)
+    for creatura in creaturas_al_azar:
+        bolsillo.append(creatura)
+
+    entrenador = Entrenador(nombre, bolsillo)
+    return entrenador
     # Completar
 
 
