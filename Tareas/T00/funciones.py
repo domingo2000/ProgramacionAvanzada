@@ -186,7 +186,7 @@ def lanzar_bomba(partida):
                         coordenadas_atacadas = coordenadas_bomba_x(partida, x, y)
                         apunto = atacar_coordenadas(partida, coordenadas_atacadas)
                         partida.bomba_especial_usada = True
-                        if apunto == True:
+                        if apunto:
                             return True
                         else:
                             return False
@@ -194,7 +194,7 @@ def lanzar_bomba(partida):
                         coordenadas_atacadas = coordenadas_bomba_diamante(partida, x, y)
                         apunto = atacar_coordenadas(partida, coordenadas_atacadas)
                         partida.bomba_especial_usada = True
-                        if apunto == True:
+                        if apunto:
                             return True
                         else:
                             return False

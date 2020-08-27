@@ -41,7 +41,7 @@ def menu_juego(partida):
                 tablero.print_tablero(partida.tablero_rival, partida.tablero_propio)
                 input("Presione enter para continuar: ")
 
-        #Chequea ganador
+        # Chequea ganador
         partida.ver_si_gano()
         if partida.terminada:
             print(f"Ha ganado {partida.ganador}!")
