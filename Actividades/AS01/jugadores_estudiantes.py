@@ -36,7 +36,6 @@ class GolpeadorGryffindor(Golpeador, EstudianteGryffindor):
 
 class BuscadorGryffindor(Buscador, EstudianteGryffindor):
 
-    # Completar
 
     def __init__(self, nombre, saludo, numero_polera):
         super().__init__(nombre, saludo, numero_polera)
