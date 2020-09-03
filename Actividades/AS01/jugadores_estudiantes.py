@@ -14,7 +14,7 @@ class CazadorGryffindor(Cazador, EstudianteGryffindor):
 
     def competir(self):
         bono = self.valor * 0.2
-        valor = self.valor + bono
+        valor = super().competir() + bono
         return valor
 
 
@@ -30,12 +30,11 @@ class GolpeadorGryffindor(Golpeador, EstudianteGryffindor):
 
     def competir(self):
         bono = self.ambicion * 0.2
-        valor = self.valor + bono
+        valor = super().competir() + bono
         return valor
 
 
 class BuscadorGryffindor(Buscador, EstudianteGryffindor):
-
 
     def __init__(self, nombre, saludo, numero_polera):
         super().__init__(nombre, saludo, numero_polera)
@@ -45,7 +44,7 @@ class BuscadorGryffindor(Buscador, EstudianteGryffindor):
 
     def competir(self):
         bono = self.inteligencia * 0.2
-        valor = self.valor + bono
+        valor = super().competir() + bono
         return valor
 
 
@@ -61,7 +60,7 @@ class CazadorSlytherin(Cazador, EstudianteSlytherin):
 
     def competir(self):
         bono = self.valor * 0.2
-        valor = self.valor + bono
+        valor = super().competir() + bono
         return valor
 
 
@@ -77,7 +76,7 @@ class GolpeadorSlytherin(Golpeador, EstudianteSlytherin):
 
     def competir(self):
         bono = self.ambicion * 0.2
-        valor = self.valor + bono
+        valor = super().competir() + bono
         return valor
 
 
@@ -93,7 +92,7 @@ class BuscadorSlytherin(Buscador, EstudianteSlytherin):
 
     def competir(self):
         bono = self.inteligencia * 0.2
-        valor = self.valor + bono
+        valor = super().competir() + bono
         return valor
 
 
