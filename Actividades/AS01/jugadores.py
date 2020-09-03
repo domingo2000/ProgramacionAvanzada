@@ -4,11 +4,10 @@ import parametros as p
 from abc import ABC, abstractmethod
 
 
-class Jugador:
+class Jugador(Programago, ABC):
     def __init__(self, nombre, saludo, numero_polera):
-
+        super().__init__(nombre, saludo)
         # Completar
-
         self.nerviosismo = None
         self.velocidad = None
         self.equilibrio = None
@@ -16,12 +15,21 @@ class Jugador:
         self.saludo = saludo
         self.nombre = nombre
 
+    @abstractmethod
+    def asignar_cualidades(self):
+        pass
 
-class Buscador:
+    @abstractmethod
+    def competir(self):
+        pass
+
+    def celebrar(self):
+        print(f"{self.nombre}: Lo logré!")
+
+
+class Buscador(Jugador):
     def __init__(self, nombre, saludo, numero_polera):
-
-        # Completar
-
+        super().__init__(nombre, saludo, numero_polera)
         self.asignar_cualidades()
 
     def asignar_cualidades(self):
@@ -30,14 +38,16 @@ class Buscador:
         self.equilibrio = random.uniform(p.EQUILIBRIO_BUSCADOR_MIN, p.EQUILIBRIO_BUSCADOR_MAX)
 
     def competir(self):
-        pass
+        velocidad_ponderada = self.velocidad * p.PONDERADOR_VELOCIDAD_BUSCADOR
+        equilibrio_ponderado = self.equilibrio * p.PONDERADOR_EQUILIBRIO_BUSCADOR
+        nerviosismo_ponderado = self.nerviosismo * p.PONDERADOR_NERVIOSISMO_BUSCADOR
+        valor = velocidad_ponderada + equilibrio_ponderado - nerviosismo_ponderado
+        return valor
 
 
-class Golpeador:
+class Golpeador(Jugador):
     def __init__(self, nombre, saludo, numero_polera):
-
-        # Completar
-
+        super().__init__(nombre, saludo, numero_polera)
         self.asignar_cualidades()
 
     def asignar_cualidades(self):
@@ -46,14 +56,17 @@ class Golpeador:
         self.equilibrio = random.uniform(p.EQUILIBRIO_GOLPEADOR_MIN, p.EQUILIBRIO_GOLPEADOR_MAX)
 
     def competir(self):
-        pass
+        velocidad_ponderada = self.velocidad * p.PONDERADOR_VELOCIDAD_GOLPEADOR
+        equilibrio_ponderado = self.equilibrio * p.PONDERADOR_EQUILIBRIO_GOLPEADOR
+        nerviosismo_ponderado = self.nerviosismo * p.PONDERADOR_NERVIOSISMO_GOLPEADOR
+        valor = velocidad_ponderada + equilibrio_ponderado - nerviosismo_ponderado
+        return valor
 
 
-class Cazador:
+class Cazador(Jugador):
     def __init__(self, nombre, saludo, numero_polera):
+        super().__init__(nombre, saludo, numero_polera)
         self.asignar_cualidades()
-
-        # Completar
 
     def asignar_cualidades(self):
         self.nerviosismo = random.uniform(p.NERVIOSISMO_CAZADOR_MIN, p.NERVIOSISMO_CAZADOR_MAX)
@@ -61,7 +74,11 @@ class Cazador:
         self.equilibrio = random.uniform(p.EQUILIBRIO_CAZADOR_MIN, p.EQUILIBRIO_CAZADOR_MAX)
 
     def competir(self):
-        pass
+        velocidad_ponderada = self.velocidad * p.PONDERADOR_VELOCIDAD_CAZADOR
+        equilibrio_ponderado = self.equilibrio * p.PONDERADOR_EQUILIBRIO_CAZADOR
+        nerviosismo_ponderado = self.nerviosismo * p.PONDERADOR_NERVIOSISMO_CAZADOR
+        valor = velocidad_ponderada + equilibrio_ponderado - nerviosismo_ponderado
+        return valor
 
 
 if __name__ == '__main__':

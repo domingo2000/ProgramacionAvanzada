@@ -2,11 +2,12 @@ from estudiantes import EstudianteGryffindor, EstudianteSlytherin
 from jugadores import Buscador, Golpeador, Cazador
 
 
-class CazadorGryffindor:
+class CazadorGryffindor(EstudianteGryffindor, Buscador):
 
     # Completar
 
     def __init__(self, nombre, saludo, numero_polera):
+        super().__init__(nombre, saludo, numero_polera)
         pass
 
     def celebrar(self):
@@ -16,7 +17,7 @@ class CazadorGryffindor:
         pass
 
 
-class GolpeadorGryffindor:
+class GolpeadorGryffindor(EstudianteGryffindor, Golpeador):
 
     # Completar
 
@@ -30,7 +31,7 @@ class GolpeadorGryffindor:
         pass
 
 
-class BuscadorGryffindor:
+class BuscadorGryffindor(EstudianteGryffindor, Buscador):
 
     # Completar
 
@@ -44,7 +45,7 @@ class BuscadorGryffindor:
         pass
 
 
-class CazadorSlytherin:
+class CazadorSlytherin(EstudianteSlytherin, Cazador):
 
     # Completar
 
@@ -58,7 +59,7 @@ class CazadorSlytherin:
         pass
 
 
-class GolpeadorSlytherin:
+class GolpeadorSlytherin(EstudianteSlytherin, Golpeador):
 
     # Completar
 
@@ -72,7 +73,7 @@ class GolpeadorSlytherin:
         pass
 
 
-class BuscadorSlytherin:
+class BuscadorSlytherin(EstudianteSlytherin, Buscador):
 
     # Completar
 

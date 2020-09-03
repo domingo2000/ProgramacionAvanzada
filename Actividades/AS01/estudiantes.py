@@ -16,7 +16,7 @@ class Programago(ABC):
         self.saludo = saludo
 
 
-class Estudiante(Programago):
+class Estudiante(Programago, ABC):
 
     # Completar
 
