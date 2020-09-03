@@ -2,89 +2,100 @@ from estudiantes import EstudianteGryffindor, EstudianteSlytherin
 from jugadores import Buscador, Golpeador, Cazador
 
 
-class CazadorGryffindor(EstudianteGryffindor, Buscador):
+class CazadorGryffindor(Cazador, EstudianteGryffindor):
 
     # Completar
 
     def __init__(self, nombre, saludo, numero_polera):
         super().__init__(nombre, saludo, numero_polera)
-        pass
 
     def celebrar(self):
         print(self.nombre + ": Lo logramos equipo!")
 
     def competir(self):
-        pass
+        bono = self.valor * 0.2
+        valor = self.valor + bono
+        return valor
 
 
-class GolpeadorGryffindor(EstudianteGryffindor, Golpeador):
+class GolpeadorGryffindor(Golpeador, EstudianteGryffindor):
 
     # Completar
 
     def __init__(self, nombre, saludo, numero_polera):
-        pass
+        super().__init__(nombre, saludo, numero_polera)
 
     def celebrar(self):
         print(self.nombre + ": Bien jugado chiques!")
 
     def competir(self):
-        pass
+        bono = self.ambicion * 0.2
+        valor = self.valor + bono
+        return valor
 
 
-class BuscadorGryffindor(EstudianteGryffindor, Buscador):
+class BuscadorGryffindor(Buscador, EstudianteGryffindor):
 
     # Completar
 
     def __init__(self, nombre, saludo, numero_polera):
-        pass
+        super().__init__(nombre, saludo, numero_polera)
 
     def celebrar(self):
         print(self.nombre + ": Sii! Lo logré gracias a mi equipo!")
 
     def competir(self):
-        pass
+        bono = self.inteligencia * 0.2
+        valor = self.valor + bono
+        return valor
 
 
-class CazadorSlytherin(EstudianteSlytherin, Cazador):
+class CazadorSlytherin(Cazador, EstudianteSlytherin):
 
     # Completar
 
     def __init__(self, nombre, saludo, numero_polera):
-        pass
+        super().__init__(nombre, saludo, numero_polera)
 
     def celebrar(self):
         print(self.nombre + ": Lo logré solito!")
 
     def competir(self):
-        pass
+        bono = self.valor * 0.2
+        valor = self.valor + bono
+        return valor
 
 
-class GolpeadorSlytherin(EstudianteSlytherin, Golpeador):
+class GolpeadorSlytherin(Golpeador, EstudianteSlytherin):
 
     # Completar
 
     def __init__(self, nombre, saludo, numero_polera):
-        pass
+        super().__init__(nombre, saludo, numero_polera)
 
     def celebrar(self):
         print(self.nombre + ": Soy el mejor, malditos!")
 
     def competir(self):
-        pass
+        bono = self.ambicion * 0.2
+        valor = self.valor + bono
+        return valor
 
 
-class BuscadorSlytherin(EstudianteSlytherin, Buscador):
+class BuscadorSlytherin(Buscador, EstudianteSlytherin):
 
     # Completar
 
     def __init__(self, nombre, saludo, numero_polera):
-        pass
+        super().__init__(nombre, saludo, numero_polera)
 
     def celebrar(self):
         print(self.nombre + ": No son nada para mi")
 
     def competir(self):
-        pass
+        bono = self.inteligencia * 0.2
+        valor = self.valor + bono
+        return valor
 
 
 if __name__ == '__main__':
