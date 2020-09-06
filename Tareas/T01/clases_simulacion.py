@@ -297,7 +297,7 @@ class Deportista:
         else:
             self.__moral = moral
 
-    def entrenar(self, atributo, ponderador_entrenamiento):
+    def entrenar(self, atributo, ponderador_entrenamiento=1):
         puntos_entrenamiento = p.PUNTOS_ENTRENAMIENTO * ponderador_entrenamiento
         if atributo == "velocidad":
             self.velocidad += puntos_entrenamiento
@@ -321,7 +321,7 @@ if __name__ == "__main__":
     d3 = Deportista("Mago Valdivia", 23, 34, 21, 21, False, 100)
     d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
     lista_deportistas = [d3, d4]
-    delegacion = IEEEsparta("Lucho", [d1, d2], 5, 40, 300)
+    delegacion = DCCrotona("Lucho", [d1, d2], 5, 40, 300)
 
     """Testeo fichas deportista
     delegacion.fichar_deportista("Mago Valdivia", lista_deportistas)
