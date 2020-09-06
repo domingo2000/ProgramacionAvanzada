@@ -18,14 +18,25 @@ class BolsilloCriaturas(list):
             if suma_puntos > 400:
                 cantidad_estrallas += 1
         return cantidad_estrallas
-
     def __add__(self, bolsillo_enemigo):
-        bolsillo_enemigo = sorted(bolsillo_enemigo, key=lambda criatura: criatura.atk + criatura.sp_atk)
-        self = sorted(self, key=lambda criatura: criatura.atk + criatura.sp_atk)
-        creatura_recibida = bolsillo_enemigo.pop(0)
-        creatura_dada = self.pop()
+        bolsillo_enemigo.sort(key=lambda criatura: criatura.atk + criatura.sp_atk)
+        print(f"ID del bolsillo enemigo {id(bolsillo_enemigo)}")
+        for i in bolsillo_enemigo:
+            print(f"Bolsillo enemigo{id(i)}, {i}")
+        self.sort(key=lambda criatura2: criatura2.atk + criatura2.sp_atk)
+        print(f"ID del bolsillo propio {id(self)}")
+        for i in self:
+            print(f"Bolsillo propio{id(i)}, {i}")
+        creatura_recibida = bolsillo_enemigo.pop()
+        creatura_dada = self.pop(0)
         bolsillo_enemigo.append(creatura_dada)
+        print(f"Bolsillo Enemigo : {bolsillo_enemigo}")
+        for criatura in bolsillo_enemigo:
+            print(criatura)
         self.append(creatura_recibida)
+        print(f"Bolsillo Propio : {self}")
+        for criatura in self:
+            print(criatura)
 
 
 
@@ -81,6 +92,14 @@ if __name__ == '__main__':
     # Bolsillo enemigo de prueba
     bolsillo_enemigo = deepcopy(bolsillo)
     bolsillo + bolsillo_enemigo
+    print("\n\n")
+    print(id(bolsillo_enemigo))
+    for criatura in bolsillo_enemigo:
+        print(f"Debug {criatura}")
+    print("\n")
+    print(id(bolsillo))
+    for criatura in bolsillo:
+        print(f"Debug {criatura}")
     contador_fuerte = len([criatura for criatura in bolsillo if criatura.nombre == "Dani"])
     contador_debil = len([criatura for criatura in bolsillo if criatura.nombre == "Antonio"])
     if contador_fuerte == 2 and contador_debil == 0:
