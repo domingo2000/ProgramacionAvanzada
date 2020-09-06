@@ -107,7 +107,40 @@ class Delegacion(ABC):
                     print("No tiene DCCoins suficientes para realizar el fichaje!")
 
     def entrenar_deportista(self):
-        pass
+        # Chequea que haya sufiiente dinero
+        if self.dinero >= 30:
+            # string que se muestra en la interfaz
+            print("Seleccione un jugador para entrenar")
+            for i in range(len(self.equipo)):
+                print(f"[{i}] {self.equipo[i]}")
+            
+            # selecciona deportista
+            while True:
+                entrada = input("Ingrese una opción: ")
+                if entrada.isdigit():
+                    entrada = int(entrada)
+                    if  0 <= entrada <= (len(self.equipo) - 1):
+                        deportista_seleccionado = self.equipo[entrada]
+                        break
+            # selecciona que atributo quiere entrenar
+            dict_atributos = {0: "velocidad", 1: "resistencia", 2: "flexibilidad"}
+            print("Seleccione un atributo para entrenar")
+            print("[0] Velocidad")
+            print("[1] Resistencia")
+            print("[2] Flexibilidad")
+            while True:
+                entrada = input("Ingrese una opción: ")
+                if entrada.isdigit():
+                    entrada = int(entrada)
+                    if 0 <= entrada <= 2:
+                        atributo_seleccionado = dict_atributos[entrada]
+                        break
+            valor = 
+            deportista_seleccionado.entrenar(atributo_seleccionado, valor)
+        
+        else:
+            print("No tiene suficiente dinero para entrenar un deportista!")
+        
 
     def sanar_lesiones(self):
         pass
