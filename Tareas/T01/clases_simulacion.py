@@ -144,7 +144,7 @@ class Delegacion(ABC):
         else:
             print("No tiene suficiente dinero para entrenar un deportista!")
 
-    def sanar_lesiones(self):
+    def sanar_lesiones(self, ponderador_costo = 1):
         if self.dinero >= 30:
             deportistas_lesionados = []
             i = 0
@@ -176,7 +176,7 @@ class Delegacion(ABC):
             probabilidad_recuperacion = round(probabilidad_recuperacion, 1)
             numero_aleatorio = random()
             # cobro por sanar jugador
-            self.dinero -= 30
+            self.dinero -= 30 * ponderador_costo
             # chequea la probabilidad y sana al jugador
             if numero_aleatorio < probabilidad_recuperacion:
                 print("Enhorabuena! Tu deportista se ha recuperado de su lesión")
@@ -227,6 +227,9 @@ class DCCrotona(Delegacion):
     def medallas(self, medallas):
         self.__excelencia_y_respeto += 0.01 * 2
         self.__medallas = medallas
+
+    def sanar_lesiones(self):
+        super().sanar_lesiones(ponderador_costo=2)  # pondera el costo de sanar por 2
 
     def utilizar_habilidad_especial(self):
         pass
