@@ -122,6 +122,7 @@ class Delegacion(ABC):
                     if  0 <= entrada <= (len(self.equipo) - 1):
                         deportista_seleccionado = self.equipo[entrada]
                         break
+                print("Entrada Invalida!, Ingrese otra vez")
             # selecciona que atributo quiere entrenar
             dict_atributos = {0: "velocidad", 1: "resistencia", 2: "flexibilidad"}
             print("Seleccione un atributo para entrenar")
@@ -135,6 +136,7 @@ class Delegacion(ABC):
                     if 0 <= entrada <= 2:
                         atributo_seleccionado = dict_atributos[entrada]
                         break
+                print("Entrada Invalida!, Ingrese otra vez")
             deportista_seleccionado.moral += 1
             deportista_seleccionado.entrenar(atributo_seleccionado, ponderador_entrenamiento)
             self.dinero -= 30
@@ -261,8 +263,8 @@ if __name__ == "__main__":
     print(delegacion.equipo)
 
     print(f"dinero Delegacion: {delegacion.dinero}")
-    print(f"moral: {d1.moral}, velocidad: {d1.velocidad}, resistencia: {d1.resistencia}, flexibilidad: {d1.flexibilidad}")
+    print(f"moral: {d2.moral}, velocidad: {d2.velocidad}, resistencia: {d2.resistencia}, flexibilidad: {d2.flexibilidad}")
     delegacion.entrenar_deportista()
     print("######### Despues de entrenar ################")
-    print(f"moral: {d1.moral}, velocidad: {d1.velocidad}, resistencia: {d1.resistencia}, flexibilidad: {d1.flexibilidad}")
+    print(f"moral: {d2.moral}, velocidad: {d2.velocidad}, resistencia: {d2.resistencia}, flexibilidad: {d2.flexibilidad}")
     print(f"dinero Delegacion: {delegacion.dinero}")
