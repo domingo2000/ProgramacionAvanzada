@@ -113,13 +113,13 @@ class Delegacion(ABC):
             print("Seleccione un jugador para entrenar")
             for i in range(len(self.equipo)):
                 print(f"[{i}] {self.equipo[i]}")
-            
+
             # selecciona deportista
             while True:
                 entrada = input("Ingrese una opción: ")
                 if entrada.isdigit():
                     entrada = int(entrada)
-                    if  0 <= entrada <= (len(self.equipo) - 1):
+                    if 0 <= entrada <= (len(self.equipo) - 1):
                         deportista_seleccionado = self.equipo[entrada]
                         break
                 print("Entrada Invalida!, Ingrese otra vez")
@@ -154,6 +154,7 @@ class Delegacion(ABC):
                 if deportista.lesionado:
                     deportistas_lesionados.append(deportista)
                     print(f"[{i}] {deportista.nombre}")
+                    i += 1
             indice_opcion_volver = len(deportistas_lesionados)
             print(f"[{indice_opcion_volver}] Volver")
             # selecciona deportista
@@ -164,7 +165,7 @@ class Delegacion(ABC):
                     return None
                 if entrada.isdigit():
                     entrada = int(entrada)
-                    if  0 <= entrada <= (len(deportistas_lesionados) - 1):
+                    if 0 <= entrada <= (len(deportistas_lesionados) - 1):
                         deportista_seleccionado = deportistas_lesionados[entrada]
                         break
                 print("Entrada Invalida!, Ingrese otra vez")
@@ -177,7 +178,7 @@ class Delegacion(ABC):
             # chequea la probabilidad y sana al jugador
             if numero_aleatorio < probabilidad_recuperacion:
                 print("Enhorabuena! Tu deportista se ha recuperado de su lesión")
-                deportista.lesionado = False
+                deportista_seleccionado.lesionado = False
             else:
                 print("Que lástima!, tu deportista no se ha recuperado")
         else:
@@ -204,6 +205,7 @@ class IEEEsparta(Delegacion):
     def utilizar_habilidad_especial(self):
         pass
 
+
 class DCCrotona(Delegacion):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
@@ -229,7 +231,7 @@ class Deportista:
         self.__resistencia = resistencia
         self.__flexibilidad = flexibilidad
         self.__moral = moral
-        
+
     @property
     def velocidad(self):
         return self.__velocidad
@@ -242,7 +244,7 @@ class Deportista:
             self.__velocidad = 100
         else:
             self.__velocidad = velocidad
-    
+
     @property
     def resistencia(self):
         return self.__resistencia
@@ -255,7 +257,7 @@ class Deportista:
             self.__resistencia = 100
         else:
             self.__resistencia = resistencia
-    
+
     @property
     def flexibilidad(self):
         return self.__flexibilidad
@@ -281,7 +283,7 @@ class Deportista:
             self.__moral = 100
         else:
             self.__moral = moral
-    
+
     def entrenar(self, atributo, ponderador_entrenamiento):
         puntos_entrenamiento = p.PUNTOS_ENTRENAMIENTO * ponderador_entrenamiento
         if atributo == "velocidad":
@@ -292,16 +294,17 @@ class Deportista:
             self.flexibilidad += puntos_entrenamiento
         else:
             print("ERROR ATRIBUTO MAL PASADO A LA FUNCION")
-        
+
         print(f"Se ha entrenado la {atributo} de {self.nombre}")
+
     def __repr__(self):
         string = f"Jugador: {self.nombre}"
         return string
 
 
 if __name__ == "__main__":
-    d1 = Deportista("Alexis", 14, 20, 30, 10, False, 20)
-    d2 = Deportista("Charles", 15, 23, 43, 23, False, 23)
+    d1 = Deportista("Alexis", 14, 20, 30, 99, True, 20)
+    d2 = Deportista("Charles", 15, 23, 43, 50, True, 23)
     d3 = Deportista("Mago Valdivia", 23, 34, 21, 21, False, 100)
     d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
     lista_deportistas = [d3, d4]
@@ -320,5 +323,5 @@ if __name__ == "__main__":
     print(f"moral: {d2.moral}, velocidad: {d2.velocidad}, resistencia: {d2.resistencia}, flexibilidad: {d2.flexibilidad}")
     print(f"dinero Delegacion: {delegacion.dinero}")
     """
-    
-    delegacion.sanar_lesiones()
+    for _ in range(5):
+        delegacion.sanar_lesiones()
