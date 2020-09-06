@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from random import uniform
+import parametros as p
 
 
 class Delegacion(ABC):
@@ -13,7 +14,6 @@ class Delegacion(ABC):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         self.entrenador = entrenador
         self.equipo = equipo
-
         self.__medallas = medallas
         self.__moral = moral
         self.__dinero = dinero
@@ -135,9 +135,11 @@ class Delegacion(ABC):
                     if 0 <= entrada <= 2:
                         atributo_seleccionado = dict_atributos[entrada]
                         break
-            valor = 
-            deportista_seleccionado.entrenar(atributo_seleccionado, valor)
-        
+            deportista_seleccionado.moral += 1
+            ponderador_entrenamiento = 1
+            deportista_seleccionado.entrenar(atributo_seleccionado, ponderador_entrenamiento)
+            self.dinero -= 30
+
         else:
             print("No tiene suficiente dinero para entrenar un deportista!")
         
@@ -159,9 +161,44 @@ class IEEEsparta(Delegacion):
         self.excelencia_y_respeto = uniform(0.4, 0.8)
         self.implementos_deportivos = uniform(0.3, 0.7)
         self.implementos_medicos = uniform(0.2, 0.6)
-
+        self.__ponderador_entrenamiento = 1.7
+    
     def entrenar_deportista(self):
-        pass
+        # Chequea que haya sufiiente dinero
+        if self.dinero >= 30:
+            # string que se muestra en la interfaz
+            print("Seleccione un jugador para entrenar")
+            for i in range(len(self.equipo)):
+                print(f"[{i}] {self.equipo[i]}")
+            
+            # selecciona deportista
+            while True:
+                entrada = input("Ingrese una opción: ")
+                if entrada.isdigit():
+                    entrada = int(entrada)
+                    if  0 <= entrada <= (len(self.equipo) - 1):
+                        deportista_seleccionado = self.equipo[entrada]
+                        break
+            # selecciona que atributo quiere entrenar
+            dict_atributos = {0: "velocidad", 1: "resistencia", 2: "flexibilidad"}
+            print("Seleccione un atributo para entrenar")
+            print("[0] Velocidad")
+            print("[1] Resistencia")
+            print("[2] Flexibilidad")
+            while True:
+                entrada = input("Ingrese una opción: ")
+                if entrada.isdigit():
+                    entrada = int(entrada)
+                    if 0 <= entrada <= 2:
+                        atributo_seleccionado = dict_atributos[entrada]
+                        break
+            deportista_seleccionado.moral += 1
+            ponderador_entrenamiento = 1.7
+            deportista_seleccionado.entrenar(atributo_seleccionado, ponderador_entrenamiento)
+            self.dinero -= 30
+
+        else:
+            print("No tiene suficiente dinero para entrenar un deportista!")
 
     def utilizar_habilidad_especial(self):
         pass
@@ -228,6 +265,18 @@ class Deportista:
         else:
             self.__moral = moral
     
+    def entrenar(self, atributo, ponderador_entrenamiento):
+        puntos_entrenamiento = p.PUNTOS_ENTRENAMIENTO * ponderador_entrenamiento
+        if atributo == "velocidad":
+            self.velocidad += puntos_entrenamiento
+        elif atributo == "resistencia":
+            self.resistencia += puntos_entrenamiento
+        elif atributo == "flexibilidad":
+            self.flexibilidad += puntos_entrenamiento
+        else:
+            print("ERROR ATRIBUTO MAL PASADO A LA FUNCION")
+        
+        print(f"Se ha entrenado la {atributo} de {self.nombre}")
     def __repr__(self):
         string = f"Jugador: {self.nombre}"
         return string
@@ -244,3 +293,10 @@ if __name__ == "__main__":
     delegacion.fichar_deportista("Mago Valdivia", lista_deportistas)
 
     print(delegacion.equipo)
+
+    print(f"dinero Delegacion: {delegacion.dinero}")
+    print(f"moral: {d1.moral}, velocidad: {d1.velocidad}, resistencia: {d1.resistencia}, flexibilidad: {d1.flexibilidad}")
+    delegacion.entrenar_deportista()
+    print("######### Despues de entrenar ################")
+    print(f"moral: {d1.moral}, velocidad: {d1.velocidad}, resistencia: {d1.resistencia}, flexibilidad: {d1.flexibilidad}")
+    print(f"dinero Delegacion: {delegacion.dinero}")
