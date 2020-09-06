@@ -1,0 +1,9 @@
+__pycache__/
+.vscode/
+
+# Archivos Entregados
+delegaciones.csv
+deportistas.csv
+
+#Archivos temporales propios
+temp.py
