@@ -99,9 +99,9 @@ class Delegacion(ABC):
             if nombre_deportista == deportista.nombre:
                 costo = deportista.precio
                 if self.dinero > costo:
+                    self.dinero -= costo
                     self.equipo.append(deportista)
                     lista_deportistas.remove(deportista)
-                    self.dinero -= costo
                     print(f"Ha fichado a {nombre_deportista} por {costo} DCCoins")
                 else:
                     print("No tiene DCCoins suficientes para realizar el fichaje!")
@@ -109,6 +109,7 @@ class Delegacion(ABC):
     def entrenar_deportista(self, ponderador_entrenamiento=1):
         # Chequea que haya sufiiente dinero
         if self.dinero >= 30:
+            self.dinero -= 30
             # string que se muestra en la interfaz
             print("Seleccione un jugador para entrenar")
             for i in range(len(self.equipo)):
@@ -139,7 +140,6 @@ class Delegacion(ABC):
                 print("Entrada Invalida!, Ingrese otra vez")
             deportista_seleccionado.moral += 1
             deportista_seleccionado.entrenar(atributo_seleccionado, ponderador_entrenamiento)
-            self.dinero -= 30
 
         else:
             print("No tiene suficiente dinero para entrenar un deportista!")
@@ -175,6 +175,8 @@ class Delegacion(ABC):
             probabilidad_recuperacion = min(1, max(0, valor_calculado))
             probabilidad_recuperacion = round(probabilidad_recuperacion, 1)
             numero_aleatorio = random()
+            # cobro por sanar jugador
+            self.dinero -= 30
             # chequea la probabilidad y sana al jugador
             if numero_aleatorio < probabilidad_recuperacion:
                 print("Enhorabuena! Tu deportista se ha recuperado de su lesión")
@@ -184,8 +186,16 @@ class Delegacion(ABC):
         else:
             print(f"Su dinero ({self.dinero}) no alcanza para sanar un deportista")
 
-    def comprar_tecnología(self):
-        pass
+    def comprar_tecnologia(self):
+        if self.dinero >= 20:
+            self.dinero -= 20
+            tecnologia_anterior = self.__implementos_deportivos
+            self.implementos_deportivos *= 1.1
+            self.implementos_medicos *= 1.1
+            print(f"Usted ha Mejorado su tecnologia!")
+
+        else:
+            print(f"Su dinero ({self.dinero}) no alcanza para compra tecnología")
 
     @abstractmethod
     def utilizar_habilidad_especial(self):
@@ -303,7 +313,7 @@ class Deportista:
 
 
 if __name__ == "__main__":
-    d1 = Deportista("Alexis", 14, 20, 30, 99, True, 20)
+    d1 = Deportista("Alexis", 14, 20, 30, 88, True, 20)
     d2 = Deportista("Charles", 15, 23, 43, 50, True, 23)
     d3 = Deportista("Mago Valdivia", 23, 34, 21, 21, False, 100)
     d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
@@ -323,5 +333,3 @@ if __name__ == "__main__":
     print(f"moral: {d2.moral}, velocidad: {d2.velocidad}, resistencia: {d2.resistencia}, flexibilidad: {d2.flexibilidad}")
     print(f"dinero Delegacion: {delegacion.dinero}")
     """
-    for _ in range(5):
-        delegacion.sanar_lesiones()
