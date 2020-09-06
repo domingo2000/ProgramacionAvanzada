@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from random import uniform
 
 
-class Delegacion:
+class Delegacion(ABC):
     """Clase que define las delegaciones
 
     Esta clase contiene las delegaciones que participan en la simulacion,
@@ -115,6 +115,7 @@ class Delegacion:
     def comprar_tecnología(self):
         pass
 
+    @abstractmethod
     def utilizar_habilidad_especial(self):
         pass
 
