@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+from random import uniform
 
 
-class Delegacion(ABC):
+class Delegacion:
     """Clase que define las delegaciones
 
     Esta clase contiene las delegaciones que participan en la simulacion,
@@ -58,7 +59,7 @@ class Delegacion(ABC):
     def excelencia_y_respeto(self):
         return self.__excelencia_y_respeto
 
-    @excelencia.setter
+    @excelencia_y_respeto.setter
     def excelencia_y_respeto(self, excelencia_y_respeto):
         if excelencia_y_respeto < 0:
             self.__excelencia_y_respeto = 0
@@ -93,8 +94,17 @@ class Delegacion(ABC):
         else:
             self.__implementos_medicos = implementos_medicos
 
-    def fichar_deportista(self):
-        pass
+    def fichar_deportista(self, nombre_deportista, lista_deportistas):
+        for deportista in lista_deportistas:
+            if nombre_deportista == deportista.nombre:
+                costo = deportista.precio
+                if self.dinero > costo:
+                    self.equipo.append(deportista)
+                    lista_deportistas.remove(deportista)
+                    self.dinero -= costo
+                    print(f"Ha fichado a {nombre_deportista} por {costo} DCCoins")
+                else:
+                    print("No tiene DCCoins suficientes para realizar el fichaje!")
 
     def entrenar_deportista(self):
         pass
@@ -105,7 +115,6 @@ class Delegacion(ABC):
     def comprar_tecnología(self):
         pass
 
-    @abstractmethod
     def utilizar_habilidad_especial(self):
         pass
 
@@ -114,3 +123,82 @@ class IEEEsparta(Delegacion):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
         self.excelencia_y_respeto
+
+class Deportista:
+    def __init__(self, nombre, velocidad, resistencia, flexibilidad, moral, lesionado, precio):
+        self.nombre = nombre
+        self.lesionado = lesionado
+        self.precio = precio
+        self.__velocidad = velocidad
+        self.__resistencia = resistencia
+        self.__flexibilidad = flexibilidad
+        self.__moral = moral
+        
+    @property
+    def velocidad(self):
+        return self.__velocidad
+
+    @velocidad.setter
+    def velocidad(self, velocidad):
+        if velocidad < 0:
+            self.__velocidad = 0
+        elif velocidad > 100:
+            self.__velocidad = 100
+        else:
+            self.__velocidad = velocidad
+    
+    @property
+    def resistencia(self):
+        return self.__resistencia
+
+    @resistencia.setter
+    def resistencia(self, resistencia):
+        if resistencia < 0:
+            self.__resistencia = 0
+        elif resistencia > 100:
+            self.__resistencia = 100
+        else:
+            self.__resistencia = resistencia
+    
+    @property
+    def flexibilidad(self):
+        return self.__flexibilidad
+
+    @flexibilidad.setter
+    def flexibilidad(self, flexibilidad):
+        if flexibilidad < 0:
+            self.__flexibilidad = 0
+        elif flexibilidad > 100:
+            self.__flexibilidad = 100
+        else:
+            self.__flexibilidad = flexibilidad
+
+    @property
+    def moral(self):
+        return self.__moral
+
+    @moral.setter
+    def moral(self, moral):
+        if moral < 0:
+            self.__moral = 0
+        elif moral > 100:
+            self.__moral = 100
+        else:
+            self.__moral = moral
+    
+    def __repr__(self):
+        string = f"Jugador: {self.nombre}"
+        return string
+
+
+if __name__ == "__main__":
+    d1 = Deportista("Alexis", 14, 20, 30, 10, False, 20)
+    d2 = Deportista("Charles", 15, 23, 43, 23, False, 23)
+    d3 = Deportista("Mago Valdivia", 23, 34, 21, 21, False, 100)
+    d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
+    lista_deportistas = [d3, d4]
+    delegacion = Delegacion("Lucho", [d1, d2], 5, 40, 300)
+
+    delegacion.fichar_deportista("Mago Valdivia", lista_deportistas)
+
+    print(delegacion.equipo)
