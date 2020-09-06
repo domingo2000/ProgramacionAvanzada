@@ -123,7 +123,15 @@ class Delegacion(ABC):
 class IEEEsparta(Delegacion):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
-        self.excelencia_y_respeto
+        self.excelencia_y_respeto = uniform(0.4, 0.8)
+        self.implementos_deportivos = uniform(0.3, 0.7)
+        self.implementos_medicos = uniform(0.2, 0.6)
+
+    def entrenar_deportista(self):
+        pass
+
+    def utilizar_habilidad_especial(self):
+        pass
 
 class Deportista:
     def __init__(self, nombre, velocidad, resistencia, flexibilidad, moral, lesionado, precio):
@@ -198,7 +206,7 @@ if __name__ == "__main__":
     d3 = Deportista("Mago Valdivia", 23, 34, 21, 21, False, 100)
     d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
     lista_deportistas = [d3, d4]
-    delegacion = Delegacion("Lucho", [d1, d2], 5, 40, 300)
+    delegacion = IEEEsparta("Lucho", [d1, d2], 5, 40, 300)
 
     delegacion.fichar_deportista("Mago Valdivia", lista_deportistas)
 
