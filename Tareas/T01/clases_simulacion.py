@@ -106,7 +106,7 @@ class Delegacion(ABC):
                 else:
                     print("No tiene DCCoins suficientes para realizar el fichaje!")
 
-    def entrenar_deportista(self):
+    def entrenar_deportista(self, ponderador_entrenamiento = 1):
         # Chequea que haya sufiiente dinero
         if self.dinero >= 30:
             # string que se muestra en la interfaz
@@ -136,7 +136,6 @@ class Delegacion(ABC):
                         atributo_seleccionado = dict_atributos[entrada]
                         break
             deportista_seleccionado.moral += 1
-            ponderador_entrenamiento = 1
             deportista_seleccionado.entrenar(atributo_seleccionado, ponderador_entrenamiento)
             self.dinero -= 30
 
@@ -162,46 +161,13 @@ class IEEEsparta(Delegacion):
         self.implementos_deportivos = uniform(0.3, 0.7)
         self.implementos_medicos = uniform(0.2, 0.6)
         self.__ponderador_entrenamiento = 1.7
-    
-    def entrenar_deportista(self):
-        # Chequea que haya sufiiente dinero
-        if self.dinero >= 30:
-            # string que se muestra en la interfaz
-            print("Seleccione un jugador para entrenar")
-            for i in range(len(self.equipo)):
-                print(f"[{i}] {self.equipo[i]}")
-            
-            # selecciona deportista
-            while True:
-                entrada = input("Ingrese una opción: ")
-                if entrada.isdigit():
-                    entrada = int(entrada)
-                    if  0 <= entrada <= (len(self.equipo) - 1):
-                        deportista_seleccionado = self.equipo[entrada]
-                        break
-            # selecciona que atributo quiere entrenar
-            dict_atributos = {0: "velocidad", 1: "resistencia", 2: "flexibilidad"}
-            print("Seleccione un atributo para entrenar")
-            print("[0] Velocidad")
-            print("[1] Resistencia")
-            print("[2] Flexibilidad")
-            while True:
-                entrada = input("Ingrese una opción: ")
-                if entrada.isdigit():
-                    entrada = int(entrada)
-                    if 0 <= entrada <= 2:
-                        atributo_seleccionado = dict_atributos[entrada]
-                        break
-            deportista_seleccionado.moral += 1
-            ponderador_entrenamiento = 1.7
-            deportista_seleccionado.entrenar(atributo_seleccionado, ponderador_entrenamiento)
-            self.dinero -= 30
 
-        else:
-            print("No tiene suficiente dinero para entrenar un deportista!")
+    def entrenar_deportista(self):
+        super().entrenar_deportista(ponderador_entrenamiento=1.7)
 
     def utilizar_habilidad_especial(self):
         pass
+
 
 class Deportista:
     def __init__(self, nombre, velocidad, resistencia, flexibilidad, moral, lesionado, precio):
