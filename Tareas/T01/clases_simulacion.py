@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from random import uniform
+from random import uniform, random
 import parametros as p
 
 
@@ -106,7 +106,7 @@ class Delegacion(ABC):
                 else:
                     print("No tiene DCCoins suficientes para realizar el fichaje!")
 
-    def entrenar_deportista(self, ponderador_entrenamiento = 1):
+    def entrenar_deportista(self, ponderador_entrenamiento=1):
         # Chequea que haya sufiiente dinero
         if self.dinero >= 30:
             # string que se muestra en la interfaz
@@ -143,10 +143,45 @@ class Delegacion(ABC):
 
         else:
             print("No tiene suficiente dinero para entrenar un deportista!")
-        
 
     def sanar_lesiones(self):
-        pass
+        if self.dinero >= 30:
+            deportistas_lesionados = []
+            i = 0
+            # string que se muestra en la interfaz y llenado deportistas_lesionados
+            print("Seleccione el deportista que desa sanar: ")
+            for deportista in self.equipo:
+                if deportista.lesionado:
+                    deportistas_lesionados.append(deportista)
+                    print(f"[{i}] {deportista.nombre}")
+            indice_opcion_volver = len(deportistas_lesionados)
+            print(f"[{indice_opcion_volver}] Volver")
+            # selecciona deportista
+            while True:
+                entrada = input("Ingrese una opción: ")
+                # Caso que quiera volver por si no hay nadie a quien sanar
+                if entrada == str(indice_opcion_volver):
+                    return None
+                if entrada.isdigit():
+                    entrada = int(entrada)
+                    if  0 <= entrada <= (len(deportistas_lesionados) - 1):
+                        deportista_seleccionado = deportistas_lesionados[entrada]
+                        break
+                print("Entrada Invalida!, Ingrese otra vez")
+            # calculo_probabilidad_recuperacion
+            datos_delegacion = delegacion.implementos_medicos + delegacion.excelencia_y_respeto
+            valor_calculado = (deportista_seleccionado.moral * datos_delegacion) / 200
+            probabilidad_recuperacion = min(1, max(0, valor_calculado))
+            probabilidad_recuperacion = round(probabilidad_recuperacion, 1)
+            numero_aleatorio = random()
+            # chequea la probabilidad y sana al jugador
+            if numero_aleatorio < probabilidad_recuperacion:
+                print("Enhorabuena! Tu deportista se ha recuperado de su lesión")
+                deportista.lesionado = False
+            else:
+                print("Que lástima!, tu deportista no se ha recuperado")
+        else:
+            print(f"Su dinero ({self.dinero}) no alcanza para sanar un deportista")
 
     def comprar_tecnología(self):
         pass
@@ -162,10 +197,24 @@ class IEEEsparta(Delegacion):
         self.excelencia_y_respeto = uniform(0.4, 0.8)
         self.implementos_deportivos = uniform(0.3, 0.7)
         self.implementos_medicos = uniform(0.2, 0.6)
-        self.__ponderador_entrenamiento = 1.7
 
     def entrenar_deportista(self):
         super().entrenar_deportista(ponderador_entrenamiento=1.7)
+
+    def utilizar_habilidad_especial(self):
+        pass
+
+class DCCrotona(Delegacion):
+    def __init__(self, entrenador, equipo, medallas, moral, dinero):
+        super().__init__(entrenador, equipo, medallas, moral, dinero)
+        self.excelencia_y_respeto = uniform(0.3, 0.7)
+        self.implementos_deportivos = uniform(0.2, 0.6)
+        self.implementos_medicos = uniform(0.4, 0.8)
+
+    @Delegacion.medallas.setter
+    def medallas(self, medallas):
+        self.__excelencia_y_respeto += 0.01 * 2
+        self.__medallas = medallas
 
     def utilizar_habilidad_especial(self):
         pass
@@ -258,13 +307,18 @@ if __name__ == "__main__":
     lista_deportistas = [d3, d4]
     delegacion = IEEEsparta("Lucho", [d1, d2], 5, 40, 300)
 
+    """Testeo fichas deportista
     delegacion.fichar_deportista("Mago Valdivia", lista_deportistas)
 
     print(delegacion.equipo)
-
+    """
+    """ Testeo entrenar deportista
     print(f"dinero Delegacion: {delegacion.dinero}")
     print(f"moral: {d2.moral}, velocidad: {d2.velocidad}, resistencia: {d2.resistencia}, flexibilidad: {d2.flexibilidad}")
     delegacion.entrenar_deportista()
     print("######### Despues de entrenar ################")
     print(f"moral: {d2.moral}, velocidad: {d2.velocidad}, resistencia: {d2.resistencia}, flexibilidad: {d2.flexibilidad}")
     print(f"dinero Delegacion: {delegacion.dinero}")
+    """
+    
+    delegacion.sanar_lesiones()
