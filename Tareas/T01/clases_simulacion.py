@@ -251,10 +251,10 @@ class Deportista:
 
     @velocidad.setter
     def velocidad(self, velocidad):
-        if velocidad < 0:
-            self.__velocidad = 0
-        elif velocidad > 100:
-            self.__velocidad = 100
+        if velocidad < p.VELOCIDAD_MINIMA:
+            self.__velocidad = p.VELOCIDAD_MINIMA
+        elif velocidad > p.VELOCIDAD_MAXIMA:
+            self.__velocidad = p.VELOCIDAD_MAXIMA
         else:
             self.__velocidad = velocidad
 
@@ -264,10 +264,10 @@ class Deportista:
 
     @resistencia.setter
     def resistencia(self, resistencia):
-        if resistencia < 0:
-            self.__resistencia = 0
-        elif resistencia > 100:
-            self.__resistencia = 100
+        if resistencia < p.RESISTENCIA_MINIMA:
+            self.__resistencia = p.RESISTENCIA_MINIMA
+        elif resistencia > p.RESISTENCIA_MAXIMA:
+            self.__resistencia = p.RESISTENCIA_MAXIMA
         else:
             self.__resistencia = resistencia
 
@@ -277,10 +277,10 @@ class Deportista:
 
     @flexibilidad.setter
     def flexibilidad(self, flexibilidad):
-        if flexibilidad < 0:
-            self.__flexibilidad = 0
-        elif flexibilidad > 100:
-            self.__flexibilidad = 100
+        if flexibilidad < p.FLEXIBILIDAD_MINIMA:
+            self.__flexibilidad = p.FLEXIBILIDAD_MINIMA
+        elif flexibilidad > p.FLEXIBILIDAD_MAXIMA:
+            self.__flexibilidad = p.FLEXIBILIDAD_MAXIMA
         else:
             self.__flexibilidad = flexibilidad
 
@@ -290,10 +290,10 @@ class Deportista:
 
     @moral.setter
     def moral(self, moral):
-        if moral < 0:
-            self.__moral = 0
-        elif moral > 100:
-            self.__moral = 100
+        if moral < p.MORAL_MINIMA:
+            self.__moral = p.MORAL_MINIMA
+        elif moral > p.MORAL_MAXIMA:
+            self.__moral = p.MORAL_MAXIMA
         else:
             self.__moral = moral
 
