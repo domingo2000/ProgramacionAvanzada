@@ -87,7 +87,7 @@ class MenuInicio(Menu):
             flexibilidad = int(dato["flexibilidad"])
             moral = int(dato["moral"])
             lesionado = csv.leer_bool(dato["lesionado"])
-            precio = dato["precio"]
+            precio = int(dato["precio"])
             deportista = Deportista(nombre, velocidad,
                                     resistencia, flexibilidad, moral, lesionado, precio)
             lista_deportistas.append(deportista)
@@ -114,9 +114,9 @@ class MenuInicio(Menu):
             tipo_delegacion = dato["Delegacion"]
             entrenador = "NADIE_POR_AHORA"
             equipo = equipo
-            moral = dato["Moral"]
-            dinero = dato["Dinero"]
-            medallas = dato["Medallas"]
+            moral = int(dato["Moral"])
+            dinero = int(dato["Dinero"])
+            medallas = int(dato["Medallas"])
             if tipo_delegacion == "DCCrotona":
                 delegacion = DCCrotona(entrenador, equipo, medallas, moral, dinero)
             elif tipo_delegacion == "IEEEsparta":
