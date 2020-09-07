@@ -45,7 +45,21 @@ de {nombre_deporte}! con el competidor {deportista_ganador.nombre}")
         print(f"Ha finalizado la premiacion de {nombre_deporte}")
 
     def calcular_nivel_moral_delegaciones(self):
-        pass
+        print("Calculando moral...")
+        suma_moral_delegacion1 = 0
+        suma_moral_delegacion2 = 0
+        for deportista in delegacion1:
+            suma_moral_delegacion1 += deportista.moral
+        for deportista in delegacion2:
+            suma_moral_delegacion2 += deportista.moral
+
+        promedio_moral_delegacion1 = suma_moral_delegacion1 / len(delegacion1.equipo)
+        promedio_moral_delegacion2 = suma_moral_delegacion2 / len(delegacion2.equipo)
+
+        delegacion1.moral = promedio_moral_delegacion1
+        delegacion2.moral = promedio_moral_delegacion2
+        print(f"La moral de la delegacion {delegacion1.nombre} es: {delegacion1.moral}")
+        print(f"La moral de la delegacion {delegacion2.nombre} es: {delegacion2.moral}")
 
     def mostrar_estado(self):
         pass
