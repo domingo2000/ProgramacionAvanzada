@@ -172,7 +172,11 @@ class MenuEntrenador(Menu):
         self.campeonato = campeonato
 
     def fichar(self):
-        pass
+        lista_deportistas = self.campeonato.deportistas_no_fichados
+        print(f"Seleccione un deportista para fichar")
+        i = 0
+        for deportista in lista_deportistas:
+            pass
 
     def entrenar(self):
         pass
