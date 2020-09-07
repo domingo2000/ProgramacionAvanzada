@@ -28,7 +28,7 @@ class Delegacion(ABC):
 
     @medallas.setter
     def medallas(self, medallas):
-        self.__excelencia_y_respeto += p.AUMENTO_EXCELENCIA_POR_MEDALLA
+        self.excelencia_y_respeto += p.AUMENTO_EXCELENCIA_POR_MEDALLA
         self.__medallas = medallas
 
     @property
@@ -215,11 +215,11 @@ class IEEEsparta(Delegacion):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
         self.nombre = "IEEEsparta"
-        self.__excelencia_y_respeto = uniform(p.EXCELENCIA_MAXIMA_IEEE,
+        self.excelencia_y_respeto = uniform(p.EXCELENCIA_MAXIMA_IEEE,
                                             p.EXCELENCIA_MINIMA_IEEE)
-        self.__implementos_deportivos = uniform(p.IMPLEMENTOS_DEPORTIVOS_MINIMOS_IEEE,
+        self.implementos_deportivos = uniform(p.IMPLEMENTOS_DEPORTIVOS_MINIMOS_IEEE,
                                               p.IMPLEMENTOS_DEPORTIVOS_MAXIMOS_IEEE)
-        self.__implementos_medicos = uniform(p.IMPLEMENTOS_MEDICOS_MINIMOS_IEEE,
+        self.implementos_medicos = uniform(p.IMPLEMENTOS_MEDICOS_MINIMOS_IEEE,
                                            p.IMPLEMENTOS_MEDICOS_MAXIMOS_IEEE)
 
     def entrenar_deportista(self):
@@ -233,16 +233,16 @@ class DCCrotona(Delegacion):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
         self.nombre = "DCCrotona"
-        self.__excelencia_y_respeto = uniform(p.EXCELENCIA_MAXIMA_DCC,
+        self.excelencia_y_respeto = uniform(p.EXCELENCIA_MAXIMA_DCC,
                                               p.EXCELENCIA_MINIMA_DCC)
-        self.__implementos_deportivos = uniform(p.IMPLEMENTOS_DEPORTIVOS_MINIMOS_DCC,
+        self.implementos_deportivos = uniform(p.IMPLEMENTOS_DEPORTIVOS_MINIMOS_DCC,
                                                 p.IMPLEMENTOS_DEPORTIVOS_MAXIMOS_DCC)
-        self.__implementos_medicos = uniform(p.IMPLEMENTOS_MEDICOS_MINIMOS_DCC,
+        self.implementos_medicos = uniform(p.IMPLEMENTOS_MEDICOS_MINIMOS_DCC,
                                              p.IMPLEMENTOS_MEDICOS_MAXIMOS_DCC)
 
     @Delegacion.medallas.setter
     def medallas(self, medallas):
-        self.__excelencia_y_respeto += p.AUMENTO_EXCELENCIA_POR_MEDALLA * 2
+        self.excelencia_y_respeto += p.AUMENTO_EXCELENCIA_POR_MEDALLA * 2
         self.__medallas = medallas
 
     def sanar_lesiones(self):
