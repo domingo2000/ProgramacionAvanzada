@@ -27,7 +27,7 @@ class Delegacion(ABC):
 
     @medallas.setter
     def medallas(self, medallas):
-        self.__excelencia_y_respeto += 0.01
+        self.__excelencia_y_respeto += p.AUMENTO_EXCELENCIA_POR_MEDALLA
         self.__medallas = medallas
 
     @property
@@ -37,12 +37,12 @@ class Delegacion(ABC):
 
     @moral.setter
     def moral(self, moral):
-        if 0 <= moral <= 100:
+        if p.MORAL_MINIMA_DELEGACION <= moral <= p.MORAL_MAXIMA_DELEGACION:
             self.__moral = moral
-        elif moral < 0:
-            self.__moral = 0
-        elif moral > 100:
-            self.__moral = 100
+        elif moral < p.MORAL_MINIMA_DELEGACION:
+            self.__moral = p.MORAL_MINIMA_DELEGACION
+        elif moral > p.MORAL_MAXIMA_DELEGACION:
+            self.__moral = p.MORAL_MAXIMA_DELEGACION
 
     @property
     def dinero(self):
@@ -55,16 +55,17 @@ class Delegacion(ABC):
         else:
             self.__dinero = dinero
 
+    # Properties Fortalezas
     @property
     def excelencia_y_respeto(self):
         return self.__excelencia_y_respeto
 
     @excelencia_y_respeto.setter
     def excelencia_y_respeto(self, excelencia_y_respeto):
-        if excelencia_y_respeto < 0:
-            self.__excelencia_y_respeto = 0
-        elif excelencia_y_respeto > 1:
-            self.__excelencia_y_respeto = 1
+        if excelencia_y_respeto < p.FORTALEZA_MINIMA:
+            self.__excelencia_y_respeto = p.FORTALEZA_MINIMA
+        elif excelencia_y_respeto > p.FORTALEZA_MAXIMA:
+            self.__excelencia_y_respeto = p.FORTALEZA_MAXIMA
         else:
             self.__excelencia_y_respeto = excelencia_y_respeto
 
@@ -74,10 +75,10 @@ class Delegacion(ABC):
 
     @implementos_deportivos.setter
     def implementos_deportivos(self, implementos_deportivos):
-        if implementos_deportivos < 0:
-            self.__implementos_deportivos = 0
-        elif implementos_deportivos > 1:
-            self.__implementos_deportivos = 1
+        if implementos_deportivos < p.FORTALEZA_MINIMA:
+            self.__implementos_deportivos = p.FORTALEZA_MINIMA
+        elif implementos_deportivos > p.FORTALEZA_MAXIMA:
+            self.__implementos_deportivos = p.FORTALEZA_MAXIMA
         else:
             self.__implementos_deportivos = implementos_deportivos
 
@@ -87,13 +88,14 @@ class Delegacion(ABC):
 
     @implementos_deportivos.setter
     def implementos_medicos(self, implementos_medicos):
-        if implementos_medicos < 0:
-            self.__implementos_medicos = 0
-        elif implementos_medicos > 1:
-            self.__implementos_medicos = 1
+        if implementos_medicos < p.FORTALEZA_MINIMA:
+            self.__implementos_medicos = p.FORTALEZA_MINIMA
+        elif implementos_medicos > p.FORTALEZA_MAXIMA:
+            self.__implementos_medicos = p.FORTALEZA_MAXIMA
         else:
             self.__implementos_medicos = implementos_medicos
 
+    # Metodos
     def fichar_deportista(self, nombre_deportista, lista_deportistas):
         for deportista in lista_deportistas:
             if nombre_deportista == deportista.nombre:
@@ -144,7 +146,7 @@ class Delegacion(ABC):
         else:
             print("No tiene suficiente dinero para entrenar un deportista!")
 
-    def sanar_lesiones(self, ponderador_costo = 1):
+    def sanar_lesiones(self, ponderador_costo=1):
         if self.dinero >= 30:
             deportistas_lesionados = []
             i = 0
