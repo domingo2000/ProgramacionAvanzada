@@ -5,12 +5,13 @@ class Campeonato:
     """
     DOCUMENTACION
     """
-    def __init__(self, delegacion1, delegacion2, lista_deportes):
+    def __init__(self, delegacion1, delegacion2, lista_deportistas_no_fichados, lista_deportes):
         self.dia_actual = p.DIA_ACTUAL_INICIAL
         self.medallero = {f"{delegacion1.nombre}": 0,
                           f"{delegacion2.nombre}": 0}
         self.delegacion1 = delegacion1
         self.delegacion2 = delegacion2
+        self.deportistas_no_fichados = lista_deportistas_no_fichados
         self.deportes = lista_deportes
 
     def realizar_competencias_del_dia(self):
