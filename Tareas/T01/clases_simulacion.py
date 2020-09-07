@@ -97,16 +97,19 @@ class Delegacion(ABC):
 
     # Metodos
     def fichar_deportista(self, nombre_deportista, lista_deportistas):
-        for deportista in lista_deportistas:
-            if nombre_deportista == deportista.nombre:
-                costo = deportista.precio
-                if self.dinero > costo:
-                    self.dinero -= costo
-                    self.equipo.append(deportista)
-                    lista_deportistas.remove(deportista)
-                    print(f"Ha fichado a {nombre_deportista} por {costo} DCCoins")
-                else:
-                    print("No tiene DCCoins suficientes para realizar el fichaje!")
+        if self.moral > p.MORAL_NECESARIA_FICHAR_DEPORTISTA:
+            for deportista in lista_deportistas:
+                if nombre_deportista == deportista.nombre:
+                    costo = deportista.precio
+                    if self.dinero > costo:
+                        self.dinero -= costo
+                        self.equipo.append(deportista)
+                        lista_deportistas.remove(deportista)
+                        print(f"Ha fichado a {nombre_deportista} por {costo} DCCoins")
+                    else:
+                        print("No tiene DCCoins suficientes para realizar el fichaje!")
+        else:
+            print("Tu delegacion no posee la moral suficiente para fichar un deportista")
 
     def entrenar_deportista(self, ponderador_entrenamiento=1):
         # Chequea que haya sufiiente dinero
