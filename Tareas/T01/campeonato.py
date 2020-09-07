@@ -5,9 +5,10 @@ class Campeonato:
     """
     DOCUMENTACION
     """
-    def __init__(self, diccionario_medallero, delegacion1, delegacion2, lista_deportes, lista_menu):
+    def __init__(self, delegacion1, delegacion2, lista_deportes, lista_menu):
         self.dia_actual = p.DIA_ACTUAL_INICIAL
-        self.medallero = diccionario_medallero
+        self.medallero = {f"{delegacion1.nombre}": 0,
+                          f"{delegacion2.nombre}": 0}
         self.delegacion1 = delegacion1
         self.delegacion2 = delegacion2
         self.deportes = lista_deportes
