@@ -12,6 +12,7 @@ class Delegacion(ABC):
     """
 
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
+        self.nombre = None
         self.entrenador = entrenador
         self.equipo = equipo
         self.__medallas = medallas
@@ -213,6 +214,7 @@ class Delegacion(ABC):
 class IEEEsparta(Delegacion):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
+        self.nombre = "IEEEsparta"
         self.excelencia_y_respeto = uniform(p.EXCELENCIA_MAXIMA_IEEE,
                                             p.EXCELENCIA_MINIMA_IEEE)
         self.implementos_deportivos = uniform(p.IMPLEMENTOS_DEPORTIVOS_MINIMOS_IEEE,
@@ -230,6 +232,7 @@ class IEEEsparta(Delegacion):
 class DCCrotona(Delegacion):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
+        self.nombre = "DCCrotona"
         self.excelencia_y_respeto = uniform(p.EXCELENCIA_MAXIMA_DCC,
                                             p.EXCELENCIA_MINIMA_DCC)
         self.implementos_deportivos = uniform(p.IMPLEMENTOS_DEPORTIVOS_MINIMOS_DCC,
