@@ -86,9 +86,10 @@ class MenuEntrenador(Menu):
     def __init__(self, campeonato):
         super().__init__("Entrenador", [self.fichar, self.entrenar,
                                         self.comprar_tecnologia,
-                                        self.usar_habilidad_especial, 
+                                        self.usar_habilidad_especial,
                                         self.volver])
         self.campeonato = campeonato
+
     def fichar(self):
         pass
 
