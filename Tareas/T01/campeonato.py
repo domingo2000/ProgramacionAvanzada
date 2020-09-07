@@ -26,7 +26,7 @@ class Campeonato:
         delegacion_ganadora = resultados_competencia[1][0]
         delegacion_perdedora = resultados_competencia[2][0]
         deportista_ganador = resultados_competencia[1][1]
-        deportista_perdedor = resultados_competencia[2][0]
+        deportista_perdedor = resultados_competencia[2][1]
 
         print(f"Felicitaciones delegacion {delegacion_ganadora.nombre} has ganado la competencia \
 de {nombre_deporte}! con el competidor {deportista_ganador.nombre}")
@@ -35,13 +35,13 @@ de {nombre_deporte}! con el competidor {deportista_ganador.nombre}")
         delegacion_ganadora.dinero += p.DINERO_GANADO_POR_COMPETENCIA
         print(f"La delegacion {delegacion_ganadora.nombre} ha recibido una medalla de Oro!")
         print(f"La delegacion {delegacion_ganadora.nombre} ha recibido \
-{p.DINERO_GANADO_POR_COMPETENCIA}")
+{p.DINERO_GANADO_POR_COMPETENCIA} DCCoins")
 
         deportista_ganador.moral += p.BONIFICACION_MORAL_COMPETENCIA
-        deportista.perdedor -= p.PENALIZACION_MORAL_COMPETENCIA
+        deportista_perdedor.moral -= p.PENALIZACION_MORAL_COMPETENCIA
         delegacion_perdedora.excelencia_y_respeto -= p.BONIFICACION_EXCELENCIA_COMPETENCIA
-        print(f"Por otro lado {deportista.nombre} se siente horrible porque perdió la competencia")
-        print(f"La delegacion {delegacion_perdedora} se siente deshonrada por su derrotaS")
+        print(f"{deportista_perdedor.nombre} se siente horrible porque perdió la competencia")
+        print(f"La delegacion {delegacion_perdedora.nombre} se siente deshonrada por su derrota")
 
         print(f"Ha finalizado la premiacion de {nombre_deporte}")
 
