@@ -8,6 +8,7 @@ while True:
 
     if menus.key == "Inicio":
         campeonato = menus.invocar()[0]
+        # COMPLETAR añadir los menus aun no programados
         menu_principal = MenuPrincipal(campeonato)
         menu_entrenador = MenuEntrenador(campeonato)
         menus[menu_principal.nombre] = menu_principal
