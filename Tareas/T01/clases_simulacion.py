@@ -310,6 +310,10 @@ class Deportista:
 
         print(f"Se ha entrenado la {atributo} de {self.nombre}")
 
+    def lesionarse(self, riesgo):
+        print(f"{self.nombre} se ha lesionado")
+        self.lesionado = True
+
     def __repr__(self):
         string = f"Jugador: {self.nombre}"
         return string
