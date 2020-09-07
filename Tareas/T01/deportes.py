@@ -107,8 +107,24 @@ class Gimnacia(Deporte):
     def __init__(self):
         super().__init__(True, p.RIESGO_GIMNACIA)
 
-    def calcular_ganador(self):
-        pass
+    def calcular_ganador(self, competidor1, competidor2):
+        ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_GIMNACIA * competidor1.velocidad
+                                 + p.PONDERADOR_RESISTENCIA_GIMNACIA * competidor1.resistencia
+                                 + p.PONDERADOR_MORAL_GIMNACIA * competidor1.moral)
+        puntaje1 = max(p.PUNTAJE_MINIMO, ponderado_cualidades1)
+        ponderado_cualidades2 = (p.PONDERADOR_VELOCIDAD_GIMNACIA * competidor2.velocidad
+                                 + p.PONDERADOR_RESISTENCIA_GIMNACIA * competidor2.resistencia
+                                 + p.PONDERADOR_MORAL_GIMNACIA * competidor2.moral)
+        puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
+        if puntaje1 > puntaje2:
+            print(f"Ha ganado {competidor1.nombre}")
+            return competidor1
+        elif puntaje1 < puntaje2:
+            print(f"Ha ganado {competidor2.nombre}")
+            return competidor2
+        else:
+            print("Se ha producido un empate!")
+            retrun("empate")
 
 
 class Natacion(Deporte):
@@ -118,5 +134,21 @@ class Natacion(Deporte):
     def __init__(self):
         super().__init__(False, 0.3)
 
-    def calcular_ganador(self):
-        pass
+    def calcular_ganador(self, competidor1, competidor2):
+        ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_NATACION * competidor1.velocidad
+                                 + p.PONDERADOR_RESISTENCIA_NATACION * competidor1.resistencia
+                                 + p.PONDERADOR_FLEXIBILIDAD_NATACION * competidor1.flexibilidad)
+        puntaje1 = max(p.PUNTAJE_MINIMO, ponderado_cualidades1)
+        ponderado_cualidades2 = (p.PONDERADOR_VELOCIDAD_NATACION * competidor2.velocidad
+                                 + p.PONDERADOR_RESISTENCIA_NATACION * competidor2.resistencia
+                                 + p.PONDERADOR_FLEXIBILIDAD_NATACION * competidor2.flexibilidad)
+        puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
+        if puntaje1 > puntaje2:
+            print(f"Ha ganado {competidor1.nombre}")
+            return competidor1
+        elif puntaje1 < puntaje2:
+            print(f"Ha ganado {competidor2.nombre}")
+            return competidor2
+        else:
+            print("Se ha producido un empate!")
+            retrun("empate")
