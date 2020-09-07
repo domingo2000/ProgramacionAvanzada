@@ -51,16 +51,16 @@ class Atletismo(Deporte):
     DOCUMENTACION
     """
     def __init__(self):
-        super().__init__(False, 0.2)
+        super().__init__(False, p.RIESGO_ATLETISMO)
 
     def calcular_ganador(self, competidor1, competidor2):
-        ponderado_cualidades1 = (0.55 * competidor1.velocidad
-                                 + 0.2 * competidor1.resistencia
-                                 + 0.25 * competidor1.moral)
+        ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_ATLETISMO * competidor1.velocidad
+                                 + p.PONDERADOR_RESISTENCIA_ATLETISMO * competidor1.resistencia
+                                 + p.PONDERADOR_MORAL_ATLETISMO * competidor1.moral)
         puntaje1 = max(p.PUNTAJE_MINIMO, ponderado_cualidades1)
-        ponderado_cualidades2 = (0.55 * competidor2.velocidad
-                                 + 0.2 * competidor2.resistencia
-                                 + 0.25 * competidor2.moral)
+        ponderado_cualidades2 = (p.PONDERADOR_VELOCIDAD_ATLETISMO * competidor2.velocidad
+                                 + p.PONDERADOR_RESISTENCIA_ATLETISMO * competidor2.resistencia
+                                 + p.PONDERADOR_MORAL_ATLETISMO * competidor2.moral)
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
             print(f"Ha ganado {competidor1.nombre}")
@@ -78,16 +78,16 @@ class Ciclismo(Deporte):
     DOCUMENTACION
     """
     def __init__(self):
-        super().__init__(True, 0.35)
+        super().__init__(True, p.RIESGO_CICLISMO)
 
     def calcular_ganador(self, competidor1, competidor2):
-        ponderado_cualidades1 = (0.47 * competidor1.velocidad
-                                 + 0.36 * competidor1.resistencia
-                                 + 0.17 * competidor1.moral)
+        ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_CICLISMO * competidor1.velocidad
+                                 + p.PONDERADOR_RESISTENCIA_CICLISMO * competidor1.resistencia
+                                 + p.PONDERADOR_FLEXIBILIDAD_CICLISMO * competidor1.flexibilidad)
         puntaje1 = max(p.PUNTAJE_MINIMO, ponderado_cualidades1)
-        ponderado_cualidades2 = (0.55 * competidor2.velocidad
-                                 + 0.2 * competidor2.resistencia
-                                 + 0.25 * competidor2.moral)
+        ponderado_cualidades2 = (p.PONDERADOR_VELOCIDAD_CICLISMO * competidor2.velocidad
+                                 + p.PONDERADOR_RESISTENCIA_CICLISMO * competidor2.resistencia
+                                 + p.PONDERADOR_FLEXIBILIDAD_CICLISMO * competidor2.flexibilidad)
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
             print(f"Ha ganado {competidor1.nombre}")
@@ -105,7 +105,7 @@ class Gimnacia(Deporte):
     DOCUMENTACION
     """
     def __init__(self):
-        super().__init__(True, 0.3)
+        super().__init__(True, p.RIESGO_GIMNACIA)
 
     def calcular_ganador(self):
         pass
