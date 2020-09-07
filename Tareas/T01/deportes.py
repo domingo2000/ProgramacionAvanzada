@@ -21,7 +21,7 @@ class Deporte(ABC):
 
         if self.implemento:
             if delegacion1.implementos_deportivos < NIVEL_IMPLEMENTOS and \
-                delegacion2.implementos_deportivos < NIVEL_IMPLEMENTOS:
+               delegacion2.implementos_deportivos < NIVEL_IMPLEMENTOS:
                 return True
             else:
                 return False
