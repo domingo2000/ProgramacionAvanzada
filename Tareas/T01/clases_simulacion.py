@@ -15,7 +15,7 @@ class Delegacion(ABC):
         self.nombre = None
         self.entrenador = entrenador
         self.equipo = equipo
-        self.__medallas = medallas
+        self._medallas = medallas
         self.__moral = moral
         self.__dinero = dinero
         self.__excelencia_y_respeto = None
@@ -24,12 +24,12 @@ class Delegacion(ABC):
 
     @property
     def medallas(self):
-        return(self.__medallas)
+        return(self._medallas)
 
     @medallas.setter
     def medallas(self, medallas):
         self.excelencia_y_respeto += p.AUMENTO_EXCELENCIA_POR_MEDALLA
-        self.__medallas = medallas
+        self._medallas = medallas
 
     @property
     def moral(self):
@@ -243,7 +243,7 @@ class DCCrotona(Delegacion):
     @Delegacion.medallas.setter
     def medallas(self, medallas):
         self.excelencia_y_respeto += p.AUMENTO_EXCELENCIA_POR_MEDALLA * 2
-        self.__medallas = medallas
+        self._medallas = medallas
 
     def sanar_lesiones(self):
         super().sanar_lesiones(ponderador_costo=2)  # pondera el costo de sanar por 2
