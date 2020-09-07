@@ -24,7 +24,7 @@ class Deporte(ABC):
             self.__riesgo = riesgo
 
     def validez_de_competencia(self, competidores, delegacion1, delegacion2):
-        if len(competidores < 2):
+        if len(competidores) < 2:
             print("No hay suficientes competidores para realizar la competencia!")
             return False
         for competidor in competidores:
@@ -33,11 +33,12 @@ class Deporte(ABC):
                 return False
 
         if self.implemento:
-            if delegacion1.implementos_deportivos < p.NIVEL_IMPLEMENTOS and \
+            if delegacion1.implementos_deportivos < p.NIVEL_IMPLEMENTOS or \
                delegacion2.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
-                return True
-            else:
+                print("No se cumplen los implementos necesarios para la competencia")
                 return False
+            else:
+                return True
         else:
             return True
 
@@ -108,11 +109,11 @@ class Gimnacia(Deporte):
         super().__init__(True, p.RIESGO_GIMNACIA)
 
     def calcular_ganador(self, competidor1, competidor2):
-        ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_GIMNACIA * competidor1.velocidad
+        ponderado_cualidades1 = (p.PONDERADOR_FLEXIBILIDAD_GIMNACIA * competidor1.flexibilidad
                                  + p.PONDERADOR_RESISTENCIA_GIMNACIA * competidor1.resistencia
                                  + p.PONDERADOR_MORAL_GIMNACIA * competidor1.moral)
         puntaje1 = max(p.PUNTAJE_MINIMO, ponderado_cualidades1)
-        ponderado_cualidades2 = (p.PONDERADOR_VELOCIDAD_GIMNACIA * competidor2.velocidad
+        ponderado_cualidades2 = (p.PONDERADOR_FLEXIBILIDAD_GIMNACIA * competidor2.flexibilidad
                                  + p.PONDERADOR_RESISTENCIA_GIMNACIA * competidor2.resistencia
                                  + p.PONDERADOR_MORAL_GIMNACIA * competidor2.moral)
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
