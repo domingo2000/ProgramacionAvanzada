@@ -77,7 +77,7 @@ if __name__ == "__main__":
     d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
     equipo = [d1, d2, d3, d4]
 
-    datos = leer_datos_delegaciones("delegaciones.csv")
+    datos = leer_datos_delegaciones("archivos_propios\\delegaciones_columnas_cambiadas.csv")
     lista_delegaciones = []
     for dato in datos:
         tipo_delegacion = dato["Delegacion"]
@@ -88,8 +88,10 @@ if __name__ == "__main__":
         medallas = dato["Medallas"]
         if tipo_delegacion == "DCCrotona":
             delegacion = DCCrotona(entrenador, equipo, medallas, moral, dinero)
-        elif tipo_delegacion == "IEEEsport":
+        elif tipo_delegacion == "IEEEsparta":
             delegacion = IEEEsparta(entrenador, equipo, medallas, moral, dinero)
+        else:
+            print("ERROR")
         lista_delegaciones.append(delegacion)
 
     # testeo deportistas.csv
