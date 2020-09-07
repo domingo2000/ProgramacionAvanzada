@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
 import sys
+import lectura_datos as csv
+from clases_simulacion import Deportista, DCCrotona, IEEEsparta
+from campeonato import Campeonato
 
 
 class Menu:
@@ -45,8 +48,8 @@ class MenuInicio(Menu):
     def iniciar_nueva_partida(self):
         # loop nombre usuario
         while True:
-            nombre = input("Ingrese su nombre: ")
-            if nombre.isalnum():
+            nombre_propio = input("Ingrese su nombre: ")
+            if nombre_propio.isalnum():
                 break
             else:
                 print("Nombre Inválido, ingrese nuevamente")
@@ -57,8 +60,79 @@ class MenuInicio(Menu):
                 break
             else:
                 print("Nombre Inválido, ingrese nuevamente")
+        # loop escoger delegacion
+        while True:
+            delegaciones_disponibles = {0: "IEEEsparta", 1: "DCCrotona"}
+            print("Escoja entre una de las dos delegaciones")
+            print(f"[0] IEEEsparta\n[1] DCCrotona")
+            delegacion_escogida = input("Escoja una opcion: ")
+            if ((delegacion_escogida != "0") and (delegacion_escogida != "1")):
+                print("Entrada Invalida!, por favor ingrese una opcion valida")
+                continue
+            else:
+                delegacion_escogida = delegaciones_disponibles[int(delegacion_escogida)]
+                break
 
-        return ("Principal")
+        # lectura de datos de archivos .csv
+        datos_deportistas = csv.leer_datos_deportistas("deportistas.csv")
+        datos_delegaciones = csv.leer_datos_delegaciones("delegaciones.csv")
+
+        # instancia todos los deportistas
+        lista_deportistas = []
+        for dato in datos_deportistas:
+            nombre = dato["nombre"]
+            velocidad = int(dato["velocidad"])
+            resistencia = int(dato["resistencia"])
+            flexibilidad = int(dato["flexibilidad"])
+            moral = int(dato["moral"])
+            lesionado = csv.leer_bool(dato["lesionado"])
+            precio = dato["precio"]
+            deportista = Deportista(nombre, velocidad,
+                                    resistencia, flexibilidad, moral, lesionado, precio)
+            lista_deportistas.append(deportista)
+
+        # instancia las delegaciones
+        lista_delegaciones = []
+        for dato in datos_delegaciones:
+            equipo = []
+            nombres_equipo = dato["Equipo"].split(";")
+            for nombre_deportista in nombres_equipo:
+                COUNT = 0
+                while True:
+                    deportista = lista_deportistas[COUNT]
+                    if deportista.nombre == nombre_deportista:
+                        equipo.append(lista_deportistas.pop(COUNT))
+                        break
+                    else:
+                        COUNT += 1
+            tipo_delegacion = dato["Delegacion"]
+            entrenador = "NADIE_POR_AHORA"
+            equipo = equipo
+            moral = dato["Moral"]
+            dinero = dato["Dinero"]
+            medallas = dato["Medallas"]
+            if tipo_delegacion == "DCCrotona":
+                delegacion = DCCrotona(entrenador, equipo, medallas, moral, dinero)
+            elif tipo_delegacion == "IEEEsparta":
+                delegacion = IEEEsparta(entrenador, equipo, medallas, moral, dinero)
+            else:
+                print("ERROR")
+            lista_delegaciones.append(delegacion)
+
+        # Decide que delegacion es para que jugador , referencia ambas delegaciones
+        # y asigna los entrenadores a las delegaciones
+        i = 0
+        while len(lista_delegaciones) > 0:
+            delegacion = lista_delegaciones[i]
+            if delegacion.nombre == delegacion_escogida:
+                delegacion_propia = lista_delegaciones.pop(i)
+                delegacion_propia.entrenador = nombre_propio
+            else:
+                delegacion_rival = lista_delegaciones.pop(i)
+                delegacion_rival.entrenador = nombre_rival
+        # Instancia Campeonato
+        campeonato = Campeonato(delegacion_propia, delegacion_rival, lista_deportistas)
+        return ["Principal", campeonato]
 
 
 class MenuPrincipal(Menu):
@@ -70,7 +144,7 @@ class MenuPrincipal(Menu):
         self.campeonato = campeonato
 
     def menu_entrenador(self):
-        return("Entrenador")
+        return ["Entrenador"]
 
     def simular_competencias(self):
         pass
@@ -79,7 +153,7 @@ class MenuPrincipal(Menu):
         pass
 
     def volver(self):
-        return "Inicio"
+        return ["Inicio"]
 
 
 class MenuEntrenador(Menu):
@@ -103,7 +177,7 @@ class MenuEntrenador(Menu):
         pass
 
     def volver(self):
-        return("Principal")
+        return ["Principal"]
 
 
 class DictMenu(dict):
@@ -115,10 +189,15 @@ class DictMenu(dict):
     def invocar(self):
         menu = self[self.key]
         while True:
-            cambiar_menu = menu.interactuar()
+            datos_menu = menu.interactuar()
+            if type(datos_menu) == list:
+                cambiar_menu = datos_menu[0]
+            else:
+                cambiar_menu = False
             if cambiar_menu:
                 self.key = cambiar_menu
                 break
+        return(datos_menu[1:])
 
 
 if __name__ == "__main__":
