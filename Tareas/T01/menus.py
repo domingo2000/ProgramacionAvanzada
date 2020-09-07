@@ -3,6 +3,7 @@ import sys
 import lectura_datos as csv
 from clases_simulacion import Deportista, DCCrotona, IEEEsparta
 from campeonato import Campeonato
+from deportes import Atletismo, Ciclismo, Gimnacia, Natacion
 
 
 class Menu:
@@ -90,7 +91,12 @@ class MenuInicio(Menu):
             deportista = Deportista(nombre, velocidad,
                                     resistencia, flexibilidad, moral, lesionado, precio)
             lista_deportistas.append(deportista)
-
+        # instancia los deportes
+        atletismo = Atletismo()
+        ciclismo = Ciclismo()
+        gimnacia = Gimnacia()
+        natacion = Natacion()
+        lista_deportes = [atletismo, ciclismo, gimnacia, natacion]
         # instancia las delegaciones
         lista_delegaciones = []
         for dato in datos_delegaciones:
@@ -131,7 +137,8 @@ class MenuInicio(Menu):
                 delegacion_rival = lista_delegaciones.pop(i)
                 delegacion_rival.entrenador = nombre_rival
         # Instancia Campeonato
-        campeonato = Campeonato(delegacion_propia, delegacion_rival, lista_deportistas)
+        campeonato = Campeonato(delegacion_propia, delegacion_rival,
+                                lista_deportistas, lista_deportes)
         return ["Principal", campeonato]
 
 
@@ -219,7 +226,7 @@ if __name__ == "__main__":
     cilcismo = Ciclismo()
     gimnacia = Gimnacia()
     natacion = Natacion()
-    campeonato = Campeonato(delegacion1, delegacion2, [atletismo, cilcismo, gimnacia, natacion])
+    campeonato = Campeonato(delegacion1, delegacion2, lista_deportistas, [atletismo, cilcismo, gimnacia, natacion])
 
     menu_principal = MenuPrincipal(campeonato)
     menu_entrenador = MenuEntrenador(campeonato)
