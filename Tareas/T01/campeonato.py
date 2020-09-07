@@ -54,11 +54,11 @@ de {nombre_deporte}! con el competidor {deportista_ganador.nombre}")
         for deportista in self.delegacion2.equipo:
             suma_moral_delegacion2 += deportista.moral
 
-        promedio_moral_delegacion1 = suma_moral_delegacion1 / len(self.elegacion1.equipo)
+        promedio_moral_delegacion1 = suma_moral_delegacion1 / len(self.delegacion1.equipo)
         promedio_moral_delegacion2 = suma_moral_delegacion2 / len(self.delegacion2.equipo)
 
-        delegacion1.moral = promedio_moral_delegacion1
-        delegacion2.moral = promedio_moral_delegacion2
+        self.delegacion1.moral = promedio_moral_delegacion1
+        self.delegacion2.moral = promedio_moral_delegacion2
         print(f"La moral de la delegacion {self.delegacion1.nombre} es: {self.delegacion1.moral}")
         print(f"La moral de la delegacion {self.delegacion2.nombre} es: {self.delegacion2.moral}")
 
