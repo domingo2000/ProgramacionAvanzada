@@ -13,13 +13,14 @@ def leer_datos_delegaciones(archivo):
     for llave in llaves:
         datos_delegacion[llave] = None
     for linea in archivo.readlines():
+        datos_delegacion_i = datos_delegacion.copy()
         datos_linea = linea[:-1].split(",")
 
         COUNT = 0
         for dato in datos_linea:
-            datos_delegacion[llaves[COUNT]] = dato
+            datos_delegacion_i[llaves[COUNT]] = dato
             COUNT += 1
-        lista_delegaciones.append(datos_delegacion)
+        lista_delegaciones.append(datos_delegacion_i)
 
     return lista_delegaciones
 
@@ -48,13 +49,10 @@ def leer_datos_deportistas(archivo):
     for linea in archivo.readlines():
         datos_deportista_i = datos_deportista.copy()
         datos_linea = linea[:-1].split(",")
-        print(datos_linea)
         COUNT = 0
         for dato in datos_linea:
             datos_deportista_i[llaves[COUNT]] = dato.strip()
             COUNT += 1
-        print(datos_deportista_i)
-        print("-" * 150)
         lista_deportistas.append(datos_deportista_i)
 
     return lista_deportistas
@@ -71,6 +69,7 @@ if __name__ == "__main__":
     equipo = [d1, d2, d3, d4]
 
     datos = leer_datos_delegaciones("delegaciones.csv")
+    print(datos)
 
     for dato in datos:
         tipo_delegacion = dato["Delegacion"]
