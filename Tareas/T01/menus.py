@@ -58,17 +58,19 @@ class MenuInicio(Menu):
             else:
                 print("Nombre Inválido, ingrese nuevamente")
 
-        return ("Avanzar")
+        return ("Principal")
 
 
 class MenuPrincipal(Menu):
-    def __init__(self):
+    def __init__(self, campeonato):
         super().__init__("Principal", [self.menu_entrenador,
                                        self.simular_competencias,
-                                       self.mostrar_estado, volver])
+                                       self.mostrar_estado,
+                                       self.volver])
+        self.campeonato = campeonato
 
     def menu_entrenador(self):
-        return("Avanzar")
+        return("Entrenador")
 
     def simular_competencias(self):
         pass
@@ -76,13 +78,17 @@ class MenuPrincipal(Menu):
     def mostrar_estado(self):
         pass
 
+    def volver(self):
+        return "Inicio"
+
 
 class MenuEntrenador(Menu):
-    def __init__(self):
+    def __init__(self, campeonato):
         super().__init__("Entrenador", [self.fichar, self.entrenar,
                                         self.comprar_tecnologia,
-                                        self.usar_habilidad_especial, volver])
-
+                                        self.usar_habilidad_especial, 
+                                        self.volver])
+        self.campeonato = campeonato
     def fichar(self):
         pass
 
@@ -95,57 +101,54 @@ class MenuEntrenador(Menu):
     def usar_habilidad_especial(self):
         pass
 
+    def volver(self):
+        return("Principal")
 
-class ListaMenu(list):
-    """Es un stack de menus de la clase Menu, con el cual se invoca el ultimo
-    menu del stack, y se puede volver entre menus corriendo y popeando el
-    ultimo menu"""
+
+class DictMenu(dict):
+    """Diccionario de menus de la clase Menu, con el cual se puede ir moviendo entre
+    menus segun la key que valla devolviendo el otro menu"""
     def __init__(self):
-        self.indice = 0
+        self.key = "Inicio"
 
     def invocar(self):
-        menu = self[self.indice]
+        menu = self[self.key]
         while True:
             cambiar_menu = menu.interactuar()
-            if cambiar_menu == "Avanzar":
-                self.avanzar()
+            if cambiar_menu:
+                self.key = cambiar_menu
                 break
-            elif cambiar_menu == "Retroceder":
-                self.volver()
-                break
-
-    def volver(self):
-        self.indice -= 1
-
-    def avanzar(self):
-        self.indice += 1
-
-
-def volver():
-    return "Retroceder"
 
 
 if __name__ == "__main__":
-    def suma():
-        print("FUNCION SUMA!")
-
-    def resta():
-        print("FUNCION RESTA!")
-
-    def mult():
-        print("FUNCION MULT!")
-
-    def volver():
-        return("Retroceder")
+    from campeonato import Campeonato
+    from clases_simulacion import Deportista, IEEEsparta, DCCrotona
+    from deportes import Atletismo, Ciclismo, Gimnacia, Natacion
 
     menu_inicio = MenuInicio()
-    menu_2 = Menu("2", [suma, resta, volver])
-    menu_principal = MenuPrincipal()
-    menu_entrenador = MenuEntrenador()
 
-    menus = ListaMenu()
+    # Crea instancias de prueba
+    d1 = Deportista("Alexis", 14, 20, 30, 88, False, 20)
+    d2 = Deportista("Charles", 15, 23, 43, 50, True, 23)
+    d3 = Deportista("Mago Valdivia", 23, 34, 21, 21, False, 100)
+    d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
+    lista_deportistas = [d3, d4]
+    delegacion1 = DCCrotona("Lucho", [d1, d2, d3], 5, 40, 300)
+    delegacion2 = IEEEsparta("Pancho", [d4], 4, 50, 400)
+    atletismo = Atletismo()
+    cilcismo = Ciclismo()
+    gimnacia = Gimnacia()
+    natacion = Natacion()
+    campeonato = Campeonato(delegacion1, delegacion2, [atletismo, cilcismo, gimnacia, natacion])
 
-    menus.append(menu_inicio)
-    menus.append(menu_principal)
-    menus.append(menu_entrenador)
-    menus.append(menu_2)
+    menu_principal = MenuPrincipal(campeonato)
+    menu_entrenador = MenuEntrenador(campeonato)
+
+    menus = DictMenu()
+
+    menus["Inicio"] = menu_inicio
+    menus["Principal"] = menu_principal
+    menus["Entrenador"] = menu_entrenador
+
+    while True:
+        menus.invocar()
