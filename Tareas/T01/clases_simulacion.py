@@ -213,12 +213,15 @@ class Delegacion(ABC):
 class IEEEsparta(Delegacion):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
-        self.excelencia_y_respeto = uniform(0.4, 0.8)
-        self.implementos_deportivos = uniform(0.3, 0.7)
-        self.implementos_medicos = uniform(0.2, 0.6)
+        self.excelencia_y_respeto = uniform(p.EXCELENCIA_MAXIMA_IEEE,
+                                            p.EXCELENCIA_MINIMA_IEEE)
+        self.implementos_deportivos = uniform(p.IMPLEMENTOS_DEPORTIVOS_MINIMOS_IEEE,
+                                              p.IMPLEMENTOS_DEPORTIVOS_MAXIMOS_IEEE)
+        self.implementos_medicos = uniform(p.IMPLEMENTOS_MEDICOS_MINIMOS_IEEE,
+                                           p.IMPLEMENTOS_MEDICOS_MAXIMOS_IEEE)
 
     def entrenar_deportista(self):
-        super().entrenar_deportista(ponderador_entrenamiento=1.7)
+        super().entrenar_deportista(ponderador_entrenamiento=p.PONDERADOR_ENTRENAMIENTO_IEEE)
 
     def utilizar_habilidad_especial(self):
         pass
@@ -227,13 +230,16 @@ class IEEEsparta(Delegacion):
 class DCCrotona(Delegacion):
     def __init__(self, entrenador, equipo, medallas, moral, dinero):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
-        self.excelencia_y_respeto = uniform(0.3, 0.7)
-        self.implementos_deportivos = uniform(0.2, 0.6)
-        self.implementos_medicos = uniform(0.4, 0.8)
+        self.excelencia_y_respeto = uniform(p.EXCELENCIA_MAXIMA_DCC,
+                                            p.EXCELENCIA_MINIMA_DCC)
+        self.implementos_deportivos = uniform(p.IMPLEMENTOS_DEPORTIVOS_MINIMOS_DCC,
+                                              p.IMPLEMENTOS_DEPORTIVOS_MAXIMOS_DCC)
+        self.implementos_medicos = uniform(p.IMPLEMENTOS_MEDICOS_MINIMOS_DCC,
+                                           p.IMPLEMENTOS_MEDICOS_MAXIMOS_DCC)
 
     @Delegacion.medallas.setter
     def medallas(self, medallas):
-        self.__excelencia_y_respeto += 0.01 * 2
+        self.__excelencia_y_respeto += p.AUMENTO_EXCELENCIA_POR_MEDALLA * 2
         self.__medallas = medallas
 
     def sanar_lesiones(self):
