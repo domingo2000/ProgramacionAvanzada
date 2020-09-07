@@ -1,5 +1,6 @@
 __pycache__/
 .vscode/
+archivos_propios/
 
 # Archivos Entregados
 delegaciones.csv
@@ -10,3 +11,4 @@ Enunciado.pdf
 temp.py
 temp2.py
 menus_antiguo.py
+deportistas_columnas_cambiadas.csv
