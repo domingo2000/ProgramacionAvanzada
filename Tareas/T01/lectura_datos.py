@@ -78,7 +78,7 @@ if __name__ == "__main__":
     equipo = [d1, d2, d3, d4]
 
     datos = leer_datos_delegaciones("delegaciones.csv")
-
+    lista_delegaciones = []
     for dato in datos:
         tipo_delegacion = dato["Delegacion"]
         entrenador = input("Ingrese el nombre del entrenador: ")
@@ -90,6 +90,7 @@ if __name__ == "__main__":
             delegacion = DCCrotona(entrenador, equipo, medallas, moral, dinero)
         elif tipo_delegacion == "IEEEsport":
             delegacion = IEEEsparta(entrenador, equipo, medallas, moral, dinero)
+        lista_delegaciones.append(delegacion)
 
     # testeo deportistas.csv
     datos_deportistas = leer_datos_deportistas("deportistas.csv")
