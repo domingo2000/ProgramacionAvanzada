@@ -149,7 +149,3 @@ if __name__ == "__main__":
     menus.append(menu_principal)
     menus.append(menu_entrenador)
     menus.append(menu_2)
-
-
-while True:
-    menus.invocar()
