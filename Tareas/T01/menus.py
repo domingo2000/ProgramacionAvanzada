@@ -173,10 +173,28 @@ class MenuEntrenador(Menu):
 
     def fichar(self):
         lista_deportistas = self.campeonato.deportistas_no_fichados
-        print(f"Seleccione un deportista para fichar")
-        i = 0
-        for deportista in lista_deportistas:
-            pass
+        while True:
+            print(f"Seleccione un deportista para fichar")
+            i = 0
+            for deportista in lista_deportistas:
+                print(f"[{i}] {deportista}")
+                i += 1
+            print(f"[{i}] Volver")
+            entrada = input("Seleccione un deportista para fichar: ")
+            print("\n")
+            if entrada == str(i):
+                print("Usted no ha fichado ningun jugador")
+                print("Volviendo al Menu de Entrenador...")
+                return None
+            elif entrada.isdigit():
+                entrada = int(entrada)
+                if 0 <= entrada <= i:
+                    deportista_seleccionado = lista_deportistas[entrada]
+                    nombre_deportista = deportista_seleccionado.nombre
+                    self.campeonato.delegacion1.fichar_deportista(nombre_deportista, lista_deportistas)
+                    print(f"{nombre_deportista} se ha unido a tu equipo!")
+            else:
+                print("Entrada inválida! Ingrese una opción valida")
 
     def entrenar(self):
         pass
