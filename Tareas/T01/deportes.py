@@ -1,14 +1,27 @@
 from abc import ABC, abstractmethod
-from parametros impor NIVEL_IMPLEMENTOS, PUNTAJE_MINIMO
+import parametros as p
 
 
 class Deporte(ABC):
     """
     DOCUMENTACION
     """
-    def __init__(self, implemento, riego):
+    def __init__(self, implemento, riesgo):
         self.implemento = implemento
-        self.riesgo = riesgo
+        self.__riesgo = riesgo
+
+    @property
+    def riesgo(self):
+        return(self.__riesgo)
+
+    @riesgo.setter
+    def riesgo(self, riesgo):
+        if riesgo < p.RIESGO_MINIMO:
+            self.__riesgo = p.RIESGO_MINIMO
+        elif riesgo > p.RIESGO_MAXIMO:
+            self.__riesgo = p.RIESGO_MAXIMO
+        else:
+            self.__riesgo = riesgo
 
     def validez_de_competencia(self, competidores, delegacion1, delegacion2):
         if len(competidores < 2):
@@ -20,8 +33,8 @@ class Deporte(ABC):
                 return False
 
         if self.implemento:
-            if delegacion1.implementos_deportivos < NIVEL_IMPLEMENTOS and \
-               delegacion2.implementos_deportivos < NIVEL_IMPLEMENTOS:
+            if delegacion1.implementos_deportivos < p.NIVEL_IMPLEMENTOS and \
+               delegacion2.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
                 return True
             else:
                 return False
@@ -44,11 +57,11 @@ class Atletismo(Deporte):
         ponderado_cualidades1 = (0.55 * competidor1.velocidad
                                  + 0.2 * competidor1.resistencia
                                  + 0.25 * competidor1.moral)
-        puntaje1 = max(PUNTAJE_MINIMO, ponderado_cualidades1)
+        puntaje1 = max(p.PUNTAJE_MINIMO, ponderado_cualidades1)
         ponderado_cualidades2 = (0.55 * competidor2.velocidad
                                  + 0.2 * competidor2.resistencia
                                  + 0.25 * competidor2.moral)
-        puntaje2 = max(PUNTAJE_MINIMO, ponderado_cualidades2)
+        puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
             print(f"Ha ganado {competidor1.nombre}")
             return competidor1
@@ -71,11 +84,11 @@ class Ciclismo(Deporte):
         ponderado_cualidades1 = (0.47 * competidor1.velocidad
                                  + 0.36 * competidor1.resistencia
                                  + 0.17 * competidor1.moral)
-        puntaje1 = max(PUNTAJE_MINIMO, ponderado_cualidades1)
+        puntaje1 = max(p.PUNTAJE_MINIMO, ponderado_cualidades1)
         ponderado_cualidades2 = (0.55 * competidor2.velocidad
                                  + 0.2 * competidor2.resistencia
                                  + 0.25 * competidor2.moral)
-        puntaje2 = max(PUNTAJE_MINIMO, ponderado_cualidades2)
+        puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
             print(f"Ha ganado {competidor1.nombre}")
             return competidor1
