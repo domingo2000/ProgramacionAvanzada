@@ -22,6 +22,7 @@ def leer_datos_delegaciones(archivo):
             COUNT += 1
         lista_delegaciones.append(datos_delegacion_i)
 
+    archivo.close()
     return lista_delegaciones
 
 
@@ -55,6 +56,7 @@ def leer_datos_deportistas(archivo):
             COUNT += 1
         lista_deportistas.append(datos_deportista_i)
 
+    archivo.close()
     return lista_deportistas
 
 
@@ -77,9 +79,9 @@ if __name__ == "__main__":
     d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
     equipo = [d1, d2, d3, d4]
 
-    datos = leer_datos_delegaciones("archivos_propios\\delegaciones_columnas_cambiadas.csv")
+    datos_delegaciones = leer_datos_delegaciones("archivos_propios\\delegaciones_columnas_cambiadas.csv")
     lista_delegaciones = []
-    for dato in datos:
+    for dato in datos_delegaciones:
         tipo_delegacion = dato["Delegacion"]
         entrenador = input("Ingrese el nombre del entrenador: ")
         equipo = equipo
