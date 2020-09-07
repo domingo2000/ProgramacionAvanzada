@@ -113,8 +113,8 @@ class Delegacion(ABC):
 
     def entrenar_deportista(self, ponderador_entrenamiento=1):
         # Chequea que haya sufiiente dinero
-        if self.dinero >= 30:
-            self.dinero -= 30
+        if self.dinero >= p.COSTO_ENTRENAR_DEPORTISTA:
+            self.dinero -= p.COSTO_ENTRENAR_DEPORTISTA
             # string que se muestra en la interfaz
             print("Seleccione un jugador para entrenar")
             for i in range(len(self.equipo)):
@@ -150,7 +150,7 @@ class Delegacion(ABC):
             print("No tiene suficiente dinero para entrenar un deportista!")
 
     def sanar_lesiones(self, ponderador_costo=1):
-        if self.dinero >= 30:
+        if self.dinero >= p.COSTO_SANAR_LESIONES:
             deportistas_lesionados = []
             i = 0
             # string que se muestra en la interfaz y llenado deportistas_lesionados
@@ -176,12 +176,15 @@ class Delegacion(ABC):
                 print("Entrada Invalida!, Ingrese otra vez")
             # calculo_probabilidad_recuperacion
             datos_delegacion = delegacion.implementos_medicos + delegacion.excelencia_y_respeto
-            valor_calculado = (deportista_seleccionado.moral * datos_delegacion) / 200
-            probabilidad_recuperacion = min(1, max(0, valor_calculado))
+            valor_calculado = ((deportista_seleccionado.moral * datos_delegacion)
+                               / p.DIVISOR_FORMULA_SANAR_LESIONES)
+            probabilidad_recuperacion = min(p.PROBABILIDAD_MAX_SANAR_LESIONES,
+                                            max(p.PROBABILIDAD_MIN_SANAR_LESIONES,
+                                                valor_calculado))
             probabilidad_recuperacion = round(probabilidad_recuperacion, 1)
             numero_aleatorio = random()
             # cobro por sanar jugador
-            self.dinero -= 30 * ponderador_costo
+            self.dinero -= p.COSTO_SANAR_LESIONES * ponderador_costo
             # chequea la probabilidad y sana al jugador
             if numero_aleatorio < probabilidad_recuperacion:
                 print("Enhorabuena! Tu deportista se ha recuperado de su lesión")
@@ -192,11 +195,11 @@ class Delegacion(ABC):
             print(f"Su dinero ({self.dinero}) no alcanza para sanar un deportista")
 
     def comprar_tecnologia(self):
-        if self.dinero >= 20:
-            self.dinero -= 20
+        if self.dinero >= p.COSTO_COMPRAR_TECNOLOGÏA:
+            self.dinero -= p.COSTO_COMPRAR_TECNOLOGÏA
             tecnologia_anterior = self.__implementos_deportivos
-            self.implementos_deportivos *= 1.1
-            self.implementos_medicos *= 1.1
+            self.implementos_deportivos *= (1 + p.PORCENTAJE_AUMENTO_IMPLEMENTOS_POR_TECNOLOGIA)
+            self.implementos_medicos *= (1 + p.PORCENTAJE_AUMENTO_IMPLEMENTOS_POR_TECNOLOGIA)
             print(f"Usted ha Mejorado su tecnologia!")
 
         else:
