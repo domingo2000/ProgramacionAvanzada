@@ -79,7 +79,7 @@ if __name__ == "__main__":
     d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
     equipo = [d1, d2, d3, d4]
 
-    datos_delegaciones = leer_datos_delegaciones("archivos_propios\\delegaciones_columnas_cambiadas.csv")
+    datos_delegaciones = leer_datos_delegaciones("delegaciones.csv")
     lista_delegaciones = []
     for dato in datos_delegaciones:
         tipo_delegacion = dato["Delegacion"]
