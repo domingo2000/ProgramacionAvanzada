@@ -58,6 +58,15 @@ def leer_datos_deportistas(archivo):
     return lista_deportistas
 
 
+def leer_bool(string):
+    if string == "True":
+        return (True)
+    elif string == "False":
+        return (False)
+    else:
+        print("Error leyendo booleando")
+
+
 if __name__ == "__main__":
     from clases_simulacion import DCCrotona, IEEEsparta, Deportista
 
@@ -69,7 +78,6 @@ if __name__ == "__main__":
     equipo = [d1, d2, d3, d4]
 
     datos = leer_datos_delegaciones("delegaciones.csv")
-    print(datos)
 
     for dato in datos:
         tipo_delegacion = dato["Delegacion"]
@@ -85,3 +93,16 @@ if __name__ == "__main__":
 
     # testeo deportistas.csv
     datos_deportistas = leer_datos_deportistas("deportistas.csv")
+    lista_deportistas = []
+    for dato in datos_deportistas:
+        nombre = dato["nombre"]
+        velocidad = int(dato["velocidad"])
+        resistencia = int(dato["resistencia"])
+        flexibilidad = int(dato["flexibilidad"])
+        moral = int(dato["moral"])
+        lesionado = leer_bool(dato["lesionado"])
+        precio = dato["precio"]
+        deportista = Deportista(nombre, velocidad, 
+                                resistencia, flexibilidad, moral, lesionado, precio)
+        lista_deportistas.append(deportista)
+    print("FIN")
