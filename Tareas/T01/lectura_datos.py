@@ -73,7 +73,9 @@ def escribir_resultados_dia(archivo, resultados_dia, numero_dia):
     # [nombre_deporte, [delegacion_ganadora, deportista_ganador],
     #                  [delegacion_perdedora, deportista perdedor]]
     archivo = open(archivo, "a")
-    archivo.write(f"Día: {numero_dia}")
+
+    # Escritura de datos en resultados
+    archivo.write(f"Día: {numero_dia}\n")
     # resto de  la info de la comepetencia
     for resultado_competencia in resultados_dia:
         if resultado_competencia == "empate":
@@ -86,7 +88,8 @@ def escribir_resultados_dia(archivo, resultados_dia, numero_dia):
             archivo.write(f"Delegación Ganadora: {delegacion_ganadora.nombre}\n")
             archivo.write(f"Deportista Ganador: {deportista_ganador.nombre}\n")
             archivo.write("\n")
-    archivo.write("*****************************************")
+    archivo.write("*****************************************\n")
+
     archivo.close()
 
 
