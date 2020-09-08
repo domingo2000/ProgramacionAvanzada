@@ -197,8 +197,8 @@ class Delegacion(ABC):
             print(f"Su dinero ({self.dinero}) no alcanza para sanar un deportista")
 
     def comprar_tecnologia(self):
-        if self.dinero >= p.COSTO_COMPRAR_TECNOLOGÏA:
-            self.dinero -= p.COSTO_COMPRAR_TECNOLOGÏA
+        if self.dinero >= p.COSTO_COMPRAR_TECNOLOGIA:
+            self.dinero -= p.COSTO_COMPRAR_TECNOLOGIA
             tecnologia_anterior = self.__implementos_deportivos
             self.implementos_deportivos *= (1 + p.PORCENTAJE_AUMENTO_IMPLEMENTOS_POR_TECNOLOGIA)
             self.implementos_medicos *= (1 + p.PORCENTAJE_AUMENTO_IMPLEMENTOS_POR_TECNOLOGIA)
