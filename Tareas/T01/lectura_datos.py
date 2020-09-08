@@ -68,11 +68,12 @@ def leer_bool(string):
     else:
         print("Error leyendo booleando")
 
+
 def escribir_resultados_dia(archivo, resultados_dia, numero_dia):
     # resultados competencia debe ser un lista:
     # [nombre_deporte, [delegacion_ganadora, deportista_ganador],
     #                  [delegacion_perdedora, deportista perdedor]]
-    archivo = open(archivo, "a")
+    archivo = open(archivo, "a", encoding="utf8")
 
     # Escritura de datos en resultados
     archivo.write(f"Día: {numero_dia}\n")
@@ -90,6 +91,13 @@ def escribir_resultados_dia(archivo, resultados_dia, numero_dia):
             archivo.write("\n")
     archivo.write("*****************************************\n")
 
+    archivo.close()
+
+
+def limpiar_archivo_resultados(archivo):
+    archivo = open(archivo, "w", encoding="utf8")
+    archivo.write("RESULTADOS DÍA A DÍA DCCUMBRE OLÍMPICA\n")
+    archivo.write("-----------------------------------------\n")
     archivo.close()
 
 
