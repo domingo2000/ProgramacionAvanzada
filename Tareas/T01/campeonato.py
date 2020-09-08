@@ -59,6 +59,7 @@ class Campeonato:
             if resultados_validez == "empate":
                 resultados_competencia = resultados_validez
                 pass
+            # Opcion de que la competencia es invalida
             elif resultados_validez != True:
                 resultados_competencia = resultados_validez
             # calcula puntajes y setea resultados_competencia

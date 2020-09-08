@@ -87,7 +87,7 @@ class Delegacion(ABC):
     def implementos_medicos(self):
         return self.__implementos_medicos
 
-    @implementos_deportivos.setter
+    @implementos_medicos.setter
     def implementos_medicos(self, implementos_medicos):
         if implementos_medicos < p.FORTALEZA_MINIMA:
             self.__implementos_medicos = p.FORTALEZA_MINIMA
@@ -208,11 +208,14 @@ class Delegacion(ABC):
     def comprar_tecnologia(self):
         if self.dinero >= p.COSTO_COMPRAR_TECNOLOGIA:
             self.dinero -= p.COSTO_COMPRAR_TECNOLOGIA
-            tecnologia_anterior = self.__implementos_deportivos
+            tecnologia_anterior = [self.implementos_deportivos, self.implementos_medicos]
             self.implementos_deportivos *= (1 + p.PORCENTAJE_AUMENTO_IMPLEMENTOS_POR_TECNOLOGIA)
             self.implementos_medicos *= (1 + p.PORCENTAJE_AUMENTO_IMPLEMENTOS_POR_TECNOLOGIA)
             print(f"Usted ha Mejorado su tecnologia!")
-
+            print(f"Sus Implementos deportivos an pasado de {tecnologia_anterior[0]}"
+                  f" a {self.implementos_deportivos}")
+            print(f"Sus Implementos medicos an pasado de {tecnologia_anterior[1]}"
+                  f" a {self.implementos_medicos}")
         else:
             print(f"Su dinero ({self.dinero}) no alcanza para compra tecnología")
 
@@ -333,11 +336,16 @@ class Deportista:
         print(f"Se ha entrenado la {atributo} de {self.nombre}")
 
     def lesionarse(self, riesgo):
-        print(f"{self.nombre} se ha lesionado durante la competencia")
-        self.lesionado = True
+        numero_aleatorio = random()
+        if numero_aleatorio <= riesgo:
+            print(f"{self.nombre} se ha lesionado durante la competencia")
+            self.lesionado = True
 
     def __repr__(self):
-        string = f"Jugador: {self.nombre}"
+        string = (f"{self.nombre}:\n-----Vel: {self.velocidad} "
+                  + f"Res :{self.resistencia} "
+                  + f"Flex : {self.flexibilidad} "
+                  + f"Moral: {self.moral}")
         return string
 
 
