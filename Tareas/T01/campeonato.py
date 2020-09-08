@@ -1,6 +1,7 @@
 import parametros as p
 import random
-
+import imagenes_string
+import sys
 
 class Campeonato:
     """
@@ -58,7 +59,7 @@ class Campeonato:
             resultados_validez = deporte.validez_de_competencia(competidores)
             if resultados_validez == "empate":
                 resultados_competencia = resultados_validez
-                pass
+                continue
             # Opcion de que la competencia es invalida
             elif resultados_validez != True:
                 resultados_competencia = resultados_validez
@@ -70,7 +71,7 @@ class Campeonato:
                 for deportista in deportistas:
                     deportista.lesionarse(deporte.riesgo)
             if resultados_competencia == "empate":
-                pass
+                continue
             else:
                 resultados_competencia = [deporte.nombre,
                                           resultados_competencia["ganador"],
@@ -88,14 +89,15 @@ class Campeonato:
         deportista_ganador = resultados_competencia[1][1]
         deportista_perdedor = resultados_competencia[2][1]
 
-        print(f"Felicitaciones delegacion {delegacion_ganadora.nombre} has ganado la competencia \
-de {nombre_deporte}! con el competidor {deportista_ganador.nombre}")
+        print(f"Felicitaciones delegacion {delegacion_ganadora.nombre} has ganado la competencia "
+              f"de {nombre_deporte}! con el competidor {deportista_ganador.nombre}")
 
         delegacion_ganadora.medallas += 1
         delegacion_ganadora.dinero += p.DINERO_GANADO_POR_COMPETENCIA
         print(f"La delegacion {delegacion_ganadora.nombre} ha recibido una medalla de Oro!")
-        print(f"La delegacion {delegacion_ganadora.nombre} ha recibido \
-{p.DINERO_GANADO_POR_COMPETENCIA} DCCoins")
+        imagenes_string.imprimir_medalla(delegacion_ganadora.nombre)
+        print(f"La delegacion {delegacion_ganadora.nombre} ha recibido "
+              f"{p.DINERO_GANADO_POR_COMPETENCIA} DCCoins")
 
         deportista_ganador.moral += p.BONIFICACION_MORAL_COMPETENCIA
         deportista_perdedor.moral -= p.PENALIZACION_MORAL_COMPETENCIA
@@ -124,3 +126,36 @@ de {nombre_deporte}! con el competidor {deportista_ganador.nombre}")
 
     def mostrar_estado(self):
         pass
+    
+    def calcular_ganador(self):
+        empate = False
+        if self.delegacion1.medallas > self.delegacion2.medallas:
+            ganador_cumbre = self.delegacion1
+        elif self.delegacion2.medallas > self.delegacion1.medallas:
+            ganador_cumbre = self.delegacion2
+        elif self.delegacion1.medallas == self.delegacion2.medallas:
+            empate = True
+            print("Se ha producido un empate!")
+            print("AMBAS DELEGACIONES HAN CONSEGUIDO EL HONOR Y LA GLORA!")
+            imagenes_string.imprimir_copa(delegacion1.nombre)
+            imagenes_string.imprimir_copa(delegacion2.nombre)
+        else:
+            print("ERROR no deberia printear esto")
+
+        if not empate:
+            print(f"{ganador_cumbre.nombre} ha ganado la DCCumbre!")
+            imagenes_string.imprimir_copa(ganador_cumbre.nombre)
+
+        while True:
+            print("Que desea hacer:\n")
+            print("[0] Realizar nueva simulacion")
+            print("[1] Salir del programa")
+            entrada = input("Ingrese una opcion: ")
+            if entrada == "0":
+                break
+            elif entrada == "1":
+                sys.exit()
+                break
+            else:
+                print("Entrada Inválida! ingrese otra opcion")
+                

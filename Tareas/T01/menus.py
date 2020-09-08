@@ -155,7 +155,17 @@ class MenuPrincipal(Menu):
         return ["Entrenador"]
 
     def simular_competencias(self):
+        self.campeonato.dia_actual += 1
         self.campeonato.realizar_competencias_del_dia()
+        self.campeonato.dia_actual += 1
+
+        if self.campeonato.dia_actual == p.DIAS_COMPETENCIA:
+            # Flujo fin competencia
+            self.campeonato.calcular_ganador()
+            return["Inicio"]
+            pass
+        else:
+            pass
 
     def mostrar_estado(self):
         pass

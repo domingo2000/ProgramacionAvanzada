@@ -60,13 +60,13 @@ class Deporte(ABC):
             resultado_competencia["ganador"] = [delegacion_propia, deportista_propio]
             return resultado_competencia
         elif delegacion_propia.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
-            print(f"Delegacion {delegacion_propia.nombre} no cumple con el nivel de implementos"
+            print(f"Delegacion {delegacion_propia.nombre} no cumple con el nivel de implementos "
                   "necesario")
             resultado_competencia["ganador"] = [delegacion_rival, deportista_rival]
             resultado_competencia["perdedor"] = [delegacion_propia, deportista_propio]
             return resultado_competencia
         elif delegacion_rival.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
-            print(f"Delegacion {delegacion_rival.nombre} no cumple con el nivel de implementos"
+            print(f"Delegacion {delegacion_rival.nombre} no cumple con el nivel de implementos "
                   "necesario")
             resultado_competencia["perdedor"] = [delegacion_rival, deportista_rival]
             resultado_competencia["ganador"] = [delegacion_propia, deportista_propio]
