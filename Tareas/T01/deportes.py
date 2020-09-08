@@ -61,13 +61,13 @@ class Deporte(ABC):
             return resultado_competencia
         elif delegacion_propia.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
             print(f"Delegacion {delegacion_propia.nombre} no cumple con el nivel de implementos"
-                    "necesario")
+                  "necesario")
             resultado_competencia["ganador"] = [delegacion_rival, deportista_rival]
             resultado_competencia["perdedor"] = [delegacion_propia, deportista_propio]
             return resultado_competencia
         elif delegacion_rival.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
-            print(f"Delegacion {delegacion_rival.nombre} no cumole con el nivel de implementos"
-                    "necesario")
+            print(f"Delegacion {delegacion_rival.nombre} no cumple con el nivel de implementos"
+                  "necesario")
             resultado_competencia["perdedor"] = [delegacion_rival, deportista_rival]
             resultado_competencia["ganador"] = [delegacion_propia, deportista_propio]
             return resultado_competencia
@@ -231,7 +231,9 @@ class Natacion(Deporte):
             return resultado_competencia
         elif puntaje1 < puntaje2:
             print(f"Ha ganado {competidor2.nombre}")
-            return competidor2
+            resultado_competencia["perdedor"] = [delegacion1, competidor1]
+            resultado_competencia["ganador"] = [delegacion2, competidor2]
+            return resultado_competencia
         else:
             print("Se ha producido un empate!")
             retrun("empate")

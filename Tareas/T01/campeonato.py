@@ -1,6 +1,7 @@
 import parametros as p
 import random
 
+
 class Campeonato:
     """
     DOCUMENTACION
@@ -52,18 +53,28 @@ class Campeonato:
             competidores = [[self.delegacion1, deportistas[0]],
                             [self.delegacion2, deportistas[1]]]
 
+            # Verifica la validez del resultado de la competencia
+            # si es invalida setea resultador_validez, si no calcula puntajes
             resultados_validez = deporte.validez_de_competencia(competidores)
             if resultados_validez == "empate":
                 pass
             elif resultados_validez != True:
-                resultados_competencia = [deporte.nombre,
-                                          resultados_validez["ganador"],
-                                          resultados_validez["perdedor"]]
-                self.premiar_deportistas_y_delegaciones(resultados_competencia)
+                resultados_competencia = resultados_validez
+            # calcula puntajes y setea resultados_competencia
             elif resultados_validez:
                 # calcular ganador para cada competencia
                 resultados_competencia = deporte.calcular_ganador(competidores)
-                print("DEBUG")
+
+            if resultados_competencia == "empate":
+                pass
+            else:
+                resultados_competencia = [deporte.nombre,
+                                          resultados_competencia["ganador"],
+                                          resultados_competencia["perdedor"]]
+            print("DEBUG")
+            # POR HACER: premiar resultados competencia
+            self.premiar_deportistas_y_delegaciones(resultados_competencia)
+            print("\n")
 
     def premiar_deportistas_y_delegaciones(self, resultados_competencia):
         # resultados competencia debe ser un lista:
