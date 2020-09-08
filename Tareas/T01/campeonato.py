@@ -148,8 +148,8 @@ class Campeonato:
             print(f"{self.delegacion1.nombre} Consiguió {self.delegacion1.medallas} medallas!!")
             print(f"{self.delegacion2.nombre} Consiguió {self.delegacion2.medallas} medallas!!")
             print("AMBAS DELEGACIONES HAN CONSEGUIDO EL HONOR Y LA GLORA!")
-            imagenes_string.imprimir_copa(delegacion1.nombre)
-            imagenes_string.imprimir_copa(delegacion2.nombre)
+            imagenes_string.imprimir_copa(self.delegacion1.nombre)
+            imagenes_string.imprimir_copa(self.delegacion2.nombre)
         else:
             print("ERROR no deberia printear esto")
 
