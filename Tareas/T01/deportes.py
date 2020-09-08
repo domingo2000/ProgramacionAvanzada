@@ -25,6 +25,10 @@ class Deporte(ABC):
             self.__riesgo = riesgo
 
     def validez_de_competencia(self, competidores, delegacion1, delegacion2):
+        """ 
+        Competidores es una lista [competidor_propio, competidor_rival] de los competidores
+        que participan en la competencia
+        """
         if len(competidores) < 2:
             print("No hay suficientes competidores para realizar la competencia!")
             return False
@@ -133,12 +137,12 @@ class Gimnacia(Deporte):
 
 
 class Natacion(Deporte):
-    self.nombre = "natacion"
     """
     DOCUMENTACION
     """
     def __init__(self):
         super().__init__(False, 0.3)
+        self.nombre = "natacion"
 
     def calcular_ganador(self, competidor1, competidor2):
         ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_NATACION * competidor1.velocidad
