@@ -153,6 +153,15 @@ class Delegacion(ABC):
 
     def sanar_lesiones(self, ponderador_costo=1):
         if self.dinero >= p.COSTO_SANAR_LESIONES:
+            print(f"Esta accion le costara {p.COSTO_SANAR_LESIONES * ponderador_costo} DCCoins")
+            print(f"¿Esta seguro de que quiere Sanar Lesiones?")
+            print("[0] Si\n Ingrese cualquier cosa para cancelar")
+            entrada = input("Seleccione una opcion: ")
+            if entrada == "0":
+                pass
+            else:
+                print("Accion Cancelada\n")
+                return None
             deportistas_lesionados = []
             i = 0
             # string que se muestra en la interfaz y llenado deportistas_lesionados
@@ -177,7 +186,7 @@ class Delegacion(ABC):
                         break
                 print("Entrada Invalida!, Ingrese otra vez")
             # calculo_probabilidad_recuperacion
-            datos_delegacion = delegacion.implementos_medicos + delegacion.excelencia_y_respeto
+            datos_delegacion = self.implementos_medicos + self.excelencia_y_respeto
             valor_calculado = ((deportista_seleccionado.moral * datos_delegacion)
                                / p.DIVISOR_FORMULA_SANAR_LESIONES)
             probabilidad_recuperacion = min(p.PROBABILIDAD_MAX_SANAR_LESIONES,
@@ -240,11 +249,6 @@ class DCCrotona(Delegacion):
                                               p.IMPLEMENTOS_DEPORTIVOS_MAXIMOS_DCC)
         self.implementos_medicos = uniform(p.IMPLEMENTOS_MEDICOS_MINIMOS_DCC,
                                            p.IMPLEMENTOS_MEDICOS_MAXIMOS_DCC)
-
-    @Delegacion.medallas.setter
-    def medallas(self, medallas):
-        self.excelencia_y_respeto += p.AUMENTO_EXCELENCIA_POR_MEDALLA * 2
-        self._medallas = medallas
 
     def sanar_lesiones(self):
         super().sanar_lesiones(ponderador_costo=2)  # pondera el costo de sanar por 2
