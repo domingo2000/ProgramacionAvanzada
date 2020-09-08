@@ -114,7 +114,7 @@ class MenuInicio(Menu):
             tipo_delegacion = dato["Delegacion"]
             entrenador = "NADIE_POR_AHORA"
             equipo = equipo
-            moral = int(dato["Moral"])
+            moral = float(dato["Moral"])
             dinero = int(dato["Dinero"])
             medallas = int(dato["Medallas"])
             if tipo_delegacion == "DCCrotona":
