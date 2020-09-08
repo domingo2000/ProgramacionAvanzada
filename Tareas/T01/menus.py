@@ -191,8 +191,8 @@ class MenuEntrenador(Menu):
                 if 0 <= entrada <= i:
                     deportista_seleccionado = lista_deportistas[entrada]
                     nombre_deportista = deportista_seleccionado.nombre
-                    self.campeonato.delegacion1.fichar_deportista(nombre_deportista, lista_deportistas)
-                    print(f"{nombre_deportista} se ha unido a tu equipo!")
+                    self.campeonato.delegacion1.fichar_deportista(nombre_deportista,
+                                                                  lista_deportistas)
             else:
                 print("Entrada inválida! Ingrese una opción valida")
 
