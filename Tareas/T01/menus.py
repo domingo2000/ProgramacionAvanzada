@@ -205,7 +205,8 @@ class MenuEntrenador(Menu):
                 print("Entrada inválida! Ingrese una opción valida")
 
     def entrenar(self):
-        pass
+        print(f"Dinero Actual: {self.campeonato.delegacion1.dinero}")
+        self.campeonato.delegacion1.entrenar_deportista()
 
     def comprar_tecnologia(self):
         pass
