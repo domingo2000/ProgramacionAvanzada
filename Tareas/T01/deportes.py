@@ -24,31 +24,62 @@ class Deporte(ABC):
         else:
             self.__riesgo = riesgo
 
-    def validez_de_competencia(self, competidores, delegacion1, delegacion2):
-        """ 
-        Competidores es una lista [competidor_propio, competidor_rival] de los competidores
-        que participan en la competencia
+    def validez_de_competencia(self, competidores):
         """
-        if len(competidores) < 2:
-            print("No hay suficientes competidores para realizar la competencia!")
-            return False
-        for competidor in competidores:
-            if competidor.lesionado:
-                print(f"El competidor {competidor.nombre} se encuentra lesionado")
-                return False
+        Competidores es una lista [[delegacion1, competidor1], [delegacion2, compeidor2]]
+        de los competidores que participan en la competencia y retorna
+        los resultados que son un diccionario
+        return {"ganador": [delegacion, deportista], "pededor": [delegacion, deportista]}
+        o en caso de que no halla nadie lesionado y se cumplan los implementos retorna True
+        """
+        # {"ganador": [delegacion, depoertista], "pededor": [delegacion, deportista]}
+        resultado_competencia = {"ganador": None, "pededor": None}
 
-        if self.implemento:
-            if delegacion1.implementos_deportivos < p.NIVEL_IMPLEMENTOS or \
-               delegacion2.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
-                print("No se cumplen los implementos necesarios para la competencia")
-                return False
-            else:
-                return True
+        delegacion_propia = competidores[0][0]
+        delegacion_rival = competidores[1][0]
+        deportista_propio = competidores[0][1]
+        deportista_rival = competidores[1][1]
+
+        if deportista_propio.lesionado and deportista_rival.lesionado:
+            print("Ambos deportistas se encuentran lesionados!")
+            print("¡Se ha producido un empate!")
+            return "Empate"
+        elif delegacion_propia.implementos_deportivos < p.NIVEL_IMPLEMENTOS and\
+                delegacion_rival.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
+            print("Ambas delegaciones no cumplen con los implementos!")
+            print("¡Se ha producido un empate!")
+            return "Empate"
+        elif deportista_propio.lesionado:
+            print(f"{deportista_propio.nombre} se encuentra lesionado")
+            resultado_competencia["ganador"] = [delegacion_rival, deportista_rival]
+            resultado_competencia["perdedor"] = [delegacion_propia, deportista_propio]
+            return resultado_competencia
+        elif deportista_rival.lesionado:
+            print(f"{deportista_rival.nombre} se encuentra lesionado")
+            resultado_competencia["perdedor"] = [delegacion_rival, deportista_rival]
+            resultado_competencia["ganador"] = [delegacion_propia, deportista_propio]
+            return resultado_competencia
+        elif delegacion_propia.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
+            print(f"Delegacion {delegacion_propia.nombre} no cumple con el nivel de implementos"
+                    "necesario")
+            resultado_competencia["ganador"] = [delegacion_rival, deportista_rival]
+            resultado_competencia["perdedor"] = [delegacion_propia, deportista_propio]
+            return resultado_competencia
+        elif delegacion_rival.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
+            print(f"Delegacion {delegacion_rival.nombre} no cumole con el nivel de implementos"
+                    "necesario")
+            resultado_competencia["perdedor"] = [delegacion_rival, deportista_rival]
+            resultado_competencia["ganador"] = [delegacion_propia, deportista_propio]
+            return resultado_competencia
         else:
             return True
 
     @abstractmethod
-    def calcular_ganador(self, competidor1, competidor2):
+    def calcular_ganador(self, competidores):
+        """
+        Competidores es una lista [[delegacion1, competidor1], [delegacion2, compeidor2]]
+        de los competidores que participan en la competencia
+        """
         pass
 
 
@@ -60,7 +91,17 @@ class Atletismo(Deporte):
         super().__init__(False, p.RIESGO_ATLETISMO)
         self.nombre = "atletismo"
 
-    def calcular_ganador(self, competidor1, competidor2):
+    def calcular_ganador(self, competidores):
+        """
+        Competidores es una lista [[delegacion1, competidor1], [delegacion2, compeidor2]]
+        de los competidores que participan en la competencia
+        """
+        resultado_competencia = {"ganador": None, "pededor": None}
+        competidor1 = competidores[0][1]
+        competidor2 = competidores[1][1]
+        delegacion1 = competidores[1][0]
+        delegacion2 = competidores[1][1]
+
         ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_ATLETISMO * competidor1.velocidad
                                  + p.PONDERADOR_RESISTENCIA_ATLETISMO * competidor1.resistencia
                                  + p.PONDERADOR_MORAL_ATLETISMO * competidor1.moral)
@@ -71,10 +112,14 @@ class Atletismo(Deporte):
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
             print(f"Ha ganado {competidor1.nombre}")
-            return competidor1
+            resultado_competencia["ganador"] = [delegacion1, competidor1]
+            resultado_competencia["perdedor"] = [delegacion2, competidor2]
+            return resultado_competencia
         elif puntaje1 < puntaje2:
             print(f"Ha ganado {competidor2.nombre}")
-            return competidor2
+            resultado_competencia["ganador"] = [delegacion2, competidor2]
+            resultado_competencia["perdedor"] = [delegacion1, competidor1]
+            return resultado_competencia
         else:
             print("Se ha producido un empate!")
             retrun("empate")
@@ -88,7 +133,13 @@ class Ciclismo(Deporte):
         super().__init__(True, p.RIESGO_CICLISMO)
         self.nombre = "ciclismo"
 
-    def calcular_ganador(self, competidor1, competidor2):
+    def calcular_ganador(self, competidores):
+        resultado_competencia = {"ganador": None, "pededor": None}
+        competidor1 = competidores[0][1]
+        competidor2 = competidores[1][1]
+        delegacion1 = competidores[1][0]
+        delegacion2 = competidores[1][1]
+
         ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_CICLISMO * competidor1.velocidad
                                  + p.PONDERADOR_RESISTENCIA_CICLISMO * competidor1.resistencia
                                  + p.PONDERADOR_FLEXIBILIDAD_CICLISMO * competidor1.flexibilidad)
@@ -99,10 +150,14 @@ class Ciclismo(Deporte):
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
             print(f"Ha ganado {competidor1.nombre}")
-            return competidor1
+            resultado_competencia["ganador"] = [delegacion1, competidor1]
+            resultado_competencia["perdedor"] = [delegacion2, competidor2]
+            return resultado_competencia
         elif puntaje1 < puntaje2:
             print(f"Ha ganado {competidor2.nombre}")
-            return competidor2
+            resultado_competencia["ganador"] = [delegacion2, competidor2]
+            resultado_competencia["perdedor"] = [delegacion1, competidor1]
+            return resultado_competencia
         else:
             print("Se ha producido un empate!")
             retrun("empate")
@@ -116,7 +171,13 @@ class Gimnacia(Deporte):
         super().__init__(True, p.RIESGO_GIMNACIA)
         self.nombre = "gimnacia"
 
-    def calcular_ganador(self, competidor1, competidor2):
+    def calcular_ganador(self, competidores):
+        resultado_competencia = {"ganador": None, "pededor": None}
+        competidor1 = competidores[0][1]
+        competidor2 = competidores[1][1]
+        delegacion1 = competidores[1][0]
+        delegacion2 = competidores[1][1]
+
         ponderado_cualidades1 = (p.PONDERADOR_FLEXIBILIDAD_GIMNACIA * competidor1.flexibilidad
                                  + p.PONDERADOR_RESISTENCIA_GIMNACIA * competidor1.resistencia
                                  + p.PONDERADOR_MORAL_GIMNACIA * competidor1.moral)
@@ -127,10 +188,14 @@ class Gimnacia(Deporte):
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
             print(f"Ha ganado {competidor1.nombre}")
-            return competidor1
+            resultado_competencia["ganador"] = [delegacion1, competidor1]
+            resultado_competencia["perdedor"] = [delegacion2, competidor2]
+            return resultado_competencia
         elif puntaje1 < puntaje2:
             print(f"Ha ganado {competidor2.nombre}")
-            return competidor2
+            resultado_competencia["ganador"] = [delegacion2, competidor2]
+            resultado_competencia["perdedor"] = [delegacion1, competidor1]
+            return resultado_competencia
         else:
             print("Se ha producido un empate!")
             retrun("empate")
@@ -144,7 +209,13 @@ class Natacion(Deporte):
         super().__init__(False, 0.3)
         self.nombre = "natacion"
 
-    def calcular_ganador(self, competidor1, competidor2):
+    def calcular_ganador(self, competidores):
+        resultado_competencia = {"ganador": None, "pededor": None}
+        competidor1 = competidores[0][1]
+        competidor2 = competidores[1][1]
+        delegacion1 = competidores[1][0]
+        delegacion2 = competidores[1][1]
+
         ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_NATACION * competidor1.velocidad
                                  + p.PONDERADOR_RESISTENCIA_NATACION * competidor1.resistencia
                                  + p.PONDERADOR_FLEXIBILIDAD_NATACION * competidor1.flexibilidad)
@@ -155,7 +226,9 @@ class Natacion(Deporte):
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
             print(f"Ha ganado {competidor1.nombre}")
-            return competidor1
+            resultado_competencia["ganador"] = [delegacion1, competidor1]
+            resultado_competencia["perdedor"] = [delegacion2, competidor2]
+            return resultado_competencia
         elif puntaje1 < puntaje2:
             print(f"Ha ganado {competidor2.nombre}")
             return competidor2
