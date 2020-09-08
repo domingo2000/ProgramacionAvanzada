@@ -2,6 +2,8 @@ import parametros as p
 import random
 import imagenes_string
 import sys
+import lectura_datos
+
 
 class Campeonato:
     """
@@ -22,6 +24,7 @@ class Campeonato:
         deportistas_competencia_rival = dict()
         equipo_propio = self.delegacion1.equipo
         equipo_rival = self.delegacion2.equipo
+        resultados_dia = []
         for deporte in self.deportes:
             # selecciona un deportista del equipo
             while True:
@@ -59,6 +62,7 @@ class Campeonato:
             resultados_validez = deporte.validez_de_competencia(competidores)
             if resultados_validez == "empate":
                 resultados_competencia = resultados_validez
+                resultados_dia.append(resultados_competencia)
                 continue
             # Opcion de que la competencia es invalida
             elif resultados_validez != True:
@@ -71,13 +75,16 @@ class Campeonato:
                 for deportista in deportistas:
                     deportista.lesionarse(deporte.riesgo)
             if resultados_competencia == "empate":
+                resultados_dia.append(resultados_competencia)
                 continue
             else:
                 resultados_competencia = [deporte.nombre,
                                           resultados_competencia["ganador"],
                                           resultados_competencia["perdedor"]]
             self.premiar_deportistas_y_delegaciones(resultados_competencia)
+            resultados_dia.append(resultados_competencia)
             print("\n")
+        lectura_datos.escribir_resultados_dia("resultados.txt", resultados_dia, self.dia_actual)
 
     def premiar_deportistas_y_delegaciones(self, resultados_competencia):
         # resultados competencia debe ser un lista:
@@ -126,7 +133,7 @@ class Campeonato:
 
     def mostrar_estado(self):
         pass
-    
+
     def calcular_ganador(self):
         empate = False
         if self.delegacion1.medallas > self.delegacion2.medallas:

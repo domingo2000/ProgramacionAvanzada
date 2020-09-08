@@ -68,6 +68,27 @@ def leer_bool(string):
     else:
         print("Error leyendo booleando")
 
+def escribir_resultados_dia(archivo, resultados_dia, numero_dia):
+    # resultados competencia debe ser un lista:
+    # [nombre_deporte, [delegacion_ganadora, deportista_ganador],
+    #                  [delegacion_perdedora, deportista perdedor]]
+    archivo = open(archivo, "a")
+    archivo.write(f"Día: {numero_dia}")
+    # resto de  la info de la comepetencia
+    for resultado_competencia in resultados_dia:
+        if resultado_competencia == "empate":
+            archivo.write(f"EMPATE\n")
+        else:
+            competencia = resultado_competencia[0]
+            delegacion_ganadora = resultado_competencia[1][0]
+            deportista_ganador = resultado_competencia[1][1]
+            archivo.write(f"Competencia: {competencia}\n")
+            archivo.write(f"Delegación Ganadora: {delegacion_ganadora.nombre}\n")
+            archivo.write(f"Deportista Ganador: {deportista_ganador.nombre}\n")
+            archivo.write("\n")
+    archivo.write("*****************************************")
+    archivo.close()
+
 
 if __name__ == "__main__":
     from clases_simulacion import DCCrotona, IEEEsparta, Deportista
