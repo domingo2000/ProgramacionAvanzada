@@ -235,11 +235,11 @@ class DCCrotona(Delegacion):
         super().__init__(entrenador, equipo, medallas, moral, dinero)
         self.nombre = "DCCrotona"
         self.excelencia_y_respeto = uniform(p.EXCELENCIA_MAXIMA_DCC,
-                                              p.EXCELENCIA_MINIMA_DCC)
+                                            p.EXCELENCIA_MINIMA_DCC)
         self.implementos_deportivos = uniform(p.IMPLEMENTOS_DEPORTIVOS_MINIMOS_DCC,
-                                                p.IMPLEMENTOS_DEPORTIVOS_MAXIMOS_DCC)
+                                              p.IMPLEMENTOS_DEPORTIVOS_MAXIMOS_DCC)
         self.implementos_medicos = uniform(p.IMPLEMENTOS_MEDICOS_MINIMOS_DCC,
-                                             p.IMPLEMENTOS_MEDICOS_MAXIMOS_DCC)
+                                           p.IMPLEMENTOS_MEDICOS_MAXIMOS_DCC)
 
     @Delegacion.medallas.setter
     def medallas(self, medallas):
