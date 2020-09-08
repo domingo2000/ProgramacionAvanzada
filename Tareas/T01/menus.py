@@ -156,6 +156,7 @@ class MenuPrincipal(Menu):
 
     def simular_competencias(self):
         self.campeonato.dia_actual += 1
+        
         self.campeonato.realizar_competencias_del_dia()
         self.campeonato.dia_actual += 1
 
