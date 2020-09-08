@@ -8,6 +8,7 @@ class Deporte(ABC):
     """
     def __init__(self, implemento, riesgo):
         self.implemento = implemento
+        self.nombre = None
         self.__riesgo = riesgo
 
     @property
@@ -53,6 +54,7 @@ class Atletismo(Deporte):
     """
     def __init__(self):
         super().__init__(False, p.RIESGO_ATLETISMO)
+        self.nombre = "atletismo"
 
     def calcular_ganador(self, competidor1, competidor2):
         ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_ATLETISMO * competidor1.velocidad
@@ -80,6 +82,7 @@ class Ciclismo(Deporte):
     """
     def __init__(self):
         super().__init__(True, p.RIESGO_CICLISMO)
+        self.nombre = "ciclismo"
 
     def calcular_ganador(self, competidor1, competidor2):
         ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_CICLISMO * competidor1.velocidad
@@ -107,6 +110,7 @@ class Gimnacia(Deporte):
     """
     def __init__(self):
         super().__init__(True, p.RIESGO_GIMNACIA)
+        self.nombre = "gimnacia"
 
     def calcular_ganador(self, competidor1, competidor2):
         ponderado_cualidades1 = (p.PONDERADOR_FLEXIBILIDAD_GIMNACIA * competidor1.flexibilidad
@@ -129,6 +133,7 @@ class Gimnacia(Deporte):
 
 
 class Natacion(Deporte):
+    self.nombre = "natacion"
     """
     DOCUMENTACION
     """
