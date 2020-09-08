@@ -48,6 +48,8 @@ class MenuInicio(Menu):
         super().__init__("Inicio", [self.iniciar_nueva_partida])
 
     def iniciar_nueva_partida(self):
+        # borra los datos preexistentes del archivo resultados
+        csv.limpiar_archivo_resultados("resultados.txt")
         # loop nombre usuario
         while True:
             nombre_propio = input("Ingrese su nombre: ")
@@ -156,11 +158,11 @@ class MenuPrincipal(Menu):
 
     def simular_competencias(self):
         self.campeonato.dia_actual += 1
-        
+
         self.campeonato.realizar_competencias_del_dia()
         self.campeonato.dia_actual += 1
 
-        if self.campeonato.dia_actual == p.DIAS_COMPETENCIA:
+        if self.campeonato.dia_actual > p.DIAS_COMPETENCIA:
             # Flujo fin competencia
             self.campeonato.calcular_ganador()
             return["Inicio"]
@@ -281,7 +283,8 @@ if __name__ == "__main__":
     cilcismo = Ciclismo()
     gimnacia = Gimnacia()
     natacion = Natacion()
-    campeonato = Campeonato(delegacion1, delegacion2, lista_deportistas, [atletismo, cilcismo, gimnacia, natacion])
+    campeonato = Campeonato(delegacion1, delegacion2, lista_deportistas,
+                            [atletismo, cilcismo, gimnacia, natacion])
 
     menu_principal = MenuPrincipal(campeonato)
     menu_entrenador = MenuEntrenador(campeonato)
