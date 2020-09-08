@@ -155,7 +155,7 @@ class MenuPrincipal(Menu):
         return ["Entrenador"]
 
     def simular_competencias(self):
-        pass
+        self.campeonato.realizar_competencias_del_dia()
 
     def mostrar_estado(self):
         pass
