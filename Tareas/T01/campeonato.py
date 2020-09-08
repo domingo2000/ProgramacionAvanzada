@@ -39,8 +39,8 @@ class Campeonato:
                         break
             # Selecciona un deportista rival aleatorio
             deportista_seleccionado_rival = random.choice(equipo_rival)
-            print(f"{self.delegacion2.entrenador} ha elegido a {deportista_seleccionado_rival} "
-                  "para competir")
+            print(f"{self.delegacion2.entrenador} ha elegido a "
+                  f"{deportista_seleccionado_rival.nombre} para competir\n")
 
             deportistas_competencia_rival[f"{deporte.nombre}"] = deportista_seleccionado_rival
 
@@ -71,8 +71,6 @@ class Campeonato:
                 resultados_competencia = [deporte.nombre,
                                           resultados_competencia["ganador"],
                                           resultados_competencia["perdedor"]]
-            print("DEBUG")
-            # POR HACER: premiar resultados competencia
             self.premiar_deportistas_y_delegaciones(resultados_competencia)
             print("\n")
 
