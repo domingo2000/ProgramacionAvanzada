@@ -213,8 +213,14 @@ class MenuEntrenador(Menu):
 
     def comprar_tecnologia(self):
         print(f"Dinero Actual: {self.campeonato.delegacion1.dinero}")
-        print(f"Esta accion le costara {p.COSTO_COMPRAR_TECNOLOGIA}")
-        self.campeonato.delegacion1.comprar_tecnologia()
+        print(f"Esta accion le costara {p.COSTO_COMPRAR_TECNOLOGIA} DCCoins")
+        print(f"¿Esta seguro de que quiere comprar tecnología?")
+        print("[0] Si\n Ingrese cualquier cosa para cancelar")
+        entrada = input("Seleccione una opcion: ")
+        if entrada == "0":
+            self.campeonato.delegacion1.comprar_tecnologia()
+        else:
+            print("Compra cancelada\n")
 
     def usar_habilidad_especial(self):
         pass
