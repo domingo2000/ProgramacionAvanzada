@@ -111,12 +111,10 @@ class Atletismo(Deporte):
                                  + p.PONDERADOR_MORAL_ATLETISMO * competidor2.moral)
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
-            print(f"Ha ganado {competidor1.nombre}")
             resultado_competencia["ganador"] = [delegacion1, competidor1]
             resultado_competencia["perdedor"] = [delegacion2, competidor2]
             return resultado_competencia
         elif puntaje1 < puntaje2:
-            print(f"Ha ganado {competidor2.nombre}")
             resultado_competencia["ganador"] = [delegacion2, competidor2]
             resultado_competencia["perdedor"] = [delegacion1, competidor1]
             return resultado_competencia
@@ -149,12 +147,10 @@ class Ciclismo(Deporte):
                                  + p.PONDERADOR_FLEXIBILIDAD_CICLISMO * competidor2.flexibilidad)
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
-            print(f"Ha ganado {competidor1.nombre}")
             resultado_competencia["ganador"] = [delegacion1, competidor1]
             resultado_competencia["perdedor"] = [delegacion2, competidor2]
             return resultado_competencia
         elif puntaje1 < puntaje2:
-            print(f"Ha ganado {competidor2.nombre}")
             resultado_competencia["ganador"] = [delegacion2, competidor2]
             resultado_competencia["perdedor"] = [delegacion1, competidor1]
             return resultado_competencia
@@ -187,12 +183,10 @@ class Gimnacia(Deporte):
                                  + p.PONDERADOR_MORAL_GIMNACIA * competidor2.moral)
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
-            print(f"Ha ganado {competidor1.nombre}")
             resultado_competencia["ganador"] = [delegacion1, competidor1]
             resultado_competencia["perdedor"] = [delegacion2, competidor2]
             return resultado_competencia
         elif puntaje1 < puntaje2:
-            print(f"Ha ganado {competidor2.nombre}")
             resultado_competencia["ganador"] = [delegacion2, competidor2]
             resultado_competencia["perdedor"] = [delegacion1, competidor1]
             return resultado_competencia
@@ -225,12 +219,10 @@ class Natacion(Deporte):
                                  + p.PONDERADOR_FLEXIBILIDAD_NATACION * competidor2.flexibilidad)
         puntaje2 = max(p.PUNTAJE_MINIMO, ponderado_cualidades2)
         if puntaje1 > puntaje2:
-            print(f"Ha ganado {competidor1.nombre}")
             resultado_competencia["ganador"] = [delegacion1, competidor1]
             resultado_competencia["perdedor"] = [delegacion2, competidor2]
             return resultado_competencia
         elif puntaje1 < puntaje2:
-            print(f"Ha ganado {competidor2.nombre}")
             resultado_competencia["perdedor"] = [delegacion1, competidor1]
             resultado_competencia["ganador"] = [delegacion2, competidor2]
             return resultado_competencia
