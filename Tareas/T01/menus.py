@@ -4,7 +4,7 @@ import lectura_datos as csv
 from clases_simulacion import Deportista, DCCrotona, IEEEsparta
 from campeonato import Campeonato
 from deportes import Atletismo, Ciclismo, Gimnacia, Natacion
-
+import parametros as p
 
 class Menu:
 
@@ -204,11 +204,16 @@ class MenuEntrenador(Menu):
             else:
                 print("Entrada inválida! Ingrese una opción valida")
 
+    def sanar(self):
+        pass
+
     def entrenar(self):
         print(f"Dinero Actual: {self.campeonato.delegacion1.dinero}")
         self.campeonato.delegacion1.entrenar_deportista()
 
     def comprar_tecnologia(self):
+        print(f"Dinero Actual: {self.campeonato.delegacion1.dinero}")
+        print(f"Esta accion le costara {p.COSTO_COMPRAR_TECNOLOGIA}")
         self.campeonato.delegacion1.comprar_tecnologia()
 
     def usar_habilidad_especial(self):
