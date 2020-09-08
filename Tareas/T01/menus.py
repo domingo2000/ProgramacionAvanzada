@@ -209,7 +209,7 @@ class MenuEntrenador(Menu):
         self.campeonato.delegacion1.entrenar_deportista()
 
     def comprar_tecnologia(self):
-        pass
+        self.campeonato.delegacion1.comprar_tecnologia()
 
     def usar_habilidad_especial(self):
         pass
