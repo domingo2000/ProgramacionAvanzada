@@ -6,6 +6,7 @@ from campeonato import Campeonato
 from deportes import Atletismo, Ciclismo, Gimnacia, Natacion
 import parametros as p
 
+
 class Menu:
 
     def __init__(self, nombre, opciones=None):
@@ -166,7 +167,7 @@ class MenuPrincipal(Menu):
 class MenuEntrenador(Menu):
     def __init__(self, campeonato):
         super().__init__("Entrenador", [self.fichar, self.entrenar,
-                                        self.comprar_tecnologia,
+                                        self.sanar, self.comprar_tecnologia,
                                         self.usar_habilidad_especial,
                                         self.volver])
         self.campeonato = campeonato
@@ -204,12 +205,13 @@ class MenuEntrenador(Menu):
             else:
                 print("Entrada inválida! Ingrese una opción valida")
 
-    def sanar(self):
-        pass
-
     def entrenar(self):
         print(f"Dinero Actual: {self.campeonato.delegacion1.dinero}")
         self.campeonato.delegacion1.entrenar_deportista()
+
+    def sanar(self):
+        print(f"Dinero Actual: {self.campeonato.delegacion1.dinero}")
+        self.campeonato.delegacion1.sanar_lesiones()
 
     def comprar_tecnologia(self):
         print(f"Dinero Actual: {self.campeonato.delegacion1.dinero}")
