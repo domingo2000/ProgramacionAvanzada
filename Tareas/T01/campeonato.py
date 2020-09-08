@@ -1,5 +1,5 @@
 import parametros as p
-
+import random
 
 class Campeonato:
     """
@@ -15,9 +15,55 @@ class Campeonato:
         self.deportes = lista_deportes
 
     def realizar_competencias_del_dia(self):
+        # diccionarios {"nombre_competencia" : Deportista}
+        deportistas_competencia = dict()
+        deportistas_competencia_rival = dict()
+        equipo_propio = self.delegacion1.equipo
+        equipo_rival = self.delegacion2.equipo
         for deporte in self.deportes:
-            pass
+            # selecciona un deportista del equipo
+            while True:
+                print(f"Selecciona un competidor para que participe en {deporte.nombre}")
+                i = 0
+                for deportista in equipo_propio:
+                    print(f"[{i}] {deportista.nombre}")
+                    i += 1
+                entrada = input("selecciona una opción: ")
+                if entrada.isdigit():
+                    entrada = int(entrada)
+                    if 0 <= entrada < len(equipo_propio):
+                        deportista_seleccionado = equipo_propio[entrada]
+                        print(f"Has escogido a {deportista_seleccionado.nombre}")
+                        deportistas_competencia[f"{deporte.nombre}"] = deportista_seleccionado
+                        break
+            # Selecciona un deportista rival aleatorio
+            deportista_seleccionado_rival = random.choice(equipo_rival)
+            print(f"{self.delegacion2.entrenador} ha elegido a {deportista_seleccionado_rival}"
+                  "para competir")
 
+            deportistas_competencia_rival[f"{deporte.nombre}"] = deportista_seleccionado_rival
+
+        for deporte in self.deportes:
+            # competidores validar_competencia = [[delegacion1, competidor1],
+            #                                     [delegacion2, compeidor2]]
+            resultados_competencia = [deporte.nombre, [], []]
+            deportistas = [deportistas_competencia[deporte.nombre],
+                           deportistas_competencia_rival[deporte.nombre]]
+            competidores = [[self.delegacion1, deportistas[0]],
+                            [self.delegacion2, deportistas[1]]]
+
+            resultados_validez = deporte.validez_de_competencia(competidores)
+            if resultados_validez == "empate":
+                pass
+            elif resultados_validez != True:
+                resultados_competencia = [deporte.nombre,
+                                          resultados_validez["ganador"],
+                                          resultos_validez["perdedor"]]
+                self.premiar_deportistas_y_delegaciones(resultados_competencia)
+            elif resultados_validez:
+                # calcular ganador para cada competencia
+                resultados_competencia = deporte.calcular_ganador(competidores)
+                
     def premiar_deportistas_y_delegaciones(self, resultados_competencia):
         # resultados competencia debe ser un lista:
         # [nombre_deporte, [delegacion_ganadora, deportista_ganador],
