@@ -38,7 +38,7 @@ class Campeonato:
                         break
             # Selecciona un deportista rival aleatorio
             deportista_seleccionado_rival = random.choice(equipo_rival)
-            print(f"{self.delegacion2.entrenador} ha elegido a {deportista_seleccionado_rival}"
+            print(f"{self.delegacion2.entrenador} ha elegido a {deportista_seleccionado_rival} "
                   "para competir")
 
             deportistas_competencia_rival[f"{deporte.nombre}"] = deportista_seleccionado_rival
@@ -58,12 +58,13 @@ class Campeonato:
             elif resultados_validez != True:
                 resultados_competencia = [deporte.nombre,
                                           resultados_validez["ganador"],
-                                          resultos_validez["perdedor"]]
+                                          resultados_validez["perdedor"]]
                 self.premiar_deportistas_y_delegaciones(resultados_competencia)
             elif resultados_validez:
                 # calcular ganador para cada competencia
                 resultados_competencia = deporte.calcular_ganador(competidores)
-                
+                print("DEBUG")
+
     def premiar_deportistas_y_delegaciones(self, resultados_competencia):
         # resultados competencia debe ser un lista:
         # [nombre_deporte, [delegacion_ganadora, deportista_ganador],

@@ -29,11 +29,11 @@ class Deporte(ABC):
         Competidores es una lista [[delegacion1, competidor1], [delegacion2, compeidor2]]
         de los competidores que participan en la competencia y retorna
         los resultados que son un diccionario
-        return {"ganador": [delegacion, deportista], "pededor": [delegacion, deportista]}
+        return {"ganador": [delegacion, deportista], "perdedor": [delegacion, deportista]}
         o en caso de que no halla nadie lesionado y se cumplan los implementos retorna True
         """
-        # {"ganador": [delegacion, depoertista], "pededor": [delegacion, deportista]}
-        resultado_competencia = {"ganador": None, "pededor": None}
+        # {"ganador": [delegacion, depoertista], "perdedor": [delegacion, deportista]}
+        resultado_competencia = {"ganador": None, "perdedor": None}
 
         delegacion_propia = competidores[0][0]
         delegacion_rival = competidores[1][0]
@@ -43,12 +43,12 @@ class Deporte(ABC):
         if deportista_propio.lesionado and deportista_rival.lesionado:
             print("Ambos deportistas se encuentran lesionados!")
             print("¡Se ha producido un empate!")
-            return "Empate"
+            return "empate"
         elif delegacion_propia.implementos_deportivos < p.NIVEL_IMPLEMENTOS and\
                 delegacion_rival.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
             print("Ambas delegaciones no cumplen con los implementos!")
             print("¡Se ha producido un empate!")
-            return "Empate"
+            return "empate"
         elif deportista_propio.lesionado:
             print(f"{deportista_propio.nombre} se encuentra lesionado")
             resultado_competencia["ganador"] = [delegacion_rival, deportista_rival]
@@ -96,11 +96,11 @@ class Atletismo(Deporte):
         Competidores es una lista [[delegacion1, competidor1], [delegacion2, compeidor2]]
         de los competidores que participan en la competencia
         """
-        resultado_competencia = {"ganador": None, "pededor": None}
+        resultado_competencia = {"ganador": None, "perdedor": None}
         competidor1 = competidores[0][1]
         competidor2 = competidores[1][1]
-        delegacion1 = competidores[1][0]
-        delegacion2 = competidores[1][1]
+        delegacion1 = competidores[0][0]
+        delegacion2 = competidores[1][0]
 
         ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_ATLETISMO * competidor1.velocidad
                                  + p.PONDERADOR_RESISTENCIA_ATLETISMO * competidor1.resistencia
@@ -134,11 +134,11 @@ class Ciclismo(Deporte):
         self.nombre = "ciclismo"
 
     def calcular_ganador(self, competidores):
-        resultado_competencia = {"ganador": None, "pededor": None}
+        resultado_competencia = {"ganador": None, "perdedor": None}
         competidor1 = competidores[0][1]
         competidor2 = competidores[1][1]
-        delegacion1 = competidores[1][0]
-        delegacion2 = competidores[1][1]
+        delegacion1 = competidores[0][0]
+        delegacion2 = competidores[1][0]
 
         ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_CICLISMO * competidor1.velocidad
                                  + p.PONDERADOR_RESISTENCIA_CICLISMO * competidor1.resistencia
@@ -172,11 +172,11 @@ class Gimnacia(Deporte):
         self.nombre = "gimnacia"
 
     def calcular_ganador(self, competidores):
-        resultado_competencia = {"ganador": None, "pededor": None}
+        resultado_competencia = {"ganador": None, "perdedor": None}
         competidor1 = competidores[0][1]
         competidor2 = competidores[1][1]
-        delegacion1 = competidores[1][0]
-        delegacion2 = competidores[1][1]
+        delegacion1 = competidores[0][0]
+        delegacion2 = competidores[1][0]
 
         ponderado_cualidades1 = (p.PONDERADOR_FLEXIBILIDAD_GIMNACIA * competidor1.flexibilidad
                                  + p.PONDERADOR_RESISTENCIA_GIMNACIA * competidor1.resistencia
@@ -210,11 +210,11 @@ class Natacion(Deporte):
         self.nombre = "natacion"
 
     def calcular_ganador(self, competidores):
-        resultado_competencia = {"ganador": None, "pededor": None}
+        resultado_competencia = {"ganador": None, "perdedor": None}
         competidor1 = competidores[0][1]
         competidor2 = competidores[1][1]
-        delegacion1 = competidores[1][0]
-        delegacion2 = competidores[1][1]
+        delegacion1 = competidores[0][0]
+        delegacion2 = competidores[1][0]
 
         ponderado_cualidades1 = (p.PONDERADOR_VELOCIDAD_NATACION * competidor1.velocidad
                                  + p.PONDERADOR_RESISTENCIA_NATACION * competidor1.resistencia
