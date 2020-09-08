@@ -57,6 +57,7 @@ class Campeonato:
             # si es invalida setea resultador_validez, si no calcula puntajes
             resultados_validez = deporte.validez_de_competencia(competidores)
             if resultados_validez == "empate":
+                resultados_competencia = resultados_validez
                 pass
             elif resultados_validez != True:
                 resultados_competencia = resultados_validez
@@ -64,7 +65,9 @@ class Campeonato:
             elif resultados_validez:
                 # calcular ganador para cada competencia
                 resultados_competencia = deporte.calcular_ganador(competidores)
-
+                # hace que los deportistas se lesionen segun la probabilidad de lesion
+                for deportista in deportistas:
+                    deportista.lesionarse(deporte.riesgo)
             if resultados_competencia == "empate":
                 pass
             else:
