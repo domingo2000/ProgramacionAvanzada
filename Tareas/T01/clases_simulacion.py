@@ -114,7 +114,7 @@ class Delegacion(ABC):
             print("Tu delegacion no posee la moral suficiente para fichar un deportista")
 
     def entrenar_deportista(self, ponderador_entrenamiento=1):
-        # Chequea que haya sufiiente dinero
+        # Chequea que haya suficiente dinero
         if self.dinero >= p.COSTO_ENTRENAR_DEPORTISTA:
             self.dinero -= p.COSTO_ENTRENAR_DEPORTISTA
             # string que se muestra en la interfaz
