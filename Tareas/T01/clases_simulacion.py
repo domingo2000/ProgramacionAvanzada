@@ -333,7 +333,7 @@ class Deportista:
         print(f"Se ha entrenado la {atributo} de {self.nombre}")
 
     def lesionarse(self, riesgo):
-        print(f"{self.nombre} se ha lesionado")
+        print(f"{self.nombre} se ha lesionado durante la competencia")
         self.lesionado = True
 
     def __repr__(self):
