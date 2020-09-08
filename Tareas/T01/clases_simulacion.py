@@ -107,6 +107,7 @@ class Delegacion(ABC):
                         self.equipo.append(deportista)
                         lista_deportistas.remove(deportista)
                         print(f"Ha fichado a {nombre_deportista} por {costo} DCCoins")
+                        print(f"El deporista {nombre_deportista} se ha unido a tu equipo!")
                     else:
                         print("No tiene DCCoins suficientes para realizar el fichaje!")
         else:
