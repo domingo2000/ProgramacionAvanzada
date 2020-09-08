@@ -42,12 +42,12 @@ class Deporte(ABC):
 
         if deportista_propio.lesionado and deportista_rival.lesionado:
             print("Ambos deportistas se encuentran lesionados!")
-            print("¡Se ha producido un empate!")
+            print("¡Se ha producido un empate!\n\n")
             return "empate"
         elif delegacion_propia.implementos_deportivos < p.NIVEL_IMPLEMENTOS and\
                 delegacion_rival.implementos_deportivos < p.NIVEL_IMPLEMENTOS:
             print("Ambas delegaciones no cumplen con los implementos!")
-            print("¡Se ha producido un empate!")
+            print("¡Se ha producido un empate!\n\n")
             return "empate"
         elif deportista_propio.lesionado:
             print(f"{deportista_propio.nombre} se encuentra lesionado")

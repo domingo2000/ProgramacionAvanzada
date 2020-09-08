@@ -131,11 +131,15 @@ class Campeonato:
         empate = False
         if self.delegacion1.medallas > self.delegacion2.medallas:
             ganador_cumbre = self.delegacion1
+            perdedor_cumbre = self.delegacion2
         elif self.delegacion2.medallas > self.delegacion1.medallas:
             ganador_cumbre = self.delegacion2
+            perdedor_cumbre = self.delegacion1
         elif self.delegacion1.medallas == self.delegacion2.medallas:
             empate = True
             print("Se ha producido un empate!")
+            print(f"{self.delegacion1.nombre} Consiguió {self.delegacion1.medallas} medallas!!")
+            print(f"{self.delegacion2.nombre} Consiguió {self.delegacion2.medallas} medallas!!")
             print("AMBAS DELEGACIONES HAN CONSEGUIDO EL HONOR Y LA GLORA!")
             imagenes_string.imprimir_copa(delegacion1.nombre)
             imagenes_string.imprimir_copa(delegacion2.nombre)
@@ -144,6 +148,10 @@ class Campeonato:
 
         if not empate:
             print(f"{ganador_cumbre.nombre} ha ganado la DCCumbre!")
+            print(f"{ganador_cumbre.nombre} Consiguió {ganador_cumbre.medallas} medallas!!")
+            print(f"{perdedor_cumbre.nombre} Consiguió {perdedor_cumbre.medallas} medallas!!")
+            print(f"\n El entrenador {ganador_cumbre.entrenador} Se siente muy orgulloso "
+                  f"por haber ganado la DCCumbre")
             imagenes_string.imprimir_copa(ganador_cumbre.nombre)
 
         while True:
@@ -158,4 +166,3 @@ class Campeonato:
                 break
             else:
                 print("Entrada Inválida! ingrese otra opcion")
-                
