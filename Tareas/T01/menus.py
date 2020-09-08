@@ -11,7 +11,7 @@ class Menu:
     def __init__(self, nombre, opciones=None):
         self.nombre = nombre
         self.opciones = opciones
-        self.ui = f"-----Menu {self.nombre}----\n"
+        self.ui = f"\n-----Menu {self.nombre}----\n"
 
         # agrega la opcion de salir al final
         self.opciones.append(self.salir)
@@ -64,7 +64,7 @@ class MenuInicio(Menu):
         # loop escoger delegacion
         while True:
             delegaciones_disponibles = {0: "IEEEsparta", 1: "DCCrotona"}
-            print("Escoja entre una de las dos delegaciones")
+            print("\nEscoja entre una de las dos delegaciones")
             print(f"[0] IEEEsparta\n[1] DCCrotona")
             delegacion_escogida = input("Escoja una opcion: ")
             if ((delegacion_escogida != "0") and (delegacion_escogida != "1")):
@@ -174,10 +174,17 @@ class MenuEntrenador(Menu):
     def fichar(self):
         lista_deportistas = self.campeonato.deportistas_no_fichados
         while True:
+            print(f"\nDinero Actual: {self.campeonato.delegacion1.dinero}")
             print(f"Seleccione un deportista para fichar")
             i = 0
             for deportista in lista_deportistas:
-                print(f"[{i}] {deportista}")
+                print(f"[{i}] {deportista.nombre}")
+                print(f"    precio : {deportista.precio} DCCoins")
+                print(f"    velocidad : {deportista.velocidad}")
+                print(f"    resistencia : {deportista.resistencia}")
+                print(f"    flexibilidad : {deportista.flexibilidad}")
+                print(f"    moral : {deportista.moral}")
+                print(f"    lesionado : {deportista.lesionado}")
                 i += 1
             print(f"[{i}] Volver")
             entrada = input("Seleccione un deportista para fichar: ")
@@ -193,6 +200,7 @@ class MenuEntrenador(Menu):
                     nombre_deportista = deportista_seleccionado.nombre
                     self.campeonato.delegacion1.fichar_deportista(nombre_deportista,
                                                                   lista_deportistas)
+                    break
             else:
                 print("Entrada inválida! Ingrese una opción valida")
 
