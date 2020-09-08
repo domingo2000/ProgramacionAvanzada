@@ -1,19 +1,13 @@
-# Tarea X: Nombre de la tarea :school_satchel:
-
-
-Un buen ```README.md``` puede marcar una gran diferencia en la facilidad con la que corregimos una tarea, y consecuentemente cómo funciona su programa, por lo en general, entre más ordenado y limpio sea éste, mejor será 
-
-Para nuestra suerte, GitHub soporta el formato [MarkDown](https://es.wikipedia.org/wiki/Markdown), el cual permite utilizar una amplia variedad de estilos de texto, tanto para resaltar cosas importantes como para separar ideas o poner código de manera ordenada ([pueden ver casi todas las funcionalidades que incluye aquí](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet))
-
-Un buen ```README.md``` no tiene por que ser muy extenso tampoco, hay que ser **concisos** (a menos que lo consideren necesario) pero **tampoco pueden** faltar cosas. Lo importante es que sea claro y limpio 
-
-**Dejar claro lo que NO pudieron implementar y lo que no funciona a la perfección. Esto puede sonar innecesario pero permite que el ayudante se enfoque en lo que sí podría subir su puntaje.**
+# Tarea 01: DCCumbre Olímpica
 
 ## Consideraciones generales :octocat:
 
-<Descripción de lo que hace y que **_no_** hace la tarea que entregaron junto
-con detalles de último minuto y consideraciones como por ejemplo cambiar algo
-en cierta línea del código o comentar una función>
+Entrega_Tarea_temprana:
+EL funcionamiento general es a traves de los menus de interacción con el usuario, los cuales tendrán acceso al campeonato, que contendrá todos los datos necesarios para maneajar la simulación.
+
+La tarea usa un diccionario de menus para moverse de menu en menu y poder volver atras en varios de los menus.
+Para ejecutar la tarea se debe correr el archivo main.py
+(Se asuma que todos los archivos estan en la misma carpeta)
 
 ### Cosas implementadas y no implementadas :white_check_mark: :x:
 
@@ -27,7 +21,7 @@ en cierta línea del código o comentar una función>
 * <Nombre item pauta<sub>n</sub>>: Me faltó hacer <insertar qué cosa faltó>
 
 ## Ejecución :computer:
-El módulo principal de la tarea a ejecutar es  ```archivo.py```. Además se debe crear los siguientes archivos y directorios adicionales:
+El módulo principal de la tarea a ejecutar es  ```main.py```. Además se debe crear los siguientes archivos y directorios adicionales:
 1. ```archivo.ext``` en ```ubicación```
 2. ```directorio``` en ```ubicación```
 3. ...
@@ -44,9 +38,11 @@ La lista de librerías externas que utilicé fue la siguiente:
 ### Librerías propias
 Por otro lado, los módulos que fueron creados fueron los siguientes:
 
-1. ```librería_1```: Contiene a ```ClaseA```, ```ClaseB```, (ser general, tampoco es necesario especificar cada una)...
-2. ```librería_2```: Hecha para <insertar descripción **breve** de lo que hace o qué contiene>
-3. ...
+1. ```clases_simulacion```: Contiene a ```Delegacion```, ```IEEEsport(Delegacion)```, ```DCCrotona(Delegacion)```, ```Deportista```
+2. ```campeonato```: Contiene a ```Campeonato```
+3. ```lectura_datos```: Contiene funciones para leer los archivos csv, y la funcion ``leer_bool(string)`` que sirve para transformar un string que dice "True" o "False" en ``True`` y ``False`` respectivamente
+4. ```menus```: Contiene a ```Menu(ABC)``` que es una clase abstracta para implementar otros menus, ``MenuInicio``, ``MenuPrincipal``, ``MenuEntrenador`` que heredan de ``Menu`` y la clase ``MenuDict(dict)`` la cual es un diccionario de menus que sirve para moverse entre los menus que estan dentro del diccionario
+5. ```parametros```: contiene todos los parametros usados para la ejecucion de la tarea
 
 ## Supuestos y consideraciones adicionales :thinking:
 Los supuestos que realicé durante la tarea son los siguientes:
