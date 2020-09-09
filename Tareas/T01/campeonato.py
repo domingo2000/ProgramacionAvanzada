@@ -199,13 +199,13 @@ class Campeonato:
         print(f"Deporte       | {delegacion1.nombre} | {delegacion2.nombre}")
         medallero1 = delegacion1.medallero_delegacion
         medallero2 = delegacion2.medallero_delegacion
-        str_atletismo = "Atletismo"
-        str_ciclismo = "Ciclismo"
-        str_gimnacia = "Gimnacia"
-        str_natacion = "Natacion"
+        str_atletismo = "atletismo"
+        str_ciclismo = "ciclismo"
+        str_gimnacia = "gimnacia"
+        str_natacion = "natacion"
         strings_deportes = [str_atletismo, str_ciclismo, str_gimnacia, str_natacion]
         for string_deporte in strings_deportes:
-            print(f"{string_deporte: <14} {medallero1[string_deporte]: ^12}"
+            print(f"{string_deporte.capitalize(): <14} {medallero1[string_deporte]: ^12}"
                   f"{medallero2[string_deporte]: ^12}")
 
     def calcular_ganador(self):
@@ -277,7 +277,7 @@ if __name__ == "__main__":
     lista_deportes = [atletismo, ciclismo, gimnacia, natacion]
     equipo1 = []
     equipo2 = []
-    for i in range (6):
+    for i in range(6):
         deportista = random.choice(lista_deportistas)
         lista_deportistas.remove(deportista)
         equipo1.append(deportista)
