@@ -171,7 +171,7 @@ class MenuPrincipal(Menu):
             pass
 
     def mostrar_estado(self):
-        pass
+        campeonato = self.campeonato.mostrar_estado()
 
     def volver(self):
         return ["Inicio"]
