@@ -15,6 +15,7 @@ class Delegacion(ABC):
         self.nombre = None
         self.entrenador = entrenador
         self.equipo = equipo
+        self.medallero_delegacion = {"Atletismo": 0, "Ciclismo": 0, "Gimnacia": 0, "Natacion": 0}
         self._medallas = medallas
         self.__moral = moral
         self.__dinero = dinero
