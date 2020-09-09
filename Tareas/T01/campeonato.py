@@ -3,6 +3,7 @@ import random
 import imagenes_string
 import sys
 import lectura_datos
+from beautifultable import BeautifulTable
 
 
 class Campeonato:
@@ -132,7 +133,10 @@ class Campeonato:
         print(f"La moral de la delegacion {self.delegacion2.nombre} es: {self.delegacion2.moral}")
 
     def mostrar_estado(self):
-        pass
+        string = "ESTADO DE LAS DELEGACIONES Y DEPORTISTAS"
+        print(f"{string: ^72}")
+        # Info delegacion 1 
+        tabla.append_row
 
     def calcular_ganador(self):
         empate = False
@@ -173,3 +177,46 @@ class Campeonato:
                 break
             else:
                 print("Entrada Inválida! ingrese otra opcion")
+
+
+if __name__ == "__main__":
+    from clases_simulacion import Deportista, IEEEsparta, DCCrotona
+    from deportes import Atletismo, Ciclismo, Gimnacia, Natacion
+    import lectura_datos as csv
+
+    datos_deportistas = csv.leer_datos_deportistas("deportistas.csv")
+
+    lista_deportistas = []
+    for dato in datos_deportistas:
+        nombre = dato["nombre"]
+        velocidad = int(dato["velocidad"])
+        resistencia = int(dato["resistencia"])
+        flexibilidad = int(dato["flexibilidad"])
+        moral = int(dato["moral"])
+        lesionado = csv.leer_bool(dato["lesionado"])
+        precio = int(dato["precio"])
+        deportista = Deportista(nombre, velocidad,
+                                resistencia, flexibilidad, moral, lesionado, precio)
+        lista_deportistas.append(deportista)
+
+    atletismo = Atletismo()
+    ciclismo = Ciclismo()
+    gimnacia = Gimnacia()
+    natacion = Natacion()
+
+    lista_deportes = [atletismo, ciclismo, gimnacia, natacion]
+    equipo1 = []
+    equipo2 = []
+    for i in range (6):
+        deportista = random.choice(lista_deportistas)
+        lista_deportistas.remove(deportista)
+        equipo1.append(deportista)
+        deportista = random.choice(lista_deportistas)
+        lista_deportistas.remove(deportista)
+        equipo2.append(deportista)
+
+    delegacion1 = IEEEsparta("Luchito", equipo1, 0, 35, 500)
+    delegacion2 = DCCrotona("Pancho", equipo2, 0, 54.7, 350)
+    campeonato = Campeonato(delegacion1, delegacion2,
+                            lista_deportistas, lista_deportes)
+    print("Testeo")
