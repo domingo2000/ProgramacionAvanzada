@@ -101,6 +101,7 @@ class Campeonato:
               f"de {nombre_deporte}! con el competidor {deportista_ganador.nombre}")
 
         delegacion_ganadora.medallas += 1
+        delegacion_ganadora.medallero_delegacion[nombre_deporte] += 1
         delegacion_ganadora.dinero += p.DINERO_GANADO_POR_COMPETENCIA
         print(f"La delegacion {delegacion_ganadora.nombre} ha recibido una medalla de Oro!")
         imagenes_string.imprimir_medalla(delegacion_ganadora.nombre)
@@ -195,7 +196,17 @@ class Campeonato:
         else:
             print(f"Día {self.dia_actual}: Competencias")
         print("Medallero")
-        deportes = {0 : "Atletismo", 1 : "Ciclismo", 2 : "Gimnacia", 3 : "Natacion"}
+        print(f"Deporte       | {delegacion1.nombre} | {delegacion2.nombre}")
+        medallero1 = delegacion1.medallero_delegacion
+        medallero2 = delegacion2.medallero_delegacion
+        str_atletismo = "Atletismo"
+        str_ciclismo = "Ciclismo"
+        str_gimnacia = "Gimnacia"
+        str_natacion = "Natacion"
+        strings_deportes = [str_atletismo, str_ciclismo, str_gimnacia, str_natacion]
+        for string_deporte in strings_deportes:
+            print(f"{string_deporte: <14} {medallero1[string_deporte]: ^12}"
+                  f"{medallero2[string_deporte]: ^12}")
 
     def calcular_ganador(self):
         empate = False
@@ -274,8 +285,8 @@ if __name__ == "__main__":
         lista_deportistas.remove(deportista)
         equipo2.append(deportista)
 
-    delegacion1 = IEEEsparta("Luchito", equipo1, 0, 35, 500)
-    delegacion2 = DCCrotona("Pancho", equipo2, 0, 54.7, 350)
+    delegacion1 = DCCrotona("Luchito", equipo1, 0, 35, 500)
+    delegacion2 = IEEEsparta("Pancho", equipo2, 0, 54.7, 350)
     campeonato = Campeonato(delegacion1, delegacion2,
                             lista_deportistas, lista_deportes)
 
