@@ -133,10 +133,69 @@ class Campeonato:
         print(f"La moral de la delegacion {self.delegacion2.nombre} es: {self.delegacion2.moral}")
 
     def mostrar_estado(self):
-        string = "ESTADO DE LAS DELEGACIONES Y DEPORTISTAS"
-        print(f"{string: ^72}")
-        # Info delegacion 1 
-        tabla.append_row
+        titulo = "ESTADO DE LAS DELEGACIONES Y DEPORTISTAS"
+        linea_guiones = "-" * 72
+        print(f"{titulo: ^72}")
+        print(linea_guiones)
+        # Info delegacion 1
+        delegacion1 = self.delegacion1
+        print(f"{delegacion1.nombre}")
+        print(f"Entrenador: {delegacion1.entrenador}")
+        print(f"Moral del Equipo: {delegacion1.moral}")
+        print(f"Medallas: {delegacion1.medallas}")
+        print(f"Dinero: {delegacion1.dinero}\n")
+
+        print(f"Excelencia y respeto: {delegacion1.excelencia_y_respeto: .1}")
+        print(f"Implementos deportivos: {delegacion1.implementos_deportivos: .1}")
+        print(f"Implementos médicos: {delegacion1.implementos_medicos: .1}\n")
+
+        print("Equipo deportivo")
+        print(f"Nombre deportista     | Velocidad | Resistencia | Flexibilidad | Lesión")
+        for deportista in delegacion1.equipo:
+            nombre_apellidos = deportista.nombre.split(" ")
+            nombre = nombre_apellidos[0]
+            apellido = nombre_apellidos[1]
+            nombre_apellido = nombre + " " + apellido
+            lesionado = str(deportista.lesionado)
+            print(f"{nombre_apellido: <22.22} "
+                  f"{deportista.velocidad: ^11}" 
+                  f"{deportista.resistencia: ^15}"
+                  f"{deportista.flexibilidad: ^14}"
+                  f"{lesionado: >8}")
+        print("*" * 72)
+        # Info delegacion 2
+        delegacion2 = self.delegacion2
+        print(f"{delegacion2.nombre}")
+        print(f"Entrenador: {delegacion2.entrenador}")
+        print(f"Moral del Equipo: {delegacion2.moral}")
+        print(f"Medallas: {delegacion2.medallas}")
+        print(f"Dinero: {delegacion2.dinero}\n")
+
+        print(f"Excelencia y respeto: {delegacion2.excelencia_y_respeto: .1}")
+        print(f"Implementos deportivos: {delegacion2.implementos_deportivos: .1}")
+        print(f"Implementos médicos: {delegacion2.implementos_medicos: .1}\n")
+
+        print("Equipo deportivo")
+        print(f"Nombre deportista     | Velocidad | Resistencia | Flexibilidad | Lesión")
+        for deportista in delegacion2.equipo:
+            nombre_apellidos = deportista.nombre.split(" ")
+            nombre = nombre_apellidos[0]
+            apellido = nombre_apellidos[1]
+            nombre_apellido = nombre + " " + apellido
+            lesionado = str(deportista.lesionado)
+            print(f"{nombre_apellido: <22.22} "
+                  f"{deportista.velocidad: ^11}" 
+                  f"{deportista.resistencia: ^15}"
+                  f"{deportista.flexibilidad: ^14}"
+                  f"{lesionado: >8}")
+        print("-" * 72)
+        # Chequea si el dia es de entrenamiento o de simulacion
+        if self.dia_actual % 2 == 1:
+            print(f"Día {self.dia_actual}: Entrenamiento")
+        else:
+            print(f"Día {self.dia_actual}: Competencias")
+        print("Medallero")
+        deportes = {0 : "Atletismo", 1 : "Ciclismo", 2 : "Gimnacia", 3 : "Natacion"}
 
     def calcular_ganador(self):
         empate = False
@@ -219,4 +278,6 @@ if __name__ == "__main__":
     delegacion2 = DCCrotona("Pancho", equipo2, 0, 54.7, 350)
     campeonato = Campeonato(delegacion1, delegacion2,
                             lista_deportistas, lista_deportes)
+
+    campeonato.mostrar_estado()
     print("Testeo")
