@@ -78,7 +78,6 @@ def corregir_nota(estudiante):  # Captura la excepción anterior
             estudiante.promedio = float(estudiante.promedio)
         elif isinstance(estudiante.promedio, int):
             estudiante.promedio = floar(estudiante.promedio.stip())
-
         print(f"Procediendo a hacer git hack sobre {estudiante.promedio}...\n")
 
 

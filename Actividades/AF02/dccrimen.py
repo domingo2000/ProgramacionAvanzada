@@ -2,14 +2,15 @@ from estudiante import cargar_datos
 from verificar import corregir_alumno, corregir_nota, inscripcion_valida
 
 
-class GymPro(Exception): 
-    #Completar
+class GymPro(Exception):
+    def __init__(self, estudiante):
+        self.profesor = estudiante.nombre
     pass
 
     def evitar_sospechas(self):
-        # Completar
+        print(f"¡Cuidado, viene {self.profesor}! Solo estaba haciendo mi último push...")
         pass
-    
+
 
 if __name__ == "__main__":
     datos = cargar_datos("alumnos.txt")
