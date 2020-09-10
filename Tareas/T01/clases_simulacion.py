@@ -17,6 +17,7 @@ class Delegacion(ABC):
         self.equipo = equipo
         self.medallero_delegacion = {"atletismo": 0, "ciclismo": 0, "gimnacia": 0, "natacion": 0}
         self._medallas = medallas
+        self._habilidad_especial_utilizada = False
         self.__moral = moral
         self.__dinero = dinero
         self.__excelencia_y_respeto = None
@@ -248,7 +249,18 @@ class IEEEsparta(Delegacion):
         super().entrenar_deportista(ponderador_entrenamiento=p.PONDERADOR_ENTRENAMIENTO_IEEE)
 
     def utilizar_habilidad_especial(self):
-        pass
+        if self._habilidad_especial_utilizada:
+            print("Usted ya uso su hablidad especial")
+        elif self.dinero < p.COSTO_HABILIDAD_ESPECIAL:
+            print("Usted no tiene DCCoins suficientes para utilizar la habilidad especial")
+        else:
+            print(f"Ha usado su habilidad especial por {p.COSTO_HABILIDAD_ESPECIAL} DCCoins")
+            self.dinero -= p.COSTO_HABILIDAD_ESPECIAL
+            print(f"Un grito de aliento IEEspartano ha fortalecido a todos tus deportistas")
+            self._habilidad_especial_utilizada = True
+            for deportista in self.equipo:
+                deportista.moral = p.MORAL_MAXIMA
+                print(f"El deportista {deportista.nombre} ha subido su moral al maximo")
 
 
 class DCCrotona(Delegacion):
@@ -266,7 +278,18 @@ class DCCrotona(Delegacion):
         super().sanar_lesiones(ponderador_costo=2)  # pondera el costo de sanar por 2
 
     def utilizar_habilidad_especial(self):
-        pass
+        if self._habilidad_especial_utilizada:
+            print("Usted ya uso su hablidad especial")
+        elif self.dinero < p.COSTO_HABILIDAD_ESPECIAL:
+            print("Usted no tiene DCCoins suficientes para utilizar la habilidad especial")
+        else:
+            print(f"Ha usado su habilidad especial por {p.COSTO_HABILIDAD_ESPECIAL} DCCoins")
+            self.dinero -= p.COSTO_HABILIDAD_ESPECIAL
+            print(f"La magia de los algoritmos ha echo que ganes una nueva y tecnologica medalla")
+            self.medallas += 1
+            print(f"Las medallas de tu delegacion han subido de {self.medallas - 1} a "
+                  f"{self.medallas}")
+            self._habilidad_especial_utilizada = True
 
 
 class Deportista:

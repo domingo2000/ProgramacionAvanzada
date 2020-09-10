@@ -265,7 +265,7 @@ class MenuEntrenador(Menu):
             print("Compra cancelada\n")
 
     def usar_habilidad_especial(self):
-        pass
+        self.campeonato.delegacion1.utilizar_habilidad_especial()
 
     def volver(self):
         return ["Principal"]
