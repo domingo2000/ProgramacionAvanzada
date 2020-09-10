@@ -222,10 +222,10 @@ class Delegacion(ABC):
             self.implementos_deportivos *= (1 + p.PORCENTAJE_AUMENTO_IMPLEMENTOS_POR_TECNOLOGIA)
             self.implementos_medicos *= (1 + p.PORCENTAJE_AUMENTO_IMPLEMENTOS_POR_TECNOLOGIA)
             print(f"Usted ha Mejorado su tecnologia!")
-            print(f"Sus Implementos deportivos an pasado de {tecnologia_anterior[0]}"
-                  f" a {self.implementos_deportivos}")
-            print(f"Sus Implementos medicos an pasado de {tecnologia_anterior[1]}"
-                  f" a {self.implementos_medicos}")
+            print(f"Sus Implementos deportivos an pasado de {tecnologia_anterior[0] : .2}"
+                  f" a {self.implementos_deportivos: .2}")
+            print(f"Sus Implementos medicos an pasado de {tecnologia_anterior[1] : .2}"
+                  f" a {self.implementos_medicos: .2}")
         else:
             print(f"Su dinero ({self.dinero}) no alcanza para compra tecnología")
 
