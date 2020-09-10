@@ -27,4 +27,3 @@ if __name__ == "__main__":
         except GymPro as error:  # Recuerda especificar el tipo de excepción que vas a capturar
             print(f"Error: {error}")
             error.evitar_sospechas()
-            pass
