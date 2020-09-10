@@ -9,24 +9,28 @@ import parametros as p
 
 class Menu:
 
-    def __init__(self, nombre, opciones=None):
+    def __init__(self, nombre, opciones=None, atributos_mostrados = []):
         self.nombre = nombre
         self.opciones = opciones
-        self.ui = f"\n-----Menu {self.nombre}----\n"
-
+        self.ui = [f"\n-----Menu {self.nombre}----"]
+        self.atributos_mostrados = atributos_mostrados
         # agrega la opcion de salir al final
         self.opciones.append(self.salir)
+        # Agrega los atributos mostrados a la interfaz del menu
+        for atributo in self.atributos_mostrados:
+            self.ui.append(f"{atributo[0]}: {atributo[1]}")
         # Agrega las opciones a la interfaz del menu
         i = 0
         for opcion in opciones:
             nombre_opcion = ""
             for palabra in opcion.__name__.split("_"):
                 nombre_opcion += (palabra + " ")
-            self.ui += f"[{i}]  {nombre_opcion}\n"
+            self.ui.append(f"[{i}]  {nombre_opcion}")
             i += 1
 
     def interactuar(self):
-        print(self.ui)
+        self.actualizar_ui()
+        self.mostrar_ui()
         while True:
             numero_opcion = input("Ingrese el valor deseado: ")
             if numero_opcion.isnumeric():
@@ -37,6 +41,13 @@ class Menu:
         # booleano que decide si se avanza o se retrocede de menu
         cambiar_menu = self.opciones[numero_opcion]()
         return cambiar_menu
+
+    def actualizar_ui(self):
+        pass
+
+    def mostrar_ui(self):
+        for linea in self.ui:
+            print(linea)
 
     def salir(self):
         print("Saliendo del programa...")
@@ -147,11 +158,19 @@ class MenuInicio(Menu):
 
 class MenuPrincipal(Menu):
     def __init__(self, campeonato):
+        self.campeonato = campeonato
+        atributos_mostrados = [["Dinero Delegacion", self.campeonato.delegacion1.dinero],
+                                    ["Moral Delegacion", self.campeonato.delegacion1.moral]]
         super().__init__("Principal", [self.menu_entrenador,
                                        self.simular_competencias,
                                        self.mostrar_estado,
-                                       self.volver])
-        self.campeonato = campeonato
+                                       self.volver], atributos_mostrados=atributos_mostrados)
+
+    def actualizar_ui(self):
+        linea_dinero = f"Dinero delegacion: {self.campeonato.delegacion1.dinero}"
+        linea_moral = f"Moral delegacion: {self.campeonato.delegacion1.moral}"
+        self.ui[1] = linea_dinero
+        self.ui[2] = linea_moral
 
     def menu_entrenador(self):
         return ["Entrenador"]
@@ -179,11 +198,19 @@ class MenuPrincipal(Menu):
 
 class MenuEntrenador(Menu):
     def __init__(self, campeonato):
+        self.campeonato = campeonato
+        atributos_mostrados = [["Dinero Delegacion", self.campeonato.delegacion1.dinero],
+                            ["Moral Delegacion", self.campeonato.delegacion1.moral]]
         super().__init__("Entrenador", [self.fichar, self.entrenar,
                                         self.sanar, self.comprar_tecnologia,
                                         self.usar_habilidad_especial,
-                                        self.volver])
-        self.campeonato = campeonato
+                                        self.volver], atributos_mostrados=atributos_mostrados)
+
+    def actualizar_ui(self):
+        linea_dinero = f"Dinero delegacion: {self.campeonato.delegacion1.dinero}"
+        linea_moral = f"Moral delegacion: {self.campeonato.delegacion1.moral}"
+        self.ui[1] = linea_dinero
+        self.ui[2] = linea_moral
 
     def fichar(self):
         lista_deportistas = self.campeonato.deportistas_no_fichados
