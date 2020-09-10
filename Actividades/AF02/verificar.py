@@ -72,6 +72,7 @@ def corregir_alumno(estudiante):
 |                                              |
 |                                              |
 '=============================================='
+Art by myflix
 """
 
 # ************
