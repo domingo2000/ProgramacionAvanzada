@@ -23,7 +23,8 @@ if __name__ == "__main__":
             if alumno.carrera == "Profesor":
                 raise GymPro(alumno)
             else:
-                "Hackeando nota"
+                alumno.promedio = 7.0
+                print("Hackeando nota")
         except GymPro as error:  # Recuerda especificar el tipo de excepción que vas a capturar
             print(f"Error: {error}")
             error.evitar_sospechas()
