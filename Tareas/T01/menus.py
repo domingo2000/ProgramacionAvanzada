@@ -9,7 +9,7 @@ import parametros as p
 
 class Menu:
 
-    def __init__(self, nombre, opciones=None, atributos_mostrados = []):
+    def __init__(self, nombre, opciones=None, atributos_mostrados=[]):
         self.nombre = nombre
         self.opciones = opciones
         self.ui = [f"\n-----Menu {self.nombre}----"]
@@ -160,7 +160,7 @@ class MenuPrincipal(Menu):
     def __init__(self, campeonato):
         self.campeonato = campeonato
         atributos_mostrados = [["Dinero Delegacion", self.campeonato.delegacion1.dinero],
-                                    ["Moral Delegacion", self.campeonato.delegacion1.moral]]
+                               ["Moral Delegacion", self.campeonato.delegacion1.moral]]
         super().__init__("Principal", [self.menu_entrenador,
                                        self.simular_competencias,
                                        self.mostrar_estado,
@@ -200,7 +200,7 @@ class MenuEntrenador(Menu):
     def __init__(self, campeonato):
         self.campeonato = campeonato
         atributos_mostrados = [["Dinero Delegacion", self.campeonato.delegacion1.dinero],
-                            ["Moral Delegacion", self.campeonato.delegacion1.moral]]
+                               ["Moral Delegacion", self.campeonato.delegacion1.moral]]
         super().__init__("Entrenador", [self.fichar, self.entrenar,
                                         self.sanar, self.comprar_tecnologia,
                                         self.usar_habilidad_especial,

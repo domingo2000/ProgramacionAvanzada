@@ -366,17 +366,3 @@ if __name__ == "__main__":
     d4 = Deportista("Mati Fernandez", 21, 22, 12, 44, False, 42)
     lista_deportistas = [d3, d4]
     delegacion = DCCrotona("Lucho", [d1, d2], 5, 40, 300)
-
-    """Testeo fichas deportista
-    delegacion.fichar_deportista("Mago Valdivia", lista_deportistas)
-
-    print(delegacion.equipo)
-    """
-    """ Testeo entrenar deportista
-    print(f"dinero Delegacion: {delegacion.dinero}")
-    print(f"moral: {d2.moral}, velocidad: {d2.velocidad}, resistencia: {d2.resistencia}, flexibilidad: {d2.flexibilidad}")
-    delegacion.entrenar_deportista()
-    print("######### Despues de entrenar ################")
-    print(f"moral: {d2.moral}, velocidad: {d2.velocidad}, resistencia: {d2.resistencia}, flexibilidad: {d2.flexibilidad}")
-    print(f"dinero Delegacion: {delegacion.dinero}")
-    """
