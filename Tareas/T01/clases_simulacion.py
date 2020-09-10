@@ -35,6 +35,12 @@ class Delegacion(ABC):
     @property
     def moral(self):
         # completar recalcular moral
+        suma = 0
+        for deportista in self.equipo:
+            moral_deportista = deportista.moral
+            suma += moral_deportista
+        moral_actualizada_delegacion = suma / len(self.equipo)
+        self.__moral = moral_actualizada_delegacion
         return self.__moral
 
     @moral.setter
