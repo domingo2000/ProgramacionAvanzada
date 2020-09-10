@@ -159,7 +159,7 @@ class Campeonato:
             nombre_apellido = nombre + " " + apellido
             lesionado = str(deportista.lesionado)
             print(f"{nombre_apellido: <22.22} "
-                  f"{deportista.velocidad: ^11}" 
+                  f"{deportista.velocidad: ^11}"
                   f"{deportista.resistencia: ^15}"
                   f"{deportista.flexibilidad: ^14}"
                   f"{lesionado: >8}")
@@ -185,7 +185,7 @@ class Campeonato:
             nombre_apellido = nombre + " " + apellido
             lesionado = str(deportista.lesionado)
             print(f"{nombre_apellido: <22.22} "
-                  f"{deportista.velocidad: ^11}" 
+                  f"{deportista.velocidad: ^11}"
                   f"{deportista.resistencia: ^15}"
                   f"{deportista.flexibilidad: ^14}"
                   f"{lesionado: >8}")

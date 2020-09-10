@@ -22,7 +22,7 @@ def imprimir_copa(nombre):
     l8 = "              _/_______\\_"
     l9 = "             /___________\\"
 
-    lineas_copa = [l1,l2,l3,l4,l5,l6,l7,l8,l9,""]
+    lineas_copa = [l1, l2, l3, l4, l5, l6, l7, l8, l9, ""]
     for linea in lineas_copa:
         print(linea)
 
@@ -61,7 +61,7 @@ def imprimir_medalla(nombre):
     l14 = " :  *       *  :"
     l15 = "  `.  * * *  .'"
     l16 = "    `-.....-'"
-    
+
     lineas_medalla = [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10,
                       l11, l12, l13, l14, l15, l16]
     for linea in lineas_medalla:
