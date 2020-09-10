@@ -146,8 +146,10 @@ class Delegacion(ABC):
                         atributo_seleccionado = dict_atributos[entrada]
                         break
                 print("Entrada Invalida!, Ingrese otra vez")
-            deportista_seleccionado.moral += 1
+            moral_antigua = deportista_seleccionado.moral
+            deportista_seleccionado.moral += p.AUMENTO_MORAL_POR_ENTRENAMIENTO
             deportista_seleccionado.entrenar(atributo_seleccionado, ponderador_entrenamiento)
+            print(f"La moral ha subido de {moral_antigua} a {deportista_seleccionado.moral}")
 
         else:
             print("No tiene suficiente dinero para entrenar un deportista!")
@@ -326,15 +328,22 @@ class Deportista:
     def entrenar(self, atributo, ponderador_entrenamiento=1):
         puntos_entrenamiento = p.PUNTOS_ENTRENAMIENTO * ponderador_entrenamiento
         if atributo == "velocidad":
+            valor_antiguo = self.velocidad
             self.velocidad += puntos_entrenamiento
+            valor_nuevo = self.velocidad
         elif atributo == "resistencia":
+            valor_antiguo = self.resistencia
             self.resistencia += puntos_entrenamiento
+            valor_nuevo = self.resistencia
         elif atributo == "flexibilidad":
+            valor_antiguo = self.flexibilidad
             self.flexibilidad += puntos_entrenamiento
+            valor_nuevo = self.flexibilidad
         else:
             print("ERROR ATRIBUTO MAL PASADO A LA FUNCION")
 
         print(f"Se ha entrenado la {atributo} de {self.nombre}")
+        print(f"La {atributo} ha subido de {valor_antiguo} a {valor_nuevo}")
 
     def lesionarse(self, riesgo):
         numero_aleatorio = random()
