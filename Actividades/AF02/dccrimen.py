@@ -4,12 +4,11 @@ from verificar import corregir_alumno, corregir_nota, inscripcion_valida
 
 class GymPro(Exception):
     def __init__(self, estudiante):
+        super().__init__("Wait a minute... Who are you?")
         self.profesor = estudiante.nombre
-    pass
 
     def evitar_sospechas(self):
         print(f"¡Cuidado, viene {self.profesor}! Solo estaba haciendo mi último push...")
-        pass
 
 
 if __name__ == "__main__":
@@ -21,9 +20,11 @@ if __name__ == "__main__":
         nueva_base[alumno.n_alumno] = alumno
     for alumno in nueva_base.values():
         try:
-            # Completar
-            pass
-
-        except:  # Recuerda especificar el tipo de excepción que vas a capturar
-            # Completar
+            if alumno.carrera == "Profesor":
+                raise GymPro(alumno)
+            else:
+                "Hackeando nota"
+        except GymPro as error:  # Recuerda especificar el tipo de excepción que vas a capturar
+            print(f"Error: {error}")
+            error.evitar_sospechas()
             pass
