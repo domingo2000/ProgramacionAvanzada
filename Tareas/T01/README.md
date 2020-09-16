@@ -1,15 +1,6 @@
 
 # Tarea 1: DCC Cumbre Olimpica :trophy::trophy:
 
-
-Un buen ```README.md``` puede marcar una gran diferencia en la facilidad con la que corregimos una tarea, y consecuentemente cómo funciona su programa, por lo en general, entre más ordenado y limpio sea éste, mejor será 
-
-Para nuestra suerte, GitHub soporta el formato [MarkDown](https://es.wikipedia.org/wiki/Markdown), el cual permite utilizar una amplia variedad de estilos de texto, tanto para resaltar cosas importantes como para separar ideas o poner código de manera ordenada ([pueden ver casi todas las funcionalidades que incluye aquí](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet))
-
-Un buen ```README.md``` no tiene por que ser muy extenso tampoco, hay que ser **concisos** (a menos que lo consideren necesario) pero **tampoco pueden** faltar cosas. Lo importante es que sea claro y limpio 
-
-**Dejar claro lo que NO pudieron implementar y lo que no funciona a la perfección. Esto puede sonar innecesario pero permite que el ayudante se enfoque en lo que sí podría subir su puntaje.**
-
 ## Consideraciones generales 
 
 Por la tarea hace la gran mayoria de las cosas que pide en el enunciado, corre fluidamente y no debería caerse durante que se corre. La tarea funciona por medio de un diccionario de menus el cual pertenece a la clase propia ``DictMenu`` . Esta tiene un atributo ``key`` que va cambiando al ir pasando de un menu a otro, por lo tanto el flujo general es de ir pasando de un menu a otro del diccionario, para ir mostrando las diferentes acciones del programa, estos menus contienen el campeonato y acceden a el para que el programa funcione de forma correcta segun las entradas del usuario.
@@ -61,48 +52,11 @@ Por otro lado, los módulos que fueron creados fueron los siguientes:
 ## Supuestos y consideraciones adicionales :thinking:
 Los supuestos que realicé durante la tarea son los siguientes:
 
-1. <Descripción/consideración 1 y justificación del por qué es válido/a> 
-2. <Descripción/consideración 2 y justificación del por qué es válido/a>
-3. ...
+1. El jugador puede enviar deportistas lesionados a competir, esto es válido porque en caso de que solo tenga deportistas lesionados igual debe competir, por lo que queda en sus manos discriminar en que condiciones envia a sus jugadores a competir/a> 
+2. El jugador puede seguir entrenando aunque los stats de los deportistas estén al máximo, esto es valido porque aunque un stat esté al máximo, al entrenar igual se subirá la moral del deportista. Además se muestran todos los atributos de los deportistas, por lo que es trabajo del usuario el ver si ya no quiere gastar dinero en algo que no se puede seguir mejorando.
 
-PD: <una última consideración (de ser necesaria) o comentario hecho anteriormente que se quiera **recalcar**>
-
-
--------
-
-
-
-**EXTRA:** si van a explicar qué hace específicamente un método, no lo coloquen en el README mismo. Pueden hacerlo directamente comentando el método en su archivo. Por ejemplo:
-
-```python
-class Corrector:
-
-    def __init__(self):
-          pass
-
-    # Este método coloca un 6 en las tareas que recibe
-    def corregir(self, tarea):
-        tarea.nota  = 6
-        return tarea
-```
-
-Si quieren ser más formales, pueden usar alguna convención de documentación. Google tiene la suya, Python tiene otra y hay muchas más. La de Python es la [PEP287, conocida como reST](https://www.python.org/dev/peps/pep-0287/). Lo más básico es documentar así:
-
-```python
-def funcion(argumento):
-    """
-    Mi función hace X con el argumento
-    """
-    return argumento_modificado
-```
-Lo importante es que expliquen qué hace la función y que si saben que alguna parte puede quedar complicada de entender o tienen alguna función mágica usen los comentarios/documentación para que el ayudante entienda sus intenciones.
 
 ## Referencias de código externo :book:
 
 Para realizar mi tarea saqué código de:
-1. \<link de código>: este hace \<lo que hace> y está implementado en el archivo <nombre.py> en las líneas <número de líneas> y hace <explicación breve de que hace>
-
-
-
-## Descuentos
-La guía de descuentos se encuentra [link](https://github.com/IIC2233/syllabus/blob/master/Tareas/Descuentos.md).
+1. https://ascii.co.uk/art/: de esta página saque algunos strings para imprimir copas y medallas, esto igual se encuentra documentado en el archivo ``imagenes_string`` de forma espec+ifica.
