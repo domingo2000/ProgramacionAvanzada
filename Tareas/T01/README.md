@@ -32,28 +32,31 @@ P.D. : El archivo ``resultados.txt`` debe estar creado en la misma carpeta que s
 	* :white_check_mark: Competencia<sub>3.3</sub> : Se cumple todo lo pedido, asumiendo que el usuario puede enviar deportistas lesionados a competir, el calculo de la moral de la delegación se realiza con un getter de la clase ``Delegacion`` pues al llamar a la moral en cualquier parte del programa se recalcula basandose en el equipo actual de la delegación. Esta se muestra en la consola a traves de los menus. Como dato, hay medallas :moneybag::moneybag: echas con strings y copas :trophy: :trophy: hechas con strings cuando se ganan las competencias y cuando termina la DCCumbre.
 * :white_check_mark: Consola<sub>4</sub> : La consola se modelo a través de un diccionario de menus como se explicó al principio de las consideraciones. En este diccionario se encuentran los menus de incio principal y de entrenador, los cuales corresponden a las clases ``MenuPrincipal``, ``MenuIncio``, ``MenuEntrenador`` respectivamente, y todas heredan de la clase abstracta ``Menu`` la cual modela la forma de mostrar los datos en consola de manera correcta.
 
-* Manejo de archivos<sub>5</sub> :
+* :white_check_mark: Manejo de archivos<sub>5</sub> : Se hace todo lo pedido en la pauta
+	* :white_check_mark: Archivos CSV<sub>5.1</sub> : En el archivo ``lectura_datos`` se encuentran las funciones que leen los datos de los archivos ``.csv`` entregados, los cuales tienen que estar en la misma carpeta que el resto de los archivos del programa. Estos devuelven los datos en una forma practica para luego ser usados en el flujo del programa. Estas funciones se llaman en el menu de inicio al iniciar una nueva partida.
+	* :white_check_mark: Parametros.py<sub>5.2</sub> : Los parametros se importan en diferentes archivos del programa, para no hardcodear ninguno. En el archivo ``parametros.py`` se encuentran todos los parametros pedidos, y hay comentarios que ayudan a ver que parametro corresponde a que además de los nombres descriptivos de cada parametro.
+	* :white_check_mark: resultados.txt<sub>5.3</sub> : El archivo ``resultados.txt`` debe estar creado en la misma carpeta que el resto de los archivos para que este se escriba de manera correcta, puesto que el programa sobreescribe el archivo, pero no lo "crea" en caso de que al archivo no exista, no importa si el archivo ya contiene o no texto para que este se sobreescriba. En caso de cerrar el programa en la mitad de la ejecución se mostrarán los resultados hasta el dia en que se llegó de la DCCumbre. 
+	
 ## Ejecución :computer:
-El módulo principal de la tarea a ejecutar es  ```archivo.py```. Además se debe crear los siguientes archivos y directorios adicionales:
-1. ```archivo.ext``` en ```ubicación```
-2. ```directorio``` en ```ubicación```
-3. ...
-
+El módulo principal de la tarea a ejecutar es  ```main.py```. Además se debe crear los siguientes archivos y directorios adicionales:
+1. ```resultados.txt``` en ```T01``` que debe ser la misma carpeta que todos los archivos. Igual este viene en el repositorio de github, pero en caso de que no lo hayan copiado, debe estar creado al momento de la ejecución del programa.
 
 ## Librerías :books:
 ### Librerías externas utilizadas
-La lista de librerías externas que utilicé fue la siguiente:
+No se utilizaron librerías externas, solo algunas built-in. Estas fueron
 
-1. ```librería_1```: ```función() / módulo```
-2. ```librería_2```: ```función() / módulo``` (debe instalarse)
-3. ...
+1. ```random```: ```random()``` y ``uniform()``
+2. ```abc```: ``ABC`` y ``abstractmethod``
 
 ### Librerías propias
 Por otro lado, los módulos que fueron creados fueron los siguientes:
 
-1. ```librería_1```: Contiene a ```ClaseA```, ```ClaseB```, (ser general, tampoco es necesario especificar cada una)...
-2. ```librería_2```: Hecha para <insertar descripción **breve** de lo que hace o qué contiene>
-3. ...
+1. ```clases_simulacion```: Contiene a ``Delegacion(ABC)``, ``IEEEsparta(Delegacion)``, ``DCCrotona(Delegacion)`` las cuales modelan las delegaciones. Ademas contiene a ``Deportista`` la cual modela a los deportistas.
+2. ```campeonato```: Contiene a ``Campeonato`` la cual se encarga de modelar el campeonato
+3. ``deportes`` : Contiene a ``Deporte(ABC)``, ``Atletismo(Deporte)``, ``Ciclismo(Deporte)``,  ``Gimnacia(Deporte)`` y ``Natacion(Deporte)`` las cuales se encargan de modelar los deportes del campeonato
+4. ``lectura_datos`` : Contiene varias funciones que se encargan de leer los archivos ``.csv`` o escribir y leer los archivos ``.txt`` para el archivo ``resultados.txt`` además contiene la función ``leer_bool(string)`` que sirve para leer un string que representa un booleano.
+5.  ``menus`` : Contiene a ``Menu(ABC)``, junto con ``MenuInicio(Menu)``, ``MenuPrincipal(Menu)``, ``MenuEntrenador(Menu)`` los cuales modelas los menus que se muestran en consola. Además contiene a ``DictMenu(dict)`` el cual es un diccionario personalizado que contiene instancias de menu, que se encarga de mostrar el menu adecuado para las diferentes partes del programa segun las acciones de los otros menus.
+6. ``imagenes_string`` : Contiene algunas funciones para imprimir una medalla y una copa hecha con strings, las cuales se muestran durante las simulaciones.
 
 ## Supuestos y consideraciones adicionales :thinking:
 Los supuestos que realicé durante la tarea son los siguientes:
