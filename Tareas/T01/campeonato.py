@@ -8,7 +8,7 @@ from beautifultable import BeautifulTable
 
 class Campeonato:
     """
-    DOCUMENTACION
+    Clase que modela el campeonato de la DCCumbre
     """
     def __init__(self, delegacion1, delegacion2, lista_deportistas_no_fichados, lista_deportes):
         self.dia_actual = p.DIA_ACTUAL_INICIAL
