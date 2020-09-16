@@ -139,7 +139,7 @@ if __name__ == "__main__":
         moral = int(dato["moral"])
         lesionado = leer_bool(dato["lesionado"])
         precio = dato["precio"]
-        deportista = Deportista(nombre, velocidad, 
+        deportista = Deportista(nombre, velocidad,
                                 resistencia, flexibilidad, moral, lesionado, precio)
         lista_deportistas.append(deportista)
     print("FIN")
