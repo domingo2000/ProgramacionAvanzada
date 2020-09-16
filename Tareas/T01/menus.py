@@ -7,7 +7,7 @@ from deportes import Atletismo, Ciclismo, Gimnacia, Natacion
 import parametros as p
 
 
-class Menu:
+class Menu(ABC):
 
     def __init__(self, nombre, opciones=None, atributos_mostrados=[]):
         self.nombre = nombre
