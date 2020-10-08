@@ -23,8 +23,7 @@ class DCCrewmates(Thread):
         # Completar
         self.asignar_tripulantes()
         for tripulante in self.tripulantes:
-            tripulante.start(
-            )
+            tripulante.start()
         self.impostor.start()
 
         for tripulante in self.tripulantes:
