@@ -30,7 +30,7 @@ class DCCrewmates(Thread):
         for tripulante in self.tripulantes:
             tripulante.join()
         
-        self.evento_termino
+        self.evento_termino.set()
         self.impostor.join()
 
         # Revision de tareas
