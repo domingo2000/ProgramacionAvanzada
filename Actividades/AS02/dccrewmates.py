@@ -21,6 +21,34 @@ class DCCrewmates(Thread):
 
     def run(self):
         # Completar
+        self.asignar_tripulantes()
+        for tripulante in self.tripulantes:
+            tripulante.start(
+            )
+        self.impostor.start()
+
+        for tripulante in self.tripulantes:
+            tripulante.join()
+        
+        self.evento_termino
+        self.impostor.join()
+
+        # Revision de tareas
+        tareas_completadas = False
+        for tarea in self.diccionario_tareas.values():
+            if not(tarea["realizado"]):
+                tareas_completadas = False
+                break
+            else:
+                tareas_completadas = True
+        # Premia a los tripulantes o al imposton dependiendo del caso
+        if tareas_completadas:
+            print("Han Ganado los tripulantes!!!")
+        else:
+            print("Que lastima ha ganado el impostor")
+
+        print(f"El impostor era el {self.impostor.color}")
+
         pass
 
     def asignar_tareas(self):
