@@ -100,7 +100,7 @@ class Impostor(Tripulante):
         for tripulante in self.tripulantes:
             if tripulante.esta_vivo:
                 tripulantes_vivos += 1
-        print_anuncio(tripulante.color, f"Ha sido asesinado, quedan {tripulantes_vivos}"
+        print_anuncio(tripulante.color, f"Ha sido asesinado, quedan {tripulantes_vivos} "
                                         "tripulantes vivos")
 
     def sabotear(self):
