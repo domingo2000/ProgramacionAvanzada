@@ -23,12 +23,32 @@ class Tripulante(Thread):
         # Si quieres agregar lineas, hazlo desde aca
 
     def run(self):
-        # Completar
-        pass
+        
+        while self.esta_vivo and (len(self.tareas) > 0):
+            if not(self.evento_sabotaje.is_set()):
+                self.hacer_tarea()
+                time.sleep(TIEMPO_ENTRE_TAREAS)  # Descanso del tripulante
+            else:  # Arregla el sabotaje
+                if random.random() < PROB_ARREGLAR_SABOTAJE:
+                    self.arreglar_sabotaje()
+                else:
+                    time.sleep(TIEMPO_ENTRE_TAREAS)
 
     def hacer_tarea(self):
-        # Completar
-        pass
+        nombre_tarea = random.choice(self.tareas)
+        tarea = self.diccionario_tareas[nombre_tarea]
+        with tarea["lock"]:
+            tiempo = random.uniform(TIEMPO_TAREAS[0], TIEMPO_TAREAS[1])
+            step_tiempo = tiempo / 5
+            for i in range(5):
+                if self.esta_vivo:
+                    print_progreso(self.color, f"Realizando {nombre_tarea}", 25 * i)
+                    time.sleep(step_tiempo)
+                else:
+                    print(f"El triulante {self.color} esta muerto")
+                    break
+            self.tareas.remove(nombre_tarea)
+            self.diccionario_tareas[nombre_tarea]["realizado"] = True
 
     def arreglar_sabotaje(self):
         # Completar
