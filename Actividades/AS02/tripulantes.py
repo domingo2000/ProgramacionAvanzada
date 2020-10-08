@@ -107,10 +107,10 @@ class Impostor(Tripulante):
                                         "tripulantes vivos")
 
     def sabotear(self):
-        if self.evento_sabotaje.is_set():
+        if not(self.evento_sabotaje.is_set()):
             sabotaje = random.choice(self.sabotajes)
             tiempo = random.uniform(TIEMPO_SABOTAJE[0], TIEMPO_SABOTAJE[1])
-            timer = threading.Timer(tiempo, self.terminar_sabotaje)
+            timer = Timer(tiempo, self.terminar_sabotaje)
             timer.start()
             self.evento_sabotaje.set()
             print_sabotaje(sabotaje)
@@ -144,7 +144,7 @@ if __name__ == "__main__":
 
     rojo.start()
 
-    time.sleep(5)
+    time.sleep(0.1)
     # ==============================================================
     # Descomentar las siguientes lineas para probar el evento sabotaje.
 
