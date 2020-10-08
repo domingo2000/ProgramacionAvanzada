@@ -56,7 +56,7 @@ class Tripulante(Thread):
         step_tiempo = tiempo / 4
         for i in range(4):
             if self.esta_vivo:
-                print_progreso(self.color, "Arreglando Sabotaje", 25 * i)
+                print_progreso(self.color, "Arreglando Sabotaje", 33.33333 * i)
                 time.sleep(step_tiempo)
             else:
                 print(f"El tripulante {self.color} esta muerto")
@@ -76,10 +76,23 @@ class Impostor(Tripulante):
         self.evento_termino = evento_termino
         self.sabotajes = cargar_sabotajes()
         # Si quieres agregar lineas, hazlo desde aca
+        tripulantes_vivos = True
 
     def run(self):
-        # Completar
-        pass
+        valores_vivos = [tripulante.esta_vivo for tripulante in self.tripulantes]
+        if True in valores_vivos:
+            self.tripulantes_vivos = True
+        while tripulantes_vivos and not(self.evento_termino.is_set()):
+            accion = elegir_accion_impostor()
+            if accion == "Matar":
+                self.matar_jugador()
+            elif accion == "Sabotear":
+                self.sabotear()
+            elif accion == "Esconderse":
+                time.sleep(TIEMPO_ESCONDITE)
+            
+            time.sleep(TIEMPO_ENTRE_ACCIONES)
+
 
     def matar_jugador(self):
         # Completar
