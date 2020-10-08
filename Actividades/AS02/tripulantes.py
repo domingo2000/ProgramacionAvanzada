@@ -82,7 +82,7 @@ class Impostor(Tripulante):
         valores_vivos = [tripulante.esta_vivo for tripulante in self.tripulantes]
         if True in valores_vivos:
             self.tripulantes_vivos = True
-        while tripulantes_vivos and not(self.evento_termino.is_set()):
+        while self.tripulantes_vivos and not(self.evento_termino.is_set()):
             accion = elegir_accion_impostor()
             if accion == "Matar":
                 self.matar_jugador()
@@ -93,18 +93,30 @@ class Impostor(Tripulante):
             
             time.sleep(TIEMPO_ENTRE_ACCIONES)
 
-
     def matar_jugador(self):
-        # Completar
-        pass
+        tripulante = random.choice(self.tripulantes)
+        tripulante.esta_vivo = False
+        tripulantes_vivos = 0
+        for tripulante in self.tripulantes:
+            if tripulante.esta_vivo:
+                tripulantes_vivos += 1
+        print_anuncio(tripulante.color, f"Ha sido asesinado, quedan {tripulantes_vivos}"
+                                        "tripulantes vivos")
 
     def sabotear(self):
-        # Completar
-        pass
+        if self.evento_sabotaje.is_set():
+            sabotaje = random.choice(self.sabotajes)
+            tiempo = random.uniform(TIEMPO_SABOTAJE[0], TIEMPO_SABOTAJE[1])
+            timer = threading.Timer(tiempo, self.terminar_sabotaje)
+            timer.start()
+            self.evento_sabotaje.set()
+            print_sabotaje(sabotaje)
 
     def terminar_sabotaje(self):
-        # Completar
-        pass
+        if self.evento_sabotaje.is_set():
+            for tripulante in self.tripulantes:
+                tripulante.esta_vivo = False
+            print_explosión()
 
 
 if __name__ == "__main__":
@@ -133,8 +145,8 @@ if __name__ == "__main__":
     # ==============================================================
     # Descomentar las siguientes lineas para probar el evento sabotaje.
 
-    # print(" HA COMENZADO UN SABOTAJE ".center(80, "*"))
-    # ejemplo_evento.set()
+    print(" HA COMENZADO UN SABOTAJE ".center(80, "*"))
+    ejemplo_evento.set()
 
     rojo.join()
 
