@@ -91,6 +91,9 @@ class Impostor(Tripulante):
                 time.sleep(TIEMPO_ESCONDITE)
             
             time.sleep(TIEMPO_ENTRE_ACCIONES)
+            valores_vivos = [tripulante.esta_vivo for tripulante in self.tripulantes]
+            if True in valores_vivos:
+                self.tripulantes_vivos = True
 
     def matar_jugador(self):
         tripulante = random.choice(self.tripulantes)
