@@ -51,7 +51,19 @@ class Tripulante(Thread):
             self.diccionario_tareas[nombre_tarea]["realizado"] = True
 
     def arreglar_sabotaje(self):
-        # Completar
+        print_anuncio(self.color, "Ha comenzado a reparar el sabotaje")
+        tiempo = random.uniform(TIEMPO_SABOTAJE[0], TIEMPO_SABOTAJE[1])
+        step_tiempo = tiempo / 4
+        for i in range(4):
+            if self.esta_vivo:
+                print_progreso(self.color, "Arreglando Sabotaje", 25 * i)
+                time.sleep(step_tiempo)
+            else:
+                print(f"El tripulante {self.color} esta muerto")
+                break
+        if self.esta_vivo:
+            self.evento_sabotaje.clear()
+            print_anuncio(self.color, "Ha Terminado de arreglar el Sabotaje")
         pass
 
 
