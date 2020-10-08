@@ -96,9 +96,10 @@ class Impostor(Tripulante):
     def matar_jugador(self):
         tripulante = random.choice(self.tripulantes)
         tripulante.esta_vivo = False
+        self.tripulantes.remove(tripulante)
         tripulantes_vivos = 0
-        for tripulante in self.tripulantes:
-            if tripulante.esta_vivo:
+        for tripulante_2 in self.tripulantes:
+            if tripulante_2.esta_vivo:
                 tripulantes_vivos += 1
         print_anuncio(tripulante.color, f"Ha sido asesinado, quedan {tripulantes_vivos} "
                                         "tripulantes vivos")
