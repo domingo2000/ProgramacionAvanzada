@@ -45,7 +45,6 @@ class Tripulante(Thread):
                     print_progreso(self.color, f"Realizando {nombre_tarea}", 25 * i)
                     time.sleep(step_tiempo)
                 else:
-                    print(f"El triulante {self.color} esta muerto")
                     break
             self.tareas.remove(nombre_tarea)
             self.diccionario_tareas[nombre_tarea]["realizado"] = True
