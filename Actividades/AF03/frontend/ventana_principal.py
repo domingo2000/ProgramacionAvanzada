@@ -55,12 +55,12 @@ class VentanaPrincipal(QMainWindow):
         # <-
 
         # Completar: Crear los botones de las tareas, conectarlos al método y  añadirlos al "vbox"
-        boton_tarea1 = QPushButton("Tarea 1")
-        boton_tarea1.clicked.connect(self.boton_tarea_clickeado)
-        boton_tarea2 = QPushButton("Tarea 2")
-        boton_tarea2.clicked.connect(self.boton_tarea_clickeado)
-        vbox.addWidget(boton_tarea1)
-        vbox.addWidget(boton_tarea2)
+        self.boton_tarea1 = QPushButton("Tarea 1")
+        self.boton_tarea1.clicked.connect(self.boton_tarea_clickeado)
+        self.boton_tarea2 = QPushButton("Tarea 2")
+        self.boton_tarea2.clicked.connect(self.boton_tarea_clickeado)
+        vbox.addWidget(self.boton_tarea1)
+        vbox.addWidget(self.boton_tarea2)
 
         # No modificar ->
         self.contador_tareas = QLabel("Tareas hechas: 0/2")
@@ -98,9 +98,13 @@ class VentanaPrincipal(QMainWindow):
         numero_tarea = info_tarea[0]
         tareas_terminadas = info_tarea[1]
         # <-
-
         # Completar
-
+        if numero_tarea == 1:
+            self.boton_tarea1.setEnabled(False)
+        elif numero_tarea == 2:
+            self.boton_tarea2.setEnabled(False)
+        
+        self.contador_tareas = tareas_terminadas
         # No modificar ->
         self.show()
         if tareas_terminadas == 2:
