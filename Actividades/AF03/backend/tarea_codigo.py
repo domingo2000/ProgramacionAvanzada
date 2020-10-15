@@ -33,4 +33,9 @@ class TareaCodigo(QObject):
 
     # Completar
     def comparar_codigos(self):
-        pass
+        if self.codigo_actual == self.codigo_correcto:
+            self.terminado = True
+            self.senal_resultado_comparacion.emit(True)
+        else:
+            self.codigo_actual = ""
+            self.senal_resultado_comparacion.emit(False)
