@@ -19,7 +19,34 @@ class VentanaInicial(QWidget):
         self.init_gui(ruta_logo)
 
     def init_gui(self, ruta_logo):
-        # Completar
+        # Logo
+        self.label_logo = QLabel()
+        self.label_logo.size = (self.size)
+        imagen_logo = QPixmap(ruta_logo)
+        self.label_logo.setPixmap(imagen_logo)
+        self.label_logo.setScaledContents(True)
+
+        # Campo de texto
+        label_texto = QLabel("Ingrese el codigo de su partida:")
+        self.input_codigo = QLineEdit()
+        hbox_entrada = QHBoxLayout()
+        hbox_entrada.addStretch(1)
+        hbox_entrada.addWidget(label_texto)
+        hbox_entrada.addWidget(self.input_codigo)
+        hbox_entrada.addStretch(1)
+
+        # Boton
+        hbox_boton = QHBoxLayout()
+        boton_ingesar = QPushButton("Ingresar")
+        hbox_boton.addWidget(boton_ingesar)
+        boton_ingesar.clicked.connect(self.comparar_codigo)
+
+        # Layout
+        vbox = QVBoxLayout()
+        vbox.addWidget(self.label_logo)
+        vbox.addLayout(hbox_entrada)
+        vbox.addLayout(hbox_boton)
+        self.setLayout(vbox)
         pass
 
     def comparar_codigo(self):
