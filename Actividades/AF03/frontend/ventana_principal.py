@@ -104,7 +104,7 @@ class VentanaPrincipal(QMainWindow):
         elif numero_tarea == 2:
             self.boton_tarea2.setEnabled(False)
         
-        self.contador_tareas = tareas_terminadas
+        self.contador_tareas.setText(f"Tareas hechas: {tareas_terminadas}/2")
         # No modificar ->
         self.show()
         if tareas_terminadas == 2:
