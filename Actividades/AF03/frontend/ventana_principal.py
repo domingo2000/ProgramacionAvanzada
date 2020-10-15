@@ -38,7 +38,8 @@ class VentanaPrincipal(QMainWindow):
         self.area_tareas = QWidget(self)
         ancho = self.size[0]
         alto = self.size[1]
-        self.area_tareas.setGeometry(0.1 * ancho, 0.5 * alto, 0.8 * ancho, self.altura_botones * 4 + 30)
+        self.area_tareas.setGeometry(0.1 * ancho, 0.5 * alto, 0.8 * ancho,
+                                     self.altura_botones * 4 + 30)
 
         self.crear_botones()
 
@@ -75,7 +76,7 @@ class VentanaPrincipal(QMainWindow):
     def cambiar_diseno_botones(self, boton):
         """Este método cambia el diseño de los botones de las tareas.
         Puedes ignorarlo."""
-        boton.setStyleSheet('''QPushButton {background-color: #ffffff; color: #000000; 
+        boton.setStyleSheet('''QPushButton {background-color: #ffffff; color: #000000;
         font-size: 23px;} QPushButton:disabled {background-color: #c0c0c0}''')
 
         boton.setFont(QFont("Courier"))
@@ -103,7 +104,7 @@ class VentanaPrincipal(QMainWindow):
             self.boton_tarea1.setEnabled(False)
         elif numero_tarea == 2:
             self.boton_tarea2.setEnabled(False)
-        
+
         self.contador_tareas.setText(f"Tareas hechas: {tareas_terminadas}/2")
         # No modificar ->
         self.show()

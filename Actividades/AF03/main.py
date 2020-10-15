@@ -49,9 +49,12 @@ if __name__ == '__main__':
     # <-
 
     # Completar
-    ventana_tarea_codigo.senal_boton_teclado_clickeado.connect(logica_tarea_codigo.boton_teclado_clickeado)
-    logica_tarea_codigo.senal_nuevo_codigo_actual.connect(ventana_tarea_codigo.actualizar_pantalla)
-    logica_tarea_codigo.senal_resultado_comparacion.connect(ventana_tarea_codigo.recibir_comparacion)
+    ventana_tarea_codigo.senal_boton_teclado_clickeado.connect(
+        logica_tarea_codigo.boton_teclado_clickeado)
+    logica_tarea_codigo.senal_nuevo_codigo_actual.connect(
+        ventana_tarea_codigo.actualizar_pantalla)
+    logica_tarea_codigo.senal_resultado_comparacion.connect(
+        ventana_tarea_codigo.recibir_comparacion)
     # No modificar ->
     ventana_principal.senal_abrir_tarea_descarga = ventana_tarea_descarga.senal_abrir_tarea
     ventana_tarea_descarga.senal_tarea_terminada.connect(logica_principal.tarea_terminada)

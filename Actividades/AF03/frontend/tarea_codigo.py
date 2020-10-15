@@ -48,7 +48,7 @@ class VentanaTareaCodigo(QWidget):
         area_teclado.setGeometry(ancho * 0.25, 0.1 * alto, 0.5 * ancho, 0.8 * alto)
 
         self.pantalla_teclado = QLabel(self)
-        self.pantalla_teclado.setStyleSheet('''background-color: #090404; border: 3px solid #d9c128; 
+        self.pantalla_teclado.setStyleSheet('''background-color: #090404; border: 3px solid #d9c128;
         color: #d9c128; font-size: 30px; font-weight: bold;''')
         self.pantalla_teclado.setAlignment(Qt.AlignCenter)
         self.pantalla_teclado.setMinimumHeight(0.12 * alto)
@@ -106,7 +106,8 @@ class VentanaTareaCodigo(QWidget):
         """Este método se encarga de transmitir la señal de un botón clickeado.
         Puedes ignorarlo."""
         boton_clickeado = self.sender()
-        self.senal_boton_teclado_clickeado.emit((boton_clickeado.objectName(), boton_clickeado.text()))
+        self.senal_boton_teclado_clickeado.emit((boton_clickeado.objectName(),
+                                                boton_clickeado.text()))
 
     def actualizar_pantalla(self, codigo_actual):
         # Completar
