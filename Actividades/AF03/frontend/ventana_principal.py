@@ -88,6 +88,10 @@ class VentanaPrincipal(QMainWindow):
         # <-
 
         # Completar
+        if numero_tarea == 1:
+            self.senal_abrir_tarea_codigo.emit()
+        elif numero_tarea == 2:
+            self.senal_abrir_tarea_descarga.emit()
 
     def tarea_terminada(self, info_tarea):
         # No modificar <-
