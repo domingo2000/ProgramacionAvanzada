@@ -46,7 +46,7 @@ class VentanaTareaDescarga(QWidget):
         # <-
 
         # Completar
-
+        self.boton_comenzar_tarea.clicked.connect(self.comenzar_tarea)
         # No modificar ->
         hbox.addWidget(self.boton_comenzar_tarea)
         hbox.addWidget(self.barra_progreso)
