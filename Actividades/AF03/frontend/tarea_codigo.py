@@ -110,10 +110,15 @@ class VentanaTareaCodigo(QWidget):
 
     def actualizar_pantalla(self, codigo_actual):
         # Completar
+        self.pantalla_teclado.setText(codigo_actual)
         pass
 
     def recibir_comparacion(self, son_iguales):
         # Completar
+        if son_iguales:
+            self.tarea_terminada()
+        else:
+            self.actualizar_pantalla("")
         pass
 
     def tarea_terminada(self):
