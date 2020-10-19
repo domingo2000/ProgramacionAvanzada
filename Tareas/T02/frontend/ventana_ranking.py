@@ -7,6 +7,7 @@ from os import path
 from parametros import IMAGENES, TAMANO_VENTANAS, UBICACION_VENTANAS
 import time
 
+
 class VentanaRanking(QWidget):
     senal_abrir_ventana_ranking = pyqtSignal()
     senal_abrir_ventana_inicio = pyqtSignal()
@@ -24,7 +25,8 @@ class VentanaRanking(QWidget):
     def init_gui(self):
         # Parametros de ventana
         self.setWindowTitle("Ventana de Ranking")
-        self.setGeometry(*UBICACION_VENTANAS["ventana_ranking"], *TAMANO_VENTANAS["ventana_ranking"])
+        self.setGeometry(*UBICACION_VENTANAS["ventana_ranking"],
+                         *TAMANO_VENTANAS["ventana_ranking"])
         # Titulo
         hbox_titulo = QHBoxLayout()
         titulo = QLabel()
