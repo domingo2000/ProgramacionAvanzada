@@ -3,13 +3,14 @@ from PyQt5.QtWidgets import QApplication
 from frontend.ventana_inicio import VentanaInicio
 from frontend.ventana_ranking import VentanaRanking
 from backend.back_ranking import ProcesadorRanking
+
 if __name__ == "__main__":
     app = QApplication([])
     # Instancia ventanas que se van a usar
     ventana_inicio = VentanaInicio()
     ventana_ranking = VentanaRanking()
 
-    # Instancia procesadores
+    # Instancia procesadores back end
     procesador_ranking = ProcesadorRanking()
     # Coneccion señales entre ventanas
     ventana_inicio.senal_abrir_ventana_ranking.connect(ventana_ranking.senal_abrir_ventana_ranking)
