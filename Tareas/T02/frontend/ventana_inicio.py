@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (QApplication, QLineEdit, QPushButton, QLabel,
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 from os import path
-from parametros import IMAGENES
+from parametros import IMAGENES, TAMANO_VENTANAS, UBICACION_VENTANAS
 
 
 class VentanaInicio(QWidget):
@@ -16,6 +16,11 @@ class VentanaInicio(QWidget):
         self.show()
 
     def init_gui(self):
+        # Parametros generales de la ventana
+        self.setWindowTitle("Ventana Inicio")
+        self.setGeometry(*UBICACION_VENTANAS["ventana_inicio"], *TAMANO_VENTANAS["ventana_inicio"])
+        self.setFixedSize(self.size())
+
         # Imagen de inicio
         hbox_imagen_inicio = QHBoxLayout()
         label_imagen_inicio = QLabel()
@@ -48,10 +53,6 @@ class VentanaInicio(QWidget):
         vbox.addWidget(self.entrada)
         vbox.addLayout(hbox_botones)
         self.setLayout(vbox)
-
-        # Parametros generales de la ventana
-        self.setWindowTitle("Ventana Inicio")
-        self.setFixedSize(self.size())
 
     def comenzar(self):
         print("Comenzando Partida...")
