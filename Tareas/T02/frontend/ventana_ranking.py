@@ -52,12 +52,12 @@ class VentanaRanking(QWidget):
         self.boton_volver.clicked.connect(self.volver)
 
         # Layout
-        self.vbox = QVBoxLayout()
-        self.vbox.addLayout(hbox_titulo)
+        vbox_principal = QVBoxLayout()
+        vbox_principal.addLayout(hbox_titulo)
         for i in range(5):
-            self.vbox.addLayout(hbox_puntajes[i])
-        self.vbox.addWidget(self.boton_volver)
-        self.setLayout(self.vbox)
+            vbox_principal.addLayout(hbox_puntajes[i])
+        vbox_principal.addWidget(self.boton_volver)
+        self.setLayout(vbox_principal)
 
     def abrir(self):
         if self.senal_procesar_puntajes:
