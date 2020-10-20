@@ -105,6 +105,15 @@ class VentanaJuego(QWidget):
         vbox.addLayout(hbox_barra_superior)
         self.setLayout(vbox)
 
+    def comenzar_ronda(self):
+        pass
+
+    def pausar(self):
+        pass
+
+    def salir(self):
+        pass
+
 
 if __name__ == "__main__":
     app = QApplication([])
