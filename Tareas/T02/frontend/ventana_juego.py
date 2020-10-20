@@ -31,14 +31,19 @@ class VentanaJuego(QWidget):
         hbox_barra_superior.addWidget(label_imagen_logo)
         # Label Combo y Mayor Combo
         vbox_combos = QVBoxLayout()
+        vbox_combos.addStretch(1)
         self.label_combo = QLabel("Combo: ")
         self.label_combo_mayor = QLabel("Mayor Combo: ")
         vbox_combos.addWidget(self.label_combo)
         vbox_combos.addWidget(self.label_combo_mayor)
+
+        vbox_combos.addStretch(1)
         hbox_barra_superior.addLayout(vbox_combos)
+
         # Progreso Y aprobacion
         # Layout Vertical
         vbox_progresos_aprobacion = QVBoxLayout()
+        vbox_progresos_aprobacion.addStretch(1)
         # Progreso
         hbox_progreso = QHBoxLayout()
         label_progreso = QLabel("Progreso: ")
@@ -56,10 +61,12 @@ class VentanaJuego(QWidget):
         hbox_aprobacion.addWidget(self.progressbar_aprobacion)
         vbox_progresos_aprobacion.addLayout(hbox_aprobacion)
 
+        vbox_progresos_aprobacion.addStretch(1)
         hbox_barra_superior.addLayout(vbox_progresos_aprobacion)
 
         # Cancion Y dificultad y boton comenzar partida
         vbox_3 = QVBoxLayout()
+        vbox_3.addStretch(1)
         # Cancion
         hbox_cancion = QHBoxLayout()
         label_cancion = QLabel("Canción: ")
@@ -74,8 +81,25 @@ class VentanaJuego(QWidget):
         hbox_dificultad.addWidget(label_dificultad)
         hbox_dificultad.addWidget(self.dificultad)
         vbox_3.addLayout(hbox_dificultad)
-        # Dificultad
+        # Boton Comenzar Ronda
+        self.boton_comenzar_ronda = QPushButton("Comenzar Ronda")
+        vbox_3.addWidget(self.boton_comenzar_ronda)
+
+        vbox_3.addStretch(1)
         hbox_barra_superior.addLayout(vbox_3)
+
+        # Botones pausar y salir
+        vbox_4 = QVBoxLayout()
+        vbox_4.addStretch(1)
+        # Boton Pausar
+        self.boton_pausar = QPushButton("Pausar")
+        vbox_4.addWidget(self.boton_pausar)
+        # Boton Salir
+        self.boton_salir = QPushButton("salir")
+        vbox_4.addWidget(self.boton_salir)
+
+        vbox_4.addStretch(1)
+        hbox_barra_superior.addLayout(vbox_4)
         # Layout Principal
         vbox = QVBoxLayout()
         vbox.addLayout(hbox_barra_superior)
