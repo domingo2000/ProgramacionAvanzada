@@ -17,7 +17,6 @@ class VentanaJuego(QWidget):
         super().__init__()
 
         self.init_gui()
-        self.show()
 
     def init_gui(self):
         # Parametros generales
