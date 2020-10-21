@@ -20,7 +20,7 @@ UBICACION_VENTANAS = {
     "ventana_juego": [100, 100]
 }
 UBICACION_FLECHAS = {
-    "flecha_1": [200, 200]
+    "flecha_1": [0, 100]
 }
 
 VELOCIDAD_FLECHA = 10
