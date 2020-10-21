@@ -96,6 +96,7 @@ class VentanaJuego(QWidget):
         vbox_3.addLayout(hbox_dificultad)
         # Boton Comenzar Ronda
         self.boton_comenzar_ronda = QPushButton("Comenzar Ronda")
+        self.boton_comenzar_ronda.clicked.connect(self.comenzar_juego) # TEMPORAL
         vbox_3.addWidget(self.boton_comenzar_ronda)
 
         vbox_3.addStretch(1)
@@ -159,6 +160,11 @@ class VentanaJuego(QWidget):
 
     def actualizar_label(self, label, y):
         label.move(0, y)
+
+    # Funcion para probar funcionalidad de las flechas por mientras TEMPORAL
+    def comenzar_juego(self):
+        print("Empezando Juego")
+        self.crear_flecha()
 
 
 if __name__ == "__main__":
