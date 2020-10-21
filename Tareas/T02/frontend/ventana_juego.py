@@ -207,23 +207,18 @@ class VentanaJuego(QWidget):
         tecla = event.text()
         if self.flecha_en_zona_captura:
             flecha = self.flecha_en_zona_captura
-            tipo = flecha.tipo
-            if tipo == "arriba":
-                if tecla == FLECHA_ARRIBA:
-                    pass
-            elif tipo == "izquerda":
-                if tecla == FLECHA_IZQUERDA:
-                    print("Flecha capturada")
-                    flecha.destruir_flecha()
-                    self.flecha_en_zona_captura = None
-                    self.cambiar_color_captura(flecha, False)
-                    pass
-            elif tipo == "abajo":
-                if tecla == FLECHA_ABAJO:
-                    pass
-            elif tipo == "derecha":
-                if tecla == FLECHA_DERECHA:
-                    pass
+            direccion = flecha.direccion
+            direccion_a_tecla = {
+                "arriba": FLECHA_ARRIBA,
+                "abajo": FLECHA_ABAJO,
+                "derecha": FLECHA_DERECHA,
+                "izquerda": FLECHA_IZQUERDA,
+                }
+            if direccion_a_tecla[direccion] == tecla:
+                print("Flecha capturada")
+                flecha.destruir_flecha()
+                self.flecha_en_zona_captura = None
+                self.cambiar_color_captura(flecha, False)
             else:
                 pass
 
