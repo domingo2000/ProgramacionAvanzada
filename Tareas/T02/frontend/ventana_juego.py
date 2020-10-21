@@ -38,7 +38,7 @@ class VentanaJuego(QWidget):
         label_imagen_logo.setGeometry(0, 0, 100, 100)
         imagen_logo = QPixmap(path.join(*IMAGENES["imagen_inicio"]))
         label_imagen_logo.setPixmap(imagen_logo)
-        label_imagen_logo.setScaledContents(True) 
+        label_imagen_logo.setScaledContents(True)
         # Label Combo y Mayor Combo
         vbox_combos = QVBoxLayout()
         vbox_combos.addStretch(1)
@@ -120,7 +120,7 @@ class VentanaJuego(QWidget):
         widget_izquerda = QWidget(self)
         widget_izquerda.setGeometry(0, 100, 200, 500)
         widget_izquerda.setStyleSheet("background-color: #D2B2F3;")
-    
+
         # Fondo Central
         label_fondo = QLabel(self)
         label_fondo.setGeometry(200, 100, 500, 500)
@@ -132,7 +132,7 @@ class VentanaJuego(QWidget):
         self.widget_tienda = QWidget(self)
         self.widget_tienda.setGeometry(700, 100, 200, 500)
         self.widget_tienda.setStyleSheet("background-color: #D2B2F3;")
-    
+
     def comenzar_ronda(self):
         pass
 
@@ -141,12 +141,13 @@ class VentanaJuego(QWidget):
 
     def salir(self):
         pass
-    
+
     def esconder_tienda(self):
         if self.widget_tienda.isHidden():
             self.widget_tienda.show()
         else:
             self.widget_tienda.hide()
+
 
 if __name__ == "__main__":
     app = QApplication([])
