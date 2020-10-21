@@ -4,7 +4,8 @@
 
 IMAGENES = {
     "imagen_inicio": ["sprites", "logo.png"],
-    "imagen_fondo": ["sprites", "fondos", "fondo.png"]
+    "imagen_fondo": ["sprites", "fondos", "fondo.png"],
+    "imagen_flecha": ["sprites", "flechas", "left_1.png"]
 }
 
 # Parametros Tamaño ventanas
@@ -15,5 +16,11 @@ TAMANO_VENTANAS = {
 
 UBICACION_VENTANAS = {
     "ventana_inicio": [100, 100],
-    "ventana_ranking": [100, 100]
+    "ventana_ranking": [100, 100],
+    "ventana_juego": [100, 100]
 }
+UBICACION_FLECHAS = {
+    "flecha_1": [200, 200]
+}
+
+VELOCIDAD_FLECHA = 10
