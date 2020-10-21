@@ -23,12 +23,14 @@ class Flecha(QThread):
         self.direccion = random.choice(direcciones_posibles)
         self.__altura = (UBICACION_FLECHAS["y"])
         self.columna = random.randint(0, 3)
+        """
         self.ruta_imagen_flechas = {
             "arriba": IMAGENES["imagen_flecha_arriba_5"],
             "abajo": IMAGENES["imagen_flecha_abajo_5"],
             "derecha": IMAGENES["imagen_flecha_derecha_5"],
             "izquerda": IMAGENES["imagen_flecha_izquerda_5"]
         }
+        """
         self.init_gui(parent)
 
     def init_gui(self, parent):
@@ -81,14 +83,13 @@ class Flecha(QThread):
 
 
 class FlechaNormal(Flecha):
-    
+
     def __init__(self, parent):
-        self.tipo = normal
+        self.tipo = "normal"
         self.ruta_imagen_flechas = {
-            "arriba": None,
-            "abajo": None,
-            "derecha": None,
-            "izquerda": None
+            "arriba": IMAGENES["imagen_flecha_arriba_1"],
+            "abajo": IMAGENES["imagen_flecha_abajo_1"],
+            "derecha": IMAGENES["imagen_flecha_derecha_1"],
+            "izquerda": IMAGENES["imagen_flecha_izquerda_1"]
         }
-        
         super().__init__(parent)
