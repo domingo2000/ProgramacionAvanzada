@@ -10,11 +10,17 @@ FLECHA_DERECHA = "d"
 UBICACION_FLECHAS = {
     "y": 100
 }
-
 IMAGENES = {
     "imagen_inicio": ["sprites", "logo.png"],
     "imagen_fondo": ["sprites", "fondos", "fondo.png"],
-    "imagen_flecha": ["sprites", "flechas", "left_1.png"]
+    "imagen_flecha_izquerda_1": ["sprites", "flechas", "left_1.png"],
+    "imagen_flecha_derecha_1": ["sprites", "flechas", "right_1.png"],
+    "imagen_flecha_arriba_1": ["sprites", "flechas", "up_1.png"],
+    "imagen_flecha_abajo_1": ["sprites", "flechas", "down_1.png"],
+    "imagen_flecha_izquerda_5": ["sprites", "flechas", "left_5.png"],
+    "imagen_flecha_derecha_5": ["sprites", "flechas", "right_5.png"],
+    "imagen_flecha_arriba_5": ["sprites", "flechas", "up_5.png"],
+    "imagen_flecha_abajo_5": ["sprites", "flechas", "down_5.png"],
 }
 
 # Parametros Tamaño ventanas
