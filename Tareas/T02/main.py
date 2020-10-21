@@ -20,6 +20,7 @@ if __name__ == "__main__":
     ventana_ranking.senal_abrir_ventana_inicio.connect(ventana_inicio.show)
     # Inicio y Juego
     ventana_inicio.senal_abrir_ventana_juego.connect(ventana_juego.show)
+    ventana_juego.senal_salir_juego.connect(ventana_inicio.show)
 
     # Coneccion señales back-front ranking
     ventana_ranking.senal_procesar_puntajes = procesador_ranking.senal_procesar_puntajes
