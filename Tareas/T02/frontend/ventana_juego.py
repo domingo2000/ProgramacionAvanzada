@@ -1,12 +1,13 @@
 import sys
 from os import path
 
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QSize
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
                              QProgressBar, QPushButton, QVBoxLayout, QWidget)
 
 from parametros import IMAGENES
+import time
 
 
 class VentanaJuego(QWidget):
@@ -20,7 +21,7 @@ class VentanaJuego(QWidget):
 
     def init_gui(self):
         # Parametros generales
-        self.setFixedSize(700, 700)
+        self.setFixedSize(900, 630)
         # Layout_principal
         self.vbox_principal = QVBoxLayout()
         self.crear_barra_superior()
@@ -116,13 +117,22 @@ class VentanaJuego(QWidget):
         self.vbox_principal.addStretch(1)
 
     def crear_parte_inferior(self):
-
+        # Barra flechas izquerda
+        widget_izquerda = QWidget(self)
+        widget_izquerda.setGeometry(0, 100, 200, 500)
+        widget_izquerda.setStyleSheet("background-color: #D2B2F3;")
+    
         # Fondo Central
-        label_fondo = QLabel()
+        label_fondo = QLabel(self)
+        label_fondo.setGeometry(200, 100, 500, 500)
         imagen_fondo = QPixmap(path.join(*IMAGENES["imagen_fondo"]))
         label_fondo.setPixmap(imagen_fondo)
         label_fondo.setScaledContents(True)
-        self.vbox_principal.addWidget(label_fondo)
+
+        # Barra Tienda
+        self.widget_tienda = QWidget(self)
+        self.widget_tienda.setGeometry(700, 100, 200, 500)
+        self.widget_tienda.setStyleSheet("background-color: #D2B2F3;")
     
     def comenzar_ronda(self):
         pass
