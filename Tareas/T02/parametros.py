@@ -3,7 +3,8 @@
 # Parametros Flechas
 
 IMAGENES = {
-    "imagen_inicio": ["sprites", "logo.png"]
+    "imagen_inicio": ["sprites", "logo.png"],
+    "imagen_fondo": ["sprites", "fondos", "fondo.png"]
 }
 
 # Parametros Tamaño ventanas
