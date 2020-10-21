@@ -19,16 +19,26 @@ class VentanaJuego(QWidget):
         self.show()
 
     def init_gui(self):
+        # Parametros generales
+        self.setFixedSize(700, 700)
+        # Layout_principal
+        self.vbox_principal = QVBoxLayout()
+        self.crear_barra_superior()
+        self.crear_parte_inferior()
+        self.setLayout(self.vbox_principal)
 
+    def crear_barra_superior(self):
         # BARRA SUPERIOR
         barra_superior = QLabel()
         # Layout Barra superior
         hbox_barra_superior = QHBoxLayout()
+        hbox_barra_superior.addSpacing(100)
         # Imagen Logo
-        label_imagen_logo = QLabel()
+        label_imagen_logo = QLabel(self)
+        label_imagen_logo.setGeometry(0, 0, 100, 100)
         imagen_logo = QPixmap(path.join(*IMAGENES["imagen_inicio"]))
         label_imagen_logo.setPixmap(imagen_logo)
-        hbox_barra_superior.addWidget(label_imagen_logo)
+        label_imagen_logo.setScaledContents(True) 
         # Label Combo y Mayor Combo
         vbox_combos = QVBoxLayout()
         vbox_combos.addStretch(1)
@@ -41,6 +51,7 @@ class VentanaJuego(QWidget):
         hbox_barra_superior.addLayout(vbox_combos)
 
         # Progreso Y aprobacion
+        hbox_barra_superior.addStretch(1)
         # Layout Vertical
         vbox_progresos_aprobacion = QVBoxLayout()
         vbox_progresos_aprobacion.addStretch(1)
@@ -63,7 +74,7 @@ class VentanaJuego(QWidget):
 
         vbox_progresos_aprobacion.addStretch(1)
         hbox_barra_superior.addLayout(vbox_progresos_aprobacion)
-
+        hbox_barra_superior.addStretch(1)
         # Cancion Y dificultad y boton comenzar partida
         vbox_3 = QVBoxLayout()
         vbox_3.addStretch(1)
@@ -100,11 +111,19 @@ class VentanaJuego(QWidget):
 
         vbox_4.addStretch(1)
         hbox_barra_superior.addLayout(vbox_4)
-        # Layout Principal
-        vbox = QVBoxLayout()
-        vbox.addLayout(hbox_barra_superior)
-        self.setLayout(vbox)
+        # añadir a Layout Principal
+        self.vbox_principal.addLayout(hbox_barra_superior)
+        self.vbox_principal.addStretch(1)
 
+    def crear_parte_inferior(self):
+
+        # Fondo Central
+        label_fondo = QLabel()
+        imagen_fondo = QPixmap(path.join(*IMAGENES["imagen_fondo"]))
+        label_fondo.setPixmap(imagen_fondo)
+        label_fondo.setScaledContents(True)
+        self.vbox_principal.addWidget(label_fondo)
+    
     def comenzar_ronda(self):
         pass
 
