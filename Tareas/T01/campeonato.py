@@ -3,7 +3,6 @@ import random
 import imagenes_string
 import sys
 import lectura_datos
-from beautifultable import BeautifulTable
 
 
 class Campeonato:
