@@ -56,9 +56,13 @@ class VentanaInicio(QWidget):
         self.setLayout(vbox)
 
     def comenzar(self):
-        print("Comenzando Partida...")
-        self.hide()
-        self.senal_abrir_ventana_juego.emit()
+        if self.entrada.text().isalnum():
+            print("Comenzando Partida...")
+            self.hide()
+            self.senal_abrir_ventana_juego.emit()
+        else:
+            # Crear alerta
+            print("Nombre invalido")
 
     def ranking(self):
         print("Yendo a Ranking...")
