@@ -96,7 +96,7 @@ class VentanaJuego(QWidget):
         vbox_3.addLayout(hbox_dificultad)
         # Boton Comenzar Ronda
         self.boton_comenzar_ronda = QPushButton("Comenzar Ronda")
-        self.boton_comenzar_ronda.clicked.connect(self.comenzar_juego) # TEMPORAL
+        self.boton_comenzar_ronda.clicked.connect(self.comenzar_juego)  # TEMPORAL
         vbox_3.addWidget(self.boton_comenzar_ronda)
 
         vbox_3.addStretch(1)
