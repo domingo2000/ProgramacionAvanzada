@@ -213,7 +213,7 @@ class VentanaJuego(QWidget):
                 "abajo": FLECHA_ABAJO,
                 "derecha": FLECHA_DERECHA,
                 "izquerda": FLECHA_IZQUERDA,
-                }
+            }
             if direccion_a_tecla[direccion] == tecla:
                 print("Flecha capturada")
                 flecha.destruir_flecha()
