@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
 from parametros import (IMAGENES, UBICACION_VENTANAS, ALTO_CAPTURA, UBICACION_ZONA_CAPTURA,
                         TAMANO_VENTANAS, COLORES, FLECHA_ABAJO, FLECHA_ARRIBA, FLECHA_DERECHA,
                         FLECHA_IZQUERDA)
-from frontend.entidades import Flecha, FlechaNormal
+from frontend.entidades import Flecha, FlechaNormal, Flecha2
 import time
 
 
@@ -170,7 +170,7 @@ class VentanaJuego(QWidget):
             self.widget_tienda.hide()
 
     def crear_flecha(self):
-        nueva_flecha = FlechaNormal(self)
+        nueva_flecha = Flecha2(self)
         nueva_flecha.actualizar.connect(self.actualizar_label)
         nueva_flecha.senal_flecha_en_zona_captura.connect(self.manejar_flecha)
         self.flechas.append(nueva_flecha)
