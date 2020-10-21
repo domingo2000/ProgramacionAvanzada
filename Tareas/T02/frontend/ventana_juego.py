@@ -1,12 +1,14 @@
 import sys
 from os import path
 
-from PyQt5.QtCore import pyqtSignal, QSize
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import pyqtSignal, QSize, Qt
+from PyQt5.QtGui import QPixmap, QColor
 from PyQt5.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
                              QProgressBar, QPushButton, QVBoxLayout, QWidget)
 
-from parametros import IMAGENES, UBICACION_VENTANAS
+from parametros import (IMAGENES, UBICACION_VENTANAS, ALTO_CAPTURA, UBICACION_ZONA_CAPTURA,
+                        TAMANO_VENTANAS, COLORES, FLECHA_ABAJO, FLECHA_ARRIBA, FLECHA_DERECHA,
+                        FLECHA_IZQUERDA)
 from frontend.entidades import Flecha
 import time
 
@@ -18,10 +20,12 @@ class VentanaJuego(QWidget):
         super().__init__()
 
         self.init_gui()
+        self.flechas = []
+        self.flecha_en_zona_captura = None
 
     def init_gui(self):
         # Parametros generales
-        self.setFixedSize(900, 630)
+        self.setFixedSize(*TAMANO_VENTANAS["ventana_juego"])
         self.setGeometry(*UBICACION_VENTANAS["ventana_juego"], self.width(), self.height())
         # Layout_principal
         self.vbox_principal = QVBoxLayout()
@@ -124,6 +128,17 @@ class VentanaJuego(QWidget):
         widget_izquerda = QWidget(self)
         widget_izquerda.setGeometry(0, 100, 200, 500)
         widget_izquerda.setStyleSheet("background-color: #D2B2F3;")
+        # Zonas de captura
+        self.zonas_captura = {}
+        for i in range(4):
+            label_zona_captura = QLabel(widget_izquerda)
+            label_zona_captura.setStyleSheet("border: 1px solid black")
+            label_zona_captura.setGeometry(UBICACION_ZONA_CAPTURA[0] + (i * ALTO_CAPTURA),
+                                           UBICACION_ZONA_CAPTURA[1], ALTO_CAPTURA, ALTO_CAPTURA)
+            pixmap_zona_captura = QPixmap(ALTO_CAPTURA, ALTO_CAPTURA)
+            pixmap_zona_captura.fill(QColor(*COLORES["zona_captura"]))
+            label_zona_captura.setPixmap(pixmap_zona_captura)
+            self.zonas_captura[i] = label_zona_captura
 
         # Fondo Central
         label_fondo = QLabel(self)
@@ -155,16 +170,62 @@ class VentanaJuego(QWidget):
             self.widget_tienda.hide()
 
     def crear_flecha(self):
-        self.nueva_flecha = Flecha(self)
-        self.nueva_flecha.actualizar.connect(self.actualizar_label)
+        nueva_flecha = Flecha(self)
+        nueva_flecha.actualizar.connect(self.actualizar_label)
+        nueva_flecha.senal_flecha_en_zona_captura.connect(self.manejar_flecha)
+        self.flechas.append(nueva_flecha)
 
     def actualizar_label(self, label, y):
-        label.move(0, y)
+        flecha = self.sender()
+        label.move(flecha.columna * 50, y)
 
     # Funcion para probar funcionalidad de las flechas por mientras TEMPORAL
     def comenzar_juego(self):
         print("Empezando Juego")
         self.crear_flecha()
+
+    def manejar_flecha(self, flecha_dentro):
+        flecha = self.sender()
+        if flecha_dentro:
+            self.flecha_en_zona_captura = flecha
+            self.cambiar_color_captura(flecha, flecha_dentro)
+        else:
+            self.flecha_en_zona_captura = None
+            self.cambiar_color_captura(flecha, flecha_dentro)
+
+    def cambiar_color_captura(self, flecha, flecha_dentro):
+        i = flecha.columna
+        if flecha_dentro:
+            self.zonas_captura[i].pixmap().fill(Qt.blue)
+            self.zonas_captura[i].repaint()
+        else:
+            color = QColor(*COLORES["zona_captura"])
+            self.zonas_captura[i].pixmap().fill(color)
+            self.zonas_captura[i].repaint()
+
+    def keyPressEvent(self, event):
+        tecla = event.text()
+        if self.flecha_en_zona_captura:
+            flecha = self.flecha_en_zona_captura
+            tipo = flecha.tipo
+            if tipo == "arriba":
+                if tecla == FLECHA_ARRIBA:
+                    pass
+            elif tipo == "izquerda":
+                if tecla == FLECHA_IZQUERDA:
+                    print("Flecha capturada")
+                    flecha.destruir_flecha()
+                    self.flecha_en_zona_captura = None
+                    self.cambiar_color_captura(flecha, False)
+                    pass
+            elif tipo == "abajo":
+                if tecla == FLECHA_ABAJO:
+                    pass
+            elif tipo == "derecha":
+                if tecla == FLECHA_DERECHA:
+                    pass
+            else:
+                pass
 
 
 if __name__ == "__main__":
