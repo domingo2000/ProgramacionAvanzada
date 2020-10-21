@@ -6,12 +6,13 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
                              QProgressBar, QPushButton, QVBoxLayout, QWidget)
 
-from parametros import IMAGENES
+from parametros import IMAGENES, UBICACION_VENTANAS
+from frontend.entidades import Flecha
 import time
 
 
 class VentanaJuego(QWidget):
-    # Señales de clase
+    senal_salir_juego = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -21,6 +22,7 @@ class VentanaJuego(QWidget):
     def init_gui(self):
         # Parametros generales
         self.setFixedSize(900, 630)
+        self.setGeometry(*UBICACION_VENTANAS["ventana_juego"], self.width(), self.height())
         # Layout_principal
         self.vbox_principal = QVBoxLayout()
         self.crear_barra_superior()
@@ -107,6 +109,7 @@ class VentanaJuego(QWidget):
         vbox_4.addWidget(self.boton_pausar)
         # Boton Salir
         self.boton_salir = QPushButton("salir")
+        self.boton_salir.clicked.connect(self.salir)
         vbox_4.addWidget(self.boton_salir)
 
         vbox_4.addStretch(1)
@@ -140,7 +143,9 @@ class VentanaJuego(QWidget):
         pass
 
     def salir(self):
-        pass
+        print("Saliendo del juego")
+        self.hide()
+        self.senal_salir_juego.emit()
 
     def esconder_tienda(self):
         if self.widget_tienda.isHidden():
@@ -148,8 +153,16 @@ class VentanaJuego(QWidget):
         else:
             self.widget_tienda.hide()
 
+    def crear_flecha(self):
+        self.nueva_flecha = Flecha(self)
+        self.nueva_flecha.actualizar.connect(self.actualizar_label)
+
+    def actualizar_label(self, label, y):
+        label.move(0, y)
+
 
 if __name__ == "__main__":
     app = QApplication([])
     ventana_juego = VentanaJuego()
+    ventana_juego.show()
     sys.exit(app.exec_())
