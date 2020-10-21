@@ -1,7 +1,7 @@
 # PARAMETROS
 
 # Parametros Flechas
-VELOCIDAD_FLECHA = 40
+VELOCIDAD_FLECHA = 300
 ALTO_FLECHA = 50
 FLECHA_ARRIBA = "w"
 FLECHA_IZQUERDA = "a"
@@ -17,6 +17,22 @@ IMAGENES = {
     "imagen_flecha_derecha_1": ["sprites", "flechas", "right_1.png"],
     "imagen_flecha_arriba_1": ["sprites", "flechas", "up_1.png"],
     "imagen_flecha_abajo_1": ["sprites", "flechas", "down_1.png"],
+
+    "imagen_flecha_izquerda_2": ["sprites", "flechas", "left_2.png"],
+    "imagen_flecha_derecha_2": ["sprites", "flechas", "right_2.png"],
+    "imagen_flecha_arriba_2": ["sprites", "flechas", "up_2.png"],
+    "imagen_flecha_abajo_2": ["sprites", "flechas", "down_2.png"],
+
+    "imagen_flecha_izquerda_3": ["sprites", "flechas", "left_3.png"],
+    "imagen_flecha_derecha_3": ["sprites", "flechas", "right_3.png"],
+    "imagen_flecha_arriba_3": ["sprites", "flechas", "up_3.png"],
+    "imagen_flecha_abajo_3": ["sprites", "flechas", "down_3.png"],
+
+    "imagen_flecha_izquerda_4": ["sprites", "flechas", "left_4.png"],
+    "imagen_flecha_derecha_4": ["sprites", "flechas", "right_4.png"],
+    "imagen_flecha_arriba_4": ["sprites", "flechas", "up_4.png"],
+    "imagen_flecha_abajo_4": ["sprites", "flechas", "down_4.png"],
+
     "imagen_flecha_izquerda_5": ["sprites", "flechas", "left_5.png"],
     "imagen_flecha_derecha_5": ["sprites", "flechas", "right_5.png"],
     "imagen_flecha_arriba_5": ["sprites", "flechas", "up_5.png"],
