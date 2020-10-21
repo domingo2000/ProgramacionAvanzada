@@ -63,8 +63,8 @@ class Flecha(QThread):
 
     def run(self):
         while True:
-            sleep(0.1)
-            nuevo_y = self.altura + 0.1 * VELOCIDAD_FLECHA
+            sleep(0.01)
+            nuevo_y = self.altura + 0.01 * VELOCIDAD_FLECHA
             self.altura = nuevo_y
             self.chequear_zona_captura()
 
@@ -91,5 +91,17 @@ class FlechaNormal(Flecha):
             "abajo": IMAGENES["imagen_flecha_abajo_1"],
             "derecha": IMAGENES["imagen_flecha_derecha_1"],
             "izquerda": IMAGENES["imagen_flecha_izquerda_1"]
+        }
+        super().__init__(parent)
+
+
+class Flecha2(Flecha):
+    def __init__(self, parent):
+        self.tipo = "flecha2"
+        self.ruta_imagen_flechas = {
+            "arriba": IMAGENES["imagen_flecha_arriba_2"],
+            "abajo": IMAGENES["imagen_flecha_abajo_2"],
+            "derecha": IMAGENES["imagen_flecha_derecha_2"],
+            "izquerda": IMAGENES["imagen_flecha_izquerda_2"]
         }
         super().__init__(parent)
