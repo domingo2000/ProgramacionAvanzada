@@ -142,7 +142,12 @@ class VentanaJuego(QWidget):
 
     def salir(self):
         pass
-
+    
+    def esconder_tienda(self):
+        if self.widget_tienda.isHidden():
+            self.widget_tienda.show()
+        else:
+            self.widget_tienda.hide()
 
 if __name__ == "__main__":
     app = QApplication([])
