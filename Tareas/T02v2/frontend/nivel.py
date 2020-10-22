@@ -51,6 +51,25 @@ class Nivel(QWidget):
     def destruir_label(self, label):
         label.setParent(None)
 
+    def keyPressEvent(self, event):
+        flechas = self.revisar_zona_captura()
+        print(event.key())
+
+    def revisar_zona_captura(self):  # Deberia ser backend
+        flechas = self.generador_flechas.flechas
+        tamaño_zona_captura = p.TAMANO_VENTANAS["zona_captura"]
+        inicio_zona_captura = self.height() - tamaño_zona_captura
+        final_zona_captura = self.height()
+        for flecha in flechas:
+            inicio_flecha = flecha.altura
+            final_flecha = flecha.altura + flecha.label.height()
+            if (inicio_zona_captura < inicio_flecha < final_zona_captura) or\
+               (inicio_zona_captura < final_flecha < final_zona_captura):
+                flecha.destruir()
+
+            elif inicio_flecha > final_zona_captura:
+                flecha.destruir()
+
 
 class NivelPrincipiante(Nivel):
 
