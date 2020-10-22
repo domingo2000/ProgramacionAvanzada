@@ -3,8 +3,9 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel
 from PyQt5.QtGui import QPixmap, QColor
 from PyQt5.QtCore import Qt, pyqtSignal
 import parametros as p
-from entidades.flechas import FlechaNormal, FlechaHielo, FlechaDorada, Flecha2
+from entidades.flechas import FlechaNormal, FlechaHielo, FlechaDorada, Flecha2, GeneradorFlecha
 import random
+
 
 class Nivel(QWidget):
 
@@ -15,7 +16,11 @@ class Nivel(QWidget):
         self.aprobacion_necesaria = aprobacion_necesaria
         self.tiempo_entre_pasos = tiempo_entre_pasos
         self.duracion = duracion
+
+        # Generador
+        self.generador_flechas = GeneradorFlecha(self.tiempo_entre_pasos, self)
         self.init_gui()
+        # Timers Flechas
 
     def init_gui(self):
         # Parametros generales de ventana
@@ -37,20 +42,14 @@ class Nivel(QWidget):
             label.setStyleSheet(f"border: 1px solid black; background-color: {color};")
             label.show()
 
-    def generador_flechas(self):
-        n = random.uniform(0, 1)
-        if n < p.PROB_NORMAL:
-            pass
-            # GENERA FLECHA NORMAL
-        elif p.PROB_NORMAL < n < p.PROB_NORMAL + p.PROB_FLECHA_DORADA:
-            # GENERA DORADA
-            pass
-        elif p.PROB_NORMAL + p.PROB_FLECHA_DORADA < n < p.PROB_NORMAL + p.PROB_FLECHA_DORADA + p.PROB_FLECHA_X2:
-            # GENERA X2
-            pass
-        else:
-            pass
-            # Genera Hielo
+    def comenzar(self):
+        self.generador_flechas.comenzar()
+
+    def actualizar_label(self, label, x, y):
+        label.move(x, y)
+
+    def destruir_label(self, label):
+        label.setParent(None)
 
 
 class NivelPrincipiante(Nivel):
