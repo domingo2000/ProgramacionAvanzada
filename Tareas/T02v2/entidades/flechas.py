@@ -36,7 +36,6 @@ class Flecha(QObject):
                                     for i in range(5, 9)]
         rutas_imagenes_explosion.append(p.IMAGENES[f"imagen_explosion_{self.direccion}"])
         paths_imagenes_explosion = [path.join(*rutas_imagenes_explosion[i]) for i in range(5)]
-        print(paths_imagenes_explosion)
         self.imagenes_explosion = [QPixmap(paths_imagenes_explosion[i]) for i in range(5)]
         self.animacion_explosion = Animacion(self.label, p.DELAY_EXPLOSION, self.imagenes_explosion)
 
@@ -67,9 +66,7 @@ class Flecha(QObject):
         self.animacion_explosion.comenzar()
 
     def comenzar(self):
-        print("COMENZANDO")
         self.timer.start()
-        print(f" Esta activo: {self.timer.isActive()}")
 
     def cambiar_velocidad(self, ponderador, tiempo_reduccion):
         velocidad_original = self.velocidad
