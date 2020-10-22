@@ -8,11 +8,12 @@ from PyQt5.QtGui import QPixmap
 from backend.animacion import Animacion
 import parametros as p
 import random
-from backend.funciones import sleep
+from time import sleep
 
 
-class Flecha(QObject):
-    senal_actualizar = pyqtSignal(QLabel, int)
+class Flecha(QThread):
+    senal_actualizar = pyqtSignal(QLabel, int, int)
+    senal_destruir = pyqtSignal(QLabel)
 
     def __init__(self, parent):
         super().__init__()
@@ -25,10 +26,8 @@ class Flecha(QObject):
         self.columna = random.randint(0, 3)
         self.__altura = p.ALTURA_INICIAL_FLECHA
 
-        # Timer
-        self.timer = QTimer()
-        self.timer.setInterval(p.TASA_DE_REFRESCO * 1000)
-        self.timer.timeout.connect(self.actualizar_altura)
+        self.parent = parent
+
         # Label
         self.label = QLabel(parent)
         # Animacion
@@ -46,11 +45,15 @@ class Flecha(QObject):
     @altura.setter
     def altura(self, y):
         self.__altura = y
-        self.label.move(self.columna * 50, y)
-        self.senal_actualizar.emit(self.label, self.altura)
-
+        pos_x = self.columna * 50
+        pos_y = self.altura
+        self.senal_actualizar.emit(self.label, pos_x, pos_y)
+        """
+        if self.altura > self.parent.height():
+            self.destruir()
+        """
     def init_gui(self, ruta_imagen, parent):
-        self.label.setGeometry(100, 100, 50, 50)
+        self.label.setGeometry(0, self.columna * 50, 50, 50)
         imagen_flecha = QPixmap(path.join(*ruta_imagen))
         self.label.setPixmap(imagen_flecha)
         self.label.setScaledContents(True)
@@ -65,8 +68,10 @@ class Flecha(QObject):
         print("Flecha Capturada")
         self.animacion_explosion.comenzar()
 
-    def comenzar(self):
-        self.timer.start()
+    def run(self):
+        while self.label.y() < self.parent.height():
+            sleep(p.TASA_DE_REFRESCO)
+            self.actualizar_altura()
 
     def cambiar_velocidad(self, ponderador, tiempo_reduccion):
         velocidad_original = self.velocidad
@@ -74,6 +79,9 @@ class Flecha(QObject):
         sleep(2)
         print("VOLVIENDO A VELOCIDAD ORIGINAL")
         self.velocidad = velocidad_original
+
+    def destruir(self):
+        self.senal_destruir.emit(self.label)
 
 
 class FlechaNormal(Flecha):
@@ -121,6 +129,45 @@ class FlechaHielo(Flecha):
         ponderador_velocidad = velocidad_nueva / velocidad_actual
         tiempo_reduccion = duracion_nivel * p.REDUCCION_VELOCIDAD_HIELO
         self.senal_poder_hielo.emit(ponderador_velocidad, tiempo_reduccion)
+
+
+class GeneradorFlecha(QObject):
+
+    def __init__(self, tiempo_entre_flechas, parent):
+        self.flechas = []
+        self.parent = parent
+        super().__init__()
+        self.timer = QTimer()
+        self.timer.setInterval(tiempo_entre_flechas * 1000)
+        self.timer.timeout.connect(self.generar_flecha)
+
+    def generar_flecha(self):
+        n = random.uniform(0, 1)
+        if n < p.PROB_NORMAL:
+            # GENERA FLECHA NORMAL
+            flecha = FlechaNormal(self.parent)
+        elif p.PROB_NORMAL < n < p.PROB_NORMAL + p.PROB_FLECHA_DORADA:
+            # GENERA DORADA
+            flecha = FlechaDorada(self.parent)
+        elif p.PROB_NORMAL + p.PROB_FLECHA_DORADA < n < p.PROB_NORMAL + p.PROB_FLECHA_DORADA + p.PROB_FLECHA_X2:
+            # GENERA X2
+            flecha = Flecha2(self.parent)
+        else:
+            # Genera Hielo
+            flecha = FlechaHielo(self.parent)
+        print(flecha.label.pos())
+        flecha.senal_actualizar.connect(self.parent.actualizar_label)
+        flecha.senal_destruir.connect(self.parent.destruir_label)
+        flecha.start()
+        self.flechas.append(flecha)
+
+    def comenzar(self):
+        print("Empieza generacion de flechas")
+        self.timer.start()
+
+    def parar(self):
+        print("Deteniendo Generacion de flechas")
+        self.timer.stop()
 
 
 if __name__ == "__main__":
