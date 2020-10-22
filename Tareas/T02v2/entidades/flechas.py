@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap
 from backend.animacion import Animacion
 import parametros as p
 import random
-from time import sleep
+from backend.funciones import sleep
 
 
 class Flecha(QThread):
@@ -23,8 +23,9 @@ class Flecha(QThread):
         self.puntos = p.PUNTOS_FLECHA
         self.probabilidad = None  # float entre 0 y 1
         self.viva = True
-        self.columna = random.randint(0, 3)
+        self.columna = p.DIRECCIONES.index(self.direccion)
         self.__altura = p.ALTURA_INICIAL_FLECHA
+        self.capturada = False
 
         self.parent = parent
 
@@ -67,13 +68,25 @@ class Flecha(QThread):
         self.altura += p.TASA_DE_REFRESCO * self.velocidad
 
     def capturar(self):
-        print("Flecha Capturada")
-        self.animacion_explosion.comenzar()
+        if self.capturada:
+            return None
+        else:
+            print("Flecha Capturada")
+            self.capturada = True
+            self.animacion_explosion.comenzar()
+            sleep(self.animacion_explosion.duracion, milisec=True)
+            self.destruir()
+
+    def destruir(self):
+        print("Flecha destruida")
+        self.senal_destruir.emit(self.label)
 
     def run(self):
         while self.label.y() < self.parent.height():
             sleep(p.TASA_DE_REFRESCO)
             self.actualizar_altura()
+        # Destruye la flecha si pasa la zona de captura
+        self.senal_destruir.emit(self.label)
 
     def cambiar_velocidad(self, ponderador, tiempo_reduccion):
         velocidad_original = self.velocidad
@@ -82,8 +95,7 @@ class Flecha(QThread):
         print("VOLVIENDO A VELOCIDAD ORIGINAL")
         self.velocidad = velocidad_original
 
-    def destruir(self):
-        self.senal_destruir.emit(self.label)
+
 
 
 class FlechaNormal(Flecha):
@@ -132,6 +144,16 @@ class FlechaHielo(Flecha):
         tiempo_reduccion = duracion_nivel * p.REDUCCION_VELOCIDAD_HIELO
         self.senal_poder_hielo.emit(ponderador_velocidad, tiempo_reduccion)
 
+    def capturar(self):
+        if self.capturada:
+            return None
+        else:
+            print("Flecha Capturada")
+            self.capturada = True
+            self.animacion_explosion.comenzar()
+            sleep(self.animacion_explosion.duracion, milisec=True)
+            self.destruir()
+
 
 class GeneradorFlecha(QObject):
 
@@ -139,6 +161,10 @@ class GeneradorFlecha(QObject):
         self.flechas = set()
         self.parent = parent
         super().__init__()
+        # Genera la primera flecha antes que el timer
+        self.generar_flecha()
+
+        # Timer
         self.timer = QTimer()
         self.timer.setInterval(tiempo_entre_flechas * 1000)
         self.timer.timeout.connect(self.generar_flecha)
