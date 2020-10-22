@@ -27,6 +27,26 @@ IMAGENES = {
     "imagen_flecha_derecha_5": ["sprites", "flechas", "right_5.png"],
     "imagen_flecha_arriba_5": ["sprites", "flechas", "up_5.png"],
     "imagen_flecha_abajo_5": ["sprites", "flechas", "down_5.png"],
+
+    "imagen_flecha_izquerda_6": ["sprites", "flechas", "left_6.png"],
+    "imagen_flecha_derecha_6": ["sprites", "flechas", "right_6.png"],
+    "imagen_flecha_arriba_6": ["sprites", "flechas", "up_6.png"],
+    "imagen_flecha_abajo_6": ["sprites", "flechas", "down_6.png"],
+
+    "imagen_flecha_izquerda_7": ["sprites", "flechas", "left_7.png"],
+    "imagen_flecha_derecha_7": ["sprites", "flechas", "right_7.png"],
+    "imagen_flecha_arriba_7": ["sprites", "flechas", "up_7.png"],
+    "imagen_flecha_abajo_7": ["sprites", "flechas", "down_7.png"],
+
+    "imagen_flecha_izquerda_8": ["sprites", "flechas", "left_8.png"],
+    "imagen_flecha_derecha_8": ["sprites", "flechas", "right_8.png"],
+    "imagen_flecha_arriba_8": ["sprites", "flechas", "up_8.png"],
+    "imagen_flecha_abajo_8": ["sprites", "flechas", "down_8.png"],
+
+    "imagen_explosion_izquerda": ["sprites", "flechas", "boom_1.png"],
+    "imagen_explosion_derecha": ["sprites", "flechas", "boom_4.png"],
+    "imagen_explosion_arriba": ["sprites", "flechas", "boom_3.png"],
+    "imagen_explosion_abajo": ["sprites", "flechas", "boom_2.png"],
 }
 
 # Parametros Tamaño ventanas
@@ -60,3 +80,6 @@ PUNTOS_FLECHA_DORADA = 10 * PUNTOS_FLECHA
 # Flecha Hielo
 PROB_FLECHA_HIELO = 0.2
 REDUCCION_VELOCIDAD_HIELO = 0.2
+
+# DELAY ANIMACIONES
+DELAY_EXPLOSION = 10
