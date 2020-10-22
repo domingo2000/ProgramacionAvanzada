@@ -5,10 +5,10 @@ from PyQt5.QtCore import QThread, Qt, pyqtSignal, QTimer, QObject, QEventLoop
 from PyQt5.QtGui import QPixmap
 
 # from backend.animacion import Animacion
-from animacion import Animacion
+from backend.animacion import Animacion
 import parametros as p
 import random
-import time
+from backend.funciones import sleep
 
 
 class Flecha(QObject):
@@ -22,7 +22,7 @@ class Flecha(QObject):
         self.puntos = p.PUNTOS_FLECHA
         self.probabilidad = None  # float entre 0 y 1
         self.viva = True
-        self.columna = 0
+        self.columna = random.randint(0, 3)
         self.__altura = p.ALTURA_INICIAL_FLECHA
 
         # Timer
@@ -71,8 +71,12 @@ class Flecha(QObject):
         self.timer.start()
         print(f" Esta activo: {self.timer.isActive()}")
 
-    def cambiar_velocidad(self, ponderador):
+    def cambiar_velocidad(self, ponderador, tiempo_reduccion):
+        velocidad_original = self.velocidad
         self.velocidad = self.velocidad * ponderador
+        sleep(2)
+        print("VOLVIENDO A VELOCIDAD ORIGINAL")
+        self.velocidad = velocidad_original
 
 
 class FlechaNormal(Flecha):
@@ -82,7 +86,6 @@ class FlechaNormal(Flecha):
         ruta_imagen = p.IMAGENES[f"imagen_flecha_{self.direccion}_3"]
         super().init_gui(ruta_imagen, parent)
         self.probabilidad = p.PROB_NORMAL
-        self.columna = 0
 
 
 class Flecha2(Flecha):
@@ -92,7 +95,7 @@ class Flecha2(Flecha):
         ruta_imagen = p.IMAGENES[f"imagen_flecha_{self.direccion}_4"]
         super().init_gui(ruta_imagen, parent)
         self.probabilidad = p.PROB_FLECHA_X2
-        self.columna = 1
+        self.puntos = p.PUNTOS_FLECHA_x2
 
 
 class FlechaDorada(Flecha):
@@ -102,17 +105,25 @@ class FlechaDorada(Flecha):
         ruta_imagen = p.IMAGENES[f"imagen_flecha_{self.direccion}_2"]
         super().init_gui(ruta_imagen, parent)
         self.probabilidad = p.PROB_FLECHA_DORADA
-        self.columna = 2
+        self.velocidad = p.VELOCIDAD_FLECHA_DORADA
+        self.puntos = p.PUNTOS_FLECHA_DORADA
 
 
 class FlechaHielo(Flecha):
+    senal_poder_hielo = pyqtSignal(float, int)
 
     def __init__(self, parent):
         super().__init__(parent)
         ruta_imagen = p.IMAGENES[f"imagen_flecha_{self.direccion}_1"]
         super().init_gui(ruta_imagen, parent)
         self.probabilidad = p.PROB_FLECHA_HIELO
-        self.columna = 3
+
+    def poder(self, duracion_nivel):
+        velocidad_actual = p.VELOCIDAD_FLECHA
+        velocidad_nueva = velocidad_actual * (0.5)
+        ponderador_velocidad = velocidad_nueva / velocidad_actual
+        tiempo_reduccion = duracion_nivel * p.REDUCCION_VELOCIDAD_HIELO
+        self.senal_poder_hielo.emit(ponderador_velocidad, tiempo_reduccion)
 
 
 if __name__ == "__main__":
@@ -125,8 +136,6 @@ if __name__ == "__main__":
 
     flecha_x2 = Flecha2(ventana)
     flecha_hielo = FlechaHielo(ventana)
-    flecha_hielo.cambiar_velocidad(1 / 2)
-    flecha_dorada.cambiar_velocidad(1.5)
 
     flecha_normal.comenzar()
     flecha_dorada.comenzar()
@@ -134,9 +143,9 @@ if __name__ == "__main__":
     flecha_x2.comenzar()
     ventana.show()
 
+    flecha_hielo.senal_poder_hielo.connect(flecha_normal.cambiar_velocidad)
     loop = QEventLoop()
     QTimer.singleShot(2000, loop.quit)
     loop.exec_()
-
-    flecha_dorada.capturar()
+    flecha_hielo.poder(100)
     sys.exit(app.exec_())
