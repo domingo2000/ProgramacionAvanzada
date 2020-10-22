@@ -3,6 +3,9 @@ from os import path
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel
 from PyQt5.QtCore import QThread, Qt, pyqtSignal, QTimer, QObject
 from PyQt5.QtGui import QPixmap
+
+# from backend.animacion import Animacion
+from animacion import Animacion
 import parametros as p
 import random
 import time
@@ -26,6 +29,16 @@ class Flecha(QObject):
         self.timer = QTimer()
         self.timer.setInterval(p.TASA_DE_REFRESCO * 1000)
         self.timer.timeout.connect(self.actualizar_altura)
+        # Label
+        self.label = QLabel(parent)
+        # Animacion
+        rutas_imagenes_explosion = [p.IMAGENES[f"imagen_flecha_{self.direccion}_{i}"]
+                                    for i in range(5, 9)]
+        rutas_imagenes_explosion.append(p.IMAGENES[f"imagen_explosion_{self.direccion}"])
+        paths_imagenes_explosion = [path.join(*rutas_imagenes_explosion[i]) for i in range(5)]
+        print(paths_imagenes_explosion)
+        self.imagenes_explosion = [QPixmap(paths_imagenes_explosion[i]) for i in range(4)]
+        self.animacion = Animacion(self.label, p.DELAY_EXPLOSION, self.imagenes_explosion)
 
     @property
     def altura(self):
@@ -38,7 +51,6 @@ class Flecha(QObject):
         self.senal_actualizar.emit(self.label, self.altura)
 
     def init_gui(self, ruta_imagen, parent):
-        self.label = QLabel(parent)
         self.label.setGeometry(100, 100, 50, 50)
         imagen_flecha = QPixmap(path.join(*ruta_imagen))
         self.label.setPixmap(imagen_flecha)
@@ -46,7 +58,6 @@ class Flecha(QObject):
         self.label.setVisible(True)
 
         self.label.show()
-
     def actualizar_altura(self):
         self.altura += p.TASA_DE_REFRESCO * self.velocidad
 
@@ -120,5 +131,6 @@ if __name__ == "__main__":
     flecha_hielo.comenzar()
     flecha_x2.comenzar()
 
+    flecha_dorada.animacion.comenzar()
     ventana.show()
     sys.exit(app.exec_())
