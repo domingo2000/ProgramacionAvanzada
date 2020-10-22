@@ -28,7 +28,6 @@ class Animacion(QObject):
         self.infinito = False
 
     def actualizar_frame(self):
-        print(self.frames)
         if self.frame_actual == (len(self.frames) - 1):
             if not(self.infinito):
                 self.label.setVisible(False)
@@ -37,7 +36,6 @@ class Animacion(QObject):
         else:
             self.frame_actual += 1
 
-        print(self.frame_actual)
         imagen = self.frames[self.frame_actual]
         self.label.setPixmap(imagen)
         self.label.repaint()
