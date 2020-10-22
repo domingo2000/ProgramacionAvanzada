@@ -71,10 +71,17 @@ COLORES = {
 }
 # Propiedades Graficas
 TASA_DE_REFRESCO = 0.01
+
 # Parametros Flechas
 DIRECCIONES = ["derecha", "izquerda", "arriba", "abajo"]
+
+FLECHA_ARRIBA = "w"
+FLECHA_IZQUERDA = "a"
+FLECHA_ABAJO = "s"
+FLECHA_DERECHA = "d"
+
 ALTURA_INICIAL_FLECHA = 0
-VELOCIDAD_FLECHA = 80
+VELOCIDAD_FLECHA = 200
 PUNTOS_FLECHA = 1
 # Flecha Normal
 PROB_NORMAL = 0.5
@@ -95,7 +102,7 @@ DELAY_EXPLOSION = 10
 # Parametros Niveles
 NIVEL_PRINCIPIANTE = {
     "duracion": 30,
-    "tiempo_entre_pasos": 1,
+    "tiempo_entre_pasos": 5,
     "aprobacion_necesaria": 30,
 }
 NIVEL_AFICIONADO = {
