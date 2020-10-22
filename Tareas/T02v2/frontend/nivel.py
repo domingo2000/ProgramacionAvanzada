@@ -7,18 +7,13 @@ from entidades.flechas import FlechaNormal, FlechaHielo, FlechaDorada, Flecha2, 
 import random
 
 
-class Nivel(QWidget):
+class VentanaNivel(QWidget):
+    senal_tecla_presionada = pyqtSignal(object, str)
 
-    def __init__(self, duracion, tiempo_entre_pasos, aprobacion_necesaria):
+    def __init__(self, nivel):
         super().__init__()
-        self.combo = 0
-        self.combo_maximo = 0
-        self.aprobacion_necesaria = aprobacion_necesaria
-        self.tiempo_entre_pasos = tiempo_entre_pasos
-        self.duracion = duracion
-
         # Generador
-        self.generador_flechas = GeneradorFlecha(self.tiempo_entre_pasos, self)
+        self.generador_flechas = GeneradorFlecha(nivel.tiempo_entre_pasos, self)
         self.init_gui()
         # Timers Flechas
 
@@ -52,38 +47,6 @@ class Nivel(QWidget):
         label.setParent(None)
 
     def keyPressEvent(self, event):
-        flechas = self.revisar_zona_captura()
-        print(event.key())
+        tecla = event.text()
+        self.senal_tecla_presionada.emit(self, tecla)
 
-    def revisar_zona_captura(self):  # Deberia ser backend
-        flechas = self.generador_flechas.flechas
-        tamaño_zona_captura = p.TAMANO_VENTANAS["zona_captura"]
-        inicio_zona_captura = self.height() - tamaño_zona_captura
-        final_zona_captura = self.height()
-        for flecha in flechas:
-            inicio_flecha = flecha.altura
-            final_flecha = flecha.altura + flecha.label.height()
-            if (inicio_zona_captura < inicio_flecha < final_zona_captura) or\
-               (inicio_zona_captura < final_flecha < final_zona_captura):
-                flecha.destruir()
-
-            elif inicio_flecha > final_zona_captura:
-                flecha.destruir()
-
-
-class NivelPrincipiante(Nivel):
-
-    def __init__(self):
-        super().__init__(*p.NIVEL_PRINCIPIANTE.values())
-
-
-class NivelAficionado(Nivel):
-
-    def __init__(self):
-        super().__init__(*p.NIVEL_AFICIONADO.values())
-
-
-class NivelMaestroCumbia(Nivel):
-
-    def __init__(self):
-        super().__init__(*p.NIVEL_MAESTRO_CUMBIA.values())
