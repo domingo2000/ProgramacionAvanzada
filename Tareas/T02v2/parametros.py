@@ -53,15 +53,22 @@ IMAGENES = {
 TAMANO_VENTANAS = {
     "ventana_inicio": [500, 500],
     "ventana_ranking": [500, 500],
-    "ventana_juego": [900, 630]
+    "ventana_juego": [900, 630],
+    "ventana_nivel": [200, 500],
+    "zona_captura": 50
 }
 
 UBICACION_VENTANAS = {
     "ventana_inicio": [100, 100],
     "ventana_ranking": [100, 100],
-    "ventana_juego": [100, 100]
+    "ventana_juego": [100, 100],
+    "ventana_nivel": [50, 50]
 }
-
+# Colores
+COLORES = {
+    "ventana_nivel": "#D2B2F3",
+    "zona_captura": "#99CCFF"
+}
 # Propiedades Graficas
 TASA_DE_REFRESCO = 0.001
 # Parametros Flechas
@@ -84,3 +91,20 @@ REDUCCION_VELOCIDAD_HIELO = 0.2
 
 # DELAY ANIMACIONES
 DELAY_EXPLOSION = 10
+
+# Parametros Niveles
+NIVEL_PRINCIPIANTE = {
+    "duracion": 30,
+    "tiempo_entre_pasos": 1,
+    "aprobacion_necesaria": 30,
+}
+NIVEL_AFICIONADO = {
+    "duracion": 30,
+    "tiempo_entre_pasos": 1,
+    "aprobacion_necesaria": 30,
+}
+NIVEL_MAESTRO_CUMBIA = {
+    "duracion": 30,
+    "tiempo_entre_pasos": 1,
+    "aprobacion_necesaria": 30,
+}
