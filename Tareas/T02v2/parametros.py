@@ -67,7 +67,7 @@ TASA_DE_REFRESCO = 0.01
 # Parametros Flechas
 DIRECCIONES = ["derecha", "izquerda", "arriba", "abajo"]
 ALTURA_INICIAL_FLECHA = 100
-VELOCIDAD_FLECHA = 100
+VELOCIDAD_FLECHA = 20
 PUNTOS_FLECHA = 1
 # Flecha Normal
 PROB_NORMAL = 0.5
