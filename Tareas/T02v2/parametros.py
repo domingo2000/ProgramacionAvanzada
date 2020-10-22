@@ -70,10 +70,10 @@ COLORES = {
     "zona_captura": "#99CCFF"
 }
 # Propiedades Graficas
-TASA_DE_REFRESCO = 0.001
+TASA_DE_REFRESCO = 0.01
 # Parametros Flechas
 DIRECCIONES = ["derecha", "izquerda", "arriba", "abajo"]
-ALTURA_INICIAL_FLECHA = 100
+ALTURA_INICIAL_FLECHA = 0
 VELOCIDAD_FLECHA = 80
 PUNTOS_FLECHA = 1
 # Flecha Normal
@@ -100,11 +100,11 @@ NIVEL_PRINCIPIANTE = {
 }
 NIVEL_AFICIONADO = {
     "duracion": 30,
-    "tiempo_entre_pasos": 1,
+    "tiempo_entre_pasos": 0.75,
     "aprobacion_necesaria": 30,
 }
 NIVEL_MAESTRO_CUMBIA = {
     "duracion": 30,
-    "tiempo_entre_pasos": 1,
+    "tiempo_entre_pasos": 0.5,
     "aprobacion_necesaria": 30,
 }
