@@ -45,7 +45,7 @@ class Flecha(QThread):
     @altura.setter
     def altura(self, y):
         self.__altura = y
-        pos_x = self.columna * 50
+        pos_x = self.columna * p.TAMANO_VENTANAS["zona_captura"]
         pos_y = self.altura
         self.senal_actualizar.emit(self.label, pos_x, pos_y)
         """
@@ -53,7 +53,9 @@ class Flecha(QThread):
             self.destruir()
         """
     def init_gui(self, ruta_imagen, parent):
-        self.label.setGeometry(0, self.columna * 50, 50, 50)
+        separacion = p.TAMANO_VENTANAS["zona_captura"]
+        self.label.setGeometry(self.columna * separacion, 0, separacion, separacion)
+        self.label.setStyleSheet("background-color:transparent;")
         imagen_flecha = QPixmap(path.join(*ruta_imagen))
         self.label.setPixmap(imagen_flecha)
         self.label.setScaledContents(True)
@@ -134,7 +136,7 @@ class FlechaHielo(Flecha):
 class GeneradorFlecha(QObject):
 
     def __init__(self, tiempo_entre_flechas, parent):
-        self.flechas = []
+        self.flechas = set()
         self.parent = parent
         super().__init__()
         self.timer = QTimer()
@@ -155,11 +157,10 @@ class GeneradorFlecha(QObject):
         else:
             # Genera Hielo
             flecha = FlechaHielo(self.parent)
-        print(flecha.label.pos())
         flecha.senal_actualizar.connect(self.parent.actualizar_label)
         flecha.senal_destruir.connect(self.parent.destruir_label)
         flecha.start()
-        self.flechas.append(flecha)
+        self.flechas.add(flecha)
 
     def comenzar(self):
         print("Empieza generacion de flechas")
