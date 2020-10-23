@@ -12,11 +12,14 @@ from backend.funciones import sleep
 
 
 class Flecha(QThread):
+    contador_clase = 0
     senal_actualizar_flecha = pyqtSignal(object, int, int)
     senal_destruir = pyqtSignal(QLabel)
 
     def __init__(self, parent):
         super().__init__()
+        Flecha.contador_clase += 1
+        self.numero = Flecha.contador_clase
         # Atributos flecha abstracta
         self.velocidad = p.VELOCIDAD_FLECHA
         self.direccion = random.choice(p.DIRECCIONES)
@@ -71,14 +74,12 @@ class Flecha(QThread):
         if self.capturada:
             return None
         else:
-            print("Flecha Capturada")
             self.capturada = True
             self.animacion_explosion.comenzar()
             sleep(self.animacion_explosion.duracion, milisec=True)
             self.destruir()
 
     def destruir(self):
-        print("Flecha destruida")
         self.senal_destruir.emit(self.label)
 
     def cambiar_velocidad(self, ponderador, tiempo_reduccion):
@@ -97,7 +98,7 @@ class Flecha(QThread):
         self.destruir()
 
     def __repr__(self):
-        string = f"Flecha: Label:({self.label.x()}, {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
+        string = f"Flecha {self.numero}: {self.tipo} = Label:({self.label.x()}, {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
         return string
 
 
@@ -155,8 +156,6 @@ class FlechaHielo(Flecha):
         if self.capturada:
             return None
         else:
-            
-            print("Flecha Capturada")
             self.capturada = True
             self.animacion_explosion.comenzar()
             sleep(self.animacion_explosion.duracion, milisec=True)
