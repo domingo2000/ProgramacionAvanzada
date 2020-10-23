@@ -41,7 +41,6 @@ class Animacion(QObject):
         self.label.repaint()
 
     def comenzar(self):
-        print("Animando")
         self.timer.start()
 
 

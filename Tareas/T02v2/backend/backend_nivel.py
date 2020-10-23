@@ -43,20 +43,16 @@ class Nivel(QObject):
         self.senal_actualizar_combo_maximo.emit(self.combo)
 
     def flechas_en_zona_captura(self, ventana_nivel):
-        print("DEBUG Revisando zona Captura")
         flechas_en_zona = set()
         flechas = ventana_nivel.generador_flechas.flechas
         for flecha in flechas:
-            print(f"DEBUG {flecha.colider}")
             for zona_captura in ventana_nivel.zonas_captura:
                 if flecha.colider.intersects(zona_captura.colider):
-                    print("Interseccion entre flechas")
                     flechas_en_zona.add(flecha)
         return(flechas_en_zona)
 
     def capturar_flechas(self, set_flechas):
         for flecha in set_flechas:
-            print("flecha capturada")
             flecha.capturar()
             self.combo += 1
             self.flechas_capturadas.add(flecha)
@@ -71,12 +67,11 @@ class Nivel(QObject):
             flechas = self.flechas_en_zona_captura(ventana_nivel)
             self.revisar_flechas_tecleadas(tecla, flechas)
             paso_correcto = self.revisar_paso(tecla, flechas)
+            if not(paso_correcto):
+                self.combo = 0
         else:
             # En caso de que presione una tecla fuera del WASD la omite
             pass
-
-        if not(paso_correcto):
-            self.combo = 0
 
     def revisar_flechas_tecleadas(self, tecla, flechas):
         for flecha in flechas:
