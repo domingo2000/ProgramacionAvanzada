@@ -161,21 +161,48 @@ class FlechaHielo(Flecha):
             self.animacion_explosion.comenzar()
             sleep(self.animacion_explosion.duracion, milisec=True)
             self.poder(self.parent.nivel.duracion)
+            print("Activando Poder Hielo")
             self.destruir()
 
 
 class GeneradorFlecha(QObject):
 
-    def __init__(self, tiempo_entre_flechas, parent):
+    def __init__(self, tiempo_entre_flechas, parent,
+                 pasos_dobles=False, pasos_triples=False):
         self.flechas = set()
         self.parent = parent
         self.tiempo_entre_flechas = tiempo_entre_flechas
+        self.pasos_dobles = pasos_dobles
+        self.pasos_triples = pasos_triples
         super().__init__()
 
         # Timer
         self.timer = QTimer()
         self.timer.setInterval(tiempo_entre_flechas * 1000)
-        self.timer.timeout.connect(self.generar_flecha)
+        self.timer.timeout.connect(self.generar_flechas)
+
+    def generar_flechas(self):
+        if self.pasos_triples:
+            funciones_generadoras_pasos = [self.generar_flecha,
+                                           self.generar_dos_flechas,
+                                           self.generar_tres_flechas]
+            funcion_escogida = random.choice(funciones_generadoras_pasos)
+            funcion_escogida()
+        elif self.pasos_dobles:
+            funciones_generadoras_pasos = [self.generar_flecha,
+                                           self.generar_dos_flechas]
+            funcion_escogida = random.choice(funciones_generadoras_pasos)
+            funcion_escogida()
+        else:
+            self.generar_flecha()
+
+    def generar_tres_flechas(self):
+        for _ in range(3):
+            self.generar_flecha()
+
+    def generar_dos_flechas(self):
+        self.generar_flecha()
+        self.generar_flecha()
 
     def generar_flecha(self):
         n = random.uniform(0, 1)

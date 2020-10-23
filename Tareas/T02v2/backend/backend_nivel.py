@@ -42,7 +42,7 @@ class Nivel(QObject):
         self.__combo_maximo = valor
         self.senal_actualizar_combo_maximo.emit(self.combo)
 
-    def revisar_zona_captura(self, ventana_nivel):
+    def flechas_en_zona_captura(self, ventana_nivel):
         print("DEBUG Revisando zona Captura")
         flechas_en_zona = set()
         flechas = ventana_nivel.generador_flechas.flechas
@@ -68,25 +68,22 @@ class Nivel(QObject):
         # Revisa que la tecla sea del WASD (agregar espacion despues)
         teclas = {p.FLECHA_DERECHA, p.FLECHA_izquierda, p.FLECHA_ARRIBA, p.FLECHA_ABAJO}
         if tecla in teclas:
-            paso_correcto = False
-            flechas = self.revisar_zona_captura(ventana_nivel)
-            if flechas:
-                for flecha in flechas:
-                    print(flecha.label.pos())
-                    paso_correcto = self.revisar_paso(tecla, flecha)
-                if paso_correcto:
-                    self.capturar_flechas(flechas)
-                else:
-                    print("paso incorrecto")
-            else:  # Caso en que no hay flechas en la zona de captura
-                paso_correcto = False
+            flechas = self.flechas_en_zona_captura(ventana_nivel)
+            self.revisar_flechas_tecleadas(tecla, flechas)
+            paso_correcto = self.revisar_paso(tecla, flechas)
         else:
+            # En caso de que presione una tecla fuera del WASD la omite
             pass
 
         if not(paso_correcto):
             self.combo = 0
 
-    def revisar_paso(self, tecla, flecha):
+    def revisar_flechas_tecleadas(self, tecla, flechas):
+        for flecha in flechas:
+            if self.revisar_flecha_tecleada(tecla, flecha):
+                flecha.capturar()
+
+    def revisar_flecha_tecleada(self, tecla, flecha):
         if tecla == p.FLECHA_ARRIBA and (flecha.direccion == "arriba"):
             return True
         elif tecla == p.FLECHA_ABAJO and (flecha.direccion == "abajo"):
@@ -98,23 +95,45 @@ class Nivel(QObject):
         else:
             return False
 
+    def revisar_paso(self, tecla, flechas):
+        if flechas:
+            for flecha in flechas:
+                if tecla == p.FLECHA_ARRIBA and (flecha.direccion == "arriba"):
+                    return True
+                elif tecla == p.FLECHA_ABAJO and (flecha.direccion == "abajo"):
+                    return True
+                elif tecla == p.FLECHA_DERECHA and (flecha.direccion == "derecha"):
+                    return True
+                elif tecla == p.FLECHA_izquierda and (flecha.direccion == "izquierda"):
+                    return True
+            # En caso de que ninguna flecha calza con la tecla retorna false
+            return False
+        else:
+            return False
+
 
 class NivelPrincipiante(Nivel):
 
     def __init__(self):
         super().__init__(*p.NIVEL_PRINCIPIANTE.values())
+        self.pasos_dobles = False
+        self.pasos_triples = False
 
 
 class NivelAficionado(Nivel):
 
     def __init__(self):
         super().__init__(*p.NIVEL_AFICIONADO.values())
+        self.pasos_dobles = True
+        self.pasos_triples = False
 
 
 class NivelMaestroCumbia(Nivel):
 
     def __init__(self):
         super().__init__(*p.NIVEL_MAESTRO_CUMBIA.values())
+        self.pasos_dobles = True
+        self.pasos_triples = True
 
 
 if __name__ == "__main__":

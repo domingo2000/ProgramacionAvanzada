@@ -12,9 +12,13 @@ class VentanaNivel(QWidget):
 
     def __init__(self, nivel):
         super().__init__()
-        # Generador
-        self.generador_flechas = GeneradorFlecha(nivel.tiempo_entre_pasos, self)
+        
         self.nivel = nivel
+
+        # Generador
+        self.generador_flechas = GeneradorFlecha(nivel.tiempo_entre_pasos, self,
+                                                 nivel.pasos_dobles, nivel.pasos_triples)
+
         self.init_gui()
         # Timers Flechas
 
@@ -51,7 +55,7 @@ class VentanaNivel(QWidget):
     def actualizar_flecha(self, flecha, pos_x, pos_y):
         self.actualizar_label(flecha.label, pos_x, pos_y)
         flecha.colider.moveTopLeft(QPoint(pos_x, pos_y))
-    
+
     def destruir_label(self, label):
         label.setParent(None)
 
