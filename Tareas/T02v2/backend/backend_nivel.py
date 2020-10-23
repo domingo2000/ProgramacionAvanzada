@@ -32,7 +32,6 @@ class Nivel(QObject):
             self.combo_maximo = self.combo
 
         self.senal_actualizar_combo.emit(self.combo)
-        print(f"DEBUG COMBO VALE = {self.combo}")
 
     @property
     def combo_maximo(self):
@@ -42,20 +41,17 @@ class Nivel(QObject):
     def combo_maximo(self, valor):
         self.__combo_maximo = valor
         self.senal_actualizar_combo_maximo.emit(self.combo)
-        print(f"DEBUG COMBO_MAXIMO VALE = {self.combo_maximo}")
 
     def revisar_zona_captura(self, ventana_nivel):
-        flechas = ventana_nivel.generador_flechas.flechas
-        tamaño_zona_captura = p.TAMANO_VENTANAS["zona_captura"]
-        inicio_zona_captura = ventana_nivel.height() - tamaño_zona_captura
-        final_zona_captura = ventana_nivel.height()
+        print("DEBUG Revisando zona Captura")
         flechas_en_zona = set()
+        flechas = ventana_nivel.generador_flechas.flechas
         for flecha in flechas:
-            inicio_flecha = flecha.altura
-            final_flecha = flecha.altura + flecha.label.height()
-            if (inicio_zona_captura < inicio_flecha < final_zona_captura) or\
-               (inicio_zona_captura < final_flecha < final_zona_captura):
-                flechas_en_zona.add(flecha)
+            print(f"DEBUG {flecha.colider}")
+            for zona_captura in ventana_nivel.zonas_captura:
+                if flecha.colider.intersects(zona_captura.colider):
+                    print("Interseccion entre flechas")
+                    flechas_en_zona.add(flecha)
         return(flechas_en_zona)
 
     def capturar_flechas(self, set_flechas):
@@ -91,7 +87,6 @@ class Nivel(QObject):
             self.combo = 0
 
     def revisar_paso(self, tecla, flecha):
-        print(f"DEBUG: {tecla}, {flecha.direccion}")
         if tecla == p.FLECHA_ARRIBA and (flecha.direccion == "arriba"):
             return True
         elif tecla == p.FLECHA_ABAJO and (flecha.direccion == "abajo"):
@@ -101,7 +96,6 @@ class Nivel(QObject):
         elif tecla == p.FLECHA_izquierda and (flecha.direccion == "izquierda"):
             return True
         else:
-            print("DEBUG")
             return False
 
 

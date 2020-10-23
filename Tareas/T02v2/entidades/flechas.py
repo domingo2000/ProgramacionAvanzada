@@ -12,8 +12,7 @@ from backend.funciones import sleep
 
 
 class Flecha(QThread):
-    senal_actualizar_label = pyqtSignal(QLabel, int, int)
-    senal_actualizar_colider = pyqtSignal(QRect, int, int)
+    senal_actualizar_flecha = pyqtSignal(object, int, int)
     senal_destruir = pyqtSignal(QLabel)
 
     def __init__(self, parent):
@@ -48,8 +47,7 @@ class Flecha(QThread):
         self.__altura = y
         pos_x = self.columna * p.TAMANO_VENTANAS["zona_captura"]
         pos_y = self.altura
-        self.senal_actualizar_label.emit(self.label, pos_x, pos_y)
-        self.senal_actualizar_colider.emit(self.colider, pos_x, pos_y)
+        self.senal_actualizar_flecha.emit(self, pos_x, pos_y)
         """
         if self.altura > self.parent.height():
             self.destruir()
@@ -97,6 +95,10 @@ class Flecha(QThread):
             self.mover_flecha()
         # Destruye la flecha si pasa la zona de captura
         self.destruir()
+
+    def __repr__(self):
+        string = f"Flecha: Label:({self.label.x()}, {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
+        return string
 
 
 class FlechaNormal(Flecha):
@@ -190,8 +192,7 @@ class GeneradorFlecha(QObject):
         else:
             # Genera Hielo
             flecha = FlechaHielo(self.parent)
-        flecha.senal_actualizar_label.connect(self.parent.actualizar_label)
-        flecha.senal_actualizar_colider.connect(self.parent.actualizar_colider)
+        flecha.senal_actualizar_flecha.connect(self.parent.actualizar_flecha)
         flecha.senal_destruir.connect(self.parent.destruir_label)
         # Si es de hielo conecta la señal
         if flecha.tipo == "hielo":
