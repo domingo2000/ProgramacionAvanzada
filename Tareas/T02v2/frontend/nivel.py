@@ -60,6 +60,7 @@ class VentanaNivel(QWidget):
         label.setParent(None)
 
     def keyPressEvent(self, event):
+        
         tecla = event.text()
         self.senal_tecla_presionada.emit(self, tecla)
 
