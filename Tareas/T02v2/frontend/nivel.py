@@ -14,6 +14,7 @@ class VentanaNivel(QWidget):
         super().__init__()
         # Generador
         self.generador_flechas = GeneradorFlecha(nivel.tiempo_entre_pasos, self)
+        self.nivel = nivel
         self.init_gui()
         # Timers Flechas
 
@@ -48,5 +49,6 @@ class VentanaNivel(QWidget):
 
     def keyPressEvent(self, event):
         tecla = event.text()
+        print(f"Debug: {tecla}")
         self.senal_tecla_presionada.emit(self, tecla)
 

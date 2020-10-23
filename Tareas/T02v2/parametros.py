@@ -70,7 +70,7 @@ COLORES = {
     "zona_captura": "#99CCFF"
 }
 # Propiedades Graficas
-TASA_DE_REFRESCO = 0.01
+TASA_DE_REFRESCO = 0.01 #En segundos
 
 # Parametros Flechas
 DIRECCIONES = ["izquierda", "arriba", "abajo", "derecha"]

@@ -22,13 +22,12 @@ class Flecha(QThread):
         self.direccion = random.choice(p.DIRECCIONES)
         self.puntos = p.PUNTOS_FLECHA
         self.probabilidad = None  # float entre 0 y 1
-        self.viva = True
+        self.tipo = None
         self.columna = p.DIRECCIONES.index(self.direccion)
         self.__altura = p.ALTURA_INICIAL_FLECHA
-        self.capturada = False
-
         self.parent = parent
-
+        self.capturada = False
+        self.viva = True
         # Label
         self.label = QLabel(parent)
         # Animacion
@@ -36,8 +35,8 @@ class Flecha(QThread):
                                     for i in range(5, 9)]
         rutas_imagenes_explosion.append(p.IMAGENES[f"imagen_explosion_{self.direccion}"])
         paths_imagenes_explosion = [path.join(*rutas_imagenes_explosion[i]) for i in range(5)]
-        self.imagenes_explosion = [QPixmap(paths_imagenes_explosion[i]) for i in range(5)]
-        self.animacion_explosion = Animacion(self.label, p.DELAY_EXPLOSION, self.imagenes_explosion)
+        imagenes_explosion = [QPixmap(paths_imagenes_explosion[i]) for i in range(5)]
+        self.animacion_explosion = Animacion(self.label, p.DELAY_EXPLOSION, imagenes_explosion)
 
     @property
     def altura(self):
@@ -62,9 +61,7 @@ class Flecha(QThread):
         self.label.setScaledContents(True)
         self.label.setVisible(True)
 
-        self.label.show()
-
-    def actualizar_altura(self):
+    def mover_flecha(self):
         self.altura += p.TASA_DE_REFRESCO * self.velocidad
 
     def capturar(self):
@@ -81,21 +78,20 @@ class Flecha(QThread):
         print("Flecha destruida")
         self.senal_destruir.emit(self.label)
 
-    def run(self):
-        while self.label.y() < self.parent.height():
-            sleep(p.TASA_DE_REFRESCO)
-            self.actualizar_altura()
-        # Destruye la flecha si pasa la zona de captura
-        self.senal_destruir.emit(self.label)
-
     def cambiar_velocidad(self, ponderador, tiempo_reduccion):
+        print(f"{self}, reduciendo _velocidad")
         velocidad_original = self.velocidad
         self.velocidad = self.velocidad * ponderador
-        sleep(2)
+        sleep(tiempo_reduccion)
         print("VOLVIENDO A VELOCIDAD ORIGINAL")
         self.velocidad = velocidad_original
 
-
+    def run(self):
+        while self.label.y() < self.parent.height():
+            sleep(p.TASA_DE_REFRESCO)
+            self.mover_flecha()
+        # Destruye la flecha si pasa la zona de captura
+        self.destruir()
 
 
 class FlechaNormal(Flecha):
@@ -105,6 +101,7 @@ class FlechaNormal(Flecha):
         ruta_imagen = p.IMAGENES[f"imagen_flecha_{self.direccion}_3"]
         super().init_gui(ruta_imagen, parent)
         self.probabilidad = p.PROB_NORMAL
+        self.tipo = "normal"
 
 
 class Flecha2(Flecha):
@@ -115,6 +112,7 @@ class Flecha2(Flecha):
         super().init_gui(ruta_imagen, parent)
         self.probabilidad = p.PROB_FLECHA_X2
         self.puntos = p.PUNTOS_FLECHA_x2
+        self.tipo = "x2"
 
 
 class FlechaDorada(Flecha):
@@ -126,6 +124,7 @@ class FlechaDorada(Flecha):
         self.probabilidad = p.PROB_FLECHA_DORADA
         self.velocidad = p.VELOCIDAD_FLECHA_DORADA
         self.puntos = p.PUNTOS_FLECHA_DORADA
+        self.tipo = "dorada"
 
 
 class FlechaHielo(Flecha):
@@ -136,6 +135,7 @@ class FlechaHielo(Flecha):
         ruta_imagen = p.IMAGENES[f"imagen_flecha_{self.direccion}_1"]
         super().init_gui(ruta_imagen, parent)
         self.probabilidad = p.PROB_FLECHA_HIELO
+        self.tipo = "hielo"
 
     def poder(self, duracion_nivel):
         velocidad_actual = p.VELOCIDAD_FLECHA
@@ -148,11 +148,15 @@ class FlechaHielo(Flecha):
         if self.capturada:
             return None
         else:
+            
             print("Flecha Capturada")
             self.capturada = True
             self.animacion_explosion.comenzar()
             sleep(self.animacion_explosion.duracion, milisec=True)
+            self.poder(self.parent.nivel.duracion)
             self.destruir()
+            
+            
 
 
 class GeneradorFlecha(QObject):
@@ -160,9 +164,8 @@ class GeneradorFlecha(QObject):
     def __init__(self, tiempo_entre_flechas, parent):
         self.flechas = set()
         self.parent = parent
+        self.tiempo_entre_flechas = tiempo_entre_flechas
         super().__init__()
-        # Genera la primera flecha antes que el timer
-        self.generar_flecha()
 
         # Timer
         self.timer = QTimer()
@@ -177,7 +180,8 @@ class GeneradorFlecha(QObject):
         elif p.PROB_NORMAL < n < p.PROB_NORMAL + p.PROB_FLECHA_DORADA:
             # GENERA DORADA
             flecha = FlechaDorada(self.parent)
-        elif p.PROB_NORMAL + p.PROB_FLECHA_DORADA < n < p.PROB_NORMAL + p.PROB_FLECHA_DORADA + p.PROB_FLECHA_X2:
+        elif p.PROB_NORMAL + p.PROB_FLECHA_DORADA < n < \
+                p.PROB_NORMAL + p.PROB_FLECHA_DORADA + p.PROB_FLECHA_X2:
             # GENERA X2
             flecha = Flecha2(self.parent)
         else:
@@ -185,11 +189,18 @@ class GeneradorFlecha(QObject):
             flecha = FlechaHielo(self.parent)
         flecha.senal_actualizar.connect(self.parent.actualizar_label)
         flecha.senal_destruir.connect(self.parent.destruir_label)
+        # Si es de hielo conecta la señal
+        if flecha.tipo == "hielo":
+            for flecha_a_conectar in self.flechas:
+                flecha.senal_poder_hielo.connect(flecha_a_conectar.cambiar_velocidad)
         flecha.start()
         self.flechas.add(flecha)
 
     def comenzar(self):
         print("Empieza generacion de flechas")
+        # Genera la primera flecha antes que el timer
+        self.generar_flecha()
+
         self.timer.start()
 
     def parar(self):
