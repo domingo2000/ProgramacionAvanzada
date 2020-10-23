@@ -69,6 +69,7 @@ class Nivel(QObject):
         pass
 
     def manejar_tecla(self, ventana_nivel, tecla):
+        # Revisa que la tecla sea del WASD (agregar espacion despues)
         teclas = {p.FLECHA_DERECHA, p.FLECHA_izquierda, p.FLECHA_ARRIBA, p.FLECHA_ABAJO}
         if tecla in teclas:
             paso_correcto = False
