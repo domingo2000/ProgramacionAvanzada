@@ -1,7 +1,7 @@
 import sys
 from os import path
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel
-from PyQt5.QtCore import QThread, Qt, pyqtSignal, QTimer, QObject, QEventLoop
+from PyQt5.QtCore import QThread, Qt, pyqtSignal, QTimer, QObject, QEventLoop, QRect
 from PyQt5.QtGui import QPixmap
 
 # from backend.animacion import Animacion
@@ -12,7 +12,8 @@ from backend.funciones import sleep
 
 
 class Flecha(QThread):
-    senal_actualizar = pyqtSignal(QLabel, int, int)
+    senal_actualizar_label = pyqtSignal(QLabel, int, int)
+    senal_actualizar_colider = pyqtSignal(QRect, int, int)
     senal_destruir = pyqtSignal(QLabel)
 
     def __init__(self, parent):
@@ -47,13 +48,17 @@ class Flecha(QThread):
         self.__altura = y
         pos_x = self.columna * p.TAMANO_VENTANAS["zona_captura"]
         pos_y = self.altura
-        self.senal_actualizar.emit(self.label, pos_x, pos_y)
+        self.senal_actualizar_label.emit(self.label, pos_x, pos_y)
+        self.senal_actualizar_colider.emit(self.colider, pos_x, pos_y)
         """
         if self.altura > self.parent.height():
             self.destruir()
         """
     def init_gui(self, ruta_imagen, parent):
         separacion = p.TAMANO_VENTANAS["zona_captura"]
+        # genera la caja del Qrect
+        self.colider = QRect(self.columna * separacion, 0, separacion, separacion)
+        # Setea parametros y imagenes del label
         self.label.setGeometry(self.columna * separacion, 0, separacion, separacion)
         self.label.setStyleSheet("background-color:transparent;")
         imagen_flecha = QPixmap(path.join(*ruta_imagen))
@@ -155,8 +160,6 @@ class FlechaHielo(Flecha):
             sleep(self.animacion_explosion.duracion, milisec=True)
             self.poder(self.parent.nivel.duracion)
             self.destruir()
-            
-            
 
 
 class GeneradorFlecha(QObject):
@@ -187,7 +190,8 @@ class GeneradorFlecha(QObject):
         else:
             # Genera Hielo
             flecha = FlechaHielo(self.parent)
-        flecha.senal_actualizar.connect(self.parent.actualizar_label)
+        flecha.senal_actualizar_label.connect(self.parent.actualizar_label)
+        flecha.senal_actualizar_colider.connect(self.parent.actualizar_colider)
         flecha.senal_destruir.connect(self.parent.destruir_label)
         # Si es de hielo conecta la señal
         if flecha.tipo == "hielo":
