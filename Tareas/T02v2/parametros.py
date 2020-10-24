@@ -55,7 +55,8 @@ TAMANO_VENTANAS = {
     "ventana_ranking": [500, 500],
     "ventana_juego": [900, 630],
     "ventana_nivel": [200, 500],
-    "zona_captura": 50
+    "zona_captura": 50,
+    "flecha": 50
 }
 
 UBICACION_VENTANAS = {
