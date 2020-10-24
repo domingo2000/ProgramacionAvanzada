@@ -48,6 +48,10 @@ IMAGENES = {
     "imagen_explosion_arriba": ["sprites", "flechas", "boom_3.png"],
     "imagen_explosion_abajo": ["sprites", "flechas", "boom_2.png"],
 }
+CANCIONES = {
+    "cancion_1": ["songs", "cancion_1.wav"],
+    "cancion_2": ["songs", "cancion_2.wav"]
+}
 
 # Parametros Tamaño ventanas
 TAMANO_VENTANAS = {
@@ -63,7 +67,7 @@ UBICACION_VENTANAS = {
     "ventana_inicio": [100, 100],
     "ventana_ranking": [100, 100],
     "ventana_juego": [100, 100],
-    "ventana_nivel": [50, 50]
+    "ventana_nivel": [20, 140]
 }
 # Colores
 COLORES = {
@@ -116,3 +120,8 @@ NIVEL_MAESTRO_CUMBIA = {
     "tiempo_entre_pasos": 0.5,
     "aprobacion_necesaria": 30,
 }
+
+if __name__ == "__main__":
+    import random
+    cancion = random.choice(list(CANCIONES.values()))
+    print(cancion)
