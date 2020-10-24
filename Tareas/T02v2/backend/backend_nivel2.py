@@ -1,6 +1,5 @@
 from PyQt5.QtCore import QObject, pyqtSignal
 import parametros as p
-from entidades.flechas import GeneradorFlecha
 import sys
 
 

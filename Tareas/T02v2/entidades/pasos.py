@@ -30,6 +30,7 @@ class Flecha(QObject):
         self.capturada = False
         self.viva = True
         self.tamaño = p.TAMANO_VENTANAS["flecha"]
+        self.numero = Flecha.contador_clase
         # Label
         self.label = QLabel(parent)
         # Colider
@@ -145,22 +146,29 @@ class FlechaHielo(Flecha):
     """
 
 
-class Paso(QThread):
+class Paso(QTimer):
+    contador_pasos = 0
+
     # Rectangulo ABCD que define el colider del paso
     def __init__(self, flechas, parent):
+        Paso.contador_pasos += 1
+        self.numero = Paso.contador_pasos
         super().__init__()
         self.parent = parent
         self.flechas = flechas
         self.cantidad_flechas = len(self.flechas)
         self.velocidad = self.flechas[0].velocidad
         self.__altura = 0
+        self.destruido = False
         # Inicializa el QRect
         x_flechas = [flecha.label.x() for flecha in flechas]
         posicion_esquina_x = min(x_flechas)
         tamaño_flecha = self.flechas[0].colider.height()
         ancho = (max(x_flechas) + tamaño_flecha) - min(x_flechas)
         self.colider = QRect(posicion_esquina_x, self.altura, ancho, tamaño_flecha)
-        # Fija la posicion
+        # Fija los valores del timer
+        self.setInterval(p.TASA_DE_REFRESCO * 1000)
+        self.timeout.connect(self.actualizar_paso)
 
     @property
     def altura(self):
@@ -182,15 +190,20 @@ class Paso(QThread):
         for flecha in self.flechas:
             flecha.destruir()
 
-    def run(self):
-        while self.altura < self.parent.height():
-            sleep(p.TASA_DE_REFRESCO)
-            self.mover_paso()
+    def actualizar_paso(self):
+        self.mover_paso()
         # Destruye la flecha si pasa la zona de captura
-        self.destruir_flechas()
+        if self.altura > self.parent.height():
+            self.stop()
+            self.destruir_flechas()
+            self.destruir_paso()
+
+    def destruir_paso(self):
+        self.destruido = True
 
     def __repr__(self):
-        string = f"Paso_Object: qrect_pos = {self.colider.getCoords()}"
+        string = f"Paso {self.numero}: pos = {self.colider.getCoords()}"
+        return string
 
 
 class GeneradorPasos(QObject):
@@ -224,6 +237,14 @@ class GeneradorPasos(QObject):
         paso = Paso(flechas, self.parent)
         paso.start()
         self.pasos.add(paso)
+        self.destruir_pasos_pasados()
+
+    def destruir_pasos_pasados(self):
+        pasos_vivos_actuales = set()
+        for paso in self.pasos:
+            if not(paso.destruido):
+                pasos_vivos_actuales.add(paso)
+        self.pasos = pasos_vivos_actuales
 
     def comenzar(self):
         # Genera el primer paso antes del timer
