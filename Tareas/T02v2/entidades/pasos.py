@@ -158,7 +158,7 @@ class Paso(QThread):
         posicion_esquina_x = min(x_flechas)
         tamaño_flecha = self.flechas[0].colider.height()
         ancho = (max(x_flechas) + tamaño_flecha) - min(x_flechas)
-        self.qrect = QRect(posicion_esquina_x, self.altura, ancho, tamaño_flecha)
+        self.colider = QRect(posicion_esquina_x, self.altura, ancho, tamaño_flecha)
         # Fija la posicion
 
     @property
@@ -168,7 +168,7 @@ class Paso(QThread):
     @altura.setter
     def altura(self, valor):
         self.__altura = valor
-        self.qrect.moveTop(valor)
+        self.colider.moveTop(valor)
         for flecha in self.flechas:
             flecha.altura = valor
 
@@ -187,7 +187,7 @@ class Paso(QThread):
         self.destruir_flechas()
 
     def __repr__(self):
-        string = f"Paso_Object: qrect_pos = {self.qrect.getCoords()}"
+        string = f"Paso_Object: qrect_pos = {self.colider.getCoords()}"
 
 
 class GeneradorPasos(QObject):
