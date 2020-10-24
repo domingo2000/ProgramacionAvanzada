@@ -1,7 +1,7 @@
 import sys
 from os import path
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel
-from PyQt5.QtCore import QThread, Qt, pyqtSignal, QTimer, QObject, QEventLoop, QRect
+from PyQt5.QtCore import QThread, Qt, pyqtSignal, QTimer, QObject, QEventLoop, QRect, QPoint
 from PyQt5.QtGui import QPixmap
 
 # from backend.animacion import Animacion
@@ -31,6 +31,7 @@ class Flecha(QThread):
         self.parent = parent
         self.capturada = False
         self.viva = True
+        self.tamaño = p.TAMANO_VENTANAS["flecha"]
         # Label
         self.label = QLabel(parent)
         # Animacion
@@ -50,6 +51,7 @@ class Flecha(QThread):
         self.__altura = y
         pos_x = self.columna * p.TAMANO_VENTANAS["zona_captura"]
         pos_y = self.altura
+        self.colider.moveTopLeft(QPoint(pos_x, pos_y))
         self.senal_actualizar_flecha.emit(self, pos_x, pos_y)
         """
         if self.altura > self.parent.height():
