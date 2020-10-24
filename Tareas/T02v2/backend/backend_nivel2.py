@@ -57,6 +57,7 @@ class Nivel(QObject):
             for zona_captura in ventana_nivel.zonas_captura:
                 if paso.colider.intersects(zona_captura.colider):
                     pasos_en_zona.add(paso)
+                    break
         return(pasos_en_zona)
 
     def manejar_teclas(self, ventana_nivel, teclas):
@@ -69,6 +70,7 @@ class Nivel(QObject):
         if pasos:
             for paso in pasos:
                 paso_correcto = self.manejar_paso(paso, teclas)
+                print(f"DEBUG paso Correcto = {paso_correcto}")
                 if paso_correcto:
                     self.pasos_correctos += 1
                     self.combo += 1
@@ -86,21 +88,31 @@ class Nivel(QObject):
         presionadas
         """
         paso_correcto = False
-        set_true_false = set() # Determinara si se cumplieron todos los pasos
+        set_true_false = set()  # Determinara si se cumplieron todos los pasos
         for flecha in paso.flechas:
-            for tecla in teclas:
-                flecha_correcta = self.manejar_flecha(flecha, tecla)
-                if flecha_correcta:
-                    break
-            set_true_false.add(flecha_correcta)
-        if False in set_true_false:
+            flecha_es_correcta = self.manejar_flecha(flecha, teclas)
+            set_true_false.add(flecha_es_correcta)
+        if False in set_true_false:  # Caso en que hay flechas incorrectas
             return False
+        elif len(teclas) > len(paso.flechas):  # Caso presiona teclas ademas de las correctas
+            return False
+        else:
+            print("DEBUG ??")
 
-    def manejar_flecha(self, flecha, tecla):
-        if flecha.direccion == tecla:
+    def manejar_flecha(self, flecha, teclas):
+        direcciones = {
+            "derecha": p.FLECHA_DERECHA,
+            "izquierda": p.FLECHA_izquierda,
+            "arriba": p.FLECHA_ARRIBA,
+            "abajo": p.FLECHA_ABAJO
+        }
+        if direcciones[flecha.direccion] in teclas:
             flecha.capturar()
             tipo = flecha.tipo
-            self.flechas_capturadas["tipo"] += 1
+            self.flechas_capturadas[f"{tipo}"] += 1
+            return True
+        else:
+            return False
 
 
 class NivelPrincipiante(Nivel):

@@ -131,7 +131,7 @@ class FlechaHielo(Flecha):
         ponderador_velocidad = velocidad_nueva / velocidad_actual
         tiempo_reduccion = duracion_nivel * p.REDUCCION_VELOCIDAD_HIELO
         self.senal_poder_hielo.emit(ponderador_velocidad, tiempo_reduccion)
-
+    """
     def capturar(self):
         if self.capturada:
             return None
@@ -142,6 +142,7 @@ class FlechaHielo(Flecha):
             self.poder(self.parent.nivel.duracion)
             print("Activando Poder Hielo")
             self.destruir()
+    """
 
 
 class Paso(QThread):
@@ -168,7 +169,9 @@ class Paso(QThread):
     @altura.setter
     def altura(self, valor):
         self.__altura = valor
-        self.colider.moveTop(valor)
+        pos_x = self.colider.x()
+        pos_y = self.altura
+        self.colider.moveTopLeft(QPoint(pos_x, pos_y))
         for flecha in self.flechas:
             flecha.altura = valor
 
@@ -212,10 +215,10 @@ class GeneradorPasos(QObject):
             numero_flechas = random.randint(1, 3)
             flechas = self.generador_flechas.generar_flechas(numero_flechas)
         elif self.pasos_dobles:
-            numero_flechas = random.randint(1, 3)
+            numero_flechas = random.randint(1, 2)
             flechas = self.generador_flechas.generar_flechas(numero_flechas)
         else:
-            numero_flechas = random.randint(1, 3)
+            numero_flechas = 1
             flechas = self.generador_flechas.generar_flechas(numero_flechas)
 
         paso = Paso(flechas, self.parent)
