@@ -11,6 +11,77 @@ import random
 from backend.funciones import sleep
 
 
+class FlechaObjeto(QObject):
+    contador_clase = 0
+    senal_actualizar_flecha = pyqtSignal(object, int, int)
+    senal_destruir = pyqtSignal(QLabel)
+
+    def __init__(self, parent):
+        super().__init__()
+        Flecha.contador_clase += 1
+        # Atributos flecha abstracta
+        self.velocidad = p.VELOCIDAD_FLECHA
+        self.direccion = random.choice(p.DIRECCIONES)
+        self.puntos = p.PUNTOS_FLECHA
+        self.probabilidad = None  # float entre 0 y 1
+        self.tipo = None
+        self.columna = p.DIRECCIONES.index(self.direccion)
+        self.__altura = p.ALTURA_INICIAL_FLECHA
+        self.parent = parent
+        self.capturada = False
+        self.viva = True
+        self.tamaño = p.TAMANO_VENTANAS["flecha"]
+        # Label
+        self.label = QLabel(parent)
+        # Colider
+        self.colider = QRect(self.columna * self.tamaño, 0, self.tamaño, self.tamaño)
+
+        # Animacion
+        rutas_imagenes_explosion = [p.IMAGENES[f"imagen_flecha_{self.direccion}_{i}"]
+                                    for i in range(5, 9)]
+        rutas_imagenes_explosion.append(p.IMAGENES[f"imagen_explosion_{self.direccion}"])
+        paths_imagenes_explosion = [path.join(*rutas_imagenes_explosion[i]) for i in range(5)]
+        imagenes_explosion = [QPixmap(paths_imagenes_explosion[i]) for i in range(5)]
+        self.animacion_explosion = Animacion(self.label, p.DELAY_EXPLOSION, imagenes_explosion)
+
+    @property
+    def altura(self):
+        return self.__altura
+
+    @altura.setter
+    def altura(self, y):
+        self.__altura = y
+        pos_x = self.columna * p.TAMANO_VENTANAS["zona_captura"]
+        pos_y = self.altura
+        self.colider.moveTopLeft(QPoint(pos_x, pos_y))
+        self.senal_actualizar_flecha.emit(self, pos_x, pos_y)
+
+    def init_gui(self, ruta_imagen, parent):
+        # Setea parametros y imagenes del label
+        self.label.setGeometry(self.columna * self.tamaño, 0, self.tamaño, self.tamaño)
+        self.label.setStyleSheet("background-color:transparent;")
+        imagen_flecha = QPixmap(path.join(*ruta_imagen))
+        self.label.setPixmap(imagen_flecha)
+        self.label.setScaledContents(True)
+        self.label.setVisible(True)
+
+    def capturar(self):
+        if self.capturada:
+            return None
+        else:
+            self.capturada = True
+            self.animacion_explosion.comenzar()
+            sleep(self.animacion_explosion.duracion, milisec=True)
+            self.destruir()
+
+    def destruir(self):
+        self.senal_destruir.emit(self.label)
+
+    def __repr__(self):
+        string = f"Flecha {self.numero}: {self.tipo} = Label:({self.label.x()}, {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
+        return string
+
+
 class Flecha(QThread):
     contador_clase = 0
     senal_actualizar_flecha = pyqtSignal(object, int, int)
@@ -104,7 +175,7 @@ class Flecha(QThread):
         return string
 
 
-class FlechaNormal(Flecha):
+class FlechaNormal(FlechaObjeto):
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -168,8 +239,9 @@ class FlechaHielo(Flecha):
 
 class Paso(QThread):
     # Rectangulo ABCD que define el colider del paso
-    def __init__(self, flechas):
-        self.parent = self.flechas[0].parent()
+    def __init__(self, flechas, parent):
+        super().__init__()
+        self.parent = parent
         self.flechas = flechas
         self.cantidad_flechas = len(self.flechas)
         self.__altura = 0
@@ -189,6 +261,7 @@ class Paso(QThread):
     def altura(self, valor):
         self.__altura = valor
         self.qrect.moveTop(valor)
+        print(f"DEBUG: {self.qrect.getCoords()}")
         for flecha in self.flechas:
             flecha.altura = valor
 
@@ -205,6 +278,9 @@ class Paso(QThread):
             self.mover_paso()
         # Destruye la flecha si pasa la zona de captura
         self.destruir_flechas()
+
+    def __repr__(self):
+        string = f"Paso_Object: qrect_pos = {self.qrect.getCoords()}"
 
 
 class GeneradorFlecha(QObject):
