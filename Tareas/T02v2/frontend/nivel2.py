@@ -15,7 +15,6 @@ class VentanaNivel(QWidget):
                                               nivel.pasos_dobles, nivel.pasos_triples)
 
         self.init_gui()
-        # Timers Flechas
 
     def init_gui(self):
         # Parametros generales de ventana
