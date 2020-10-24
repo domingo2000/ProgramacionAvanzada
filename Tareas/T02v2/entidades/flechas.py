@@ -164,6 +164,47 @@ class FlechaHielo(Flecha):
             self.destruir()
 
 
+class Paso(QThread):
+    # Rectangulo ABCD que define el colider del paso
+    def __init__(self, flechas):
+        self.parent = self.flechas[0].parent()
+        self.flechas = flechas
+        self.cantidad_flechas = len(self.flechas)
+        self.__altura = 0
+        # Inicializa el QRect
+        x_flechas = [flecha.label.x() for flecha in flechas]
+        posicion_esquina_x = min(x_flechas)
+        tamaño_flecha = self.flechas[0].colider.height()
+        ancho = (max(x_flechas) + tamaño_flecha) - min(x_flechas)
+        self.qrect = QRect(posicion_esquina_x, self.altura, ancho, tamaño_flecha)
+        # Fija la posicion
+
+    @property
+    def altura(self):
+        return self.__altura
+
+    @altura.setter
+    def altura(self, valor):
+        self.__altura = valor
+        self.qrect.moveTop(valor)
+        for flecha in self.flechas:
+            flecha.altura = valor
+
+    def mover_paso(self):
+        self.altura += p.VELOCIDAD_FLECHA * p.TASA_DE_REFRESCO
+
+    def destruir_flechas(self):
+        for flecha in self.flechas:
+            flecha.destruir()
+
+    def run(self):
+        while self.altura < self.parent.height():
+            sleep(p.TASA_DE_REFRESCO)
+            self.mover_paso()
+        # Destruye la flecha si pasa la zona de captura
+        self.destruir_flechas()
+
+
 class GeneradorFlecha(QObject):
 
     def __init__(self, tiempo_entre_flechas, parent,
@@ -244,21 +285,7 @@ if __name__ == "__main__":
 
     ventana = QWidget()
     ventana.setGeometry(0, 0, 500, 500)
-    flecha_normal = FlechaNormal(ventana)
-    flecha_dorada = FlechaDorada(ventana)
+    flechas = [FlechaNormal() for _ in range(3)]
+    paso = Paso(flechas)
 
-    flecha_x2 = Flecha2(ventana)
-    flecha_hielo = FlechaHielo(ventana)
-
-    flecha_normal.comenzar()
-    flecha_dorada.comenzar()
-    flecha_hielo.comenzar()
-    flecha_x2.comenzar()
-    ventana.show()
-
-    flecha_hielo.senal_poder_hielo.connect(flecha_normal.cambiar_velocidad)
-    loop = QEventLoop()
-    QTimer.singleShot(2000, loop.quit)
-    loop.exec_()
-    flecha_hielo.poder(100)
     sys.exit(app.exec_())
