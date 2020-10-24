@@ -1,20 +1,34 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel
-from PyQt5.QtCore import Qt, pyqtSignal, QPoint, QRect, QObject
+from PyQt5.QtCore import Qt, pyqtSignal, QPoint, QRect, QObject, QTimer
+from PyQt5.QtMultimedia import QSound
 import parametros as p
 from entidades.pasos import GeneradorPasos
+from os import path
+from backend.funciones import sleep
+import random
 
 
 class VentanaNivel(QWidget):
     senal_teclas_presionadas = pyqtSignal(object, set)  # Object es la misma ventana
 
-    def __init__(self, nivel):
-        super().__init__()
+    def __init__(self, nivel, duracion, parent):
+        super().__init__(parent)
         self.teclas_presionadas = set()
+        self.duracion = duracion
         # Generador
         self.generador_pasos = GeneradorPasos(nivel.tiempo_entre_pasos, self,
                                               nivel.pasos_dobles, nivel.pasos_triples)
-
+        # Musica
+        ruta_cancion = path.join(*random.choice(list(p.CANCIONES.values())))
+        print(ruta_cancion)
+        self.cancion = QSound(ruta_cancion)
         self.init_gui()
+
+        # Timer nivel
+        self.timer = QTimer()
+        self.timer.setInterval(self.duracion * 1000)
+        self.timer.setSingleShot(True)
+        self.timer.timeout.connect(self.terminar)
 
     def init_gui(self):
         # Parametros generales de ventana
@@ -34,14 +48,20 @@ class VentanaNivel(QWidget):
             self.zonas_captura.append(zona_captura)
 
     def comenzar(self):
+        self.timer.start()
+        print("Comenzando Nivel")
         self.generador_pasos.comenzar()
-        # Completar empezar_cancion
+        self.cancion.play()
 
     def terminar(self):
-        self.generador_pasos.parar()
+        print("Terminando Nivel")
         # Esperar a que no hayan flechas
         # Completar parar_cancion
+        self.generador_pasos.parar()
+        sleep(self.height() / p.VELOCIDAD_FLECHA)
+        self.cancion.stop()
         # mostrar_ventana_resumen
+        print("Nivel Terminado")
 
     def actualizar_label(self, label, x, y):
         label.move(x, y)
