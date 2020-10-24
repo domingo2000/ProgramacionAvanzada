@@ -53,6 +53,24 @@ border-color: #A58CBF;</string>
     <bool>true</bool>
    </property>
   </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>200</width>
+     <height>500</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #D2B2F3;
+border: 5px solid;
+border-color: #A58CBF;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <widget class="QLabel" name="tienda">
    <property name="geometry">
     <rect>
@@ -188,6 +206,10 @@ border-color: #A58CBF;</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
+    <zorder>label_4</zorder>
+    <zorder>label_aprobacion</zorder>
+    <zorder>mayor_combo</zorder>
+    <zorder>mayor_combo_3</zorder>
    </widget>
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
