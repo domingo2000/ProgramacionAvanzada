@@ -97,7 +97,7 @@ class Nivel(QObject):
         elif len(teclas) > len(paso.flechas):  # Caso presiona teclas ademas de las correctas
             return False
         else:
-            print("DEBUG ??")
+            return True
 
     def manejar_flecha(self, flecha, teclas):
         direcciones = {
