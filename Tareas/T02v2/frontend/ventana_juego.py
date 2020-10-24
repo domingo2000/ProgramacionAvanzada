@@ -31,7 +31,6 @@ class VentanaJuego(window_name, base_class):
         self.ventana_nivel = VentanaNivel(self.nivel, self.nivel.duracion, parent=self)
         self.ventana_nivel.setGeometry(*p.UBICACION_VENTANAS["ventana_nivel"],
                                        *p.TAMANO_VENTANAS["ventana_nivel"])
-        self.ventana_nivel.show()
 
     def comenzar(self):
         print("Comenzando Ronda")
