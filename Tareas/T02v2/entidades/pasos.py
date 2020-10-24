@@ -53,7 +53,7 @@ class Flecha(QObject):
         pos_x = self.columna * p.TAMANO_VENTANAS["zona_captura"]
         pos_y = self.altura
         self.colider.moveTopLeft(QPoint(pos_x, pos_y))
-        self.senal_actualizar_flecha.emit(self, pos_x, pos_y)
+        self.senal_actualizar_flecha.emit(self.label, pos_x, pos_y)
 
     def init_gui(self, ruta_imagen, parent):
         # Setea parametros y imagenes del label
@@ -169,7 +169,6 @@ class Paso(QThread):
     def altura(self, valor):
         self.__altura = valor
         self.qrect.moveTop(valor)
-        print(f"DEBUG: {self.qrect.getCoords()}")
         for flecha in self.flechas:
             flecha.altura = valor
 
@@ -255,7 +254,7 @@ class GeneradorFlechas():
             # Genera Hielo
             flechas = [FlechaHielo(self.ventana_contenedora) for _ in range(numero_flechas)]
         for flecha in flechas:
-            flecha.senal_actualizar_flecha.connect(self.ventana_contenedora.actualizar_flecha)
+            flecha.senal_actualizar_flecha.connect(self.ventana_contenedora.actualizar_label)
             flecha.senal_destruir.connect(self.ventana_contenedora.destruir_label)
 
         return(flechas)
