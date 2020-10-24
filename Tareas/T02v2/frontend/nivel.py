@@ -54,7 +54,6 @@ class VentanaNivel(QWidget):
 
     def actualizar_flecha(self, flecha, pos_x, pos_y):
         self.actualizar_label(flecha.label, pos_x, pos_y)
-        flecha.colider.moveTopLeft(QPoint(pos_x, pos_y))
 
     def destruir_label(self, label):
         label.setParent(None)
