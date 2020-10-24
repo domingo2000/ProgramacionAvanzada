@@ -147,7 +147,7 @@ class FlechaHielo(Flecha):
 
 
 class Paso(QTimer):
-    contador_pasos = 0
+    contador_pasos = 1
 
     # Rectangulo ABCD que define el colider del paso
     def __init__(self, flechas, parent):
