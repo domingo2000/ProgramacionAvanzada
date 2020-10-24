@@ -78,7 +78,8 @@ class FlechaObjeto(QObject):
         self.senal_destruir.emit(self.label)
 
     def __repr__(self):
-        string = f"Flecha {self.numero}: {self.tipo} = Label:({self.label.x()}, {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
+        string = f"Flecha {self.numero}: {self.tipo} = Label:({self.label.x()}, \
+            {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
         return string
 
 
@@ -171,7 +172,8 @@ class Flecha(QThread):
         self.destruir()
 
     def __repr__(self):
-        string = f"Flecha {self.numero}: {self.tipo} = Label:({self.label.x()}, {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
+        string = f"Flecha {self.numero}: {self.tipo} = Label:({self.label.x()}, \
+            {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
         return string
 
 

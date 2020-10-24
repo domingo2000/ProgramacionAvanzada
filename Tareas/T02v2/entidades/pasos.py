@@ -77,7 +77,8 @@ class Flecha(QObject):
         self.senal_destruir.emit(self.label)
 
     def __repr__(self):
-        string = f"Flecha {self.numero}: {self.tipo} = Label:({self.label.x()}, {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
+        string = f"Flecha {self.numero}: {self.tipo} = Label:({self.label.x()}, \
+            {self.label.y()}), Colider{self.colider.x(), self.colider.y()}"
         return string
 
 
@@ -209,13 +210,13 @@ class GeneradorPasos(QObject):
 
     def generar_paso(self):
         if self.pasos_triples:
-            numero_flechas = random.randint(1,3)
+            numero_flechas = random.randint(1, 3)
             flechas = self.generador_flechas.generar_flechas(numero_flechas)
         elif self.pasos_dobles:
-            numero_flechas = random.randint(1,3)
+            numero_flechas = random.randint(1, 3)
             flechas = self.generador_flechas.generar_flechas(numero_flechas)
         else:
-            numero_flechas = random.randint(1,3)
+            numero_flechas = random.randint(1, 3)
             flechas = self.generador_flechas.generar_flechas(numero_flechas)
 
         paso = Paso(flechas, self.parent)
