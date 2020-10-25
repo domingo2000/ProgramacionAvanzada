@@ -67,7 +67,8 @@ UBICACION_VENTANAS = {
     "ventana_inicio": [100, 100],
     "ventana_ranking": [100, 100],
     "ventana_juego": [100, 100],
-    "ventana_nivel": [20, 140]
+    "ventana_nivel": [20, 140],
+    "zona_captura": []
 }
 # Colores
 COLORES = {
