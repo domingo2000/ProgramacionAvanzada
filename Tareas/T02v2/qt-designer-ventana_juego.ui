@@ -124,93 +124,6 @@ border-color: #A58CBF;</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>20</y>
-      <width>301</width>
-      <height>90</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font-weight: bold;</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>0</y>
-       <width>79</width>
-       <height>37</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Progreso:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_aprobacion">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>40</y>
-       <width>79</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Aprobación:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="mayor_combo_3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>79</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Combo:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="mayor_combo">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>91</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Mayor Combo:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-    <zorder>label_4</zorder>
-    <zorder>label_aprobacion</zorder>
-    <zorder>mayor_combo</zorder>
-    <zorder>mayor_combo_3</zorder>
-   </widget>
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
@@ -417,9 +330,95 @@ border-color: #A58CBF;</string>
      <string/>
     </property>
    </widget>
+   <widget class="QFrame" name="frame_5">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>20</y>
+      <width>301</width>
+      <height>90</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-weight: bold;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>0</y>
+       <width>79</width>
+       <height>37</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Progreso:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_aprobacion">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>40</y>
+       <width>79</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Aprobación:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_combo">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>79</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Combo:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_combo_maximo">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Combo Maximo:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <zorder>label_4</zorder>
+    <zorder>label_aprobacion</zorder>
+    <zorder>label_combo_maximo</zorder>
+    <zorder>label_combo</zorder>
+   </widget>
    <zorder>barra_superior</zorder>
    <zorder>label_5</zorder>
-   <zorder>frame</zorder>
    <zorder>frame_2</zorder>
    <zorder>boton_comenzar</zorder>
    <zorder>opciones_cancion</zorder>
@@ -428,6 +427,7 @@ border-color: #A58CBF;</string>
    <zorder>boton_salir</zorder>
    <zorder>barra_progreso</zorder>
    <zorder>barra_aprobacion</zorder>
+   <zorder>frame_5</zorder>
   </widget>
   <widget class="QFrame" name="frame_3">
    <property name="geometry">
