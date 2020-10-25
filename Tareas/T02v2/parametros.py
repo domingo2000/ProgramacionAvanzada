@@ -60,7 +60,8 @@ TAMANO_VENTANAS = {
     "ventana_juego": [900, 630],
     "ventana_nivel": [200, 500],
     "zona_captura": 50,
-    "flecha": 50
+    "flecha": 50,
+    "zona_captura_2": [200, 50]
 }
 
 UBICACION_VENTANAS = {
@@ -68,7 +69,7 @@ UBICACION_VENTANAS = {
     "ventana_ranking": [100, 100],
     "ventana_juego": [100, 100],
     "ventana_nivel": [20, 140],
-    "zona_captura": []
+    "zona_captura": [20, 550]
 }
 # Colores
 COLORES = {
