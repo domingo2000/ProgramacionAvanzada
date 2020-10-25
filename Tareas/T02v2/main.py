@@ -23,6 +23,8 @@ if __name__ == "__main__":
     ventana_juego.senal_teclas_presionadas.connect(juego.nivel.manejar_teclas)
     nivel.senal_actualizar_combo.connect(ventana_juego.actualizar_label_combo)
     nivel.senal_actualizar_combo_maximo.connect(ventana_juego.actualizar_label_combo_maximo)
+    nivel.senal_actualizar_progreso.connect(ventana_juego.actualizar_progressbar_progreso)
+    nivel.senal_actualizar_aprobacion.connect(ventana_juego.actualizar_progressbar_aprobacion)
     ventana_juego.senal_cargar_nivel.connect(juego.generar_nivel)
 
     # Coneccion señales entre ventanas

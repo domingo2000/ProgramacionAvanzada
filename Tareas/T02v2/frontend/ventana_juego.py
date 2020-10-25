@@ -36,9 +36,6 @@ class VentanaJuego(window_name, base_class):
         cancion = self.opciones_cancion.currentText()
         dificultad = self.opciones_dificultad.currentText()
         self.senal_cargar_nivel.emit(cancion, dificultad)
-        # Resetea los combos
-        self.actualizar_label_combo(0)
-        self.actualizar_label_combo_maximo(0)
 
     def keyPressEvent(self, event):
         tecla = event.text()
@@ -63,3 +60,9 @@ class VentanaJuego(window_name, base_class):
 
     def actualizar_label_combo_maximo(self, int):
         self.label_combo_maximo.setText(f"Combo: {int}")
+
+    def actualizar_progressbar_progreso(self, int):
+        self.barra_progreso.setValue(int)
+
+    def actualizar_progressbar_aprobacion(self, int):
+        self.barra_aprobacion.setValue(int)

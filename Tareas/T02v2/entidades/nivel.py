@@ -12,6 +12,8 @@ class Nivel(QObject):
     senal_pasos_en_zona_captura = pyqtSignal(set)
     senal_actualizar_combo = pyqtSignal(int)
     senal_actualizar_combo_maximo = pyqtSignal(int)
+    senal_actualizar_progreso = pyqtSignal(int)
+    senal_actualizar_aprobacion = pyqtSignal(int)
 
     def __init__(self,
                  ventana_contenedora):
@@ -28,6 +30,8 @@ class Nivel(QObject):
             "dorada": 0,
             "hielo": 0,
         }
+        self.aprobacion = 0
+        self.progreso = 0
         self.aprobacion_necesaria = None
         self.tiempo_entre_pasos = None
         self.__duracion = None
@@ -40,11 +44,15 @@ class Nivel(QObject):
         # Musica
         self.cancion = None
         # Entidades para funcionamiento
-        # Timer nivel
+        # Timer nivel que revisa el termino de este
         self.timer = QTimer()
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(self.terminar)
 
+        # Timer que actualiza la barra de progreso y aprobacion
+        self.timer_actualizador = QTimer()
+        self.timer_actualizador.setInterval(p.TASA_DE_REFRESCO)
+        self.timer_actualizador.timeout.connect(self.actualizar_progreso_aprobacion)
         # Generador
         self.generador_pasos = None
         self.colider_zona_captura = QRect(*p.UBICACION_VENTANAS["zona_captura"],
@@ -87,6 +95,7 @@ class Nivel(QObject):
 
     def comenzar(self):
         self.timer.start()
+        self.timer_actualizador.start()
         print("Comenzando Nivel :)")
         self.generador_pasos.comenzar()
         self.cancion.play()
@@ -98,8 +107,14 @@ class Nivel(QObject):
         self.generador_pasos.parar()
         sleep(p.TAMANO_VENTANAS["ventana_nivel"][1] / p.VELOCIDAD_FLECHA)
         self.cancion.stop()
+        self.timer.stop()
+        self.timer_actualizador.stop()
         # mostrar_ventana_resumen
         print("Nivel Terminado")
+        self.senal_actualizar_combo.emit(0)
+        self.senal_actualizar_combo_maximo.emit(0)
+        self.senal_actualizar_progreso.emit(0)
+        self.senal_actualizar_aprobacion.emit(0)
 
     def destruir_label(self, label):
         label.setParent(None)
@@ -170,3 +185,9 @@ class Nivel(QObject):
         else:
             return False
 
+    def actualizar_progreso_aprobacion(self):
+        tiempo_restante = self.timer.remainingTime() / 1000
+        self.progreso = int(((self.duracion - tiempo_restante) / self.duracion) * 100)
+        self.aprobacion = 15
+        self.senal_actualizar_progreso.emit(self.progreso)
+        self.senal_actualizar_aprobacion.emit(self.aprobacion)
