@@ -14,6 +14,9 @@ class Nivel(QObject):
     senal_actualizar_combo_maximo = pyqtSignal(int)
     senal_actualizar_progreso = pyqtSignal(int)
     senal_actualizar_aprobacion = pyqtSignal(int)
+    senal_juego_terminado = pyqtSignal()
+    senal_esconder_juego = pyqtSignal()
+    senal_abrir_ventana_resumen = pyqtSignal(int, int, int, int, int, str, str)
 
     def __init__(self,
                  ventana_contenedora):
@@ -24,6 +27,8 @@ class Nivel(QObject):
         self.__combo_maximo = 0
         self.__pasos_correctos = 0
         self.__pasos_incorrectos = 0
+        self.__puntaje = 0
+        self.puntaje_acumulado = 0
         self.pasos_totales = 0
         self.flechas_capturadas = {
             "normal": 0,
@@ -31,8 +36,8 @@ class Nivel(QObject):
             "dorada": 0,
             "hielo": 0,
         }
-        self.aprobacion = 0
-        self.progreso = 0
+        self.__aprobacion = 0
+        self.__progreso = 0
         self.aprobacion_necesaria = None
         self.tiempo_entre_pasos = None
         self.__duracion = None
@@ -106,6 +111,35 @@ class Nivel(QObject):
     @pasos_incorrectos.setter
     def pasos_incorrectos(self, valor):
         self.__pasos_incorrectos = valor
+    
+    @property
+    def aprobacion(self):
+        return self.__aprobacion
+
+    @aprobacion.setter
+    def aprobacion(self, valor):
+        self.__aprobacion = valor
+        self.senal_actualizar_aprobacion.emit(valor)
+
+    @property
+    def progreso(self):
+        return self.__progreso
+
+    @progreso.setter
+    def progreso(self, valor):
+        self.__progreso = valor
+        self.senal_actualizar_progreso.emit(valor)
+
+    @property
+    def puntaje(self):
+        return self.__puntaje
+
+    @puntaje.setter
+    def puntaje(self, valor):
+        puntaje_anterior = self.puntaje
+        self.__puntaje = valor
+        aumento = self.puntaje - puntaje_anterior
+        self.puntaje_acumulado += aumento
 
     def crear_generador(self):
         self.generador_pasos = GeneradorPasos(self.tiempo_entre_pasos, self.ventana_contenedora,
@@ -128,11 +162,8 @@ class Nivel(QObject):
         self.timer.stop()
         self.timer_actualizador.stop()
         # mostrar_ventana_resumen
-        print("Nivel Terminado")
-        self.senal_actualizar_combo.emit(0)
-        self.senal_actualizar_combo_maximo.emit(0)
-        self.senal_actualizar_progreso.emit(0)
-        self.senal_actualizar_aprobacion.emit(0)
+        self.calcular_ventana_resumen()
+        self.reiniciar_estadisticas()
 
     def destruir_label(self, label):
         label.setParent(None)
@@ -153,24 +184,21 @@ class Nivel(QObject):
         """
         if not(self.generador_pasos):
             return None
-        pasos = self.pasos_en_zona_captura()
-        if pasos:
-            for paso in pasos:
-                paso_correcto = self.manejar_paso(paso, teclas)
-                print(f"DEBUG paso Correcto = {paso_correcto}")
-                if paso_correcto:
-                    self.pasos_correctos += 1
-                    self.combo += 1
-                else:
-                    self.pasos_incorrectos += 1
-                    self.combo = 0
-        else:  # En caso de que no hayan pasos en la zona de captura
-            self.pasos_incorrectos += 1
-            self.combo = 0
-
-    def __repr__(self):
-        string = f"Nivel_Object generado numero {self.numero}"
-        return string
+        if teclas.issubset({p.FLECHA_DERECHA, p.FLECHA_izquierda, p.FLECHA_ABAJO, p.FLECHA_ARRIBA}):
+            pasos = self.pasos_en_zona_captura()
+            if pasos:
+                for paso in pasos:
+                    paso_correcto = self.manejar_paso(paso, teclas)
+                    print(f"DEBUG paso Correcto = {paso_correcto}")
+                    if paso_correcto:
+                        self.pasos_correctos += 1
+                        self.combo += 1
+                    else:
+                        self.pasos_incorrectos += 1
+                        self.combo = 0
+            else:  # En caso de que no hayan pasos en la zona de captura
+                self.pasos_incorrectos += 1
+                self.combo = 0
 
     def manejar_paso(self, paso, teclas):
         """
@@ -209,8 +237,6 @@ class Nivel(QObject):
         tiempo_restante = self.timer.remainingTime() / 1000
         self.progreso = int(((self.duracion - tiempo_restante) / self.duracion) * 100)
         self.aprobacion = self.calcular_aprobacion()
-        self.senal_actualizar_progreso.emit(self.progreso)
-        self.senal_actualizar_aprobacion.emit(self.aprobacion)
 
     def calcular_aprobacion(self):
         try:
@@ -220,3 +246,57 @@ class Nivel(QObject):
             aprobacion = 0
 
         return aprobacion
+
+    def calcular_ventana_resumen(self):
+        self.actualizar_puntaje()
+
+        if self.aprobacion < self.aprobacion_necesaria:
+            mensaje = "Andate de la DCC Cumbia eres horrible para este juego"
+            self.escribir_puntaje_en_ranking()
+            ventana_a_volver = "ventana_inicio"
+            self.senal_esconder_juego.emit()
+            self.senal_juego_terminado.emit()
+        else:
+            mensaje = "Eres el bailarin aestro, podras demostrar tu valia otra ronda"
+            ventana_a_volver = "ventana_juego"
+            self.senal_esconder_juego.emit()
+        self.senal_abrir_ventana_resumen.emit(self.puntaje, self.puntaje_acumulado,
+                                              self.combo_maximo, self.pasos_incorrectos,
+                                              self.aprobacion, mensaje, ventana_a_volver)
+
+    def reiniciar_estadisticas(self):
+        self.combo = 0
+        self.combo_maximo = 0
+        self.pasos_correctos = 0
+        self.pasos_incorrectos = 0
+        self.pasos_totales = 0
+        self.flechas_capturadas = {
+            "normal": 0,
+            "x2": 0,
+            "dorada": 0,
+            "hielo": 0,
+        }
+        self.aprobacion = 0
+        self.progreso = 0
+
+    def actualizar_puntaje(self):  # Calcula y actualiza el puntaje
+        suma_flechas = 0
+        for tipo_flecha, numero in self.flechas_capturadas.items():
+            if tipo_flecha == "normal":
+                puntos = numero * 1
+            elif tipo_flecha == "x2":
+                puntos = numero * p.MULTIPLICADOR_PUNTOS_FLECHA_x2
+            elif tipo_flecha == "dorada":
+                puntos = numero * p.MULTIPLICADOR_PUNTOS_FLECHA_DORADA
+            elif tipo_flecha == "hielo":
+                puntos = numero * 1
+            suma_flechas += puntos
+
+        self.puntaje = self.combo_maximo * suma_flechas * p.PUNTOS_FLECHA
+
+    def escribir_puntaje_en_ranking(self):
+        pass
+
+    def __repr__(self):
+        string = f"Nivel_Object generado numero {self.numero}"
+        return string

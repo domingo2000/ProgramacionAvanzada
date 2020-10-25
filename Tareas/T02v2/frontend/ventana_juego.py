@@ -1,13 +1,11 @@
 import sys
-
 from PyQt5 import uic
-from PyQt5.QtWidgets import (QApplication, QMessageBox)
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtMultimedia import QSound
 import parametros as p
 from backend.funciones import sleep
 
-# Cargamos el formulario usando uic
+# Cargamos la interfaz
 window_name, base_class = uic.loadUiType("qt-designer-ventana_juego.ui")
 
 
@@ -30,7 +28,10 @@ class VentanaJuego(window_name, base_class):
         self.senal_nivel_cargado = pyqtSignal()
 
     def init_gui(self):
-        pass
+        self.label_tecla_abajo.setText(p.FLECHA_ABAJO.upper())
+        self.label_tecla_derecha.setText(p.FLECHA_DERECHA.upper())
+        self.label_tecla_arriba.setText(p.FLECHA_ARRIBA.upper())
+        self.label_tecla_izquierda.setText(p.FLECHA_izquierda.upper())
 
     def comenzar(self):
         cancion = self.opciones_cancion.currentText()
@@ -61,7 +62,7 @@ class VentanaJuego(window_name, base_class):
         self.label_combo.setText(f"Combo: {int}")
 
     def actualizar_label_combo_maximo(self, int):
-        self.label_combo_maximo.setText(f"Combo: {int}")
+        self.label_combo_maximo.setText(f"Combo Máximo: {int}")
 
     def actualizar_progressbar_progreso(self, int):
         self.barra_progreso.setValue(int)

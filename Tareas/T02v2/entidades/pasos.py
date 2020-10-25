@@ -101,7 +101,7 @@ class Flecha2(Flecha):
         ruta_imagen = p.IMAGENES[f"imagen_flecha_{self.direccion}_4"]
         super().init_gui(ruta_imagen, parent)
         self.probabilidad = p.PROB_FLECHA_X2
-        self.puntos = p.PUNTOS_FLECHA_x2
+        self.puntos = p.MULTIPLICADOR_PUNTOS_FLECHA_DORADA * p.PUNTOS_FLECHA
         self.tipo = "x2"
 
 
@@ -113,7 +113,7 @@ class FlechaDorada(Flecha):
         super().init_gui(ruta_imagen, parent)
         self.probabilidad = p.PROB_FLECHA_DORADA
         self.velocidad = p.VELOCIDAD_FLECHA_DORADA
-        self.puntos = p.PUNTOS_FLECHA_DORADA
+        self.puntos = p.MULTIPLICADOR_PUNTOS_FLECHA_DORADA * p.PUNTOS_FLECHA
         self.tipo = "dorada"
 
 

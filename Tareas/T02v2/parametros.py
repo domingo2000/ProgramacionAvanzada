@@ -77,7 +77,7 @@ COLORES = {
     "zona_captura": "#99CCFF"
 }
 # Propiedades Graficas
-TASA_DE_REFRESCO = 0.01 #En segundos
+TASA_DE_REFRESCO = 0.01  # En segundos
 
 # Parametros Flechas
 DIRECCIONES = ["izquierda", "arriba", "abajo", "derecha"]
@@ -94,11 +94,11 @@ PUNTOS_FLECHA = 1
 PROB_NORMAL = 0.5
 # Flecha x2
 PROB_FLECHA_X2 = 0.2
-PUNTOS_FLECHA_x2 = 2 * PUNTOS_FLECHA
+MULTIPLICADOR_PUNTOS_FLECHA_x2 = 2 * PUNTOS_FLECHA
 # Flecha Dorada
 PROB_FLECHA_DORADA = 0.1
 VELOCIDAD_FLECHA_DORADA = 1.5 * VELOCIDAD_FLECHA
-PUNTOS_FLECHA_DORADA = 10 * PUNTOS_FLECHA
+MULTIPLICADOR_PUNTOS_FLECHA_DORADA = 10 * PUNTOS_FLECHA
 # Flecha Hielo
 PROB_FLECHA_HIELO = 0.2
 REDUCCION_VELOCIDAD_HIELO = 0.2
@@ -126,6 +126,4 @@ NIVEL_MAESTRO_CUMBIA = {
 # Calculo de aprobacion
 MULTIPLCIADOR_APROBACION = 100
 if __name__ == "__main__":
-    import random
-    cancion = random.choice(list(CANCIONES.values()))
-    print(cancion)
+    print("HOLA")

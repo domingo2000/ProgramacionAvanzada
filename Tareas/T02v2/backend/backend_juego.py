@@ -31,7 +31,7 @@ class BackJuego(QObject):
 
         self.nivel.duracion = duracion
         self.nivel.tiempo_entre_pasos = tiempo_entre_pasos
-        self.nivel.aprobacion = aprobacion
+        self.nivel.aprobacion_necesaria = aprobacion
         self.nivel.pasos_dobles = pasos_dobles
         self.nivel.pasos_triples = pasos_triples
 
@@ -39,3 +39,6 @@ class BackJuego(QObject):
         self.nivel.cancion = QSound(ruta_cancion)
         self.nivel.crear_generador()
         self.nivel.comenzar()
+
+    def borrar_juego(self):
+        self.nivel.puntaje_acumulado = 0
