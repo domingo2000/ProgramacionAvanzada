@@ -59,6 +59,28 @@ class Nivel(QObject):
         self.__duracion = valor
         self.timer.setInterval(valor * 1000)
 
+    @property
+    def combo(self):
+        return self.__combo
+
+    @combo.setter
+    def combo(self, valor):
+        self.__combo = valor
+
+        # Actualiza el combo maximo
+        if self.combo > self.combo_maximo:
+            self.combo_maximo = self.combo
+        self.senal_actualizar_combo.emit(self.combo)
+
+    @property
+    def combo_maximo(self):
+        return self.__combo_maximo
+
+    @combo_maximo.setter
+    def combo_maximo(self, valor):
+        self.__combo_maximo = valor
+        self.senal_actualizar_combo_maximo.emit(self.combo)
+
     def crear_generador(self):
         self.generador_pasos = GeneradorPasos(self.tiempo_entre_pasos, self.ventana_contenedora,
                                               self.pasos_dobles, self.pasos_triples)
@@ -81,28 +103,6 @@ class Nivel(QObject):
 
     def destruir_label(self, label):
         label.setParent(None)
-
-    @property
-    def combo(self):
-        return self.__combo
-
-    @combo.setter
-    def combo(self, valor):
-        self.__combo = valor
-        
-        # Actualiza el combo maximo
-        if self.combo > self.combo_maximo:
-            self.combo_maximo = self.combo
-        self.senal_actualizar_combo.emit(self.combo)
-
-    @property
-    def combo_maximo(self):
-        return self.__combo_maximo
-
-    @combo_maximo.setter
-    def combo_maximo(self, valor):
-        self.__combo_maximo = valor
-        self.senal_actualizar_combo_maximo.emit(self.combo)
 
     def pasos_en_zona_captura(self):
         pasos_en_zona = set()
