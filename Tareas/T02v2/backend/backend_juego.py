@@ -20,12 +20,12 @@ class BackJuego(QObject):
             pasos_triples = False
         elif dificultad == "Aficionado":
             duracion, tiempo_entre_pasos, aprobacion = p.NIVEL_AFICIONADO.values()
-            pasos_dobles = False
+            pasos_dobles = True
             pasos_triples = False
         elif dificultad == "Maestro Cumbia":
             duracion, tiempo_entre_pasos, aprobacion = p.NIVEL_MAESTRO_CUMBIA.values()
-            pasos_dobles = False
-            pasos_triples = False
+            pasos_dobles = True
+            pasos_triples = True
         else:
             print(f"Error: Dificultad vale: {dificultad}, cancion vale: {cancion}")
 
@@ -39,7 +39,3 @@ class BackJuego(QObject):
         self.nivel.cancion = QSound(ruta_cancion)
         self.nivel.crear_generador()
         self.nivel.comenzar()
-        """
-        self.senal_cargar_nivel.emit(cancion, duracion, tiempo_entre_pasos,
-                                     aprobacion, pasos_dobles, pasos_triples)
-        """
