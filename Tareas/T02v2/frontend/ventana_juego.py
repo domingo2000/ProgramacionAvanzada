@@ -41,12 +41,14 @@ class VentanaJuego(window_name, base_class):
         tecla = event.text()
         if not event.isAutoRepeat():
             self.teclas_presionadas.add(tecla)
+            self.actualizar_zona_captura(tecla)
 
     def keyReleaseEvent(self, event):
         if not event.isAutoRepeat():
             if len(self.teclas_presionadas) > 0:
                 print(f"Señal teclas presionadas: {self.teclas_presionadas}")
                 self.senal_teclas_presionadas.emit(self.teclas_presionadas)
+                self.despintar_zona_captura()
                 self.teclas_presionadas = set()
 
     def actualizar_label(self, label, pos_x, pos_y):
@@ -66,3 +68,19 @@ class VentanaJuego(window_name, base_class):
 
     def actualizar_progressbar_aprobacion(self, int):
         self.barra_aprobacion.setValue(int)
+
+    def actualizar_zona_captura(self, tecla):
+        if tecla == p.FLECHA_ABAJO:
+            self.label_zona_captura_abajo.setStyleSheet("background-color: blue;")
+        elif tecla == p.FLECHA_ARRIBA:
+            self.label_zona_captura_arriba.setStyleSheet("background-color: blue;")
+        elif tecla == p.FLECHA_DERECHA:
+            self.label_zona_captura_derecha.setStyleSheet("background-color: blue;")
+        elif tecla == p.FLECHA_izquierda:
+            self.label_zona_captura_izquierda.setStyleSheet("background-color: blue;")
+    
+    def despintar_zona_captura(self):
+        self.label_zona_captura_arriba.setStyleSheet("")
+        self.label_zona_captura_abajo.setStyleSheet("")
+        self.label_zona_captura_izquierda.setStyleSheet("")
+        self.label_zona_captura_derecha.setStyleSheet("")

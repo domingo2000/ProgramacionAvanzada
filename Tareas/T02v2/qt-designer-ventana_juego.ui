@@ -10,18 +10,6 @@
     <height>657</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>1034</width>
-    <height>657</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>1034</width>
-    <height>657</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Ventana Juego</string>
   </property>
@@ -450,7 +438,7 @@ border-color: #A58CBF;</string>
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="label_zona_captura_izquierda">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -466,7 +454,7 @@ border-color: #A58CBF;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
+   <widget class="QLabel" name="label_zona_captura_arriba">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -482,7 +470,7 @@ border-color: #A58CBF;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7">
+   <widget class="QLabel" name="label_zona_captura_abajo">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -498,7 +486,7 @@ border-color: #A58CBF;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QLabel" name="label_zona_captura_derecha">
     <property name="geometry">
      <rect>
       <x>150</x>

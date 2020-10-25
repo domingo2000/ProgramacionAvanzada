@@ -123,6 +123,8 @@ NIVEL_MAESTRO_CUMBIA = {
     "aprobacion_necesaria": 30,
 }
 
+# Calculo de aprobacion
+MULTIPLCIADOR_APROBACION = 100
 if __name__ == "__main__":
     import random
     cancion = random.choice(list(CANCIONES.values()))

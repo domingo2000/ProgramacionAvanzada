@@ -22,8 +22,9 @@ class Nivel(QObject):
         Nivel.contador += 1
         self.__combo = 0
         self.__combo_maximo = 0
-        self.pasos_correctos = 0
-        self.pasos_incorrectos = 0
+        self.__pasos_correctos = 0
+        self.__pasos_incorrectos = 0
+        self.pasos_totales = 0
         self.flechas_capturadas = {
             "normal": 0,
             "x2": 0,
@@ -88,6 +89,23 @@ class Nivel(QObject):
     def combo_maximo(self, valor):
         self.__combo_maximo = valor
         self.senal_actualizar_combo_maximo.emit(self.combo)
+
+    @property
+    def pasos_correctos(self):
+        return self.__pasos_correctos
+
+    @pasos_correctos.setter
+    def pasos_correctos(self, valor):
+        self.__pasos_correctos = valor
+        self.pasos_totales += 1
+
+    @property
+    def pasos_incorrectos(self):
+        return self.__pasos_incorrectos
+
+    @pasos_incorrectos.setter
+    def pasos_incorrectos(self, valor):
+        self.__pasos_incorrectos = valor
 
     def crear_generador(self):
         self.generador_pasos = GeneradorPasos(self.tiempo_entre_pasos, self.ventana_contenedora,
@@ -190,6 +208,15 @@ class Nivel(QObject):
     def actualizar_progreso_aprobacion(self):
         tiempo_restante = self.timer.remainingTime() / 1000
         self.progreso = int(((self.duracion - tiempo_restante) / self.duracion) * 100)
-        self.aprobacion = 15
+        self.aprobacion = self.calcular_aprobacion()
         self.senal_actualizar_progreso.emit(self.progreso)
         self.senal_actualizar_aprobacion.emit(self.aprobacion)
+
+    def calcular_aprobacion(self):
+        try:
+            aprobacion = p.MULTIPLCIADOR_APROBACION * \
+                ((self.pasos_correctos - self.pasos_incorrectos) / self.pasos_totales)
+        except ZeroDivisionError:
+            aprobacion = 0
+
+        return aprobacion
