@@ -49,8 +49,8 @@ IMAGENES = {
     "imagen_explosion_abajo": ["sprites", "flechas", "boom_2.png"],
 }
 CANCIONES = {
-    "cancion_1": ["songs", "cancion_1.wav"],
-    "cancion_2": ["songs", "cancion_2.wav"]
+    "Shingeki": ["songs", "cancion_1.wav"],
+    "Cumbia": ["songs", "cancion_2.wav"]
 }
 
 # Parametros Tamaño ventanas
