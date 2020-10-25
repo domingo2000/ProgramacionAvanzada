@@ -1,4 +1,4 @@
-from widgets.niveles import NivelPrincipiante, NivelAficionado, NivelMaestroCumbia, Nivel
+from entidades.nivel import Nivel
 from PyQt5.QtCore import QObject, pyqtSignal
 from PyQt5.QtMultimedia import QSound
 import parametros as p

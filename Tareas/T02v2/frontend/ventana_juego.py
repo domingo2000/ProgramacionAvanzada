@@ -4,8 +4,6 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import (QApplication, QMessageBox)
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtMultimedia import QSound
-from widgets.ventana_nivel import VentanaNivel
-from widgets.niveles import NivelPrincipiante
 import parametros as p
 from backend.funciones import sleep
 

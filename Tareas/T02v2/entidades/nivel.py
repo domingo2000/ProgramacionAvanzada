@@ -170,26 +170,3 @@ class Nivel(QObject):
         else:
             return False
 
-
-class NivelPrincipiante(Nivel):
-
-    def __init__(self, ventana_contenedora):
-        super().__init__(*p.NIVEL_PRINCIPIANTE.values(), ventana_contenedora)
-        self.pasos_dobles = False
-        self.pasos_triples = False
-
-
-class NivelAficionado(Nivel):
-
-    def __init__(self, ventana_contenedora):
-        super().__init__(*p.NIVEL_AFICIONADO.values(), ventana_contenedora)
-        self.pasos_dobles = True
-        self.pasos_triples = False
-
-
-class NivelMaestroCumbia(Nivel):
-
-    def __init__(self, ventana_contenedora):
-        super().__init__(*p.NIVEL_MAESTRO_CUMBIA.values(), ventana_contenedora)
-        self.pasos_dobles = True
-        self.pasos_triples = True
