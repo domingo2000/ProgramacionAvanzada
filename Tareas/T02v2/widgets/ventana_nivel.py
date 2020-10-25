@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel
-from PyQt5.QtCore import Qt, pyqtSignal, QPoint, QRect, QObject, QTimer
+from PyQt5.QtWidgets import QWidget, QLabel
+from PyQt5.QtCore import Qt, pyqtSignal, QRect, QObject, QTimer
 from PyQt5.QtMultimedia import QSound
 import parametros as p
 from entidades.pasos import GeneradorPasos
@@ -13,7 +13,6 @@ class VentanaNivel(QWidget):
 
     def __init__(self, nivel, duracion, parent, path_cancion=path.join(*p.CANCIONES["Cumbia"])):
         super().__init__(parent)
-        self.teclas_presionadas = set()
         self.duracion = duracion
         # Generador
         self.generador_pasos = GeneradorPasos(nivel.tiempo_entre_pasos, self,
@@ -66,18 +65,6 @@ class VentanaNivel(QWidget):
 
     def destruir_label(self, label):
         label.setParent(None)
-
-    def keyPressEvent(self, event):
-        tecla = event.text()
-        if not event.isAutoRepeat():
-            self.teclas_presionadas.add(tecla)
-
-    def keyReleaseEvent(self, event):
-        if not event.isAutoRepeat():
-            if len(self.teclas_presionadas) > 0:
-                print(f"Señal teclas presionadas: {self.teclas_presionadas}")
-                self.senal_teclas_presionadas.emit(self, self.teclas_presionadas)
-                self.teclas_presionadas = set()
 
 
 class ZonaCaptura(QObject):
