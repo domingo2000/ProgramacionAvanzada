@@ -62,12 +62,13 @@ font-weight: bold;
     <rect>
      <x>100</x>
      <y>140</y>
-     <width>291</width>
-     <height>191</height>
+     <width>301</width>
+     <height>241</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">font-weight: bold;
+
 </string>
    </property>
    <property name="frameShape">
@@ -81,7 +82,7 @@ font-weight: bold;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>292</width>
+      <width>301</width>
       <height>191</height>
      </rect>
     </property>
@@ -241,18 +242,23 @@ font-weight: bold;
        </item>
       </layout>
      </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_mensaje_final">
-         <property name="text">
-          <string>Mensaje_DCC:Cumbia</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="label_mensaje_final">
+    <property name="geometry">
+     <rect>
+      <x>-70</x>
+      <y>200</y>
+      <width>401</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mensaje_DCC:Cumbia</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
   </widget>
  </widget>
