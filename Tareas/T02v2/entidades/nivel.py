@@ -136,10 +136,8 @@ class Nivel(QObject):
 
     @puntaje.setter
     def puntaje(self, valor):
-        puntaje_anterior = self.puntaje
         self.__puntaje = valor
-        aumento = self.puntaje - puntaje_anterior
-        self.puntaje_acumulado += aumento
+        self.puntaje_acumulado += self.puntaje
 
     def crear_generador(self):
         self.generador_pasos = GeneradorPasos(self.tiempo_entre_pasos, self.ventana_contenedora,
@@ -257,7 +255,7 @@ class Nivel(QObject):
             self.senal_esconder_juego.emit()
             self.senal_juego_terminado.emit()
         else:
-            mensaje = "Eres el bailarin aestro, podras demostrar tu valia otra ronda"
+            mensaje = "Eres el bailarin Maestro, podras demostrar tu valia otra ronda"
             ventana_a_volver = "ventana_juego"
             self.senal_esconder_juego.emit()
         self.senal_abrir_ventana_resumen.emit(self.puntaje, self.puntaje_acumulado,
