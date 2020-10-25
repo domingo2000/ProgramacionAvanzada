@@ -1,4 +1,7 @@
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtCore import QObject, pyqtSignal, QRect, QTimer
+from PyQt5.QtMultimedia import QSound
+from entidades.pasos import GeneradorPasos
+from backend.funciones import sleep
 import parametros as p
 import sys
 
@@ -10,7 +13,8 @@ class Nivel(QObject):
     senal_actualizar_combo = pyqtSignal(int)
     senal_actualizar_combo_maximo = pyqtSignal(int)
 
-    def __init__(self, duracion, tiempo_entre_pasos, aprobacion_necesaria):
+    def __init__(self,
+                 ventana_contenedora):
         super().__init__()
         self.numero = Nivel.contador
         Nivel.contador += 1
@@ -24,12 +28,59 @@ class Nivel(QObject):
             "dorada": 0,
             "hielo": 0,
         }
-        self.aprobacion_necesaria = aprobacion_necesaria
-        self.tiempo_entre_pasos = tiempo_entre_pasos
-        self.duracion = duracion
+        self.aprobacion_necesaria = None
+        self.tiempo_entre_pasos = None
+        self.__duracion = None
+        self.pasos_dobles = False
+        self.pasos_triples = False
         self.pasos_actuales = set()
         self.pasos_capturados = set()
-        
+        self.ventana_contenedora = ventana_contenedora
+
+        # Musica
+        self.cancion = None
+        # Entidades para funcionamiento
+        # Timer nivel
+        self.timer = QTimer()
+        self.timer.setSingleShot(True)
+        self.timer.timeout.connect(self.terminar)
+
+        # Generador
+        self.generador_pasos = None
+        self.colider_zona_captura = QRect(*p.UBICACION_VENTANAS["zona_captura"],
+                                          *p.TAMANO_VENTANAS["zona_captura_2"])
+
+    @property
+    def duracion(self):
+        return self.__duracion
+
+    @duracion.setter
+    def duracion(self, valor):
+        self.__duracion = valor
+        self.timer.setInterval(valor * 1000)
+
+    def crear_generador(self):
+        self.generador_pasos = GeneradorPasos(self.tiempo_entre_pasos, self.ventana_contenedora,
+                                              self.pasos_dobles, self.pasos_triples)
+
+    def comenzar(self):
+        self.timer.start()
+        print("Comenzando Nivel :)")
+        self.generador_pasos.comenzar()
+        self.cancion.play()
+
+    def terminar(self):
+        print("Terminando Nivel")
+        # Esperar a que no hayan flechas
+        # Completar parar_cancion
+        self.generador_pasos.parar()
+        sleep(p.TAMANO_VENTANAS["ventana_nivel"][1] / p.VELOCIDAD_FLECHA)
+        self.cancion.stop()
+        # mostrar_ventana_resumen
+        print("Nivel Terminado")
+
+    def destruir_label(self, label):
+        label.setParent(None)
 
     @property
     def combo(self):
@@ -53,24 +104,21 @@ class Nivel(QObject):
         self.__combo_maximo = valor
         self.senal_actualizar_combo_maximo.emit(self.combo)
 
-    def pasos_en_zona_captura(self, ventana_nivel):
+    def pasos_en_zona_captura(self):
         pasos_en_zona = set()
-        pasos = ventana_nivel.generador_pasos.pasos
+        pasos = self.generador_pasos.pasos
         for paso in pasos:
-            for zona_captura in ventana_nivel.zonas_captura:
-                if paso.colider.intersects(zona_captura.colider):
-                    pasos_en_zona.add(paso)
-                    break
+            if paso.colider.intersects(self.colider_zona_captura):
+                pasos_en_zona.add(paso)
         return(pasos_en_zona)
 
-    def manejar_teclas(self, ventana_nivel, teclas):
+    def manejar_teclas(self, teclas):
         """
         Recibe la señal de teclas presionadas donde ventana_nivel es la
         ventana del nivel que se esta jugando, y teclas es un set con las teclas
         presionadas
         """
-        print("DEBUG: Manejando Tecla")
-        pasos = self.pasos_en_zona_captura(ventana_nivel)
+        pasos = self.pasos_en_zona_captura()
         if pasos:
             for paso in pasos:
                 paso_correcto = self.manejar_paso(paso, teclas)
@@ -125,23 +173,23 @@ class Nivel(QObject):
 
 class NivelPrincipiante(Nivel):
 
-    def __init__(self):
-        super().__init__(*p.NIVEL_PRINCIPIANTE.values())
+    def __init__(self, ventana_contenedora):
+        super().__init__(*p.NIVEL_PRINCIPIANTE.values(), ventana_contenedora)
         self.pasos_dobles = False
         self.pasos_triples = False
 
 
 class NivelAficionado(Nivel):
 
-    def __init__(self):
-        super().__init__(*p.NIVEL_AFICIONADO.values())
+    def __init__(self, ventana_contenedora):
+        super().__init__(*p.NIVEL_AFICIONADO.values(), ventana_contenedora)
         self.pasos_dobles = True
         self.pasos_triples = False
 
 
 class NivelMaestroCumbia(Nivel):
 
-    def __init__(self):
-        super().__init__(*p.NIVEL_MAESTRO_CUMBIA.values())
+    def __init__(self, ventana_contenedora):
+        super().__init__(*p.NIVEL_MAESTRO_CUMBIA.values(), ventana_contenedora)
         self.pasos_dobles = True
         self.pasos_triples = True

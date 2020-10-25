@@ -33,8 +33,6 @@ class Flecha(QObject):
         self.numero = Flecha.contador_clase
         # Label
         self.label = QLabel(parent)
-        # Colider
-        self.colider = QRect(self.columna * self.tamaño, 0, self.tamaño, self.tamaño)
 
         # Animacion
         rutas_imagenes_explosion = [p.IMAGENES[f"imagen_flecha_{self.direccion}_{i}"]
@@ -51,14 +49,17 @@ class Flecha(QObject):
     @altura.setter
     def altura(self, y):
         self.__altura = y
-        pos_x = self.columna * p.TAMANO_VENTANAS["zona_captura"]
+        x_zona_nivel, y_zona_nivel = p.UBICACION_VENTANAS["ventana_nivel"]
+        pos_x = self.columna * p.TAMANO_VENTANAS["zona_captura"] + x_zona_nivel
         pos_y = self.altura
-        self.colider.moveTopLeft(QPoint(pos_x, pos_y))
         self.senal_actualizar_flecha.emit(self.label, pos_x, pos_y)
 
     def init_gui(self, ruta_imagen, parent):
         # Setea parametros y imagenes del label
-        self.label.setGeometry(self.columna * self.tamaño, 0, self.tamaño, self.tamaño)
+        x_zona_nivel, y_zona_nivel = p.UBICACION_VENTANAS["ventana_nivel"]
+        self.label.setGeometry(self.columna * self.tamaño + x_zona_nivel,
+                               y_zona_nivel,
+                               self.tamaño, self.tamaño)
         self.label.setStyleSheet("background-color:transparent;")
         imagen_flecha = QPixmap(path.join(*ruta_imagen))
         self.label.setPixmap(imagen_flecha)
@@ -158,12 +159,12 @@ class Paso(QTimer):
         self.flechas = flechas
         self.cantidad_flechas = len(self.flechas)
         self.velocidad = self.flechas[0].velocidad
-        self.__altura = 0
+        self.__altura = p.UBICACION_VENTANAS["ventana_nivel"][1]
         self.destruido = False
         # Inicializa el QRect
         x_flechas = [flecha.label.x() for flecha in flechas]
         posicion_esquina_x = min(x_flechas)
-        tamaño_flecha = self.flechas[0].colider.height()
+        tamaño_flecha = self.flechas[0].label.height()
         ancho = (max(x_flechas) + tamaño_flecha) - min(x_flechas)
         self.colider = QRect(posicion_esquina_x, self.altura, ancho, tamaño_flecha)
         # Fija los valores del timer
