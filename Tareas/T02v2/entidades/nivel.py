@@ -133,6 +133,8 @@ class Nivel(QObject):
         ventana del nivel que se esta jugando, y teclas es un set con las teclas
         presionadas
         """
+        if not(self.generador_pasos):
+            return None
         pasos = self.pasos_en_zona_captura()
         if pasos:
             for paso in pasos:
