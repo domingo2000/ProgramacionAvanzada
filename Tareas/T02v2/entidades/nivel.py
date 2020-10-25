@@ -111,7 +111,7 @@ class Nivel(QObject):
     @pasos_incorrectos.setter
     def pasos_incorrectos(self, valor):
         self.__pasos_incorrectos = valor
-    
+
     @property
     def aprobacion(self):
         return self.__aprobacion

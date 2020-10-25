@@ -79,7 +79,7 @@ class VentanaJuego(window_name, base_class):
             self.label_zona_captura_derecha.setStyleSheet("background-color: blue;")
         elif tecla == p.FLECHA_izquierda:
             self.label_zona_captura_izquierda.setStyleSheet("background-color: blue;")
-    
+
     def despintar_zona_captura(self):
         self.label_zona_captura_arriba.setStyleSheet("")
         self.label_zona_captura_abajo.setStyleSheet("")
