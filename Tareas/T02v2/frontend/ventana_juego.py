@@ -37,8 +37,10 @@ class VentanaJuego(window_name, base_class):
     def comenzar(self):
         cancion = self.opciones_cancion.currentText()
         dificultad = self.opciones_dificultad.currentText()
-        print("DEBUG dificulad, cancion", dificultad, cancion)
         self.senal_cargar_nivel.emit(cancion, dificultad)
+        # Resetea los combos
+        self.actualizar_label_combo(0)
+        self.actualizar_label_combo_maximo(0)
 
     def keyPressEvent(self, event):
         tecla = event.text()
@@ -57,3 +59,9 @@ class VentanaJuego(window_name, base_class):
 
     def destruir_label(self, label):
         label.parent = None
+
+    def actualizar_label_combo(self, int):
+        self.label_combo.setText(f"Combo: {int}")
+
+    def actualizar_label_combo_maximo(self, int):
+        self.label_combo_maximo.setText(f"Combo: {int}")
