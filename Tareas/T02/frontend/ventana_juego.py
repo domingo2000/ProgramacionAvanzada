@@ -1,10 +1,11 @@
 import sys
 from PyQt5 import uic
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QRect, QPoint, QSize
 from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QShortcut
 import parametros as p
 from backend.funciones import sleep
+from entidades.pinguino import Pinguino
 
 # Cargamos la interfaz
 window_name, base_class = uic.loadUiType("qt-designer-ventana_juego.ui")
@@ -23,6 +24,10 @@ class VentanaJuego(window_name, base_class):
         self.setupUi(self)
         self.init_senales()
         self.init_gui()
+        # Colider pista baile
+        punto = self.pista_baile.pos()
+        tamaño = self.pista_baile.size()
+        self.colider_pista_baile = QRect(punto, tamaño)
 
     def init_senales(self):
         # Coneccion senales propias
@@ -39,6 +44,18 @@ class VentanaJuego(window_name, base_class):
 
     def init_shortcuts(self):
         pass
+
+    # Drag And Drop
+    def dragEnterEvent(self, event):
+        event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        pos = event.pos()
+        pinguino_original = event.source()
+        pinguino = Pinguino(self, pinguino_original.ruta_imagen, pos)
+        if not(pinguino.colider.intersects(self.colider_pista_baile)):
+            pinguino.setParent(None)
+        event.acceptProposedAction()
 
     def pausar(self):
         print("Pausando")
