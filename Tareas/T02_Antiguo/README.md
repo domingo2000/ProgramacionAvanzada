@@ -1,6 +1,6 @@
 # Tarea X: Nombre de la tarea :school_satchel:
-Notas: Se asume que una combinacion de teclas del teclada se ejecuta una vez que se levanta un flecha de las que se ha presionado
-Se asume que un paso combinado tiene el mismo tipo de flechas
+
+
 Un buen ```README.md``` puede marcar una gran diferencia en la facilidad con la que corregimos una tarea, y consecuentemente cómo funciona su programa, por lo en general, entre más ordenado y limpio sea éste, mejor será 
 
 Para nuestra suerte, GitHub soporta el formato [MarkDown](https://es.wikipedia.org/wiki/Markdown), el cual permite utilizar una amplia variedad de estilos de texto, tanto para resaltar cosas importantes como para separar ideas o poner código de manera ordenada ([pueden ver casi todas las funcionalidades que incluye aquí](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet))

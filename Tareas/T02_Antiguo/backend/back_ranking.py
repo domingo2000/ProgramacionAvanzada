@@ -1,9 +1,8 @@
 import os
 from PyQt5.QtCore import QObject, pyqtSignal
-from parametros import NUMERO_PUNTAJES_MAXIMOS_RANKING
 
 
-class BackRanking(QObject):
+class ProcesadorRanking(QObject):
     senal_procesar_puntajes = pyqtSignal()
 
     def __init__(self):
@@ -31,7 +30,7 @@ class BackRanking(QObject):
         puntajes.sort(key=lambda puntaje: puntaje[1], reverse=True)
 
         archivo.close()
-        return(puntajes[0:NUMERO_PUNTAJES_MAXIMOS_RANKING])
+        return(puntajes[0:5])
 
     def actualizar_puntajes(self):
         puntajes = self.ordenar_puntajes()
@@ -40,5 +39,5 @@ class BackRanking(QObject):
 
 
 if __name__ == "__main__":
-    procesador = BackRanking()
+    procesador = ProcesadorRanking()
     print(procesador.ordenar_puntajes())
