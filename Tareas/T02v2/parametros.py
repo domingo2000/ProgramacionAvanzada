@@ -92,7 +92,7 @@ FLECHA_DERECHA = "d"
 
 ALTURA_INICIAL_FLECHA = 0
 VELOCIDAD_FLECHA = 200
-PUNTOS_FLECHA = 1
+PUNTOS_FLECHA = 10
 # Flecha Normal
 PROB_NORMAL = 0.5
 # Flecha x2
@@ -103,7 +103,7 @@ PROB_FLECHA_DORADA = 0.1
 VELOCIDAD_FLECHA_DORADA = 1.5 * VELOCIDAD_FLECHA
 MULTIPLICADOR_PUNTOS_FLECHA_DORADA = 10 * PUNTOS_FLECHA
 # Flecha Hielo
-PROB_FLECHA_HIELO = 0.2
+PROB_FLECHA_HIELO = 0.1
 REDUCCION_VELOCIDAD_HIELO = 0.2
 
 # DELAY ANIMACIONES
@@ -111,19 +111,19 @@ DELAY_EXPLOSION = 10
 
 # Parametros Niveles
 NIVEL_PRINCIPIANTE = {
-    "duracion": 5,
+    "duracion": 30,
     "tiempo_entre_pasos": 1,
     "aprobacion_necesaria": 30,
 }
 NIVEL_AFICIONADO = {
-    "duracion": 30,
+    "duracion": 45,
     "tiempo_entre_pasos": 0.75,
-    "aprobacion_necesaria": 30,
+    "aprobacion_necesaria": 50,
 }
 NIVEL_MAESTRO_CUMBIA = {
-    "duracion": 30,
+    "duracion": 60,
     "tiempo_entre_pasos": 0.5,
-    "aprobacion_necesaria": 30,
+    "aprobacion_necesaria": 70,
 }
 
 # Calculo de aprobacion
