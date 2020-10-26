@@ -144,6 +144,7 @@ class Nivel(QObject):
                                               self.pasos_dobles, self.pasos_triples)
 
     def comenzar(self):
+        self.reiniciar_estadisticas()
         self.timer.start()
         self.timer_actualizador.start()
         print("Comenzando Nivel :)")
@@ -161,7 +162,6 @@ class Nivel(QObject):
         self.timer_actualizador.stop()
         # mostrar_ventana_resumen
         self.calcular_ventana_resumen()
-        self.reiniciar_estadisticas()
 
     def destruir_label(self, label):
         label.setParent(None)
