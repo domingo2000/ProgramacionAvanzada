@@ -6,11 +6,12 @@ from os import path
 
 
 class BackJuego(QObject):
-    senal_cargar_nivel = pyqtSignal(Nivel, QSound, int, int, bool, bool)
     senal_nivel_cargado = pyqtSignal(bool)
+    senal_abrir_inicio = pyqtSignal()
 
     def __init__(self, nivel):
         self.nivel = nivel
+        self.usuario = ""
         super().__init__()
 
     def generar_nivel(self, cancion, dificultad):
@@ -39,6 +40,20 @@ class BackJuego(QObject):
         self.nivel.cancion = QSound(ruta_cancion)
         self.nivel.crear_generador()
         self.nivel.comenzar()
+        self.senal_nivel_cargado.emit(True)
 
     def borrar_juego(self):
         self.nivel.puntaje_acumulado = 0
+
+    def salir(self):
+        self.nivel.terminar_interrumpidamente()
+        self.senal_abrir_inicio.emit()
+
+    def escribir_puntaje_en_ranking(self, puntaje_acumulado):
+        ruta = path.join(*p.ARCHIVOS["ranking"])
+        archivo = open(ruta, "a")
+        archivo.write(f"{self.usuario}, {puntaje_acumulado}\n")
+        archivo.close()
+
+    def fijar_usuario(self, nombre_usuario):
+        self.usuario = nombre_usuario

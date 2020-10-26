@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QLineEdit, QPushButton, QLabel,
-                             QWidget, QHBoxLayout, QVBoxLayout)
+                             QWidget, QHBoxLayout, QVBoxLayout, QErrorMessage)
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 from os import path
@@ -9,7 +9,7 @@ from parametros import IMAGENES, TAMANO_VENTANAS, UBICACION_VENTANAS
 
 class VentanaInicio(QWidget):
     senal_abrir_ventana_ranking = pyqtSignal()
-    senal_abrir_ventana_juego = pyqtSignal()
+    senal_revisar_usuario = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -56,16 +56,14 @@ class VentanaInicio(QWidget):
         self.setLayout(vbox)
 
     def comenzar(self):
-        if self.entrada.text().isalnum():
-            print("Comenzando Partida...")
-            self.hide()
-            self.senal_abrir_ventana_juego.emit()
-        else:
-            # Crear alerta
-            print("Nombre invalido")
+        self.senal_revisar_usuario.emit(self.entrada.text())
 
     def ranking(self):
         print("Yendo a Ranking...")
         self.hide()
         self.senal_abrir_ventana_ranking.emit()
         pass
+
+    def alerta_usuario_incorrecto(self):
+        alerta = QErrorMessage(self)
+        alerta.showMessage("Usuario Incorrecto, debe ser Alfanumérico")

@@ -595,5 +595,42 @@ font-weight: bold;</string>
   <zorder>label_2</zorder>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>boton_pausar</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>pausar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>925</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>516</x>
+     <y>328</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>boton_salir</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>salir()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>925</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>516</x>
+     <y>4</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>pausar()</slot>
+  <slot>salir()</slot>
+ </slots>
 </ui>

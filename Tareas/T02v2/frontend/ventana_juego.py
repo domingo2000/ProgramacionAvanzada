@@ -2,6 +2,7 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtMultimedia import QSound
+from PyQt5.QtWidgets import QShortcut
 import parametros as p
 from backend.funciones import sleep
 
@@ -12,6 +13,9 @@ window_name, base_class = uic.loadUiType("qt-designer-ventana_juego.ui")
 class VentanaJuego(window_name, base_class):
     senal_teclas_presionadas = pyqtSignal(set)
     senal_cargar_nivel = pyqtSignal(str, str)  # Cancion, Dificultad
+    senal_salir_juego = pyqtSignal()
+    senal_guardar_puntaje = pyqtSignal()
+    senal_fijar_usuario = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -32,6 +36,17 @@ class VentanaJuego(window_name, base_class):
         self.label_tecla_derecha.setText(p.FLECHA_DERECHA.upper())
         self.label_tecla_arriba.setText(p.FLECHA_ARRIBA.upper())
         self.label_tecla_izquierda.setText(p.FLECHA_izquierda.upper())
+
+    def init_shortcuts(self):
+        pass
+
+    def pausar(self):
+        print("Pausando")
+        pass
+
+    def salir(self):
+        self.senal_salir_juego.emit()
+        self.hide()
 
     def comenzar(self):
         cancion = self.opciones_cancion.currentText()
@@ -85,3 +100,7 @@ class VentanaJuego(window_name, base_class):
         self.label_zona_captura_abajo.setStyleSheet("")
         self.label_zona_captura_izquierda.setStyleSheet("")
         self.label_zona_captura_derecha.setStyleSheet("")
+
+    def comenzar_nuevo_juego(self, nombre_usuario):
+        self.show()
+        self.senal_fijar_usuario.emit(nombre_usuario)

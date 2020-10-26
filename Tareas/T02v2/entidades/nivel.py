@@ -2,6 +2,7 @@ from PyQt5.QtCore import QObject, pyqtSignal, QRect, QTimer
 from PyQt5.QtMultimedia import QSound
 from entidades.pasos import GeneradorPasos
 from backend.funciones import sleep
+from os import path
 import parametros as p
 import sys
 
@@ -17,6 +18,7 @@ class Nivel(QObject):
     senal_juego_terminado = pyqtSignal()
     senal_esconder_juego = pyqtSignal()
     senal_abrir_ventana_resumen = pyqtSignal(int, int, int, int, int, str, str)
+    senal_escribir_puntaje_en_ranking = pyqtSignal(int)
 
     def __init__(self,
                  ventana_contenedora):
@@ -46,6 +48,7 @@ class Nivel(QObject):
         self.pasos_actuales = set()
         self.pasos_capturados = set()
         self.ventana_contenedora = ventana_contenedora
+        self.nivel_cargado = False
 
         # Musica
         self.cancion = None
@@ -250,7 +253,7 @@ class Nivel(QObject):
 
         if self.aprobacion < self.aprobacion_necesaria:
             mensaje = "Andate de la DCC Cumbia eres horrible para este juego"
-            self.escribir_puntaje_en_ranking()
+            self.senal_escribir_puntaje_en_ranking.emit()
             ventana_a_volver = "ventana_inicio"
             self.senal_esconder_juego.emit()
             self.senal_juego_terminado.emit()
@@ -292,8 +295,26 @@ class Nivel(QObject):
 
         self.puntaje = self.combo_maximo * suma_flechas * p.PUNTOS_FLECHA
 
-    def escribir_puntaje_en_ranking(self):
-        pass
+    def terminar_interrumpidamente(self):
+        if self.timer.isActive():  # En caso de que este en medio de una ronda
+            self.actualizar_puntaje()
+        else:  # En caso de que este entre rondas
+            pass
+
+        if self.nivel_cargado:
+            self.generador_pasos.parar()
+            self.cancion.stop()
+        self.timer.stop()
+        self.timer_actualizador.stop()
+        self.senal_escribir_puntaje_en_ranking.emit(self.puntaje_acumulado)
+        self.reiniciar_estadisticas()
+        self.borrar_juego()
+
+    def borrar_juego(self):
+        self.puntaje_acumulado = 0
+
+    def setear_nivel_cargado(self, bool):
+        self.nivel_cargado = bool
 
     def __repr__(self):
         string = f"Nivel_Object generado numero {self.numero}"

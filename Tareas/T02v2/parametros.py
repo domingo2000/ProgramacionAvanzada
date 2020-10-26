@@ -53,6 +53,9 @@ CANCIONES = {
     "Cumbia": ["songs", "cancion_2.wav"]
 }
 
+ARCHIVOS = {
+    "ranking": ["ranking.txt"]
+}
 # Parametros Tamaño ventanas
 TAMANO_VENTANAS = {
     "ventana_inicio": [500, 500],
@@ -108,7 +111,7 @@ DELAY_EXPLOSION = 10
 
 # Parametros Niveles
 NIVEL_PRINCIPIANTE = {
-    "duracion": 30,
+    "duracion": 5,
     "tiempo_entre_pasos": 1,
     "aprobacion_necesaria": 30,
 }
@@ -125,5 +128,8 @@ NIVEL_MAESTRO_CUMBIA = {
 
 # Calculo de aprobacion
 MULTIPLCIADOR_APROBACION = 100
+
+# Ranking
+NUMERO_PUNTAJES_MAXIMOS_RANKING = 5
 if __name__ == "__main__":
     print("HOLA")
