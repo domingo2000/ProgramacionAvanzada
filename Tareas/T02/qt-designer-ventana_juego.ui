@@ -10,6 +10,9 @@
     <height>657</height>
    </rect>
   </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>Ventana Juego</string>
   </property>
@@ -45,24 +48,6 @@ border-color: #A58CBF;</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>140</y>
-     <width>200</width>
-     <height>500</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: #D2B2F3;
-border: 5px solid;
-border-color: #A58CBF;</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="tienda">
-   <property name="geometry">
-    <rect>
-     <x>820</x>
      <y>140</y>
      <width>200</width>
      <height>500</height>
@@ -587,12 +572,131 @@ font-weight: bold;</string>
     </property>
    </widget>
   </widget>
+  <widget class="QFrame" name="pista_baile">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>420</y>
+     <width>421</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="acceptDrops">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="QFrame" name="tienda">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>140</y>
+     <width>200</width>
+     <height>500</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #D2B2F3;
+font-weight: bold;
+</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="fondo_tienda">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>200</width>
+      <height>500</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D2B2F3;
+border: 5px solid;
+border-color: #A58CBF;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>30</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:  20px;</string>
+    </property>
+    <property name="text">
+     <string>Tienda</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_dinero">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>80</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dinero:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_valor_pinguino">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>130</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Valor pinguino:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
   <zorder>label_3</zorder>
-  <zorder>tienda</zorder>
   <zorder>frame</zorder>
   <zorder>frame_3</zorder>
   <zorder>frame_4</zorder>
   <zorder>label_2</zorder>
+  <zorder>pista_baile</zorder>
+  <zorder>tienda</zorder>
  </widget>
  <resources/>
  <connections>
@@ -632,5 +736,7 @@ font-weight: bold;</string>
  <slots>
   <slot>pausar()</slot>
   <slot>salir()</slot>
+  <slot>prueba()</slot>
+  <slot>esconder_tienda()</slot>
  </slots>
 </ui>

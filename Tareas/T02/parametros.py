@@ -47,6 +47,12 @@ IMAGENES = {
     "imagen_explosion_derecha": ["sprites", "flechas", "boom_4.png"],
     "imagen_explosion_arriba": ["sprites", "flechas", "boom_3.png"],
     "imagen_explosion_abajo": ["sprites", "flechas", "boom_2.png"],
+
+    "pinguino_amarillo_neutro": ["sprites", "pinguirin_amarillo", "amarillo_neutro.png"],
+    "pinguino_celeste_neutro": ["sprites", "pinguirin_celeste", "celeste_neutro.png"],
+    "pinguino_morado_neutro": ["sprites", "pinguirin_morado", "morado_neutro.png"],
+    "pinguino_rojo_neutro": ["sprites", "pinguirin_rojo", "rojo_neutro.png"],
+    "pinguino_verde_neutro": ["sprites", "pinguirin_verde", "verde_neutro.png"]
 }
 CANCIONES = {
     "Shingeki": ["songs", "cancion_1.wav"],

@@ -6,12 +6,15 @@ import sys
 
 class Pinguino(QLabel):
 
-    def __init__(self, parent, ruta_imagen=None, qpoint=None):
+    def __init__(self, parent, ruta_imagen=None, qpoint=QPoint(0, 0), iscopy=False):
         super().__init__(parent=parent)
         pixmap = QPixmap(ruta_imagen)
+        self.pixmap = pixmap
         self.setStyleSheet("background-color: transparent;")
-        self.setGeometry(qpoint.x(), qpoint.y(), pixmap.width(), pixmap.height())
+        self.setGeometry(qpoint.x(), qpoint.y(), 100, 100)
+        self.setScaledContents(True)
         self.setPixmap(pixmap)
+        self.iscopy = iscopy
 
         # atributos
         self.colider = QRect(self.pos(), self.size())
@@ -23,21 +26,19 @@ class Pinguino(QLabel):
             self.drag_start_position = event.pos()
 
     def mouseMoveEvent(self, event):
+        if self.iscopy:
+            return
         if not (event.buttons() & Qt.LeftButton):
             return
         if (event.pos() - self.drag_start_position).manhattanLength() < QApplication.startDragDistance():
             return
         # Drag and Drop
         drag = QDrag(self)
-        mimedata = QMimeData()  # Debe tener todos los datos para crear un pinguino
-        # Crea los datos necesarios para hacer un pinguino
+        mimedata = QMimeData()
         drag.setMimeData(mimedata)
-        pixmap = QPixmap(self.size())
-        painter = QPainter(pixmap)
-        painter.drawPixmap(self.rect(), self.grab())
-        painter.end()
-        drag.setPixmap(pixmap)
-        drag.setHotSpot(self.pos())
+        drag.setPixmap(self.grab())
+        painter = QPainter()
+        drag.setHotSpot(QPoint(0, 0))
         drag.exec_(Qt.CopyAction | Qt.MoveAction)
 
 
