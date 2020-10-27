@@ -37,7 +37,8 @@ class Pinguino(QLabel):
             return
         if not (event.buttons() & Qt.LeftButton):
             return
-        if (event.pos() - self.drag_start_position).manhattanLength() < QApplication.startDragDistance():
+        if (event.pos() - self.drag_start_position).manhattanLength() \
+           < QApplication.startDragDistance():
             return
         # Drag and Drop
         drag = QDrag(self)

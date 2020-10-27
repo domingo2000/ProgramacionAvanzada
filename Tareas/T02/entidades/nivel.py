@@ -259,16 +259,16 @@ class Nivel(QObject):
             ventana_a_volver = "ventana_inicio"
             self.senal_esconder_juego.emit()
             self.senal_abrir_ventana_resumen.emit(self.puntaje, self.puntaje_acumulado,
-                                              self.combo_maximo, self.pasos_incorrectos,
-                                              self.aprobacion, mensaje, ventana_a_volver)
+                                                  self.combo_maximo, self.pasos_incorrectos,
+                                                  self.aprobacion, mensaje, ventana_a_volver)
             self.senal_juego_terminado.emit()
         else:
             mensaje = "Eres el bailarin Maestro, podras demostrar tu valia otra ronda"
             ventana_a_volver = "ventana_juego"
             self.senal_esconder_juego.emit()
             self.senal_abrir_ventana_resumen.emit(self.puntaje, self.puntaje_acumulado,
-                                              self.combo_maximo, self.pasos_incorrectos,
-                                              self.aprobacion, mensaje, ventana_a_volver)
+                                                  self.combo_maximo, self.pasos_incorrectos,
+                                                  self.aprobacion, mensaje, ventana_a_volver)
 
     def reiniciar_estadisticas(self):
         self.combo = 0

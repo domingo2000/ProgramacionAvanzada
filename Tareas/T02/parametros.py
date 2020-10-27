@@ -117,7 +117,7 @@ DELAY_EXPLOSION = 10
 
 # Parametros Niveles
 NIVEL_PRINCIPIANTE = {
-    "duracion": 30,
+    "duracion": 5,
     "tiempo_entre_pasos": 1,
     "aprobacion_necesaria": 30,
 }

@@ -24,6 +24,4 @@ class Cronometro(QTimer):
 
 
 if __name__ == "__main__":
-    a = "sprites\pinguirin_amarillo\amarillo_neutro.png, 0, 0]"
-    tupla = convertir_str_tupla(a)
-    print(tupla)
+    pass

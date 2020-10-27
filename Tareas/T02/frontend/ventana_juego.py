@@ -47,7 +47,6 @@ class VentanaJuego(window_name, base_class):
         self.label_dinero.setText(f"Dinero: {p.DINERO_INICIAL}")
         self.label_valor_pinguino.setText(f"Valor Pinguino: {p.COSTO_PINGUINO}")
 
-
     def init_shortcuts(self):
         pass
 
