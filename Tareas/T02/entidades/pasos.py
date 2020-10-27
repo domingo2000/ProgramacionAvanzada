@@ -72,7 +72,15 @@ class Flecha(QObject):
         else:
             self.capturada = True
             self.animacion_explosion.comenzar()
+
+            # Timer animacion
+            timer = QTimer()
+            timer.setInterval(self.animacion_explosion.duracion)
+            timer.setSingleShot(True)
+            timer.start()
+            """
             sleep(self.animacion_explosion.duracion, milisec=True)
+            """
             self.destruir()
 
     def destruir(self):

@@ -22,6 +22,7 @@ class Nivel(QObject):
     senal_enviar_dinero = pyqtSignal(int)
     senal_nivel_comenzado = pyqtSignal()
     senal_nivel_terminado = pyqtSignal()
+    senal_paso_correcto = pyqtSignal(list)
 
     def __init__(self,
                  ventana_contenedora):
@@ -196,7 +197,6 @@ class Nivel(QObject):
             if pasos:
                 for paso in pasos:
                     paso_correcto = self.manejar_paso(paso, teclas)
-                    print(f"DEBUG paso Correcto = {paso_correcto}")
                     if paso_correcto:
                         self.pasos_correctos += 1
                         self.combo += 1
@@ -223,6 +223,7 @@ class Nivel(QObject):
         elif len(teclas) > len(paso.flechas):  # Caso presiona teclas ademas de las correctas
             return False
         else:
+            self.senal_paso_correcto.emit(paso.flechas)
             return True
 
     def manejar_flecha(self, flecha, teclas):

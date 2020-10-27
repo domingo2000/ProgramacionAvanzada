@@ -3,7 +3,7 @@ from os import path
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal, QRect, QPoint, QSize, QObject
 from PyQt5.QtMultimedia import QSound
-from PyQt5.QtWidgets import QShortcut
+from PyQt5.QtWidgets import QShortcut, QLabel
 import parametros as p
 from backend.funciones import sleep
 from entidades.pinguino import Pinguino
@@ -50,9 +50,6 @@ class VentanaJuego(window_name, base_class):
     def init_shortcuts(self):
         pass
 
-    def mousePressEvent(self, event):
-        print(event.pos())
-
     # Drag And Drop
     def dragEnterEvent(self, event):
         event.acceptProposedAction()
@@ -65,6 +62,8 @@ class VentanaJuego(window_name, base_class):
         if not(pinguino.colider.intersects(self.colider_pista_baile)):
             pinguino.setParent(None)
             return
+        # Conecta señal del pinguino
+        pinguino.senal_cambiar_frame.connect(self.actualizar_frame_label)
         event.acceptProposedAction()
         self.senal_compra_realizada.emit(pinguino)
 
@@ -90,7 +89,7 @@ class VentanaJuego(window_name, base_class):
     def keyReleaseEvent(self, event):
         if not event.isAutoRepeat():
             if len(self.teclas_presionadas) > 0:
-                print(f"Señal teclas presionadas: {self.teclas_presionadas}")
+                print(f"Teclas presionadas {self.teclas_presionadas}")
                 self.senal_teclas_presionadas.emit(self.teclas_presionadas)
                 self.despintar_zona_captura()
                 self.teclas_presionadas = set()
@@ -138,14 +137,16 @@ class VentanaJuego(window_name, base_class):
 
     def manejar_nivel_comenzado(self):
         print("Desactivando cosas")
-        self.tienda.hide()
+        #self.tienda.hide()
         self.boton_comenzar.setEnabled(False)
         self.opciones_cancion.setEnabled(False)
         self.opciones_dificultad.setEnabled(False)
 
     def manejar_nivel_terminado(self):
-        print("Desactivando cosas")
         self.tienda.show()
         self.boton_comenzar.setEnabled(True)
         self.opciones_cancion.setEnabled(True)
         self.opciones_dificultad.setEnabled(True)
+
+    def actualizar_frame_label(self, label, pixmap):
+        label.setPixmap(pixmap)

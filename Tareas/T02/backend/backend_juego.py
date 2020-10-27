@@ -80,7 +80,6 @@ class BackJuego(QObject):
 
     def chequear_compra(self):
         if self.dinero_tienda >= p.COSTO_PINGUINO:
-            print("DEBUG COMPRA REALIZABLE")
             self.senal_compra_valida.emit(True)
         else:
             self.senal_compra_valida.emit(False)
@@ -91,3 +90,7 @@ class BackJuego(QObject):
 
     def actualizar_dinero_tienda(self, int):
         self.dinero_tienda += int
+
+    def hacer_bailar_pinguinos(self, flechas_paso):
+        for pinguino in self.pinguinos_pista_baile:
+            pinguino.bailar(flechas_paso)
