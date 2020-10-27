@@ -1,7 +1,7 @@
 import sys
 from os import path
 from PyQt5 import uic
-from PyQt5.QtCore import pyqtSignal, QRect, QPoint, QSize
+from PyQt5.QtCore import pyqtSignal, QRect, QPoint, QSize, QObject
 from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QShortcut
 import parametros as p
@@ -19,7 +19,7 @@ class VentanaJuego(window_name, base_class):
     senal_guardar_puntaje = pyqtSignal()
     senal_fijar_usuario = pyqtSignal(str)
     senal_pinguinos_creados = pyqtSignal(list)
-    senal_compra_realizada = pyqtSignal()
+    senal_compra_realizada = pyqtSignal(QObject)
 
     def __init__(self):
         super().__init__()
@@ -66,7 +66,7 @@ class VentanaJuego(window_name, base_class):
             pinguino.setParent(None)
             return
         event.acceptProposedAction()
-        self.senal_compra_realizada.emit()
+        self.senal_compra_realizada.emit(pinguino)
 
     def pausar(self):
         print("Pausando")

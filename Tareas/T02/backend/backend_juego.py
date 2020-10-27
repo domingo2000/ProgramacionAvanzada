@@ -16,6 +16,7 @@ class BackJuego(QObject):
         self.usuario = ""
         self.pinguinos_tienda = None
         self.__dinero_tienda = p.DINERO_INICIAL
+        self.pinguinos_pista_baile = set()
         super().__init__()
 
     @property
@@ -61,6 +62,8 @@ class BackJuego(QObject):
     def salir(self):
         self.nivel.terminar_interrumpidamente()
         self.senal_abrir_inicio.emit()
+        self.dinero_tienda = p.DINERO_INICIAL
+        self.pinguinos_pista_baile = set()
 
     def escribir_puntaje_en_ranking(self, puntaje_acumulado):
         ruta = path.join(*p.ARCHIVOS["ranking"])
@@ -82,5 +85,9 @@ class BackJuego(QObject):
         else:
             self.senal_compra_valida.emit(False)
 
-    def realizar_compra(self):
+    def realizar_compra(self, pinguino):
         self.dinero_tienda -= p.COSTO_PINGUINO
+        self.pinguinos_pista_baile.add(pinguino)
+
+    def actualizar_dinero_tienda(self, int):
+        self.dinero_tienda += int

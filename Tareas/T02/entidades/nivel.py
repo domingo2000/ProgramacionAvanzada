@@ -19,6 +19,7 @@ class Nivel(QObject):
     senal_esconder_juego = pyqtSignal()
     senal_abrir_ventana_resumen = pyqtSignal(int, int, int, int, int, str, str)
     senal_escribir_puntaje_en_ranking = pyqtSignal(int)
+    senal_enviar_dinero = pyqtSignal(int)
 
     def __init__(self,
                  ventana_contenedora):
@@ -165,6 +166,7 @@ class Nivel(QObject):
         self.timer_actualizador.stop()
         # mostrar_ventana_resumen
         self.calcular_ventana_resumen()
+        self.senal_enviar_dinero.emit(self.puntaje_acumulado)
 
     def destruir_label(self, label):
         label.setParent(None)
@@ -267,7 +269,6 @@ class Nivel(QObject):
             self.senal_abrir_ventana_resumen.emit(self.puntaje, self.puntaje_acumulado,
                                               self.combo_maximo, self.pasos_incorrectos,
                                               self.aprobacion, mensaje, ventana_a_volver)
-        
 
     def reiniciar_estadisticas(self):
         self.combo = 0
