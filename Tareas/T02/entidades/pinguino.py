@@ -114,8 +114,6 @@ class Pinguino(QLabel):
         self.senal_cambiar_frame.emit(self, self.pixmap_neutro)
 
 
-
-
 if __name__ == '__main__':
     class Ventana(QWidget):
         def __init__(self):

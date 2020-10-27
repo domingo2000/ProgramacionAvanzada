@@ -137,7 +137,7 @@ class VentanaJuego(window_name, base_class):
 
     def manejar_nivel_comenzado(self):
         print("Desactivando cosas")
-        #self.tienda.hide()
+        self.tienda.hide()
         self.boton_comenzar.setEnabled(False)
         self.opciones_cancion.setEnabled(False)
         self.opciones_dificultad.setEnabled(False)
