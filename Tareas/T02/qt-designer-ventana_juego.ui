@@ -10,6 +10,18 @@
     <height>657</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>1034</width>
+    <height>657</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1034</width>
+    <height>657</height>
+   </size>
+  </property>
   <property name="acceptDrops">
    <bool>true</bool>
   </property>
@@ -150,7 +162,7 @@ border-color: #A58CBF;</string>
    </widget>
    <widget class="QPushButton" name="boton_comenzar">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -647,7 +659,7 @@ border-color: #A58CBF;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="label_titulo_tienda">
     <property name="geometry">
      <rect>
       <x>40</x>

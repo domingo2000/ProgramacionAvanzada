@@ -150,3 +150,6 @@ class VentanaJuego(window_name, base_class):
 
     def actualizar_frame_label(self, label, pixmap):
         label.setPixmap(pixmap)
+
+    def activar_boton_comenzar(self):
+        self.boton_comenzar.setEnabled(True)

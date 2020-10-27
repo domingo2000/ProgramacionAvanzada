@@ -10,6 +10,7 @@ from parametros import IMAGENES, TAMANO_VENTANAS, UBICACION_VENTANAS
 class VentanaInicio(QWidget):
     senal_abrir_ventana_ranking = pyqtSignal()
     senal_revisar_usuario = pyqtSignal(str)
+    senal_limpiar_juego = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -57,6 +58,7 @@ class VentanaInicio(QWidget):
 
     def comenzar(self):
         self.senal_revisar_usuario.emit(self.entrada.text())
+        self.senal_limpiar_juego.emit()
 
     def ranking(self):
         print("Yendo a Ranking...")

@@ -10,6 +10,7 @@ class BackJuego(QObject):
     senal_abrir_inicio = pyqtSignal()
     senal_cambiar_dinero_tienda = pyqtSignal(int)
     senal_compra_valida = pyqtSignal(bool)
+    senal_primer_pinguino = pyqtSignal()
 
     def __init__(self, nivel):
         self.nivel = nivel
@@ -17,6 +18,7 @@ class BackJuego(QObject):
         self.pinguinos_tienda = None
         self.__dinero_tienda = p.DINERO_INICIAL
         self.pinguinos_pista_baile = set()
+        self.cantidad_pinguinos = 0
         super().__init__()
 
     @property
@@ -62,8 +64,7 @@ class BackJuego(QObject):
     def salir(self):
         self.nivel.terminar_interrumpidamente()
         self.senal_abrir_inicio.emit()
-        self.dinero_tienda = p.DINERO_INICIAL
-        self.pinguinos_pista_baile = set()
+        self.limpiar_juego()
 
     def escribir_puntaje_en_ranking(self, puntaje_acumulado):
         ruta = path.join(*p.ARCHIVOS["ranking"])
@@ -87,6 +88,9 @@ class BackJuego(QObject):
     def realizar_compra(self, pinguino):
         self.dinero_tienda -= p.COSTO_PINGUINO
         self.pinguinos_pista_baile.add(pinguino)
+        self.cantidad_pinguinos += 1
+        if self.cantidad_pinguinos == 1:
+            self.senal_primer_pinguino.emit()
 
     def actualizar_dinero_tienda(self, int):
         self.dinero_tienda += int
@@ -94,3 +98,9 @@ class BackJuego(QObject):
     def hacer_bailar_pinguinos(self, flechas_paso):
         for pinguino in self.pinguinos_pista_baile:
             pinguino.bailar(flechas_paso)
+
+    def limpiar_juego(self):
+        self.dinero_tienda = p.DINERO_INICIAL
+        for pinguino in self.pinguinos_pista_baile:
+            pinguino.setParent(None)
+        self.pinguinos_pista_baile = set()

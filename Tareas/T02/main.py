@@ -73,6 +73,7 @@ if __name__ == "__main__":
     # Inicio y Ventana Juego
     back_inicio.senal_abrir_ventana_juego.connect(ventana_juego.comenzar_nuevo_juego)
     back_juego.senal_abrir_inicio.connect(ventana_inicio.show)
+    ventana_inicio.senal_limpiar_juego.connect(back_juego.limpiar_juego)
     # Nivel con Ventana Resumen
     nivel.senal_abrir_ventana_resumen.connect(ventana_resumen.actualizar)
     # Ventana Resumen con Juego
@@ -94,6 +95,7 @@ if __name__ == "__main__":
     back_juego.senal_nivel_cargado.connect(nivel.setear_nivel_cargado)
     ventana_juego.senal_pinguinos_creados.connect(back_juego.setear_pinguinos_tienda)
     back_juego.senal_cambiar_dinero_tienda.connect(ventana_juego.actualizar_label_dinero_tienda)
+    back_juego.senal_primer_pinguino.connect(ventana_juego.activar_boton_comenzar)
     for pinguino in back_juego.pinguinos_tienda:
         back_juego.senal_compra_valida.connect(pinguino.set_pinguino_comprable)
         pinguino.senal_pinguino_clickeado.connect(back_juego.chequear_compra)
