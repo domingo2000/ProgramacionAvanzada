@@ -32,19 +32,19 @@ if __name__ == "__main__":
     pos_pinguino_morado = QPoint(0, 280)
     pos_pinguino_verde = QPoint(90, 280)
     pos_pinguino_rojo = QPoint(45, 380)
-    pinguino_morado = Pinguino(ventana_juego.tienda,
+    pinguino_morado = Pinguino(ventana_juego.tienda, "morado",
                                path.join(*p.IMAGENES["pinguino_morado_neutro"]),
                                qpoint=pos_pinguino_morado)
-    pinguino_verde = Pinguino(ventana_juego.tienda,
+    pinguino_verde = Pinguino(ventana_juego.tienda, "verde",
                               path.join(*p.IMAGENES["pinguino_verde_neutro"]),
                               qpoint=pos_pinguino_verde)
-    pinguino_rojo = Pinguino(ventana_juego.tienda,
+    pinguino_rojo = Pinguino(ventana_juego.tienda, "rojo",
                              path.join(*p.IMAGENES["pinguino_rojo_neutro"]),
                              qpoint=pos_pinguino_rojo)
-    pinguino_celeste = Pinguino(ventana_juego.tienda,
+    pinguino_celeste = Pinguino(ventana_juego.tienda, "celeste",
                                 path.join(*p.IMAGENES["pinguino_celeste_neutro"]),
                                 qpoint=pos_pinguino_celeste)
-    pinguino_amarillo = Pinguino(ventana_juego.tienda,
+    pinguino_amarillo = Pinguino(ventana_juego.tienda, "amarillo",
                                  path.join(*p.IMAGENES["pinguino_amarillo_neutro"]),
                                  qpoint=pos_pinguino_amarillo)
     pinguinos_creados = [pinguino_verde, pinguino_rojo, pinguino_morado,

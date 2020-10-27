@@ -60,7 +60,8 @@ class VentanaJuego(window_name, base_class):
     def dropEvent(self, event):
         pos = event.pos()
         pinguino_original = event.source()
-        pinguino = Pinguino(self, pinguino_original.ruta_imagen, pos, iscopy=True)
+        pinguino = Pinguino(self, pinguino_original.color, pinguino_original.ruta_imagen, pos,
+                            iscopy=True)
         if not(pinguino.colider.intersects(self.colider_pista_baile)):
             pinguino.setParent(None)
             return

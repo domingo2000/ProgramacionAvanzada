@@ -7,12 +7,12 @@ import sys
 class Pinguino(QLabel):
     senal_pinguino_clickeado = pyqtSignal()
 
-    def __init__(self, parent, ruta_imagen=None, qpoint=QPoint(0, 0), iscopy=False):
+    def __init__(self, parent, color, ruta_imagen=None, qpoint=QPoint(0, 0), iscopy=False):
         super().__init__(parent=parent)
         pixmap = QPixmap(ruta_imagen)
         # Atributos pinguino
         self.pinguino_comprable = False
-
+        self.color = color
         self.pixmap = pixmap
         self.setStyleSheet("background-color: transparent;")
         self.setGeometry(qpoint.x(), qpoint.y(), 100, 100)
@@ -66,3 +66,9 @@ if __name__ == '__main__':
     pinguino = Pinguino(ventana, datos="sprites\\pinguirin_amarillo\\amarillo_neutro.png, 50, 50")
     ventana.show()
     sys.exit(app.exec_())
+
+    def realizar_paso_baile(self, flechas_capturadas):
+        if pinguino.iscopy:
+            return
+        else:
+            pass
