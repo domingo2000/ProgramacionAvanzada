@@ -136,5 +136,16 @@ class VentanaJuego(window_name, base_class):
         self.show()
         self.senal_fijar_usuario.emit(nombre_usuario)
 
-    def esconder_tienda(self):
+    def manejar_nivel_comenzado(self):
+        print("Desactivando cosas")
         self.tienda.hide()
+        self.boton_comenzar.setEnabled(False)
+        self.opciones_cancion.setEnabled(False)
+        self.opciones_dificultad.setEnabled(False)
+
+    def manejar_nivel_terminado(self):
+        print("Desactivando cosas")
+        self.tienda.show()
+        self.boton_comenzar.setEnabled(True)
+        self.opciones_cancion.setEnabled(True)
+        self.opciones_dificultad.setEnabled(True)

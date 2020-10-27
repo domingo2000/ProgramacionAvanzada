@@ -61,6 +61,8 @@ if __name__ == "__main__":
     nivel.senal_juego_terminado.connect(back_juego.borrar_juego)
     nivel.senal_escribir_puntaje_en_ranking.connect(back_juego.escribir_puntaje_en_ranking)
     nivel.senal_enviar_dinero.connect(back_juego.actualizar_dinero_tienda)
+    nivel.senal_nivel_comenzado.connect(ventana_juego.manejar_nivel_comenzado)
+    nivel.senal_nivel_terminado.connect(ventana_juego.manejar_nivel_terminado)
     ventana_juego.senal_cargar_nivel.connect(back_juego.generar_nivel)
 
     # Coneccion señales entre ventanas

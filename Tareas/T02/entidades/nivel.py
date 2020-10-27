@@ -20,6 +20,8 @@ class Nivel(QObject):
     senal_abrir_ventana_resumen = pyqtSignal(int, int, int, int, int, str, str)
     senal_escribir_puntaje_en_ranking = pyqtSignal(int)
     senal_enviar_dinero = pyqtSignal(int)
+    senal_nivel_comenzado = pyqtSignal()
+    senal_nivel_terminado = pyqtSignal()
 
     def __init__(self,
                  ventana_contenedora):
@@ -154,6 +156,7 @@ class Nivel(QObject):
         print("Comenzando Nivel :)")
         self.generador_pasos.comenzar()
         self.cancion.play()
+        self.senal_nivel_comenzado.emit()
 
     def terminar(self):
         print("Terminando Nivel")
@@ -167,6 +170,7 @@ class Nivel(QObject):
         # mostrar_ventana_resumen
         self.calcular_ventana_resumen()
         self.senal_enviar_dinero.emit(self.puntaje)
+        self.senal_nivel_terminado.emit()
 
     def destruir_label(self, label):
         label.setParent(None)
