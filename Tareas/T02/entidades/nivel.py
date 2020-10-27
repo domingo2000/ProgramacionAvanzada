@@ -166,7 +166,7 @@ class Nivel(QObject):
         self.timer_actualizador.stop()
         # mostrar_ventana_resumen
         self.calcular_ventana_resumen()
-        self.senal_enviar_dinero.emit(self.puntaje_acumulado)
+        self.senal_enviar_dinero.emit(self.puntaje)
 
     def destruir_label(self, label):
         label.setParent(None)
