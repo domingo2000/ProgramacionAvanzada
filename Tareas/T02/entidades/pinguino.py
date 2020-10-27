@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QLabel, QApplication, QWidget
 from PyQt5.QtCore import QRect, QMimeData, Qt, QPoint, QSize, pyqtSignal
 from PyQt5.QtGui import QPixmap, QPainter, QDrag, QBitmap
 import sys
+from os import path
+import parametros as p
 
 
 class Pinguino(QLabel):
@@ -9,21 +11,23 @@ class Pinguino(QLabel):
 
     def __init__(self, parent, color, ruta_imagen=None, qpoint=QPoint(0, 0), iscopy=False):
         super().__init__(parent=parent)
-        pixmap = QPixmap(ruta_imagen)
         # Atributos pinguino
         self.pinguino_comprable = False
         self.color = color
-        self.pixmap = pixmap
-        self.setStyleSheet("background-color: transparent;")
-        self.setGeometry(qpoint.x(), qpoint.y(), 100, 100)
-        self.setScaledContents(True)
-        self.setPixmap(pixmap)
         self.iscopy = iscopy
-
+        self.init_gui(qpoint)
         # atributos
         self.colider = QRect(self.pos(), self.size())
         self.ruta_imagen = ruta_imagen
         self.show()
+
+    def init_gui(self, qpoint):
+        ruta_imagen = path.join(*p.IMAGENES[f"pinguino_{self.color}_neutro"])
+        self.pixmap = QPixmap(ruta_imagen)
+        self.setStyleSheet("background-color: transparent;")
+        self.setGeometry(qpoint.x(), qpoint.y(), 100, 100)
+        self.setPixmap(self.pixmap)
+        self.setScaledContents(True)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
