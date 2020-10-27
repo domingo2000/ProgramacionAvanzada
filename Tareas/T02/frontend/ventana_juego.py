@@ -18,6 +18,8 @@ class VentanaJuego(window_name, base_class):
     senal_salir_juego = pyqtSignal()
     senal_guardar_puntaje = pyqtSignal()
     senal_fijar_usuario = pyqtSignal(str)
+    senal_pinguinos_creados = pyqtSignal(list)
+    senal_compra_realizada = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -42,34 +44,16 @@ class VentanaJuego(window_name, base_class):
         self.label_tecla_derecha.setText(p.FLECHA_DERECHA.upper())
         self.label_tecla_arriba.setText(p.FLECHA_ARRIBA.upper())
         self.label_tecla_izquierda.setText(p.FLECHA_izquierda.upper())
+        self.label_dinero.setText(f"Dinero: {p.DINERO_INICIAL}")
+        self.label_valor_pinguino.setText(f"Valor Pinguino: {p.COSTO_PINGUINO}")
 
-        # Pinguinos de la tienda
-        pos_pinguino_amarillo = QPoint(0, 180)
-        pos_pinguino_celeste = QPoint(90, 180)
-        pos_pinguino_morado = QPoint(0, 280)
-        pos_pinguino_verde = QPoint(90, 280)
-        pos_pinguino_rojo = QPoint(45, 380)
-        pinguino_morado = Pinguino(self.tienda,
-                                   path.join(*p.IMAGENES["pinguino_morado_neutro"]),
-                                   qpoint=pos_pinguino_morado)
-        pinguino_verde = Pinguino(self.tienda,
-                                  path.join(*p.IMAGENES["pinguino_verde_neutro"]),
-                                  qpoint=pos_pinguino_verde)
-        pinguino_rojo = Pinguino(self.tienda,
-                                 path.join(*p.IMAGENES["pinguino_rojo_neutro"]),
-                                 qpoint=pos_pinguino_rojo)
-        pinguino_celeste = Pinguino(self.tienda,
-                                    path.join(*p.IMAGENES["pinguino_celeste_neutro"]),
-                                    qpoint=pos_pinguino_celeste)
-        pinguino_amarillo = Pinguino(self.tienda,
-                                     path.join(*p.IMAGENES["pinguino_amarillo_neutro"]),
-                                     qpoint=pos_pinguino_amarillo)
 
     def init_shortcuts(self):
         pass
-    
+
     def mousePressEvent(self, event):
         print(event.pos())
+
     # Drag And Drop
     def dragEnterEvent(self, event):
         event.acceptProposedAction()
@@ -80,7 +64,9 @@ class VentanaJuego(window_name, base_class):
         pinguino = Pinguino(self, pinguino_original.ruta_imagen, pos, iscopy=True)
         if not(pinguino.colider.intersects(self.colider_pista_baile)):
             pinguino.setParent(None)
+            return
         event.acceptProposedAction()
+        self.senal_compra_realizada.emit()
 
     def pausar(self):
         print("Pausando")
@@ -120,6 +106,9 @@ class VentanaJuego(window_name, base_class):
 
     def actualizar_label_combo_maximo(self, int):
         self.label_combo_maximo.setText(f"Combo Máximo: {int}")
+
+    def actualizar_label_dinero_tienda(self, int):
+        self.label_dinero.setText(f"Dinero: {int}")
 
     def actualizar_progressbar_progreso(self, int):
         self.barra_progreso.setValue(int)

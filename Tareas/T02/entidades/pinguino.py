@@ -1,14 +1,18 @@
 from PyQt5.QtWidgets import QLabel, QApplication, QWidget
-from PyQt5.QtCore import QRect, QMimeData, Qt, QPoint, QSize
+from PyQt5.QtCore import QRect, QMimeData, Qt, QPoint, QSize, pyqtSignal
 from PyQt5.QtGui import QPixmap, QPainter, QDrag, QBitmap
 import sys
 
 
 class Pinguino(QLabel):
+    senal_pinguino_clickeado = pyqtSignal()
 
     def __init__(self, parent, ruta_imagen=None, qpoint=QPoint(0, 0), iscopy=False):
         super().__init__(parent=parent)
         pixmap = QPixmap(ruta_imagen)
+        # Atributos pinguino
+        self.pinguino_comprable = False
+
         self.pixmap = pixmap
         self.setStyleSheet("background-color: transparent;")
         self.setGeometry(qpoint.x(), qpoint.y(), 100, 100)
@@ -24,9 +28,12 @@ class Pinguino(QLabel):
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.drag_start_position = event.pos()
+            self.senal_pinguino_clickeado.emit()
 
     def mouseMoveEvent(self, event):
         if self.iscopy:
+            return
+        if not(self.pinguino_comprable):
             return
         if not (event.buttons() & Qt.LeftButton):
             return
@@ -40,6 +47,9 @@ class Pinguino(QLabel):
         painter = QPainter()
         drag.setHotSpot(QPoint(0, 0))
         drag.exec_(Qt.CopyAction | Qt.MoveAction)
+
+    def set_pinguino_comprable(self, bool):
+        self.pinguino_comprable = bool
 
 
 if __name__ == '__main__':

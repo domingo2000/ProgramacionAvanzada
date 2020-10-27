@@ -8,11 +8,24 @@ from os import path
 class BackJuego(QObject):
     senal_nivel_cargado = pyqtSignal(bool)
     senal_abrir_inicio = pyqtSignal()
+    senal_cambiar_dinero_tienda = pyqtSignal(int)
+    senal_compra_valida = pyqtSignal(bool)
 
     def __init__(self, nivel):
         self.nivel = nivel
         self.usuario = ""
+        self.pinguinos_tienda = None
+        self.__dinero_tienda = p.DINERO_INICIAL
         super().__init__()
+
+    @property
+    def dinero_tienda(self):
+        return self.__dinero_tienda
+
+    @dinero_tienda.setter
+    def dinero_tienda(self, valor):
+        self.__dinero_tienda = valor
+        self.senal_cambiar_dinero_tienda.emit(valor)
 
     def generar_nivel(self, cancion, dificultad):
         if dificultad == "Principiante":
@@ -57,3 +70,17 @@ class BackJuego(QObject):
 
     def fijar_usuario(self, nombre_usuario):
         self.usuario = nombre_usuario
+
+    def setear_pinguinos_tienda(self, list):
+        print(list)
+        self.pinguinos_tienda = list
+
+    def chequear_compra(self):
+        if self.dinero_tienda >= p.COSTO_PINGUINO:
+            print("DEBUG COMPRA REALIZABLE")
+            self.senal_compra_valida.emit(True)
+        else:
+            self.senal_compra_valida.emit(False)
+
+    def realizar_compra(self):
+        self.dinero_tienda -= p.COSTO_PINGUINO

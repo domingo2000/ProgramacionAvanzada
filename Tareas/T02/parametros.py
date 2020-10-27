@@ -137,5 +137,10 @@ MULTIPLCIADOR_APROBACION = 100
 
 # Ranking
 NUMERO_PUNTAJES_MAXIMOS_RANKING = 5
+
+# Tienda
+DINERO_INICIAL = 1000
+COSTO_PINGUINO = 500
+
 if __name__ == "__main__":
     print("HOLA")
