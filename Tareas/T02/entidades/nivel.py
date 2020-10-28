@@ -53,6 +53,7 @@ class Nivel(QObject):
         self.pasos_capturados = set()
         self.ventana_contenedora = ventana_contenedora
         self.nivel_cargado = False
+        self.nivel_terminado = False
 
         # Musica
         self.cancion = None
@@ -151,6 +152,7 @@ class Nivel(QObject):
                                               self.pasos_dobles, self.pasos_triples)
 
     def comenzar(self):
+        self.nivel_terminado = False
         self.reiniciar_estadisticas()
         self.timer.start()
         self.timer_actualizador.start()
@@ -160,10 +162,14 @@ class Nivel(QObject):
         self.senal_nivel_comenzado.emit()
 
     def terminar(self):
+        if self.nivel_terminado:
+            return
+        self.nivel_terminado = True
         print("Terminando Nivel")
         # Esperar a que no hayan flechas
         # Completar parar_cancion
         self.generador_pasos.parar()
+        self.timer.stop()
         sleep(p.TAMANO_VENTANAS["ventana_nivel"][1] / p.VELOCIDAD_FLECHA)
         self.cancion.stop()
         self.timer.stop()

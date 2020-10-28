@@ -52,7 +52,6 @@ if __name__ == "__main__":
     back_juego.pinguinos_tienda = pinguinos_creados
 
     # Coneccion senales ventana Juego con nivel
-    ventana_juego.senal_teclas_presionadas.connect(back_juego.nivel.manejar_teclas)
     nivel.senal_actualizar_combo.connect(ventana_juego.actualizar_label_combo)
     nivel.senal_actualizar_combo_maximo.connect(ventana_juego.actualizar_label_combo_maximo)
     nivel.senal_actualizar_progreso.connect(ventana_juego.actualizar_progressbar_progreso)
@@ -65,7 +64,9 @@ if __name__ == "__main__":
     nivel.senal_nivel_terminado.connect(ventana_juego.manejar_nivel_terminado)
     nivel.senal_paso_correcto.connect(back_juego.hacer_bailar_pinguinos)
     ventana_juego.senal_cargar_nivel.connect(back_juego.generar_nivel)
-
+    ventana_juego.senal_teclas_presionadas.connect(back_juego.nivel.manejar_teclas)
+    # Connecion nivel y back juego
+    back_juego.senal_cheat_niv.connect(nivel.timer.timeout)
     # Coneccion señales entre ventanas
     # Inicio y ranking
     ventana_inicio.senal_abrir_ventana_ranking.connect(ventana_ranking.senal_abrir_ventana_ranking)

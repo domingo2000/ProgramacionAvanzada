@@ -133,6 +133,9 @@ class VentanaJuego(window_name, base_class):
 
     def comenzar_nuevo_juego(self, nombre_usuario):
         self.show()
+        self.boton_comenzar.setEnabled(False)
+        self.opciones_dificultad.setEnabled(False)
+        self.opciones_cancion.setEnabled(False)
         self.senal_fijar_usuario.emit(nombre_usuario)
 
     def manejar_nivel_comenzado(self):

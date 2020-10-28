@@ -191,7 +191,7 @@ DELAY_PASO = 100
 
 # Parametros Niveles
 NIVEL_PRINCIPIANTE = {
-    "duracion": 5,
+    "duracion": 10,
     "tiempo_entre_pasos": 1,
     "aprobacion_necesaria": 30,
 }

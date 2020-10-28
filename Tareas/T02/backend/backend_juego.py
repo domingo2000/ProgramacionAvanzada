@@ -11,6 +11,7 @@ class BackJuego(QObject):
     senal_cambiar_dinero_tienda = pyqtSignal(int)
     senal_compra_valida = pyqtSignal(bool)
     senal_primer_pinguino = pyqtSignal()
+    senal_cheat_niv = pyqtSignal()
 
     def __init__(self, nivel):
         self.nivel = nivel
@@ -61,6 +62,7 @@ class BackJuego(QObject):
 
     def borrar_juego(self):
         self.nivel.puntaje_acumulado = 0
+        self.cantidad_pinguinos = 0
 
     def salir(self):
         self.nivel.terminar_interrumpidamente()
@@ -109,10 +111,15 @@ class BackJuego(QObject):
     def cheat_dinero(self):
         self.dinero_tienda += p.DINERO_TRAMPA
 
+    def cheat_niv(self):
+        self.senal_cheat_niv.emit()
+
     def revisar_cheat(self, set_teclas):
         print("REVISANDO TECLAS")
         if {"m", "o", "n"}.issubset(set_teclas) and self.tienda_activa:
             self.cheat_dinero()
+        elif {"n", "i", "v"}.issubset(set_teclas):
+            self.cheat_niv()
 
     def cambiar_estado_tienda(self, bool):
         self.tienda_activa = bool
