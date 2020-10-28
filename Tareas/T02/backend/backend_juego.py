@@ -19,6 +19,7 @@ class BackJuego(QObject):
         self.__dinero_tienda = p.DINERO_INICIAL
         self.pinguinos_pista_baile = set()
         self.cantidad_pinguinos = 0
+        self.tienda_activa = True
         super().__init__()
 
     @property
@@ -104,3 +105,14 @@ class BackJuego(QObject):
         for pinguino in self.pinguinos_pista_baile:
             pinguino.setParent(None)
         self.pinguinos_pista_baile = set()
+
+    def cheat_dinero(self):
+        self.dinero_tienda += p.DINERO_TRAMPA
+
+    def revisar_cheat(self, set_teclas):
+        print("REVISANDO TECLAS")
+        if {"m", "o", "n"}.issubset(set_teclas) and self.tienda_activa:
+            self.cheat_dinero()
+
+    def cambiar_estado_tienda(self, bool):
+        self.tienda_activa = bool

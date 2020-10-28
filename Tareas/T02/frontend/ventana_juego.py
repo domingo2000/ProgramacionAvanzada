@@ -1,9 +1,10 @@
 import sys
 from os import path
 from PyQt5 import uic
-from PyQt5.QtCore import pyqtSignal, QRect, QPoint, QSize, QObject
+from PyQt5.QtCore import pyqtSignal, QRect, QPoint, QSize, QObject, Qt
 from PyQt5.QtMultimedia import QSound
-from PyQt5.QtWidgets import QShortcut, QLabel
+from PyQt5.QtWidgets import QShortcut, QLabel, QAction
+from PyQt5.QtGui import QKeySequence
 import parametros as p
 from backend.funciones import sleep
 from entidades.pinguino import Pinguino
@@ -20,6 +21,7 @@ class VentanaJuego(window_name, base_class):
     senal_fijar_usuario = pyqtSignal(str)
     senal_pinguinos_creados = pyqtSignal(list)
     senal_compra_realizada = pyqtSignal(QObject)
+    senal_estado_tienda = pyqtSignal(bool)
 
     def __init__(self):
         super().__init__()
@@ -46,9 +48,6 @@ class VentanaJuego(window_name, base_class):
         self.label_tecla_izquierda.setText(p.FLECHA_izquierda.upper())
         self.label_dinero.setText(f"Dinero: {p.DINERO_INICIAL}")
         self.label_valor_pinguino.setText(f"Valor Pinguino: {p.COSTO_PINGUINO}")
-
-    def init_shortcuts(self):
-        pass
 
     # Drag And Drop
     def dragEnterEvent(self, event):
@@ -91,6 +90,7 @@ class VentanaJuego(window_name, base_class):
             if len(self.teclas_presionadas) > 0:
                 print(f"Teclas presionadas {self.teclas_presionadas}")
                 self.senal_teclas_presionadas.emit(self.teclas_presionadas)
+                print("SEÑAL TECLAS PRESIOANDAS")
                 self.despintar_zona_captura()
                 self.teclas_presionadas = set()
 
@@ -138,12 +138,14 @@ class VentanaJuego(window_name, base_class):
     def manejar_nivel_comenzado(self):
         print("Desactivando cosas")
         self.tienda.hide()
+        self.senal_estado_tienda.emit(False)
         self.boton_comenzar.setEnabled(False)
         self.opciones_cancion.setEnabled(False)
         self.opciones_dificultad.setEnabled(False)
 
     def manejar_nivel_terminado(self):
         self.tienda.show()
+        self.senal_estado_tienda.emit(True)
         self.boton_comenzar.setEnabled(True)
         self.opciones_cancion.setEnabled(True)
         self.opciones_dificultad.setEnabled(True)
@@ -153,3 +155,9 @@ class VentanaJuego(window_name, base_class):
 
     def activar_boton_comenzar(self):
         self.boton_comenzar.setEnabled(True)
+
+    def activar_box_canciones(self):
+        self.opciones_cancion.setEnabled(True)
+
+    def activar_box_dificultad(self):
+        self.opciones_dificultad.setEnabled(True)
