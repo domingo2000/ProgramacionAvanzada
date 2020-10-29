@@ -16,7 +16,7 @@ def recibir_input(n_inputs):
 # =============================================================================
 # Aquí se puede cambiar el modo del programa
 # 'facil'  o  'dificil'
-modo = "facil"
+modo = "dificil"
 # =============================================================================
 
 # Se carga e instancia Spotify
