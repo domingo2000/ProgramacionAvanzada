@@ -28,8 +28,19 @@ def buscar_mejor_plataforma(genero, plataformas):
 
 
 def buscar_artistas_parecidos(nombre_cancion, plataforma):
-    # Completar
-    pass
+    genero_encontrado = False
+    artistas_parecidos = []
+    for nodo_genero in plataforma.hijos:
+        for nodo_artista in nodo_genero.hijos:
+            for nodo_cancion in nodo_artista.hijos:
+                if nodo_cancion.valor == nombre_cancion:
+                    nodo_genero_cancion = nodo_genero
+                    genero_encontrado = True
+                    # ya encontro el genero ahora reviso el nodo genero
+                    if genero_encontrado:
+                        for nodo_artista in nodo_genero_cancion.hijos:
+                            artistas_parecidos.append(nodo_artista.valor)
+                        return artistas_parecidos
 
 
 def crear_playlist(plataforma, genero_seleccionado, conceptos_canciones):
