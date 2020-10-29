@@ -1,4 +1,6 @@
 def buscar_info_artista(plataforma, artista_seleccionado):
+    # Nota: Tome la plataforma como un atributo de la clase en vez de nodo
+    # pues asi se llamo la funcion en el main
     # Completar
     for nodo_genero in plataforma.raiz.hijos:
         for nodo_artista in nodo_genero.hijos:
@@ -45,4 +47,19 @@ def buscar_artistas_parecidos(nombre_cancion, plataforma):
 
 def crear_playlist(plataforma, genero_seleccionado, conceptos_canciones):
     # Completar
+    for nodo_genero in plataforma.hijos:
+        genero = nodo_genero.valor
+        if genero = genero_seleccionado:
+            canciones = []  # Lista con nombre de canciones
+            for nodo_artista in nodo_genero.hijos:
+                for nodo_album in nodo_artista.hijos:
+                    for nodo_cancion in nodo_artista.hijos:
+                        nombre_cancion = nodo_cancion.valor.upper()
+                        for concepto in conceptos_canciones:
+                            concepto = concepto.upper()
+                            if concepto in nombre_cancion:
+                                canciones.append(nodo_cancion.valor)
+                            break
+            return canciones
+
     pass
