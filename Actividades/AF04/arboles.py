@@ -3,7 +3,6 @@ class Nodo:
         self.tipo = tipo
         self.valor = valor
         self.padre = padre
-
         self.hijos = []
 
 
