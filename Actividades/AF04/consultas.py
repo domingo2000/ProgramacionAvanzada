@@ -49,7 +49,7 @@ def crear_playlist(plataforma, genero_seleccionado, conceptos_canciones):
     # Completar
     for nodo_genero in plataforma.hijos:
         genero = nodo_genero.valor
-        if genero = genero_seleccionado:
+        if genero == genero_seleccionado:
             canciones = []  # Lista con nombre de canciones
             for nodo_artista in nodo_genero.hijos:
                 for nodo_album in nodo_artista.hijos:
