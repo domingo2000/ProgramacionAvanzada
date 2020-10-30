@@ -50,7 +50,7 @@ border-color: #A58CBF;</string>
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>../../Documents/Universidad/Segundo año/Programacion_Avanzada/Domingo2000-iic2233-2020-2/Tareas/T02/sprites/fondos/fondo.png</pixmap>
+    <pixmap>sprites/fondos/fondo.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -103,7 +103,7 @@ border-color: #A58CBF;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../Documents/Universidad/Segundo año/Programacion_Avanzada/Domingo2000-iic2233-2020-2/Tareas/T02/sprites/logo.png</pixmap>
+     <pixmap>sprites/logo.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
