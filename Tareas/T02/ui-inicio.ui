@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VentanaIncio</class>
+ <widget class="QWidget" name="VentanaIncio">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>470</width>
+    <height>445</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>20</y>
+     <width>311</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>sprites/logo.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="entrada_usuario">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>350</y>
+     <width>271</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>350</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nombre de Usuario:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="boton_comenzar">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>390</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Comenzar</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="boton_ranking">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>390</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ranking</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>boton_comenzar</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaIncio</receiver>
+   <slot>comenzar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>401</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>boton_ranking</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaIncio</receiver>
+   <slot>ranking()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>267</x>
+     <y>401</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>comenzar()</slot>
+  <slot>ranking()</slot>
+ </slots>
+</ui>

@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VentanaJuego</class>
+ <widget class="QWidget" name="VentanaJuego">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1034</width>
+    <height>657</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1034</width>
+    <height>657</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1034</width>
+    <height>657</height>
+   </size>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Ventana Juego</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #99ccff;
+</string>
+  </property>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>140</y>
+     <width>581</width>
+     <height>501</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #D2B2F3;
+border: 5px solid;
+border-color: #A58CBF;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../../Documents/Universidad/Segundo año/Programacion_Avanzada/Domingo2000-iic2233-2020-2/Tareas/T02/sprites/fondos/fondo.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>200</width>
+     <height>500</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #D2B2F3;
+border: 5px solid;
+border-color: #A58CBF;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>1001</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #D2B2F3;</string>
+   </property>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>91</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../Documents/Universidad/Segundo año/Programacion_Avanzada/Domingo2000-iic2233-2020-2/Tareas/T02/sprites/logo.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>20</y>
+      <width>111</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-weight: bold;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="mayor_combo_5">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>0</y>
+       <width>79</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cancion:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="mayor_combo_6">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>79</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Dificultad:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="boton_comenzar">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>90</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #ffffff;</string>
+    </property>
+    <property name="text">
+     <string>Comenzar Ronda</string>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="opciones_cancion">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>20</y>
+      <width>101</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #ffffff;</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Shingeki</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Cumbia</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="opciones_dificultad">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>50</y>
+      <width>101</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #ffffff;</string>
+    </property>
+    <property name="editable">
+     <bool>false</bool>
+    </property>
+    <property name="currentText">
+     <string>Principiante</string>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
+    </property>
+    <item>
+     <property name="text">
+      <string>Principiante</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Aficionado</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Maestro Cumbia</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="boton_pausar">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>30</y>
+      <width>71</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #ffffff;</string>
+    </property>
+    <property name="text">
+     <string>Pausar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="boton_salir">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>70</y>
+      <width>71</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #ffffff;</string>
+    </property>
+    <property name="text">
+     <string>Salir</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="barra_progreso">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>30</y>
+      <width>158</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="textVisible">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="barra_aprobacion">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>70</y>
+      <width>158</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="textVisible">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="barra_superior">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1001</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D2B2F3;
+border: 5px solid;
+border-color: #A58CBF;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame_5">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>20</y>
+      <width>301</width>
+      <height>90</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-weight: bold;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>0</y>
+       <width>79</width>
+       <height>37</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Progreso:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_aprobacion">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>40</y>
+       <width>79</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Aprobación:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_combo">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>79</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Combo:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_combo_maximo">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>121</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Combo Maximo:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <zorder>label_4</zorder>
+    <zorder>label_aprobacion</zorder>
+    <zorder>label_combo_maximo</zorder>
+    <zorder>label_combo</zorder>
+   </widget>
+   <zorder>barra_superior</zorder>
+   <zorder>label_5</zorder>
+   <zorder>frame_2</zorder>
+   <zorder>boton_comenzar</zorder>
+   <zorder>opciones_cancion</zorder>
+   <zorder>opciones_dificultad</zorder>
+   <zorder>boton_pausar</zorder>
+   <zorder>boton_salir</zorder>
+   <zorder>barra_progreso</zorder>
+   <zorder>barra_aprobacion</zorder>
+   <zorder>frame_5</zorder>
+  </widget>
+  <widget class="QFrame" name="zona_captura">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>550</y>
+     <width>200</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid black;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_zona_captura_izquierda">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_zona_captura_arriba">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>0</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_zona_captura_abajo">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>0</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_zona_captura_derecha">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>0</y>
+      <width>50</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>605</y>
+     <width>200</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+font-weight: bold;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_tecla_izquierda">
+    <property name="geometry">
+     <rect>
+      <x>15</x>
+      <y>0</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>W</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_tecla_arriba">
+    <property name="geometry">
+     <rect>
+      <x>65</x>
+      <y>0</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>A</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_tecla_abajo">
+    <property name="geometry">
+     <rect>
+      <x>115</x>
+      <y>0</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>S</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_tecla_derecha">
+    <property name="geometry">
+     <rect>
+      <x>165</x>
+      <y>0</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>D</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="pista_baile">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>460</y>
+     <width>441</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="acceptDrops">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <widget class="QFrame" name="tienda">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>140</y>
+     <width>200</width>
+     <height>500</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #D2B2F3;
+font-weight: bold;
+</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="fondo_tienda">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>200</width>
+      <height>500</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #D2B2F3;
+border: 5px solid;
+border-color: #A58CBF;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_titulo_tienda">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>30</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:  20px;</string>
+    </property>
+    <property name="text">
+     <string>Tienda</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_dinero_tienda">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>80</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dinero:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_valor_pinguino">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>130</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Valor pinguino:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="pista_baile_2">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>400</y>
+     <width>331</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="acceptDrops">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+  </widget>
+  <zorder>label_3</zorder>
+  <zorder>frame</zorder>
+  <zorder>zona_captura</zorder>
+  <zorder>frame_4</zorder>
+  <zorder>label_2</zorder>
+  <zorder>pista_baile</zorder>
+  <zorder>tienda</zorder>
+  <zorder>pista_baile_2</zorder>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>boton_pausar</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>pausar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>925</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>516</x>
+     <y>328</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>boton_salir</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>salir()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>925</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>516</x>
+     <y>4</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>boton_comenzar</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>comenzar_ronda()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>740</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>516</x>
+     <y>328</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>pausar()</slot>
+  <slot>salir()</slot>
+  <slot>prueba()</slot>
+  <slot>esconder_tienda()</slot>
+  <slot>comenzar_ronda()</slot>
+ </slots>
+</ui>
