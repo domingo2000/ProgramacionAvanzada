@@ -292,3 +292,33 @@ class Ronda(QObject):
             aprobacion = 0
 
         return aprobacion
+
+    def cheat_jugar_solo(self, tiempo):
+        print("COMENZANDO CHEAT")
+        self.timer_solo = QTimer()
+        self.timer_solo.setInterval((p.TASA_REFRESCO * 6) * 1000)
+        self.timer_solo.timeout.connect(self.jugar_solo)
+        self.timer_solo.start()
+
+        self.timer_cheat = QTimer()
+        self.timer_cheat.setInterval(tiempo * 1000)
+        self.timer_cheat.setSingleShot(True)
+        self.timer_cheat.timeout.connect(self.timer_solo.stop)
+        self.timer_cheat.start()
+
+    def jugar_solo(self):
+        direccion_a_flecha = {"derecha": p.FLECHA_DERECHA, "izquierda": p.FLECHA_IZQUIERDA,
+                              "arriba": p.FLECHA_ARRIBA, "abajo": p.FLECHA_ABAJO}
+        pasos_en_zona = self.pasos_en_zona_captura()
+        teclas_automaticas = set()
+        if pasos_en_zona:
+            for paso in pasos_en_zona:
+                if paso.realizado:
+                    continue
+                for flecha in paso.flechas:
+                    direccion = flecha.direccion
+                    tecla = direccion_a_flecha[direccion]
+                    teclas_automaticas.add(tecla)
+                self.revisar_teclas(teclas_automaticas)
+                print(f"TECLAS ENVIADAS: {teclas_automaticas}")
+                teclas_automaticas = set()

@@ -113,6 +113,8 @@ class BackJuego(QObject):
             self.ronda.generador_pasos.generar_paso_dorado()
         elif {"f", "h"}.issubset(set_teclas):
             self.ronda.generador_pasos.generar_paso_hielo()
+        elif {"s", "e"}.issubset(set_teclas):
+            self.ronda.cheat_jugar_solo(p.TIEMPO_GRATIS)
 
     def cheat_dinero(self):
         self.dinero_tienda += p.DINERO_TRAMPA

@@ -28,11 +28,11 @@ NIVELES = {
     },
     "Aficionado": {
         "duracion": 45,
-        "tiempo_entre_pasos": 0.75,
+        "tiempo_entre_pasos": 0.5,
         "aprobacion": 50
     },
     "Maestro Cumbia": {
-        "duracion": 60,
+        "duracion": 20,
         "tiempo_entre_pasos": 0.5,
         "aprobacion": 70
     }
@@ -170,6 +170,9 @@ IMAGENES_PINGUINO = {
 }
 TASA_REFRESCO = 0.01
 DELAY_PASO = 100
+
+
+TIEMPO_GRATIS = 10
 
 if __name__ == "__main__":
     a = tuple(NIVELES["Principiante"].values())
