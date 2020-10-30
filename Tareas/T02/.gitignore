@@ -1,6 +1,6 @@
 
-/songs
-/sprites
+#/songs
+#/sprites
 
 temp.py
 .vscode
