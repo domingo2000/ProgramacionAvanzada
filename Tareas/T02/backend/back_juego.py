@@ -106,6 +106,13 @@ class BackJuego(QObject):
                 self.ronda.reanudar()
             else:
                 self.ronda.pausar()
+        elif {"f", "t"}.issubset(set_teclas):
+            print("CHEAT PASO X2")
+            self.ronda.generador_pasos.generar_paso_x2()
+        elif {"f", "g"}.issubset(set_teclas):
+            self.ronda.generador_pasos.generar_paso_dorado()
+        elif {"f", "h"}.issubset(set_teclas):
+            self.ronda.generador_pasos.generar_paso_hielo()
 
     def cheat_dinero(self):
         self.dinero_tienda += p.DINERO_TRAMPA

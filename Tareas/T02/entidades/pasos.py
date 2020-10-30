@@ -74,10 +74,17 @@ class GeneradorPasos(QTimer):
         self.__tiempo_entre_pasos = valor
         self.setInterval(valor * 1000)
 
-    def crear_paso(self, numero_flechas):
+    def crear_paso(self, numero_flechas, x2=False, dorada=False, hielo=False):
         direcciones = random.choices(self.direcciones, k=numero_flechas)
         flechas = set()
-        tipo_flecha = self.calcular_tipo_flecha()
+        if x2:
+            tipo_flecha = "x2"
+        elif dorada:
+            tipo_flecha = "dorada"
+        elif hielo:
+            tipo_flecha = "hielo"
+        else:
+            tipo_flecha = self.calcular_tipo_flecha()
         for direccion in direcciones:
             flecha = self.crear_flecha(direccion, tipo_flecha)
             flechas.add(flecha)
@@ -128,4 +135,20 @@ class GeneradorPasos(QTimer):
         else:
             n = 1
         paso = self.crear_paso(n)
+        self.ronda.pasos_generados.add(paso)
+
+    def generar_paso_x2(self):
+        n = 1
+        print("GENERANDO PASO X2")
+        paso = self.crear_paso(n, x2=True)
+        self.ronda.pasos_generados.add(paso)
+
+    def generar_paso_dorado(self):
+        n = 1
+        paso = self.crear_paso(n, dorada=True)
+        self.ronda.pasos_generados.add(paso)
+
+    def generar_paso_hielo(self):
+        n = 1
+        paso = self.crear_paso(n, hielo=True)
         self.ronda.pasos_generados.add(paso)
