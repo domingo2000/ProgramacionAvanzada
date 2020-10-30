@@ -12,7 +12,7 @@ class Ronda(QObject):
     senal_actualizar_combo_maximo = pyqtSignal(int)
     senal_actualizar_progreso = pyqtSignal(int)
     senal_actualizar_aprobacion = pyqtSignal(int)
-    senal_paso_correcto = pyqtSignal(list)
+    senal_paso_correcto = pyqtSignal(set)
     senal_calcular_estadisticas = pyqtSignal(int, int, int, int, bool)
 
     def __init__(self, duracion=10, tiempo_entre_pasos=0.1, aprobacion_necesaria=0,
@@ -165,6 +165,10 @@ class Ronda(QObject):
         self.cancion.play()
 
     def terminar(self, interrumpido=False):
+        if interrumpido:
+            self.nivel_interrupido = True
+        else:
+            self.nivel_interrupido = False
         print("Ronda Terminada")
         self.nivel_comenzado = False
         self.timer.stop()
@@ -178,10 +182,12 @@ class Ronda(QObject):
         self.timer_flechas_restantes.timeout.connect(self.terminar_2)
         self.timer_flechas_restantes.start()
 
-    def terminar_2(self, interrumpido=False):
+    def terminar_2(self):
         self.calcular_puntaje()
         self.senal_calcular_estadisticas.emit(self.puntaje, self.combo_maximo,
-                                              self.pasos_incorrectos, self.aprobacion, interrumpido)
+                                              self.pasos_incorrectos, self.aprobacion,
+                                              self.nivel_interrupido)
+        self.nivel_interrupido = False                                            
         self.reiniciar_estadisticas()
 
     def calcular_puntaje(self):
@@ -197,8 +203,8 @@ class Ronda(QObject):
         self.puntaje = 0
         self.aprobacion = 0
         self.progreso = 0
-        self.__combo = 0
-        self.__combo_maximo = 0
+        self.combo = 0
+        self.combo_maximo = 0
         self.pasos_correctos = 0
         self.pasos_incorrectos = 0
         self.flechas_capturadas = {

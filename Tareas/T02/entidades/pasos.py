@@ -9,8 +9,9 @@ class Paso(QTimer):
     def __init__(self, flechas):
         super().__init__()
         self.flechas = flechas
-        self.__altura = flechas[0].y()
-        self.velocidad = flechas[0].velocidad
+        self.flecha_muestra = random.sample(flechas, k=1)[0]
+        self.__altura = self.flecha_muestra.y()
+        self.velocidad = self.flecha_muestra.velocidad
         self.realizado = False
         self.crear_rect()
         self.setInterval(p.TASA_REFRESCO * 1000)
@@ -29,6 +30,7 @@ class Paso(QTimer):
             self.stop()
             for flecha in self.flechas:
                 flecha.setParent(None)
+                flecha.destroy()
 
     def crear_rect(self):
         x_flechas = [flecha.x() for flecha in self.flechas]
@@ -74,11 +76,11 @@ class GeneradorPasos(QTimer):
 
     def crear_paso(self, numero_flechas):
         direcciones = random.choices(self.direcciones, k=numero_flechas)
-        flechas = []
+        flechas = set()
         tipo_flecha = self.calcular_tipo_flecha()
         for direccion in direcciones:
             flecha = self.crear_flecha(direccion, tipo_flecha)
-            flechas.append(flecha)
+            flechas.add(flecha)
         paso = Paso(flechas)
 
         paso.comenzar()
