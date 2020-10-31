@@ -140,6 +140,7 @@ class Ronda(QObject):
 
     def comenzar(self):
         print("Ronda Comenzada")
+        self.reiniciar_estadisticas()
         self.nivel_comenzado = True
         self.timer.start()
         self.timer_barras.start()
