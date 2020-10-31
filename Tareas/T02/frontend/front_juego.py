@@ -28,6 +28,10 @@ class VentanaJuego(window_name, base_class):
     def init_gui(self):
         self.label_dinero_tienda.setText(f"Dinero: {p.DINERO_INCIAL}")
         self.label_valor_pinguino.setText(f"Valor Pinguino: {p.PRECIO_PINGUIRIN}")
+        self.label_tecla_izquierda.setText(f"{p.FLECHA_IZQUIERDA}".upper())
+        self.label_tecla_derecha.setText(f"{p.FLECHA_DERECHA}".upper())
+        self.label_tecla_arriba.setText(f"{p.FLECHA_ARRIBA}".upper())
+        self.label_tecla_abajo.setText(f"{p.FLECHA_ABAJO}".upper())
 
     def comenzar(self):
         self.show()
