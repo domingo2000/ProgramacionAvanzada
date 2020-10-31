@@ -19,6 +19,8 @@ class BackJuego(QObject):
     senal_mostrar_ventana_resumen = pyqtSignal(int, int, int, int, int, str, str, bool)
     senal_esconder_juego = pyqtSignal()
     senal_activar_boton_jugar_solo = pyqtSignal(bool)
+    senal_desactivar_boton_comenzar = pyqtSignal()
+    senal_desactivar_opciones = pyqtSignal(bool)
 
     def __init__(self):
         super().__init__()
@@ -81,6 +83,8 @@ class BackJuego(QObject):
     def comenzar_ronda(self, dificultad, cancion):
         self.setear_ronda(dificultad, cancion)
         self.senal_activar_boton_jugar_solo.emit(True)
+        self.senal_desactivar_opciones.emit(False)
+        self.senal_desactivar_boton_comenzar.emit()
         print("Comenzando ronda")
         self.ronda.comenzar()
 

@@ -117,6 +117,9 @@ class VentanaJuego(window_name, base_class):
     def activar_boton_comenzar(self):
         self.boton_comenzar.setEnabled(True)
 
+    def desactivar_boton_comenzar(self):
+        self.boton_comenzar.setEnabled(False)
+
     def activar_boton_jugar_solo(self, booleano):
         if booleano:
             self.boton_jugar_solo.setEnabled(True)
@@ -126,3 +129,7 @@ class VentanaJuego(window_name, base_class):
     def jugar_solo(self):
         self.activar_boton_jugar_solo(False)
         self.senal_jugar_solo.emit()
+
+    def activar_opciones(self, booleano):
+        self.opciones_dificultad.setEnabled(booleano)
+        self.opciones_cancion.setEnabled(booleano)

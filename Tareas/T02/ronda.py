@@ -17,6 +17,8 @@ class Ronda(QObject):
     senal_activar_boton_jugar_solo = pyqtSignal(bool)
     senal_despintar_zona_captura = pyqtSignal()
     senal_pintar_tecla = pyqtSignal(str)
+    senal_activar_boton_comenzar = pyqtSignal()
+    senal_desactivar_opciones = pyqtSignal(bool)
 
     def __init__(self, duracion=10, tiempo_entre_pasos=0.1, aprobacion_necesaria=0,
                  ruta_cancion=path.join(*p.CANCIONES["Shingeki"])):
@@ -187,6 +189,8 @@ class Ronda(QObject):
         self.timer_flechas_restantes.start()
 
     def terminar_2(self):
+        self.senal_activar_boton_comenzar.emit()
+        self.senal_desactivar_opciones.emit(True)
         self.calcular_puntaje()
         self.senal_calcular_estadisticas.emit(self.puntaje, self.combo_maximo,
                                               self.pasos_incorrectos, self.aprobacion,

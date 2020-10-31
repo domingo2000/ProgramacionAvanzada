@@ -53,6 +53,10 @@ if __name__ == "__main__":
     back_juego.ronda.senal_calcular_estadisticas.connect(back_juego.calcular_estadisticas)
     back_juego.senal_esconder_juego.connect(ventana_juego.hide)
     back_juego.senal_activar_boton_jugar_solo.connect(ventana_juego.activar_boton_jugar_solo)
+    back_juego.senal_desactivar_boton_comenzar.connect(ventana_juego.desactivar_boton_comenzar)
+    back_juego.ronda.senal_activar_boton_comenzar.connect(ventana_juego.activar_boton_comenzar)
+    back_juego.senal_desactivar_opciones.connect(ventana_juego.activar_opciones)
+    back_juego.ronda.senal_desactivar_opciones.connect(ventana_juego.activar_opciones)
     # Inicio y Juego
     ventana_juego.senal_abrir_ventana_inicio.connect(ventana_inicio.show)
     ventana_ranking.senal_abrir_ventana_inicio.connect(ventana_inicio.show)
