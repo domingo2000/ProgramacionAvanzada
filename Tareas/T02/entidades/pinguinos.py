@@ -57,7 +57,7 @@ class Pinguino(QLabel):
             elif len(direcciones) == 3:
                 ruta_pixmap_paso = IMAGENES_PINGUINO[f"{self.color}_tres_flechas"]
                 print("Tres Flechas")
-            elif "arriba" in direcciones:
+            elif ("arriba" in direcciones) and not ("abajo" in direcciones):
                 if {"arriba", "derecha"}.issubset(direcciones):
                     ruta_pixmap_paso = IMAGENES_PINGUINO[f"{self.color}_arriba_derecha"]
                     print("arriba", "derecha")
@@ -67,7 +67,7 @@ class Pinguino(QLabel):
                 else:
                     ruta_pixmap_paso = IMAGENES_PINGUINO[f"{self.color}_arriba"]
                     print("arriba")
-            elif "abajo" in direcciones:
+            elif ("abajo" in direcciones) and not ("arriba" in direcciones):
                 if {"abajo", "derecha"}.issubset(direcciones):
                     ruta_pixmap_paso = IMAGENES_PINGUINO[f"{self.color}_abajo_derecha"]
                     print("abajo", "derecha")
@@ -75,7 +75,7 @@ class Pinguino(QLabel):
                     ruta_pixmap_paso = IMAGENES_PINGUINO[f"{self.color}_abajo_derecha"]
                     print("abajo", "izquierda")
                 else:
-                    ruta_pixmap_paso = IMAGENES_PINGUINO[f"{self.color}_arriba"]
+                    ruta_pixmap_paso = IMAGENES_PINGUINO[f"{self.color}_abajo"]
                     print("abajo")
             elif "derecha" in direcciones:
                 ruta_pixmap_paso = IMAGENES_PINGUINO[f"{self.color}_derecha"]
