@@ -17,6 +17,7 @@ class VentanaJuego(window_name, base_class):
     senal_reanudar_juego = pyqtSignal()
     senal_compra_realizada = pyqtSignal(Pinguino)
     senal_pinguino_dropeado = pyqtSignal(QEvent)
+    senal_jugar_solo = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -69,6 +70,7 @@ class VentanaJuego(window_name, base_class):
                 self.teclas_presionadas = set()
 
     def actualizar_zona_captura(self, tecla):
+        print("Tecla pintandose")
         if tecla == p.FLECHA_ABAJO:
             self.label_zona_captura_abajo.setStyleSheet("background-color: blue;")
         elif tecla == p.FLECHA_ARRIBA:
@@ -113,3 +115,13 @@ class VentanaJuego(window_name, base_class):
 
     def activar_boton_comenzar(self):
         self.boton_comenzar.setEnabled(True)
+
+    def activar_boton_jugar_solo(self, booleano):
+        if booleano:
+            self.boton_jugar_solo.setEnabled(True)
+        else:
+            self.boton_jugar_solo.setEnabled(False)
+
+    def jugar_solo(self):
+        self.activar_boton_jugar_solo(False)
+        self.senal_jugar_solo.emit()

@@ -14,6 +14,9 @@ class Ronda(QObject):
     senal_actualizar_aprobacion = pyqtSignal(int)
     senal_paso_correcto = pyqtSignal(set)
     senal_calcular_estadisticas = pyqtSignal(int, int, int, int, bool)
+    senal_activar_boton_jugar_solo = pyqtSignal(bool)
+    senal_despintar_zona_captura = pyqtSignal()
+    senal_pintar_tecla = pyqtSignal(str)
 
     def __init__(self, duracion=10, tiempo_entre_pasos=0.1, aprobacion_necesaria=0,
                  ruta_cancion=path.join(*p.CANCIONES["Shingeki"])):
@@ -140,6 +143,7 @@ class Ronda(QObject):
         self.timer_barras.start()
         self.cancion.play()
         self.generador_pasos.start()
+        self.senal_activar_boton_jugar_solo.emit(True)
 
     def pausar(self):
         self.esta_pausada = True
@@ -187,7 +191,7 @@ class Ronda(QObject):
         self.senal_calcular_estadisticas.emit(self.puntaje, self.combo_maximo,
                                               self.pasos_incorrectos, self.aprobacion,
                                               self.nivel_interrupido)
-        self.nivel_interrupido = False                                            
+        self.nivel_interrupido = False
         self.reiniciar_estadisticas()
 
     def calcular_puntaje(self):
@@ -215,7 +219,6 @@ class Ronda(QObject):
         }
 
     def revisar_teclas(self, teclas):
-        print("REVISANDO TECLAS")
         if teclas.issubset({p.FLECHA_DERECHA, p.FLECHA_IZQUIERDA, p.FLECHA_ABAJO, p.FLECHA_ARRIBA}):
             pasos = self.pasos_en_zona_captura()
             if pasos:
@@ -233,17 +236,14 @@ class Ronda(QObject):
                 self.combo = 0
 
     def pasos_en_zona_captura(self):
-        print("REVISANDO PASOS ZONA CAPTURA")
         pasos_en_zona = set()
         pasos = self.pasos_generados
         for paso in pasos:
             if paso.rect.intersects(self.rect_zona_captura):
                 pasos_en_zona.add(paso)
-        print(pasos_en_zona)
         return(pasos_en_zona)
 
     def revisar_paso(self, paso, teclas):
-        print("Revisando Paso")
         """
         Determina si un paso es correcto o incorrecto y además realiza las acciones
         necesarias para las flechas que se encuentran dentro del paso dadas las teclas
@@ -265,7 +265,6 @@ class Ronda(QObject):
             return True
 
     def revisar_flecha(self, flecha, teclas):
-        print("Revisando Flechas")
         direcciones = {
             "derecha": p.FLECHA_DERECHA, "izquierda": p.FLECHA_IZQUIERDA,
             "arriba": p.FLECHA_ARRIBA, "abajo": p.FLECHA_ABAJO
@@ -294,7 +293,6 @@ class Ronda(QObject):
         return aprobacion
 
     def cheat_jugar_solo(self, tiempo):
-        print("COMENZANDO CHEAT")
         self.timer_solo = QTimer()
         self.timer_solo.setInterval((p.TASA_REFRESCO * 6) * 1000)
         self.timer_solo.timeout.connect(self.jugar_solo)
@@ -320,5 +318,16 @@ class Ronda(QObject):
                     tecla = direccion_a_flecha[direccion]
                     teclas_automaticas.add(tecla)
                 self.revisar_teclas(teclas_automaticas)
-                print(f"TECLAS ENVIADAS: {teclas_automaticas}")
+                for tecla in teclas_automaticas:
+                    self.senal_pintar_tecla.emit(tecla)
+                    print("Emitiendo senal")
+                    self.timer_despintar_tecla = QTimer()
+                    self.timer_despintar_tecla.setInterval(0.1 * 1000)
+                    self.timer_despintar_tecla.setSingleShot(True)
+                    self.timer_despintar_tecla.timeout.connect(
+                        self.despintar_teclas_para_cheat)
+                    self.timer_despintar_tecla.start()
                 teclas_automaticas = set()
+
+    def despintar_teclas_para_cheat(self):
+        self.senal_despintar_zona_captura.emit()

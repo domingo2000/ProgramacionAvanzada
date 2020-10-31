@@ -246,7 +246,7 @@ border-color: #A58CBF;</string>
     <property name="geometry">
      <rect>
       <x>870</x>
-      <y>30</y>
+      <y>20</y>
       <width>71</width>
       <height>23</height>
      </rect>
@@ -262,7 +262,7 @@ border-color: #A58CBF;</string>
     <property name="geometry">
      <rect>
       <x>870</x>
-      <y>70</y>
+      <y>80</y>
       <width>71</width>
       <height>23</height>
      </rect>
@@ -420,6 +420,25 @@ border-color: #A58CBF;</string>
     <zorder>label_combo_maximo</zorder>
     <zorder>label_combo</zorder>
    </widget>
+   <widget class="QPushButton" name="boton_jugar_solo">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>50</y>
+      <width>71</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #ffffff;</string>
+    </property>
+    <property name="text">
+     <string>Jugar Solo</string>
+    </property>
+   </widget>
    <zorder>barra_superior</zorder>
    <zorder>label_5</zorder>
    <zorder>frame_2</zorder>
@@ -431,6 +450,7 @@ border-color: #A58CBF;</string>
    <zorder>barra_progreso</zorder>
    <zorder>barra_aprobacion</zorder>
    <zorder>frame_5</zorder>
+   <zorder>boton_jugar_solo</zorder>
   </widget>
   <widget class="QFrame" name="zona_captura">
    <property name="geometry">
@@ -798,6 +818,22 @@ border-color: #A58CBF;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>boton_jugar_solo</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>jugar_solo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>925</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>516</x>
+     <y>328</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>pausar()</slot>
@@ -805,5 +841,6 @@ border-color: #A58CBF;</string>
   <slot>prueba()</slot>
   <slot>esconder_tienda()</slot>
   <slot>comenzar_ronda()</slot>
+  <slot>jugar_solo()</slot>
  </slots>
 </ui>

@@ -18,6 +18,7 @@ class BackJuego(QObject):
     senal_activar_boton_comenzar = pyqtSignal()
     senal_mostrar_ventana_resumen = pyqtSignal(int, int, int, int, int, str, str, bool)
     senal_esconder_juego = pyqtSignal()
+    senal_activar_boton_jugar_solo = pyqtSignal(bool)
 
     def __init__(self):
         super().__init__()
@@ -79,6 +80,7 @@ class BackJuego(QObject):
 
     def comenzar_ronda(self, dificultad, cancion):
         self.setear_ronda(dificultad, cancion)
+        self.senal_activar_boton_jugar_solo.emit(True)
         print("Comenzando ronda")
         self.ronda.comenzar()
 
@@ -113,8 +115,9 @@ class BackJuego(QObject):
             self.ronda.generador_pasos.generar_paso_dorado()
         elif {"f", "h"}.issubset(set_teclas):
             self.ronda.generador_pasos.generar_paso_hielo()
-        elif {"s", "e"}.issubset(set_teclas):
-            self.ronda.cheat_jugar_solo(p.TIEMPO_GRATIS)
+
+    def jugar_solo(self):
+        self.ronda.cheat_jugar_solo(p.TIEMPO_GRATIS)
 
     def cheat_dinero(self):
         self.dinero_tienda += p.DINERO_TRAMPA
