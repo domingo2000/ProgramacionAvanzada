@@ -84,6 +84,7 @@ Los supuestos que realicé durante la tarea son los siguientes:
 4. El jugador cambiara la ``TASA_DE_REFRESCO`` dependiendo de las caracteristicas de su computador para que este funcione de manera correcta al igual que en otros juegos se puede subir y bajar la calidad grafica de los juegos.
 5. Si se realiza la acción de pausa desde el boton se reanudara desde el botón y si se hace como cheatcode (presionando la P) se reanudara usando el mismo cheatcode.
 6. Las teclas que se pueden modificar en los parametros siempre serán caracteres, puesto que no se pueden poner las "flechitas" como string en los parametros y los codigos de las teclas no son lo suficientemente "intuitivos" ni universales para usarlos como parámetro a diferencia de los caracteres.
+7. La intersección de los pinguinos esta dada por el sprite del pinguino y no por la parte del pinguino en si, por lo que para que esten mas pegados el sprite del pinguino deberia estar mejor recortado.
 
 
 ## Referencias de código externo :book:
