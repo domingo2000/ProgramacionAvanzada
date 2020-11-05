@@ -16,11 +16,31 @@ class RedesMundiales:
 
     def agregar_aeropuerto(self, aeropuerto_id, nombre):
         # Agregar un aeropuerto a la estructura
-        self.aeropuertos[aeropuerto_id] = nombre
+        aeropuerto = Aeropuerto(aeropuerto_id, nombre)
+        self.aeropuertos[aeropuerto_id] = aeropuerto
 
     def agregar_conexion(self, aeropuerto_id_partida, aeropuerto_id_llegada, infectados):
         # Crear la conexion de partida-llegada para el par de aeropuertos
-        pass
+        hay_aeropuerto_salida = False
+        hay_aeropuerto_llegada = False
+        hay_conexion_en_salida = False
+        for aeropuerto in self.aeropuertos.values():
+            if aeropuerto.id == aeropuerto_id_partida:
+                aeropuerto_partida = aeropuerto
+                hay_aeropuerto_salida = True
+                for conexion in aeropuerto_partida.conexiones:
+                    if conexion.aeropuerto_llegada_id == aeropuerto_id_llegada and\
+                       conexion.aeropuerto_inicio_id == aeropuerto_id_partida:
+                        hay_conexion_en_salida = True
+                        break
+                break
+            elif aeropuerto.id == aeropuerto_id_llegada:
+                aeropuerto_llegada = aeropuerto
+                hay_aeropuerto_llegada = True
+                break
+        if hay_aeropuerto_salida and hay_aeropuerto_llegada and not hay_conexion_en_salida:
+            conexion = Conexion(aeropuerto_id_partida, aeropuerto_id_llegada, infectados)
+            aeropuerto_partida.conexiones.append(conexion)
 
     def cargar_red(self, ruta_aeropuertos, ruta_conexiones):
 
