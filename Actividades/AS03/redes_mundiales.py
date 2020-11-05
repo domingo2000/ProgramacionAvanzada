@@ -110,7 +110,6 @@ class RedesMundiales:
         # Se elimina el aeropuerto en caso de que este genere muchos infectados
         generador_aeropuertos = cargar_aeropuertos(ruta_aeropuertos_candidatos)
 
-        aeropuerto_aceptado = True
         for dato_aeropuerto in generador_aeropuertos:
             aeropuerto = Aeropuerto(*dato_aeropuerto)
             self.aeropuertos[aeropuerto.id] = aeropuerto
@@ -126,13 +125,10 @@ class RedesMundiales:
                     infectados = self.infectados_generados_desde_aeropuerto(id_salida)
                     if infectados > UMBRAL:
                         print(f"La conexión {conexion} rompe las reglas de seguridad")
-                        aeropuerto_aceptado = False
-                        break
-            if not aeropuerto_aceptado:
-                # print(f"El Aeropuerto {aeropuerto} no ha sido aceptado")
-                aeropuerto.conexiones = []
+                        self.eliminar_conexion(conexion)
+
+            if len(aeropuerto.conexiones) == 0:
                 self.eliminar_aeropuerto(aeropuerto.id)
-                aeropuerto_aceptado = True
 
 
 if __name__ == "__main__":
