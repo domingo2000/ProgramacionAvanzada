@@ -16,7 +16,7 @@ class RedesMundiales:
 
     def agregar_aeropuerto(self, aeropuerto_id, nombre):
         # Agregar un aeropuerto a la estructura
-        pass
+        self.aeropuertos[aeropuerto_id] = nombre
 
     def agregar_conexion(self, aeropuerto_id_partida, aeropuerto_id_llegada, infectados):
         # Crear la conexion de partida-llegada para el par de aeropuertos
