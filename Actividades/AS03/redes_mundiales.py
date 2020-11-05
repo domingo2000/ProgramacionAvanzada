@@ -2,6 +2,7 @@ import os
 
 from cargar_archivos import cargar_aeropuertos, cargar_conexiones
 from entidades import Aeropuerto, Conexion
+from collections import deque
 
 
 UMBRAL = 40000
@@ -19,6 +20,31 @@ class RedesMundiales:
         aeropuerto = Aeropuerto(aeropuerto_id, nombre)
         self.aeropuertos[aeropuerto_id] = aeropuerto
 
+    def bfs(self, id_aeropuerto_inicio):
+        # Vamos a mantener una lista con los nodos visitados.
+        visitados = []
+        aeropuerto_inicio = self.aeropuertos[id_aeropuerto_inicio]
+        # La cola de siempre, comienza desde el nodo inicio.
+        queue = deque([aeropuerto_inicio])
+
+        while len(queue) > 0:
+            vertice = queue.popleft()
+            # Detalle clave: si ya visitamos el nodo, no hacemos nada!
+            if vertice in visitados:
+                continue
+
+            # Lo visitamos
+            visitados.append(vertice)
+            # Agregamos los vecinos a la cola si es que no han sido visitados.
+            for conexion in vertice.conexiones:
+                for aeropuerto in self.aeropuertos.values():
+                    if aeropuerto.id == conexion.aeropuerto_llegada_id:
+                        vecino = aeropuerto
+                        break
+                if vecino not in visitados:
+                    queue.append(vecino)
+        return visitados
+
     def agregar_conexion(self, aeropuerto_id_partida, aeropuerto_id_llegada, infectados):
         # Crear la conexion de partida-llegada para el par de aeropuertos
         hay_aeropuerto_salida = False
@@ -33,11 +59,10 @@ class RedesMundiales:
                        conexion.aeropuerto_inicio_id == aeropuerto_id_partida:
                         hay_conexion_en_salida = True
                         break
-                break
             elif aeropuerto.id == aeropuerto_id_llegada:
                 aeropuerto_llegada = aeropuerto
                 hay_aeropuerto_llegada = True
-                break
+
         if hay_aeropuerto_salida and hay_aeropuerto_llegada and not hay_conexion_en_salida:
             conexion = Conexion(aeropuerto_id_partida, aeropuerto_id_llegada, infectados)
             aeropuerto_partida.conexiones.append(conexion)
@@ -69,8 +94,15 @@ class RedesMundiales:
         del self.aeropuertos[aeropuerto_id]
 
     def infectados_generados_desde_aeropuerto(self, aeropuerto_id):
-        # Muestra la cantidad de infectados generados por un aeropuerto
-        pass
+        infectados = 0
+        aeropuertos_recorridos = self.bfs(aeropuerto_id)
+        for aeropuerto in aeropuertos_recorridos:
+            if aeropuerto.id == aeropuerto_id:
+                aeropuerto_inicio = aeropuerto
+            for conexion in aeropuerto.conexiones:
+                infectados += conexion.infectados
+        print(f"La cantidad estimada de infectados generados por el aeropuerto\
+             {aeropuerto_inicio.nombre} es de {infectados}")
 
     def verificar_candidatos(self, ruta_aeropuertos_candidatos, ruta_conexiones_candidatas):
         # Se revisa cada aeropuerto candidato con las agregars conexiones candidatas.
@@ -103,3 +135,6 @@ if __name__ == "__main__":
         os.path.join("datos", "aeropuertos_candidatos.txt"),
         os.path.join("datos", "conexiones_candidatas.txt"),
     )
+    # print(redmundial.aeropuertos)
+    #visitados = redmundial.bfs(19)
+    #print(visitados)
