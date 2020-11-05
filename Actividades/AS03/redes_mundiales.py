@@ -103,11 +103,36 @@ class RedesMundiales:
                 infectados += conexion.infectados
         print(f"La cantidad estimada de infectados generados por el aeropuerto\
              {aeropuerto_inicio.nombre} es de {infectados}")
+        return(infectados)
 
     def verificar_candidatos(self, ruta_aeropuertos_candidatos, ruta_conexiones_candidatas):
         # Se revisa cada aeropuerto candidato con las agregars conexiones candidatas.
         # Se elimina el aeropuerto en caso de que este genere muchos infectados
-        pass
+        generador_aeropuertos = cargar_aeropuertos(ruta_aeropuertos_candidatos)
+
+        aeropuerto_aceptado = True
+        for dato_aeropuerto in generador_aeropuertos:
+            aeropuerto = Aeropuerto(*dato_aeropuerto)
+            self.aeropuertos[aeropuerto.id] = aeropuerto
+            # Hace un generador cada vez que ve un aeropuerto
+            datos_conexiones = cargar_conexiones(ruta_conexiones_candidatas)
+            # Agrega las conexiones al aeropuerto candidato
+            for dato_conexion in datos_conexiones:
+                conexion = Conexion(*dato_conexion)
+                if conexion.aeropuerto_inicio_id == aeropuerto.id:
+                    aeropuerto.conexiones.append(conexion)
+                    # Para cada conexion agregada chequeamos el umbral
+                    id_salida = conexion.aeropuerto_inicio_id
+                    infectados = self.infectados_generados_desde_aeropuerto(id_salida)
+                    if infectados > UMBRAL:
+                        print(f"La conexión {conexion} rompe las reglas de seguridad")
+                        aeropuerto_aceptado = False
+                        break
+            if not aeropuerto_aceptado:
+                # print(f"El Aeropuerto {aeropuerto} no ha sido aceptado")
+                aeropuerto.conexiones = []
+                self.eliminar_aeropuerto(aeropuerto.id)
+                aeropuerto_aceptado = True
 
 
 if __name__ == "__main__":
@@ -135,6 +160,3 @@ if __name__ == "__main__":
         os.path.join("datos", "aeropuertos_candidatos.txt"),
         os.path.join("datos", "conexiones_candidatas.txt"),
     )
-    # print(redmundial.aeropuertos)
-    #visitados = redmundial.bfs(19)
-    #print(visitados)
