@@ -3,7 +3,17 @@ import os
 
 def reparar_imagen(ruta_entrada, ruta_salida):
     #--- COMPLETAR ---#
-    pass
+    with open(ruta_entrada, "rb") as file:
+        with open(ruta_salida, "wb") as file2:
+            datos = file.read()
+            byte_nuevo = bytearray()
+            tamaño_chunk = 32
+            for i in range(0, len(datos), tamaño_chunk):
+                chunk = bytearray(datos[i:i+tamaño_chunk])
+                chunk = chunk[0:16]
+                if chunk[0] == 1:
+                    chunk = chunk[::-1]
+                file2.write(chunk)
 
 
 #--- NO MODIFICAR ---#
