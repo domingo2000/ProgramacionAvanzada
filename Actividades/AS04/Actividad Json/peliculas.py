@@ -2,7 +2,7 @@
 
 import os
 import json
-
+import sys
 
 class Pelicula():
 
@@ -16,7 +16,7 @@ class Pelicula():
         return (f'| {self.nombre:48s} | {self.director:22s} '
                 f'| {self.duracion:16s} | {self.puntuacion:16s} |')
 
-            
+
 def desencriptar(string):
     simbolos = list("|¡!#$%&/+-(=)*];")
     letras_1 = list("aeiousrdmn12345-")
@@ -40,13 +40,21 @@ def desencriptar(string):
 def cargar_peliculas(ruta):
 
     ### COMPLETAR ###
-    pass
-    
+    with open(ruta) as file:
+        dic = json.load(file, object_hook=desencriptado)
+    return dic
+
 
 def desencriptado(diccionario):
-
-    ### COMPLETAR ###
-    pass
+    diccionario_nuevo = {}
+    for key in diccionario.keys():
+        values = diccionario[key]
+        key_nueva = desencriptar(key)
+        values_nuevos = [values.pop(0)]
+        for value in values:
+            values_nuevos.append(desencriptar(value))
+        diccionario_nuevo[key_nueva] = values_nuevos
+    return diccionario_nuevo
 
 
 if __name__ == "__main__":
