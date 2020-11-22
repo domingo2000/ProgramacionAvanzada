@@ -16,6 +16,9 @@ class ServerNet:
         self.bind_and_listen()
         self.thread_aceptar_clientes()
 
+        # Print Inicio log
+        self.inicio_log()
+
     def bind_and_listen(self):
         """
         Enlaza el socket creado con el host y puerto indicado.
@@ -34,9 +37,9 @@ class ServerNet:
     def target_aceptar_clientes(self):
         while True:
             socket_cliente, ip = self.socket_server.accept()
-            print("Se Ha conectado un nuevo cliente")
-            print(self.clientes)
-            self.crear_usuario(socket_cliente)
+            usuario = self.crear_usuario(socket_cliente)
+            self.log(nombre_usuario=usuario, evento="Conetarse")
+
 
     def crear_usuario(self, socket_cliente):
         fake = Faker()
@@ -46,12 +49,10 @@ class ServerNet:
                                 args=(usuario, ),
                                 daemon=True)
         thread_escucha.start()
-
+        return usuario
     def escuchar_cliente(self, usuario):
-        print("Inicializando thread de escucha cliente")
         while True:
             try:
-                print("debug")
                 # Protocolo de informacion
                 data = bytearray()
                 socket_cliente = self.clientes[usuario]
@@ -66,7 +67,6 @@ class ServerNet:
                     data.extend(data_bloque)
 
                 data = data.decode("utf-8")
-                print(f"Se ha recibido datos:\n{data}")
             except ConnectionError:
                 desconectado = self.revisar_desconexion(usuario)
                 if desconectado:
@@ -80,7 +80,7 @@ class ServerNet:
             self.send_bytes(bytes, socket_cliente)
         except ConnectionError:
             desconectado = True
-            print(f"Se ha desconectado el usuario: {usuario}")
+            self.log(usuario, "Desconectado")
             # Quita al usuario de los clientes conectados
             self.clientes.pop(usuario)
         return desconectado
@@ -111,7 +111,16 @@ class ServerNet:
 
         socket_cliente.send(data)
 
+    def log(self, nombre_usuario="-", evento="-", detalles="-"):
+        print(f"{nombre_usuario: ^25} | {evento: ^25} | {detalles: ^25}")
+
+    def inicio_log(self):
+        usuario = "Usuario"
+        evento = "Evento"
+        detalles = "Detalles"
+        print(f"{usuario:^25} | {evento:^25} | {detalles:^25}")
+        char = ""
+        print(f"{char:-^25} | {char:-^25} | {char:-^25}")
 
 if __name__ == "__main__":
     server = ServerNet()
-    print("hola")
