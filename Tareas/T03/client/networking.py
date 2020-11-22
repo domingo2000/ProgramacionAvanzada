@@ -83,4 +83,5 @@ if __name__ == "__main__":
     cliente = ClientNet()
     mensaje = "Hola como estás"
     cliente.send_bytes(mensaje.encode("utf-8"))
-    print("hola")
+    while True:
+        pass
