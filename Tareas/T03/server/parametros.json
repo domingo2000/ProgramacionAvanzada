@@ -1,4 +1,27 @@
 {
     "host": "192.168.1.17",
-    "port": 200
+    "port": 200,
+
+    "costos": {
+        "carta_desarrollo" : {
+            "CANTIDAD_MADERA_CARTA_DESARROLLO" : 1,
+            "CANTIDAD_TRIGO_CARTA_DESARROLLO" : 1,
+            "CANTIDAD_ARCILLA_CARTA_DESARROLLO" : 1
+        },
+        "carretera": {
+            "CANTIDAD_MADERA_CARTA_CARRETERA" : 1,
+            "CANTIDAD_TRIGO_CARTA_CARRETERA" : 0,
+            "CANTIDAD_ARCILLA_CARTA_CARRETERA" : 1
+        },
+        "choza": {
+            "CANTIDAD_MADERA_CARTA_CHOZA" : 1,
+            "CANTIDAD_TRIGO_CARTA_CHOZA" : 1,
+            "CANTIDAD_ARCILLA_CARTA_CHOZA" : 1
+        },
+        "ciudad": {
+            "CANTIDAD_MADERA_CARTA_CIUDAD" : 2,
+            "CANTIDAD_TRIGO_CARTA_CIUDAD" : 2,
+            "CANTIDAD_ARCILLA_CARTA_CIUDAD" : 2
+        }
+    }
 }
