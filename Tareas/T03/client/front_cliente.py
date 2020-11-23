@@ -11,10 +11,31 @@ class VentanaEspera(window_name, base_class):
         super().__init__()
         self.setupUi(self)
         self.show()
+        self.labels_usuarios = []
+        self.comandos = {
+            "añadir_usuario": self.añadir_usuario,
+            "actualizar_usuarios": self.actualizar_usuarios
+        }
 
     def añadir_usuario(self, nombre_usuario):
         label = QLabel(nombre_usuario)
+        self.labels_usuarios.append(label)
         self.layout_usuarios.addWidget(label)
+
+    def actualizar_usuarios(self, nombres_usuarios):
+        for label_usuario in self.labels_usuarios:
+            label_usuario.hide()
+            label_usuario.setParent(None)
+        for nombre_usuario in nombres_usuarios:
+            self.añadir_usuario(nombre_usuario)
+
+    def realizar_comando(self, tupla_comando):
+        comando = tupla_comando[0]
+        parametros = tupla_comando[1]
+        if comando in self.comandos:
+            metodo = self.comandos[comando]
+            print(parametros)
+            metodo(*parametros)
 
 
 if __name__ == "__main__":
