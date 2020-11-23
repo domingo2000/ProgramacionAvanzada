@@ -11,7 +11,7 @@ class Construccion:
         self.nombre = nombre
         self.puntos = puntos
         self.costo = crear_diccionario_costos(data_costo)
-    
+
     def __repr__(self):
         return f"{self.__class__}: Puntos: {self.puntos}"
 
