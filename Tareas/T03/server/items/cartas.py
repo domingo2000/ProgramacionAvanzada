@@ -35,7 +35,7 @@ class CartaPuntoVictoria(CartaDesarrollo):
 
     def __init__(self, numero):
         super().__init__(f"punto_de_victoria_{numero}")
-        self.tipo = "punto_de_victoria"
+        self.tipo = "victoria"
         self.numero = 1
         self.puntos = 1
 
@@ -64,4 +64,4 @@ if __name__ == "__main__":
 
     print(mazo)
     print(carta_monopolio.costo)
-    print(carta_punto_victoria_1.costo)
+    print(carta_punto_victoria_1.tipo)
