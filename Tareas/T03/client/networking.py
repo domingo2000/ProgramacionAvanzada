@@ -2,10 +2,15 @@ import socket
 from threading import Thread
 import sys
 import json
+import pickle
+from PyQt5.QtCore import pyqtSignal, QObject
 
 
-class ClientNet():
+class ClientNet(QObject):
+    senal_comando = pyqtSignal(tuple)
+
     def __init__(self):
+        super().__init__()
         with open("parametros.json", "r") as file:
             data = json.loads(file.read())
         self.host = data["host"]
@@ -40,11 +45,17 @@ class ClientNet():
                     data_bloque = data_bloque[0: (largo_bytes % 60)]
                 data.extend(data_bloque)
 
-            data = data.decode("utf-8")
             if data == "":
                 pass
             else:
-                print(data)
+                self.manejar_comando(data)
+
+    def manejar_comando(self, data):
+        """
+        Recibe un comando serializado, lo des-serializa y lo envia como señal
+        """
+        tupla = pickle.loads(data)
+        self.senal_comando.emit(tupla)
 
     def connect_to_server(self):
         """Crea la conexión al servidor."""
