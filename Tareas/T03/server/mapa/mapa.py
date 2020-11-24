@@ -1,4 +1,5 @@
 import json
+from os import path
 
 
 class Nodo:
@@ -68,21 +69,29 @@ class Mapa:
         id_hexagono = hexagono.id
         self.hexagonos[id_hexagono] = hexagono
 
-    def cargar_mapa(self, archivo_json):
-        data = json.load(archivo_json)
+    def cargar_mapa(self):
+        """
+        Carga el mapa desde el archivo json
+        """
+        with open("parametros.json") as file:
+            parametros = json.load(file)
+            rutas = parametros["rutas"]
+            ruta_grafo = path.join(*rutas["grafo"])
+        with open(ruta_grafo) as file:
+            data_grafo = json.load(file)
 
         # Setea las dimensiones
-        self.dimensiones = data["dimensiones_mapa"]
+        self.dimensiones = data_grafo["dimensiones_mapa"]
 
         # Instancia y agrega todos los nodos
-        data_nodos = data["nodos"]
+        data_nodos = data_grafo["nodos"]
         for id_nodo in data_nodos:
             lista_adyacencia = data_nodos[id_nodo]
             nodo = Nodo(id_nodo, lista_adyacencia)
             self.agregar_nodo(nodo)
 
         # Instancia y agrega todos los hexagonos
-        data_hexagonos = data["hexagonos"]
+        data_hexagonos = data_grafo["hexagonos"]
         for id_hexagono in data_hexagonos:
             id_nodos = data_hexagonos[id_hexagono]
             hexagono = Hexagono(id_hexagono)
@@ -96,8 +105,7 @@ class Mapa:
 
 if __name__ == "__main__":
     mapa = Mapa()
-    with open("grafo.json") as file:
-        mapa.cargar_mapa(file)
+    mapa.cargar_mapa()
     print(mapa)
     """
     nodo_0 = Nodo("0", ["1", "4"])
