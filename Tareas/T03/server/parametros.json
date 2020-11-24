@@ -23,5 +23,8 @@
             "CANTIDAD_TRIGO_CARTA_CIUDAD" : 2,
             "CANTIDAD_ARCILLA_CARTA_CIUDAD" : 2
         }
+    },
+    "rutas": {
+        "grafo": ["mapa", "grafo.json"]
     }
 }
