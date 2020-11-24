@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VentanaJuego</class>
+ <widget class="QWidget" name="VentanaJuego">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>609</width>
+    <height>552</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>DCColonos</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #85A1C8;</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
