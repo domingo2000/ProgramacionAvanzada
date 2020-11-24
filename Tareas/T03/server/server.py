@@ -10,6 +10,7 @@ class Server():
     def __init__(self):
         super().__init__()
         self.net = ServerNet()
+        self.banco = Banco()
 
         self.comandos_servidor = {
             "comprar_choza": self.banco.comprar_choza,
