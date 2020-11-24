@@ -13,6 +13,7 @@ class VentanaEspera(window_name, base_class):
         self.show()
         self.labels_usuarios = []
         self.comandos = {
+            "close_window_wait": self.hide,
             "añadir_usuario": self.añadir_usuario,
             "actualizar_usuarios": self.actualizar_usuarios
         }
