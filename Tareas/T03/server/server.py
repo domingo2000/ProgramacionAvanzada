@@ -1,6 +1,7 @@
 from PyQt5.QtCore import pyqtSignal, QObject
 from networking import ServerNet
 from banco import Banco
+from mapa.mapa import Mapa
 
 
 class Server():
@@ -11,6 +12,7 @@ class Server():
         super().__init__()
         self.net = ServerNet()
         self.banco = Banco()
+        self.mapa = Mapa()
 
         self.comandos_servidor = {
             "comprar_choza": self.banco.comprar_choza,
@@ -19,4 +21,4 @@ class Server():
         }
 
     def iniciar_partida(self):
-        pass
+        self.mapa.cargar_mapa()
