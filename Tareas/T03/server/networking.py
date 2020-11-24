@@ -3,106 +3,100 @@ from threading import Thread
 import json
 import pickle
 from faker import Faker
+from PyQt5.QtCore import pyqtSignal, QObject
 
 
-class ServerNet:
-    def __init__(self):
-        print("Inicializando Servidor")
-        with open("parametros.json", "r") as file:
-            data = json.loads(file.read())
-        self.host = data["host"]
-        self.port = data["port"]
+class ServerNet(QObject):
+    senal_realizar_comando = pyqtSignal(tuple)
+
+    def __init__(self, host, port):
+        print("Inicializando Server")
+        super().__init__()
+        self.host = host
+        self.port = port
+        self.faker = Faker()
         self.clientes = {}
+        # Crea el socket del servidor
         self.socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # Conecta el socket al puerto y host
         self.bind_and_listen()
-        self.thread_aceptar_clientes()
-
-        # Print Inicio log
-        self.inicio_log()
+        # Crea el thread de aceptar clientes
+        self.crear_thread_aceptar_clientes()
 
     def bind_and_listen(self):
-        """
-        Enlaza el socket creado con el host y puerto indicado.
-
-        Primero, se enlaza el socket y luego queda esperando
-        por conexiones entrantes.
-        """
         self.socket_server.bind((self.host, self.port))
         self.socket_server.listen()
         print(f"Servidor escuchando en {self.host}:{self.port}...")
 
-    def thread_aceptar_clientes(self):
-        self.thread_aceptar = Thread(target=self.target_aceptar_clientes)
-        self.thread_aceptar.start()
+    def aceptar_usuario(self, usuario, client_socket, booleano):
+        print("Aceptando usuario")
+        """
+        Se encarga de aceptar o rechazar al usuario segun el booleano
+        ademas le envia al usuario un mensaje por si se acepto o rechazo
+        y crea el thread de escucha al usuario en caso de ser aceptado
+        """
+        self.clientes[usuario] = client_socket
+        if booleano:
+            self.send_message("aceptado", usuario)
+            # Crea el thread de escucha
+            thread_escucha = Thread(target=self.thread_escucha_usuario,
+                                    args=(client_socket, ),
+                                    daemon=True)
+            thread_escucha.start()
+            # Envia el log de conexion exitosa
+            self.log(usuario, "conectado", "aceptado")
+            self.realizar_comando(("anadir_usuario", [usuario]))
+        else:
+            self.send_message("rechazado", usuario)
+            # Remueve el usuario de la lista de clientes
+            del self.clientes[usuario]
+            self.log(usuario, "conectado", "rechazado")
 
-    def target_aceptar_clientes(self):
-        while True:
-            socket_cliente, ip = self.socket_server.accept()
-            usuario = self.crear_usuario(socket_cliente)
-            self.log(nombre_usuario=usuario, evento="Conetarse")
+    def lleno(self):
+        if len(self.clientes) >= 4:
+            return True
+        else:
+            return False
 
-    def crear_usuario(self, socket_cliente):
-        fake = Faker()
-        usuario = fake.name()
-        self.clientes[usuario] = socket_cliente
-
-        # Actualiza los usuarios de la sala de espera
-        self.actualizar_usuarios()
-
-        # Crea el thread de escucha
-        thread_escucha = Thread(target=self.escuchar_cliente,
-                                args=(usuario, ),
-                                daemon=True)
-        thread_escucha.start()
+    def crear_usuario(self):
+        print("Creando usuario")
+        usuario = self.faker.name()
+        print(usuario)
         return usuario
 
-    def actualizar_usuarios(self):
-        # Actualiza la interfaz de todos los usuario conectados
-        nombres_usuarios = [usuario for usuario in self.clientes]
-        for usuario in self.clientes:
-            self.send_command("actualizar_usuarios",
-                              [nombres_usuarios],
-                              usuario)
+    def crear_comando(self, string, list):
+        comando = (string, list)
+        return comando
 
-    def escuchar_cliente(self, usuario):
+    def crear_thread_aceptar_clientes(self):
+        print("Creando Thread Aceptar Clientes")
+        thread = Thread(target=self.thread_aceptar_clientes)
+        thread.start()
+
+    def thread_aceptar_clientes(self):
         while True:
-            try:
-                # Protocolo de informacion
-                data = bytearray()
-                socket_cliente = self.clientes[usuario]
-                bytes_largo = socket_cliente.recv(4)
-                largo_bytes = int.from_bytes(bytes_largo, byteorder="big")
-                numero_chunks = (largo_bytes // 60) + 1
-                for i in range(numero_chunks):
-                    numero_bloque = socket_cliente.recv(4)
-                    data_bloque = socket_cliente.recv(60)
-                    if i == (numero_chunks - 1):
-                        data_bloque = data_bloque[0: (largo_bytes % 60)]
-                    data.extend(data_bloque)
+            print("Aceptando Clientes")
+            client_socket, ip = self.socket_server.accept()
+            print("Cliente aceptado")
+            usuario = self.crear_usuario()
+            servidor_lleno = self.lleno()
+            if servidor_lleno:  # Rechaza al usuario
+                self.aceptar_usuario(usuario, client_socket, False)
+                # Codigo Comenzar Juego
+                self.log("Server", "Comenzando Juego")
+            else:  # Acepta al usuario
+                self.aceptar_usuario(usuario, client_socket, True)
 
-                data = data.decode("utf-8")
-                self.log(nombre_usuario=usuario, evento="Request", detalles=data)
-            except ConnectionError:
-                desconectado = self.revisar_desconexion(usuario)
-                if desconectado:
-                    break
+    def thread_escucha_usuario(self, socket_cliente):
+        # Completar thread de escucha de usuario
+        pass
 
-    def revisar_desconexion(self, usuario):
-        bytes = "".encode("utf-8")
-        desconectado = False
-        try:
-            self.send_bytes(bytes, usuario)
-        except ConnectionError:
-            desconectado = True
-            self.log(usuario, "Desconectado")
-            # Quita al usuario de los clientes conectados y actualiza los clientes
-            self.clientes.pop(usuario)
-            self.actualizar_usuarios()
-        return desconectado
+    def log(self, nombre_usuario="-", evento="-", detalles="-"):
+        print(f"{nombre_usuario: ^25} | {evento: ^25} | {detalles: ^25}")
 
     def send_bytes(self, bytes, usuario):
         """
-        Envía bytes con el protocolo del enunciado al socket dado
+        Envía bytes con el protocolo del enunciado al usuario dado
 
         """
         bytes = bytes
@@ -124,38 +118,78 @@ class ServerNet:
             data.extend(chunk_bytes)
 
         socket_cliente = self.clientes[usuario]
-        socket_cliente.send(data)
+
+        try:
+            socket_cliente.sendall(data)
+        except ConnectionError:
+            self.desconectar_usuario(usuario)
+
+    def send_message(self, mensaje, usuario):
+        self.send_bytes(mensaje.encode("utf-8"), usuario)
+        self.log(usuario, "mensaje", mensaje)
 
     def send_command(self, comando, parametros, usuario):
         """
         Envia un comando serializado al usuario de la forma
-        ("comando": (parametros))
+        tupla: ("comando": (parametros))
 
         los parametros son recibidos como una lista de parametros
         """
         tupla = (comando, parametros)
         tupla_serializado = pickle.dumps(tupla)
         self.send_bytes(tupla_serializado, usuario)
+        self.log("Server", "enviar_comando", usuario)
 
-    def log(self, nombre_usuario="-", evento="-", detalles="-"):
-        print(f"{nombre_usuario: ^25} | {evento: ^25} | {detalles: ^25}")
+    def send_command_to_all(self, comando, parametros):
+        """
+        Envia un comando serializado a todos los usuarios
+        parametros recibidos como lista [a, b, c]
+        """
+        for usuario in self.clientes.copy():
+            self.send_command(comando, parametros, usuario)
 
-    def inicio_log(self):
-        usuario = "Usuario"
-        evento = "Evento"
-        detalles = "Detalles"
-        print(f"{usuario:^25} | {evento:^25} | {detalles:^25}")
-        char = ""
-        print(f"{char:-^25} | {char:-^25} | {char:-^25}")
+    def realizar_comando(self, comando):
+        self.senal_realizar_comando.emit(comando)
+        self.log("Server", "Realizando Comando", comando[0])
+
+    def recive_data(self):
+        """
+        Recibe datos con el protocolo del enunciado, en caso de ser
+        un byte vacio pasa, si otra cosa ejecuta el comando.
+        """
+        # Protocolo de informacion
+        data = bytearray()
+        bytes_largo = self.socket_client.recv(4)
+        largo_bytes = int.from_bytes(bytes_largo, byteorder="big")
+        numero_chunks = (largo_bytes // 60) + 1
+        for i in range(numero_chunks):
+            numero_bloque = self.socket_client.recv(4)
+            data_bloque = self.socket_client.recv(60)
+            if i == (numero_chunks - 1):
+                data_bloque = data_bloque[0: (largo_bytes % 60)]
+            data.extend(data_bloque)
+
+        if data == "":
+            pass
+        else:
+            # Completar ejecutar comando
+            pass
+
+    def desconectar_usuario(self, usuario):
+        socket_cliente = self.clientes.pop(usuario)
+        socket_cliente.close()
+        self.log(usuario, "Desconectado")
 
 
 if __name__ == "__main__":
-    server = ServerNet()
+    with open("parametros.json") as file:
+        data = json.load(file)
+    import time
+    import random
+    host = data["host"]
+    port = data["port"]
+    server = ServerNet(host, port)
     while True:
-        print(">>>")
-        comando = input("Ingrese un comando para enviar al cliente: ")
-        str_parametros = input("Ingrese parametros separados por comas: ")
-        parametros = tuple(str_parametros.split(", "))
-        for usuario in server.clientes:
-            server.send_command(comando, parametros, usuario)
-            server.log(usuario, evento="Instruccion", detalles=comando)
+        time.sleep(3)
+        server.send_command_to_all("Hola", [1, 2, 3])
+        pass

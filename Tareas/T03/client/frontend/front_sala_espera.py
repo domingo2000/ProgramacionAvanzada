@@ -34,8 +34,10 @@ class VentanaEspera(window_name, base_class):
         parametros = tupla_comando[1]
         if comando in self.comandos:
             metodo = self.comandos[comando]
-            print(parametros)
-            metodo(*parametros)
+            if parametros[0] is not None:
+                metodo(*parametros)
+            else:
+                metodo()
 
 
 if __name__ == "__main__":
