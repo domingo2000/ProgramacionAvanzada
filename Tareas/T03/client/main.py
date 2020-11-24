@@ -1,5 +1,5 @@
 import sys
-from front_cliente import VentanaEspera
+from frontend.front_sala_espera import VentanaEspera
 from networking import ClientNet
 from PyQt5.QtWidgets import QApplication
 
