@@ -1,5 +1,7 @@
 
 \sprites
+\diagramas
+
 generador_de_cartas.py
 generador_grilla.py
 grafo.json
