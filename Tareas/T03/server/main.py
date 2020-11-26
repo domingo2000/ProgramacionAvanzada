@@ -8,9 +8,3 @@ if __name__ == "__main__":
         data = json.load(file)
     server = Server(data["host"], data["port"])
 
-    """
-    while True:
-        time.sleep(10)
-        server.net.send_command_to_all("cargar_mapa", [server.mapa])
-        server.net.send_command_to_all("hola", [1, 2, 3])
-    """

@@ -15,10 +15,6 @@ class VentanaJuego(window_name, base_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.comandos = {
-            "close_window_game": self.hide,
-            "open_window_game": self.show
-        }
 
         self.labels_num_fichas = {
             "0": self.label_ficha0,
@@ -56,13 +52,3 @@ class VentanaJuego(window_name, base_class):
         pixmap_materia_prima = QPixmap(ruta_materia_prima)
         label_hexagono = self.labels_hexagonos[id_hexagono]
         label_hexagono.setPixmap(pixmap_materia_prima)
-
-    def realizar_comando(self, tupla_comando):
-        comando = tupla_comando[0]
-        parametros = tupla_comando[1]
-        if comando in self.comandos:
-            metodo = self.comandos[comando]
-            if parametros[0] is not None:
-                metodo(*parametros)
-            else:
-                metodo()

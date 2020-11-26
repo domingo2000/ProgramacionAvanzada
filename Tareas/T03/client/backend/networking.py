@@ -1,32 +1,30 @@
 import socket
 from threading import Thread
-import sys
 import json
 import pickle
-from PyQt5.QtCore import pyqtSignal, QObject
 
 
-class ClientNet(QObject):
-    senal_comando = pyqtSignal(tuple)
+class ClientNet():
 
-    def __init__(self):
+    def __init__(self, host, port):
         print("Inicializando Cliente")
         super().__init__()
-        with open("parametros.json", "r") as file:
-            data = json.loads(file.read())
-        self.host = data["host"]
-        self.port = data["port"]
-        self.socket_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+        self.host = host
+        self.port = port
+        self.socket_cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.stack_comandos = []
+        self.comando_realizado = True
         try:
             conexion_exitosa = self.connect_to_server()
             if conexion_exitosa:
                 self.listen()
+            else:
+                self.socket_cliente.close()
+                self.log("cerrando socket")
         except ConnectionError:
             print("No debería estar aquí")
-            print("Conexión terminada.")
-            self.socket_client.close()
-            sys.exit()
+            self.socket_cliente.close()
+            self.log("Socket Cerrado", "inicializando Cliente")
 
     def connect_to_server(self):
         """
@@ -37,7 +35,7 @@ class ClientNet(QObject):
         """
         try:
             print("Tratando de conectar al servidor")
-            self.socket_client.connect((self.host, self.port))
+            self.socket_cliente.connect((self.host, self.port))
 
             # Revisa si se logro conectar
             respuesta = self.recive_message()
@@ -47,13 +45,11 @@ class ClientNet(QObject):
                 return True
             elif respuesta == "rechazado":
                 print("Servidor Lleno")
-                self.socket_client.close()
-                print("cerrando Socket")
-                return False
+                return True
 
         except ConnectionError:
             print("No se ha podido conectar al servidor")
-            self.socket_client.close()
+            self.socket_cliente.close()
             return False
 
     def listen(self):
@@ -68,21 +64,24 @@ class ClientNet(QObject):
         """
         while True:
             try:
-                self.recive_command()
+                data = self.recive_data()
+                comando = pickle.loads(data)
+                self.añadir_comando(comando)
             except ConnectionError:
-                print("Servidor Desconectado")
-                self.socket_client.close()
-                print("Socket cerrado")
+                self.log("Servidor Desconectado", "listen_thread")
+                self.socket_cliente.close()
+                self.log("Socket Cerrado", "listen_thread")
+                break
 
     def recive_data(self):
         # Protocolo de informacion
         data = bytearray()
-        bytes_largo = self.socket_client.recv(4)
+        bytes_largo = self.socket_cliente.recv(4)
         largo_bytes = int.from_bytes(bytes_largo, byteorder="big")
         numero_chunks = (largo_bytes // 60) + 1
         for i in range(numero_chunks):
-            numero_bloque = self.socket_client.recv(4)
-            data_bloque = self.socket_client.recv(60)
+            numero_bloque = self.socket_cliente.recv(4)
+            data_bloque = self.socket_cliente.recv(60)
             if i == (numero_chunks - 1):
                 data_bloque = data_bloque[0: (largo_bytes % 60)]
             data.extend(data_bloque)
@@ -92,17 +91,15 @@ class ClientNet(QObject):
         else:
             return data
 
-    def recive_command(self):
-        data = self.recive_data()
-        comando = pickle.loads(data)
-        self.realizar_comando(comando)
+    def añadir_comando(self, comando):
+        if comando[0] != "":
+            self.stack_comandos.append(comando)
+            self.comando_realizado = False
+            self.log("comando recibido", comando[0])
 
     def recive_message(self):
         data = self.recive_data()
         return data.decode("utf-8")
-
-    def realizar_comando(self, comando):
-        self.senal_comando.emit(comando)
 
     def send_bytes(self, bytes):
         """
@@ -128,13 +125,32 @@ class ClientNet(QObject):
             chunk_bytes = bytes[i * 60: (i + 1) * 60]
             data.extend(chunk_bytes)
 
-        self.socket_client.sendall(data)
+        self.socket_cliente.sendall(data)
+
+    def send_command(self, comando, parametros=None):
+        """
+        Envia un comando serializado al usuario de la forma
+        tupla: ("comando": (parametros))
+
+        los parametros son recibidos como una lista de parametros
+        """
+        tupla = (comando, parametros)
+        tupla_serializado = pickle.dumps(tupla)
+        self.send_bytes(tupla_serializado)
+
+        if comando != "":
+            self.log("enviando comando", comando)
+
+    def log(self, evento="-", detalles="-"):
+        print(f"{evento: ^25} | {detalles: ^25}")
 
 
 if __name__ == "__main__":
     import time
     cliente = ClientNet()
     while True:
-        time.sleep(4)
-        print("main thread")
-        pass
+        comando = input("Ingrese el nombre del comando: ")
+        parametros = []
+        entrada = input("Ingrese un string para parametro: ")
+        parametros.append(entrada)
+        cliente.send_command(comando, parametros)

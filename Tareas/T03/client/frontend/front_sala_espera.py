@@ -40,6 +40,9 @@ class VentanaEspera(window_name, base_class):
             else:
                 metodo()
 
+    def actualizar_label_sala_espera(self, string):
+        self.label_sala_espera.setText(string)
+
 
 if __name__ == "__main__":
     app = QApplication([])

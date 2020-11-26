@@ -3,17 +3,16 @@ from threading import Thread
 import json
 import pickle
 from faker import Faker
-from PyQt5.QtCore import pyqtSignal, QObject
 
 
-class ServerNet(QObject):
-    senal_realizar_comando = pyqtSignal(tuple)
+class ServerNet():
 
     def __init__(self, host, port):
         print("Inicializando Server")
-        super().__init__()
         self.host = host
         self.port = port
+        self.stack_comandos = []
+        self.comando_realizado = True
         self.faker = Faker()
         self.clientes = {}
         # Crea el socket del servidor
@@ -28,26 +27,27 @@ class ServerNet(QObject):
         self.socket_server.listen()
         print(f"Servidor escuchando en {self.host}:{self.port}...")
 
-    def aceptar_usuario(self, usuario, client_socket, booleano):
+    def aceptar_usuario(self, usuario, socket_cliente, booleano):
         print("Aceptando usuario")
         """
         Se encarga de aceptar o rechazar al usuario segun el booleano
         ademas le envia al usuario un mensaje por si se acepto o rechazo
         y crea el thread de escucha al usuario en caso de ser aceptado
         """
-        self.clientes[usuario] = client_socket
+        self.clientes[usuario] = socket_cliente
         if booleano:
             self.send_message("aceptado", usuario)
             # Crea el thread de escucha
             thread_escucha = Thread(target=self.thread_escucha_usuario,
-                                    args=(client_socket, ),
+                                    args=(socket_cliente, usuario, ),
                                     daemon=True)
             thread_escucha.start()
             # Envia el log de conexion exitosa
             self.log(usuario, "conectado", "aceptado")
-            self.realizar_comando(("anadir_usuario", [usuario]))
+            self.send_command_to_all("actualizar_usuarios", [list(self.clientes.keys())])
         else:
             self.send_message("rechazado", usuario)
+            self.send_command("servidor_lleno", usuario)
             # Remueve el usuario de la lista de clientes
             del self.clientes[usuario]
             self.log(usuario, "conectado", "rechazado")
@@ -76,20 +76,24 @@ class ServerNet(QObject):
     def thread_aceptar_clientes(self):
         while True:
             print("Aceptando Clientes")
-            client_socket, ip = self.socket_server.accept()
+            socket_cliente, ip = self.socket_server.accept()
             print("Cliente aceptado")
             usuario = self.crear_usuario()
             servidor_lleno = self.lleno()
             if servidor_lleno:  # Rechaza al usuario
-                self.aceptar_usuario(usuario, client_socket, False)
-                # Codigo Comenzar Juego
-                self.log("Server", "Comenzando Juego")
+                self.aceptar_usuario(usuario, socket_cliente, False)
             else:  # Acepta al usuario
-                self.aceptar_usuario(usuario, client_socket, True)
+                self.aceptar_usuario(usuario, socket_cliente, True)
 
-    def thread_escucha_usuario(self, socket_cliente):
-        # Completar thread de escucha de usuario
-        pass
+    def thread_escucha_usuario(self, socket_cliente, usuario):
+        while True:
+            try:
+                data = self.recive_data(socket_cliente)
+                comando = pickle.loads(data)
+                self.añadir_comando(comando)
+            except ConnectionError:
+                self.desconectar_usuario(usuario)
+                break
 
     def log(self, nombre_usuario="-", evento="-", detalles="-"):
         print(f"{nombre_usuario: ^25} | {evento: ^25} | {detalles: ^25}")
@@ -128,7 +132,7 @@ class ServerNet(QObject):
         self.send_bytes(mensaje.encode("utf-8"), usuario)
         self.log(usuario, "mensaje", mensaje)
 
-    def send_command(self, comando, parametros, usuario):
+    def send_command(self, comando, usuario, parametros=None):
         """
         Envia un comando serializado al usuario de la forma
         tupla: ("comando": (parametros))
@@ -138,33 +142,36 @@ class ServerNet(QObject):
         tupla = (comando, parametros)
         tupla_serializado = pickle.dumps(tupla)
         self.send_bytes(tupla_serializado, usuario)
-        self.log("Server", "enviar_comando", usuario)
 
-    def send_command_to_all(self, comando, parametros):
+        if comando != "":
+            self.log("Server", "enviar_comando", usuario)
+
+    def send_command_to_all(self, comando, parametros=None):
         """
         Envia un comando serializado a todos los usuarios
         parametros recibidos como lista [a, b, c]
         """
         for usuario in self.clientes.copy():
-            self.send_command(comando, parametros, usuario)
+            self.send_command(comando, usuario, parametros)
 
-    def realizar_comando(self, comando):
-        self.senal_realizar_comando.emit(comando)
-        self.log("Server", "Realizando Comando", comando[0])
+    def añadir_comando(self, comando):
+        self.stack_comandos.append(comando)
+        self.comando_realizado = False
+        self.log("Server", "Añadido Comando", comando[0])
 
-    def recive_data(self):
+    def recive_data(self, socket_cliente):
         """
         Recibe datos con el protocolo del enunciado, en caso de ser
         un byte vacio pasa, si otra cosa ejecuta el comando.
         """
         # Protocolo de informacion
         data = bytearray()
-        bytes_largo = self.socket_client.recv(4)
+        bytes_largo = socket_cliente.recv(4)
         largo_bytes = int.from_bytes(bytes_largo, byteorder="big")
         numero_chunks = (largo_bytes // 60) + 1
         for i in range(numero_chunks):
-            numero_bloque = self.socket_client.recv(4)
-            data_bloque = self.socket_client.recv(60)
+            numero_bloque = socket_cliente.recv(4)
+            data_bloque = socket_cliente.recv(60)
             if i == (numero_chunks - 1):
                 data_bloque = data_bloque[0: (largo_bytes % 60)]
             data.extend(data_bloque)
@@ -172,13 +179,13 @@ class ServerNet(QObject):
         if data == "":
             pass
         else:
-            # Completar ejecutar comando
-            pass
+            return data
 
     def desconectar_usuario(self, usuario):
         socket_cliente = self.clientes.pop(usuario)
         socket_cliente.close()
-        self.log(usuario, "Desconectado")
+        self.log(usuario, "Desconectado", usuario)
+        self.send_command_to_all("actualizar_usuarios", [list(self.clientes.keys())])
 
 
 if __name__ == "__main__":
@@ -190,6 +197,8 @@ if __name__ == "__main__":
     port = data["port"]
     server = ServerNet(host, port)
     while True:
-        time.sleep(3)
-        server.send_command_to_all("Hola", [1, 2, 3])
-        pass
+        comando = input("Ingrese el nombre del comando: ")
+        parametros = []
+        entrada = input("Ingrese un string para parametro: ")
+        parametros.append(entrada)
+        server.send_command_to_all(comando, parametros)

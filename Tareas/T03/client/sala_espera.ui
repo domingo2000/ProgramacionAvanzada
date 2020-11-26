@@ -80,7 +80,7 @@ font-style: italic;</string>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="label_sala_espera">
          <property name="styleSheet">
           <string notr="true">font-size: 15pt;</string>
          </property>
