@@ -4,6 +4,7 @@ from backend.networking import ClientNet
 
 class BackVentanaJuego(QObject):
     senal_actualizar_num_ficha = pyqtSignal(str, int)
+    senal_actualizar_materias_primas = pyqtSignal(dict)
     senal_actualizar_materia_prima_hexagono = pyqtSignal(str, str)
     senal_actualizar_usuarios = pyqtSignal(list)
     senal_servidor_lleno = pyqtSignal(str)
@@ -15,15 +16,24 @@ class BackVentanaJuego(QObject):
     def __init__(self, host, port):
         super().__init__()
         self.net = ClientNet(host, port)
+        self.usuario_propio = None
         self.comandos = {
             "cargar_mapa": self.cargar_mapa,
             "test": self.test,
+            "set_user": self.fijar_usuario,
             "actualizar_usuarios": self.actualizar_usuarios,
+            "actualizar_materias_primas": self.senal_actualizar_materias_primas.emit,
             "servidor_lleno": self.alerta_servidor_lleno,
             "close_wait_room": self.senal_cerrar_sala_espera.emit,
             "close_game_room": self.senal_cerrar_ventana_juego.emit,
             "open_wait_room": self.senal_abrir_sala_espera.emit,
             "open_game_room": self.senal_abrir_ventana_juego.emit
+        }
+        self.usuarios_id = {
+            "nombre_0": "0",
+            "nombre_1": "1",
+            "nombre_2": "2",
+            "nombre_3": "3",
         }
         # Timer Que revisa los comandos Todo el tiempo
         self.timer_revisar_comando = QTimer()
@@ -64,9 +74,19 @@ class BackVentanaJuego(QObject):
                 self.net.comando_realizado = True
                 self.net.log("Comando Realizado", comando)
 
+    def fijar_usuario(self, usuario):
+        self.usuario_propio = usuario
+
     def actualizar_usuarios(self, usuarios):
         self.senal_actualizar_usuarios.emit(usuarios)
         self.net.log("Actualizando Usuarios")
+        id = 1
+        for usuario in usuarios:
+            if usuario == self.usuario_propio:
+                self.usuarios_id[usuario] = "0"
+            else:
+                self.usuarios_id[usuario] = str(id)
+                id += 1
 
     def test(self):
         self.net.log("Test", "None")
@@ -74,6 +94,19 @@ class BackVentanaJuego(QObject):
     def alerta_servidor_lleno(self):
         mensaje = "El Servidor se encuentra lleno, espere a que haya terminado la partida"
         self.senal_servidor_lleno.emit(mensaje)
+
+    def actualizar_materias_primas(self, dict_usuarios_materias):
+        """
+        Recibe un diccionario de la forma:
+        {"usuario": {"madera": 0, "arcilla": 0, "trigo": 0},...}
+        y actualiza los labels de los puntos
+        """
+        dict_id_materias = {}
+        for usuario in dict_usuarios_materias:
+            id_usuario = self.usuarios_id[usuario]
+            contenido = dict_usuarios_materias[usuario]
+            dict_id_materias[id_usuario] = contenido
+        self.senal_actualizar_materias_primas.emit(dict_id_materias)
 
 
 if __name__ == "__main__":
