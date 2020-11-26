@@ -44,6 +44,8 @@ class ServerNet():
             thread_escucha.start()
             # Envia el log de conexion exitosa
             self.log(usuario, "conectado", "aceptado")
+            print("Usuario")
+            self.send_command("set_user", usuario, [usuario])
             self.send_command_to_all("actualizar_usuarios", [list(self.clientes.keys())])
         else:
             self.send_message("rechazado", usuario)
@@ -53,7 +55,7 @@ class ServerNet():
             self.log(usuario, "conectado", "rechazado")
 
     def lleno(self):
-        if len(self.clientes) >= 2:
+        if len(self.clientes) >= 4:
             return True
         else:
             return False

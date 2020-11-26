@@ -24,7 +24,6 @@ class Server():
     def start(self):
         while not self.net.lleno():
             pass
-            print("Hola")
         self.net.log("server", "iniciando partida")
         self.iniciar_partida()
 

@@ -142,7 +142,7 @@ class ClientNet():
             self.log("enviando comando", comando)
 
     def log(self, evento="-", detalles="-"):
-        print(f"{evento: ^25} | {detalles: ^25}")
+            print(f"{evento: ^25} | {detalles: ^25}")
 
 
 if __name__ == "__main__":

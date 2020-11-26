@@ -15,3 +15,7 @@ class Juego():
     def iniciar_juego(self):
         numeros, materias_primas = self.mapa.datos_mapa()
         self.net.send_command_to_all("cargar_mapa", [numeros, materias_primas])
+        self.net.send_command_to_all("cargar_usuarios")
+
+    def actualizar_materias_primas(self):
+        dict_materias = {}

@@ -12,6 +12,7 @@ class BackVentanaJuego(QObject):
     senal_cerrar_ventana_juego = pyqtSignal()
     senal_abrir_sala_espera = pyqtSignal()
     senal_abrir_ventana_juego = pyqtSignal()
+    senal_cambiar_label_usuario = pyqtSignal(str, str)
 
     def __init__(self, host, port):
         super().__init__()
@@ -19,6 +20,7 @@ class BackVentanaJuego(QObject):
         self.usuario_propio = None
         self.comandos = {
             "cargar_mapa": self.cargar_mapa,
+            "cargar_usuarios": self.cargar_labels_usuarios,
             "test": self.test,
             "set_user": self.fijar_usuario,
             "actualizar_usuarios": self.actualizar_usuarios,
@@ -101,13 +103,22 @@ class BackVentanaJuego(QObject):
         {"usuario": {"madera": 0, "arcilla": 0, "trigo": 0},...}
         y actualiza los labels de los puntos
         """
-        dict_id_materias = {}
-        for usuario in dict_usuarios_materias:
-            id_usuario = self.usuarios_id[usuario]
-            contenido = dict_usuarios_materias[usuario]
-            dict_id_materias[id_usuario] = contenido
+        dict_id_materias = self.transformar_dict_usuario_id(dict_usuarios_materias)
         self.senal_actualizar_materias_primas.emit(dict_id_materias)
 
+    def transformar_dict_usuario_id(self, dict_usuario_contenido):
+        dict_id_contenido = {}
+        for usuario in dict_usuario_contenido:
+            id_usuario = self.usuarios_id[usuario]
+            contenido = dict_usuario_contenido[usuario]
+            dict_id_contenido[id_usuario] = contenido
+
+        return dict_id_contenido
+
+    def cargar_labels_usuarios(self):
+        for usuario in self.usuarios_id:
+            id = self.usuarios_id[usuario]
+            self.senal_cambiar_label_usuario.emit(id, usuario)
 
 if __name__ == "__main__":
     import json

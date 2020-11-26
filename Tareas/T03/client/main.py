@@ -29,5 +29,6 @@ if __name__ == "__main__":
     back_juego.senal_actualizar_num_ficha.connect(ventana_juego.actualizar_num_ficha)
     back_juego.senal_actualizar_materia_prima_hexagono.connect(
         ventana_juego.actualizar_materia_prima_hexagono)
+    back_juego.senal_cambiar_label_usuario.connect(ventana_juego.actualizar_label_usuario)
     ventana_espera.show()
     sys.exit(app.exec_())

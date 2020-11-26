@@ -41,24 +41,28 @@ class VentanaJuego(window_name, base_class):
             "8": self.label_h8,
             "9": self.label_h9
         }
-        self.labels_cartas_arcilla = {
-            "0": self.arcilla_j0,
-            "1": self.arcilla_j1,
-            "2": self.arcilla_j2,
-            "3": self.arcilla_j3,
+
+        self.labels_usuarios = {
+            "0": self.nombre_j0,
+            "1": self.nombre_j1,
+            "2": self.nombre_j2,
+            "3": self.nombre_j3,
         }
-        self.labels_cartas_madera = {
-            "0": self.madera_j0,
-            "1": self.madera_j1,
-            "2": self.madera_j2,
-            "3": self.madera_j3,
+        self.labels_materias_primas = {
+            "arcilla": {"0": self.arcilla_j0,
+                        "1": self.arcilla_j1,
+                        "2": self.arcilla_j2,
+                        "3": self.arcilla_j3},
+            "madera": {"0": self.madera_j0,
+                       "1": self.madera_j1,
+                       "2": self.madera_j2,
+                       "3": self.madera_j3},
+            "trigo": {"0": self.trigo_j0,
+                      "1": self.trigo_j1,
+                      "2": self.trigo_j2,
+                      "3": self.trigo_j3}
         }
-        self.labels_cartas_trigo = {
-            "0": self.trigo_j0,
-            "1": self.trigo_j1,
-            "2": self.trigo_j2,
-            "3": self.trigo_j3,
-        }
+
         self.labels_dados = {
             "dado_1": self.dado_1,
             "dado_2": self.dado_2
@@ -90,11 +94,17 @@ class VentanaJuego(window_name, base_class):
         for id_jugador in dict_puntos:
             self.labels_puntos[id_jugador].setText(dict_puntos[id_jugador])
 
-    def actualizar_cartas(self, dict_cartas):
+    def actualizar_materias_primas(self, dict_materias_primas):
         """
         Recibe un diccionario de la forma:
-        {"id_jugador": {}, "id_jugador_2": puntos,...}
+        {"id_jugador": {"madera": 0, "arcilla": 0, "trigo": 0},...}
         y actualiza los labels de los puntos
         """
-        for id_jugador in dict_puntos:
+        for id_jugador in dict_materias_primas:
+            for materia_prima in dict_materias_primas[id_jugador]:
+                valor = dict_materias_primas[id_jugador][materia_prima]
+                self.labels_materias_primas[materia_prima][id_jugador].setText(valor)
             self.labels_puntos[id_jugador].setText(dict_puntos[id_jugador])
+
+    def actualizar_label_usuario(self, id, usuario):
+        self.labels_usuarios[id].setText(usuario)
