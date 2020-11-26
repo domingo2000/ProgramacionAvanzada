@@ -46,6 +46,14 @@ class CartaMonopolio(CartaDesarrollo):
         super().__init__("monopolio")
 
 
+class Mazo:
+
+    def __init__(self):
+        self.cartas = {"madera": 0, "arcilla": 0, "trigo": 0}
+    
+    def carta(self, carta):
+        pass
+
 if __name__ == "__main__":
     carta_madera = CartaMateriaPrima("madera")
     carta_arcilla = CartaMateriaPrima("arcilla")
@@ -55,13 +63,13 @@ if __name__ == "__main__":
     carta_punto_victoria_1 = CartaPuntoVictoria(1)
     carta_punto_victoria_2 = CartaPuntoVictoria(2)
 
-    mazo = []
+    mazo = Mazo()
     mazo.append(carta_arcilla)
     mazo.append(carta_trigo)
     mazo.append(carta_monopolio)
     mazo.append(carta_punto_victoria_1)
     mazo.append(carta_punto_victoria_2)
 
-    print(mazo)
+
     print(carta_monopolio.costo)
     print(carta_punto_victoria_1.tipo)

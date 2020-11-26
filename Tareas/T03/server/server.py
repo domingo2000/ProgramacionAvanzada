@@ -1,5 +1,4 @@
-from banco import Banco
-from mapa.mapa import Mapa
+from juego.juego import Juego
 from networking import ServerNet
 from threading import Thread
 import time
@@ -13,23 +12,21 @@ class Server():
         self.net = ServerNet(host, port)
         # Atributos del juego
         self.usuarios = []
-        self.banco = Banco()
-        self.mapa = Mapa()
-
+        self.juego = None
         self.comandos = {
-            "comprar_choza": self.banco.comprar_choza,
-            "comprar_carretera": self.banco.comprar_carretera,
-            "comprar_desarrollo": self.banco.comprar_desarrollo,
             "test": self.test
         }
         thread_revisar_comandos = Thread(target=self.thread_revisar_comandos,
                                          daemon=True)
         thread_revisar_comandos.start()
-        #self.start()
+        self.start()
 
     def start(self):
         while not self.net.lleno():
             pass
+            print("Hola")
+        self.net.log("server", "iniciando partida")
+        self.iniciar_partida()
 
     def thread_revisar_comandos(self):
         while True:
@@ -55,14 +52,16 @@ class Server():
             metodo()
 
         self.net.log("Server", "Realizado Comando", nombre_comando)
-    #  METODOS DEL JUEGO ###
 
     def iniciar_partida(self):
+        usuarios = list(self.net.clientes.keys())
+        self.juego = Juego(usuarios, self.net)
+        """
         self.mapa.cargar_mapa()
         self.send_command_to_all("close_window_wait")
         self.send_command_to_all("open_window_game")
         self.send_command_to_all("cargar_mapa")
-
+        """
     def test(self):
         self.net.log("Server", "Test", "None")
 
