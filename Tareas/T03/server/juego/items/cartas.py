@@ -1,5 +1,5 @@
 import json
-from funciones import crear_diccionario_costos
+from juego.items.funciones import crear_diccionario_costos
 
 # Importa los datos del archivo de parametros
 with open("parametros.json") as file:
@@ -50,9 +50,11 @@ class Mazo:
 
     def __init__(self):
         self.cartas = {"madera": 0, "arcilla": 0, "trigo": 0}
-    
-    def carta(self, carta):
-        pass
+
+    def añadir_carta(self, materia_prima):
+        carta = CartaMateriaPrima(materia_prima)
+        self.cartas[carta.materia] += 1
+
 
 if __name__ == "__main__":
     carta_madera = CartaMateriaPrima("madera")

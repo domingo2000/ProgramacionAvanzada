@@ -702,7 +702,7 @@ font-size: 15px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_16">
+          <widget class="QLabel" name="arcilla_j0">
            <property name="maximumSize">
             <size>
              <width>33</width>
@@ -765,7 +765,7 @@ font-size: 15px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_18">
+          <widget class="QLabel" name="madera_j0">
            <property name="maximumSize">
             <size>
              <width>33</width>
@@ -898,7 +898,7 @@ font-size: 15px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_20">
+          <widget class="QLabel" name="trigo_j0">
            <property name="maximumSize">
             <size>
              <width>33</width>
@@ -1029,7 +1029,7 @@ border-radius: 20px;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_9">
        <item>
-        <widget class="QLabel" name="label_21">
+        <widget class="QLabel" name="nombre_j1">
          <property name="styleSheet">
           <string notr="true">color:#DD00DD;</string>
          </property>
@@ -1039,7 +1039,7 @@ border-radius: 20px;</string>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_22">
+        <widget class="QLabel" name="puntos_j1">
          <property name="text">
           <string>Puntos: 0</string>
          </property>
@@ -1087,7 +1087,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_24">
+               <widget class="QLabel" name="arcilla_j1">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1147,7 +1147,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_32">
+               <widget class="QLabel" name="madera_j1">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1207,7 +1207,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_30">
+               <widget class="QLabel" name="trigo_j1">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1242,7 +1242,7 @@ border-radius: 20px;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_10">
        <item>
-        <widget class="QLabel" name="label_25">
+        <widget class="QLabel" name="nombre_j2">
          <property name="styleSheet">
           <string notr="true">color:#DD00DD;</string>
          </property>
@@ -1252,7 +1252,7 @@ border-radius: 20px;</string>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_26">
+        <widget class="QLabel" name="puntos_j2">
          <property name="text">
           <string>Puntos: 0</string>
          </property>
@@ -1300,7 +1300,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_28">
+               <widget class="QLabel" name="arcilla_j2">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1360,7 +1360,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_34">
+               <widget class="QLabel" name="madera_j2">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1420,7 +1420,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_36">
+               <widget class="QLabel" name="trigo_j2">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1455,7 +1455,7 @@ border-radius: 20px;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_11">
        <item>
-        <widget class="QLabel" name="label_37">
+        <widget class="QLabel" name="nombre_j3">
          <property name="styleSheet">
           <string notr="true">color:#DD00DD;</string>
          </property>
@@ -1465,7 +1465,7 @@ border-radius: 20px;</string>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_38">
+        <widget class="QLabel" name="puntos_j3">
          <property name="text">
           <string>Puntos: 0</string>
          </property>
@@ -1513,7 +1513,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_40">
+               <widget class="QLabel" name="arcilla_j3">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1573,7 +1573,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_42">
+               <widget class="QLabel" name="madera_j3">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1633,7 +1633,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_44">
+               <widget class="QLabel" name="trigo_j3">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1671,7 +1671,7 @@ border-radius: 20px;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_53">
+       <widget class="QLabel" name="label_j_carretera">
         <property name="text">
          <string>JUGADOR_X</string>
         </property>
@@ -1692,12 +1692,12 @@ border-radius: 20px;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_15">
        <item>
-        <widget class="QLabel" name="label_54">
+        <widget class="QLabel" name="nombre_j0">
          <property name="styleSheet">
           <string notr="true">color:#DD00DD;</string>
          </property>
          <property name="text">
-          <string>Jugador_4 (Tú)</string>
+          <string>Jugador_0 (Tú)</string>
          </property>
         </widget>
        </item>
@@ -1743,7 +1743,7 @@ border-radius: 20px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_57">
+               <widget class="QLabel" name="puntos_victoria">
                 <property name="maximumSize">
                  <size>
                   <width>33</width>
@@ -1784,7 +1784,7 @@ border-radius: 20px;</string>
             <item>
              <layout class="QHBoxLayout" name="layoutcarta_19">
               <item>
-               <widget class="QLabel" name="label_61">
+               <widget class="QLabel" name="puntos_j0">
                 <property name="maximumSize">
                  <size>
                   <width>10000000</width>

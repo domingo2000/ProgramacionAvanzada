@@ -25,6 +25,6 @@
         }
     },
     "rutas": {
-        "grafo": ["mapa", "grafo.json"]
+        "grafo": ["juego", "mapa", "grafo.json"]
     }
 }

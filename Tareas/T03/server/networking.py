@@ -53,7 +53,7 @@ class ServerNet():
             self.log(usuario, "conectado", "rechazado")
 
     def lleno(self):
-        if len(self.clientes) >= 1:
+        if len(self.clientes) >= 2:
             return True
         else:
             return False
@@ -144,7 +144,7 @@ class ServerNet():
         self.send_bytes(tupla_serializado, usuario)
 
         if comando != "":
-            self.log("Server", "enviar_comando", usuario)
+            self.log("Server", f"comando: {comando}", usuario)
 
     def send_command_to_all(self, comando, parametros=None):
         """

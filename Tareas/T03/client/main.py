@@ -16,7 +16,18 @@ if __name__ == "__main__":
     ventana_espera = VentanaEspera()
     ventana_juego = VentanaJuego()
     back_juego = BackVentanaJuego(data["host"], data["port"])
+
+    #  CONEXIONES FRONT BACK
+    back_juego.senal_abrir_sala_espera.connect(ventana_espera.show)
+    back_juego.senal_abrir_ventana_juego.connect(ventana_juego.show)
+    back_juego.senal_cerrar_sala_espera.connect(ventana_espera.hide)
+    back_juego.senal_cerrar_ventana_juego.connect(ventana_juego.hide)
+
     back_juego.senal_actualizar_usuarios.connect(ventana_espera.actualizar_usuarios)
     back_juego.senal_servidor_lleno.connect(ventana_espera.actualizar_label_sala_espera)
+
+    back_juego.senal_actualizar_num_ficha.connect(ventana_juego.actualizar_num_ficha)
+    back_juego.senal_actualizar_materia_prima_hexagono.connect(
+        ventana_juego.actualizar_materia_prima_hexagono)
     ventana_espera.show()
     sys.exit(app.exec_())

@@ -56,12 +56,9 @@ class Server():
     def iniciar_partida(self):
         usuarios = list(self.net.clientes.keys())
         self.juego = Juego(usuarios, self.net)
-        """
-        self.mapa.cargar_mapa()
-        self.send_command_to_all("close_window_wait")
-        self.send_command_to_all("open_window_game")
-        self.send_command_to_all("cargar_mapa")
-        """
+        self.net.send_command_to_all("close_wait_room")
+        self.net.send_command_to_all("open_game_room")
+
     def test(self):
         self.net.log("Server", "Test", "None")
 

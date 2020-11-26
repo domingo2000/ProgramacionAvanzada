@@ -7,6 +7,10 @@ class BackVentanaJuego(QObject):
     senal_actualizar_materia_prima_hexagono = pyqtSignal(str, str)
     senal_actualizar_usuarios = pyqtSignal(list)
     senal_servidor_lleno = pyqtSignal(str)
+    senal_cerrar_sala_espera = pyqtSignal()
+    senal_cerrar_ventana_juego = pyqtSignal()
+    senal_abrir_sala_espera = pyqtSignal()
+    senal_abrir_ventana_juego = pyqtSignal()
 
     def __init__(self, host, port):
         super().__init__()
@@ -15,7 +19,11 @@ class BackVentanaJuego(QObject):
             "cargar_mapa": self.cargar_mapa,
             "test": self.test,
             "actualizar_usuarios": self.actualizar_usuarios,
-            "servidor_lleno": self.alerta_servidor_lleno
+            "servidor_lleno": self.alerta_servidor_lleno,
+            "close_wait_room": self.senal_cerrar_sala_espera.emit,
+            "close_game_room": self.senal_cerrar_ventana_juego.emit,
+            "open_wait_room": self.senal_abrir_sala_espera.emit,
+            "open_game_room": self.senal_abrir_ventana_juego.emit
         }
         # Timer Que revisa los comandos Todo el tiempo
         self.timer_revisar_comando = QTimer()
@@ -34,12 +42,12 @@ class BackVentanaJuego(QObject):
         else:
             pass
 
-    def cargar_mapa(self, mapa):
+    def cargar_mapa(self, numeros, materias_primas):
         self.net.log("Cargando Mapa")
-        for id_hexagono in mapa.hexagonos:
-            hexagono = mapa.hexagonos[id_hexagono]
-            num_ficha = hexagono.num_ficha
-            materia_prima = hexagono.materia_prima
+        for id_hexagono in range(len(numeros)):
+            num_ficha = numeros[id_hexagono]
+            materia_prima = materias_primas[id_hexagono]
+            id_hexagono = str(id_hexagono)
             self.senal_actualizar_num_ficha.emit(id_hexagono, num_ficha)
             self.senal_actualizar_materia_prima_hexagono.emit(id_hexagono, materia_prima)
 

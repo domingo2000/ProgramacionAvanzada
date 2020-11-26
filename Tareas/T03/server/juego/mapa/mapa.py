@@ -42,6 +42,7 @@ class Mapa:
         self.dimensiones = [0, 0]
         self.nodos = {}
         self.hexagonos = {}
+        self.cargar_mapa()
 
     def adyacentes(self, id_nodo_1, id_nodo_2):
         """
@@ -130,6 +131,17 @@ class Mapa:
         for id_hexagono in self.hexagonos:
             hexagono = self.hexagonos[id_hexagono]
             hexagono.materia_prima = materias_escogidas.pop()
+
+    def datos_mapa(self):
+        numeros = []
+        materias_primas = []
+        for id_hexagono in self.hexagonos:
+            hexagono = self.hexagonos[id_hexagono]
+            num_ficha = hexagono.num_ficha
+            materia_prima = hexagono.materia_prima
+            numeros.append(num_ficha)
+            materias_primas.append(materia_prima)
+        return numeros, materias_primas
 
 
 if __name__ == "__main__":
