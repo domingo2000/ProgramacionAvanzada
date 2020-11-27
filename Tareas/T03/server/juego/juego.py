@@ -60,7 +60,7 @@ class Juego():
         self.actualizar_materias_primas()
         self.actualizar_construcciones()
         self.asignar_casas_aleatorias()
-        self.repartir_materias_primas()
+        self.repartir_materias_primas_iniciales()
 
     def fase_juego(self):
         self.net.log("Server", "Iniciando Juego")
@@ -74,8 +74,14 @@ class Juego():
         self.net.send_command("throw_dices", usuario)
         while not self.dados_lanzados:
             pass
+        # Reparte las masterias primas
+        suma_dados = self.dados[0] + self.dados[1]
+        if suma_dados == 7:
+            pass
+        else:
+            self.repartir_materias_primas(suma_dados)
+
         self.net.send_command("activar_interfaz", usuario, [True])
-        time.sleep(5)
         self.net.send_command("activar_interfaz", usuario, [False])
         self.dados_lanzados = False
 
@@ -133,7 +139,7 @@ class Juego():
         self.dados_lanzados = True
         self.net.log("server", "lanzando dados", f"{dado_1}, {dado_2}")
 
-    def repartir_materias_primas(self):
+    def repartir_materias_primas_iniciales(self):
         for id_hexagono in self.mapa.hexagonos:
             hexagono = self.mapa.hexagonos[id_hexagono]
             materia_prima = hexagono.materia_prima
@@ -143,6 +149,19 @@ class Juego():
                     usuario = nodo.usuario_presente
                     mazo = self.mazos[usuario]
                     mazo.cartas[materia_prima] += 1
+        self.actualizar_materias_primas()
+
+    def repartir_materias_primas(self, suma_dados):
+        for id_hexagono in self.mapa.hexagonos:
+            hexagono = self.mapa.hexagonos[id_hexagono]
+            if hexagono.num_ficha == suma_dados:
+                materia_prima = hexagono.materia_prima
+                for id_nodo in hexagono.nodos:
+                    nodo = hexagono.nodos[id_nodo]
+                    if nodo.estado == "ocupado":
+                        usuario = nodo.usuario_presente
+                        mazo = self.mazos[usuario]
+                        mazo.cartas[materia_prima] += 1
         self.actualizar_materias_primas()
 
     def thread_revisar_comandos(self):
