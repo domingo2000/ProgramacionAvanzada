@@ -6,19 +6,35 @@
         "hex_madera": ["sprites", "Materias_primas", "hexagono_madera.png"],
         "hex_arcilla": ["sprites", "Materias_primas", "hexagono_arcilla.png"],
         "hex_trigo": ["sprites", "Materias_primas", "hexagono_trigo.png"],
+
         "dado_1": ["sprites", "Dados", "dado_1.png"],
         "dado_2": ["sprites", "Dados", "dado_2.png"],
         "dado_3": ["sprites", "Dados", "dado_3.png"],
         "dado_4": ["sprites", "Dados", "dado_4.png"],
         "dado_5": ["sprites", "Dados", "dado_5.png"],
         "dado_6": ["sprites", "Dados", "dado_6.png"],
+
         "choza_j0": ["sprites", "Construcciones", "choza_azul.png"],
         "choza_j1": ["sprites", "Construcciones", "choza_violeta.png"],
         "choza_j2": ["sprites", "Construcciones", "choza_verde.png"],
         "choza_j3": ["sprites", "Construcciones", "choza_roja.png"],
+
         "ciudad_j0": ["sprites", "Construcciones", "ciudad_azul.png"],
         "ciudad_j1": ["sprites", "Construcciones", "ciudad_violeta.png"],
         "ciudad_j2": ["sprites", "Construcciones", "ciudad_verde.png"],
-        "ciudad_j3": ["sprites", "Construcciones", "ciudad_roja.png"]
+        "ciudad_j3": ["sprites", "Construcciones", "ciudad_roja.png"],
+
+        "camino_0_j0": ["sprites", "Construcciones", "camino_azul_0.png"],
+        "camino_0_j1": ["sprites", "Construcciones", "camino_violeta_0.png"],
+        "camino_0_j2": ["sprites", "Construcciones", "camino_verde_0.png"],
+        "camino_0_j3": ["sprites", "Construcciones", "camino_rojo_0.png"],
+        "camino_60_j0": ["sprites", "Construcciones", "camino_azul_60.png"],
+        "camino_60_j1": ["sprites", "Construcciones", "camino_violeta_60.png"],
+        "camino_60_j2": ["sprites", "Construcciones", "camino_verde_60.png"],
+        "camino_60_j3": ["sprites", "Construcciones", "camino_rojo_60.png"],
+        "camino_120_j0": ["sprites", "Construcciones", "camino_azul_120.png"],
+        "camino_120_j1": ["sprites", "Construcciones", "camino_violeta_120.png"],
+        "camino_120_j2": ["sprites", "Construcciones", "camino_verde_120.png"],
+        "camino_120_j3": ["sprites", "Construcciones", "camino_rojo_120.png"]
     }
 }
