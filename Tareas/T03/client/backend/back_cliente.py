@@ -65,48 +65,8 @@ class BackVentanaJuego(QObject):
         else:
             pass
 
-    def cargar_mapa(self, numeros, materias_primas):
-        self.net.log("Cargando Mapa")
-        for id_hexagono in range(len(numeros)):
-            num_ficha = numeros[id_hexagono]
-            materia_prima = materias_primas[id_hexagono]
-            id_hexagono = str(id_hexagono)
-            self.senal_actualizar_num_ficha.emit(id_hexagono, num_ficha)
-            self.senal_actualizar_materia_prima_hexagono.emit(id_hexagono, materia_prima)
-
-    def realizar_comando(self, tupla_comando):
-        comando = tupla_comando[0]
-        if comando != "":
-            parametros = tupla_comando[1]
-            if comando in self.comandos:
-                metodo = self.comandos[comando]
-                if parametros:
-                    metodo(*parametros)
-                else:
-                    metodo()
-                self.net.comando_realizado = True
-                self.net.log("Comando Realizado", comando)
-
     def fijar_usuario(self, usuario):
         self.usuario_propio = usuario
-
-    def actualizar_usuarios(self, usuarios):
-        self.senal_actualizar_usuarios.emit(usuarios)
-        self.net.log("Actualizando Usuarios")
-        id = 1
-        for usuario in usuarios:
-            if usuario == self.usuario_propio:
-                self.usuarios_id[usuario] = "0"
-            else:
-                self.usuarios_id[usuario] = str(id)
-                id += 1
-
-    def test(self):
-        self.net.log("Test", "None")
-
-    def alerta_servidor_lleno(self):
-        mensaje = "El Servidor se encuentra lleno, espere a que haya terminado la partida"
-        self.senal_servidor_lleno.emit(mensaje)
 
     def actualizar_materias_primas(self, dict_usuarios_materias):
         """
@@ -116,30 +76,6 @@ class BackVentanaJuego(QObject):
         """
         dict_id_materias = self.transformar_dict_usuario_id(dict_usuarios_materias)
         self.senal_actualizar_materias_primas.emit(dict_id_materias)
-
-    def transformar_dict_usuario_id(self, dict_usuario_contenido):
-        dict_id_contenido = {}
-        for usuario in dict_usuario_contenido:
-            id_usuario = self.usuarios_id[usuario]
-            contenido = dict_usuario_contenido[usuario]
-            dict_id_contenido[id_usuario] = contenido
-
-        return dict_id_contenido
-
-    def cargar_labels_usuarios(self):
-        for usuario in self.usuarios_id:
-            id = self.usuarios_id[usuario]
-            self.senal_cambiar_label_usuario.emit(id, usuario)
-
-    def actualizar_dados(self, num_dado_1, num_dado_2):
-        ruta_pixmap_1 = path.join(*data["rutas_sprites"][f"dado_{num_dado_1}"])
-        ruta_pixmap_2 = path.join(*data["rutas_sprites"][f"dado_{num_dado_2}"])
-        pixmap_1 = QPixmap(ruta_pixmap_1)
-        pixmap_2 = QPixmap(ruta_pixmap_2)
-        self.senal_actualizar_dados.emit(pixmap_1, pixmap_2)
-
-    def activar_interfaz(self, bool):
-        self.senal_activar_interfaz.emit(bool)
 
     def actualizar_construcciones(self, dict_nodo_construccion):
         """
@@ -164,9 +100,72 @@ class BackVentanaJuego(QObject):
 
         self.senal_actualizar_construcciones.emit(dict_nodo_construccion)
 
+    def actualizar_usuarios(self, usuarios):
+        self.senal_actualizar_usuarios.emit(usuarios)
+        self.net.log("Actualizando Usuarios")
+        id = 1
+        for usuario in usuarios:
+            if usuario == self.usuario_propio:
+                self.usuarios_id[usuario] = "0"
+            else:
+                self.usuarios_id[usuario] = str(id)
+                id += 1
+
+    def actualizar_dados(self, num_dado_1, num_dado_2):
+        ruta_pixmap_1 = path.join(*data["rutas_sprites"][f"dado_{num_dado_1}"])
+        ruta_pixmap_2 = path.join(*data["rutas_sprites"][f"dado_{num_dado_2}"])
+        pixmap_1 = QPixmap(ruta_pixmap_1)
+        pixmap_2 = QPixmap(ruta_pixmap_2)
+        self.senal_actualizar_dados.emit(pixmap_1, pixmap_2)
+
+    def cargar_mapa(self, numeros, materias_primas):
+        self.net.log("Cargando Mapa")
+        for id_hexagono in range(len(numeros)):
+            num_ficha = numeros[id_hexagono]
+            materia_prima = materias_primas[id_hexagono]
+            id_hexagono = str(id_hexagono)
+            self.senal_actualizar_num_ficha.emit(id_hexagono, num_ficha)
+            self.senal_actualizar_materia_prima_hexagono.emit(id_hexagono, materia_prima)
+
+    def cargar_labels_usuarios(self):
+        for usuario in self.usuarios_id:
+            id = self.usuarios_id[usuario]
+            self.senal_cambiar_label_usuario.emit(id, usuario)
+
+    def activar_interfaz(self, bool):
+        self.senal_activar_interfaz.emit(bool)
+
     def lanzar_dados(self):
         self.net.send_command("lanzar_dados")
 
+    def alerta_servidor_lleno(self):
+        mensaje = "El Servidor se encuentra lleno, espere a que haya terminado la partida"
+        self.senal_servidor_lleno.emit(mensaje)
+
+    def transformar_dict_usuario_id(self, dict_usuario_contenido):
+        dict_id_contenido = {}
+        for usuario in dict_usuario_contenido:
+            id_usuario = self.usuarios_id[usuario]
+            contenido = dict_usuario_contenido[usuario]
+            dict_id_contenido[id_usuario] = contenido
+
+        return dict_id_contenido
+
+    def test(self):
+        self.net.log("Test", "None")
+
+    def realizar_comando(self, tupla_comando):
+        comando = tupla_comando[0]
+        if comando != "":
+            parametros = tupla_comando[1]
+            if comando in self.comandos:
+                metodo = self.comandos[comando]
+                if parametros:
+                    metodo(*parametros)
+                else:
+                    metodo()
+                self.net.comando_realizado = True
+                self.net.log("Comando Realizado", comando)
 
 if __name__ == "__main__":
     import json
