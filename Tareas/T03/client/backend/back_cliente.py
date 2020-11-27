@@ -23,6 +23,7 @@ class BackVentanaJuego(QObject):
     senal_abrir_sala_espera = pyqtSignal()
     senal_abrir_ventana_juego = pyqtSignal()
     senal_cambiar_label_usuario = pyqtSignal(str, str)
+    senal_realizar_monopolio = pyqtSignal()
 
     senal_activar_boton_dados = pyqtSignal(bool)
     senal_activar_interfaz = pyqtSignal(bool)
@@ -50,7 +51,8 @@ class BackVentanaJuego(QObject):
             "open_wait_room": self.senal_abrir_sala_espera.emit,
             "open_game_room": self.senal_abrir_ventana_juego.emit,
             "throw_dices": self.notificar_tirar_dados,
-            "activar_interfaz": self.senal_activar_interfaz.emit
+            "activar_interfaz": self.senal_activar_interfaz.emit,
+            "realizar_monopolio": self.senal_realizar_monopolio.emit
         }
         self.usuarios_id = {
             "nombre_0": "0",
@@ -157,8 +159,6 @@ class BackVentanaJuego(QObject):
     def notificar_tirar_dados(self):
         self.senal_activar_boton_dados.emit(True)
 
-
-
     def alerta_servidor_lleno(self):
         mensaje = "El Servidor se encuentra lleno, espere a que haya terminado la partida"
         self.senal_servidor_lleno.emit(mensaje)
@@ -193,8 +193,15 @@ class BackVentanaJuego(QObject):
                 self.net.comando_realizado = True
                 self.net.log("Comando Realizado", comando)
 
-    def set_accion_realizada(self, bool):
-        self.accion_realizada = bool
+    def enviar_accion_realizada(self, str_accion):
+        self.net.send_command("realizar_accion", [str_accion])
+
+    def comprar_carta_desarrollo(self):
+        self.enviar_accion_realizada("carta_desarrollo")
+
+    def enviar_info_monopolio(self, materia_prima):
+        self.net.send_command("actualizar_materia_monopolio", [materia_prima])
+
 
 if __name__ == "__main__":
     import json

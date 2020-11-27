@@ -40,9 +40,6 @@ class Server():
             except IndexError:
                 print("Solicitud Acoplada")
 
-            else:
-                pass
-
     def realizar_comando(self, comando):
         self.net.comando_realizado = True
         nombre_comando = comando[0]

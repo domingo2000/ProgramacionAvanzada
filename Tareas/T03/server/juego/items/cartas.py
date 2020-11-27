@@ -44,6 +44,7 @@ class CartaMonopolio(CartaDesarrollo):
 
     def __init__(self):
         super().__init__("monopolio")
+        self.tipo = "monopolio"
 
 
 class Mazo:

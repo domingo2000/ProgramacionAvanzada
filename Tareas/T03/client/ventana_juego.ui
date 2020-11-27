@@ -2607,8 +2607,25 @@ border-radius: 20px;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>boton_carta_desarrollo</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>comprar_carta_desarrollo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>555</x>
+     <y>592</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>462</x>
+     <y>326</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>lanzar_dados()</slot>
+  <slot>comprar_carta_desarrollo()</slot>
  </slots>
 </ui>

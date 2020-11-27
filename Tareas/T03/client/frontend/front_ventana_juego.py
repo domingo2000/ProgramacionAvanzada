@@ -3,6 +3,7 @@ from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 from os import path
+from frontend.dialogs import DialogoMonopolio
 import json
 
 window_name, base_class = uic.loadUiType("ventana_juego.ui")
@@ -14,10 +15,14 @@ with open("parametros.json") as file:
 class VentanaJuego(window_name, base_class):
     senal_lanzar_dados = pyqtSignal()
     senal_accion_realizada = pyqtSignal(bool)
+    senal_monopolio_realizado = pyqtSignal(str)
+    senal_accion_realizada = pyqtSignal(str)
+    senal_comprar_carta_desarrollo = pyqtSignal()
 
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.init_dialogs()
 
         self.labels_num_fichas = {
             "0": self.label_ficha0,
@@ -112,6 +117,9 @@ class VentanaJuego(window_name, base_class):
             "32": self.label_nodo_32,
         }
 
+    def init_dialogs(self):
+        self.dialogo_monopolio = DialogoMonopolio(self)
+
     def actualizar_num_ficha(self, id_ficha, numero_ficha):
         label_num_ficha = self.labels_num_fichas[id_ficha]
         label_num_ficha.setText(str(numero_ficha))
@@ -188,6 +196,10 @@ class VentanaJuego(window_name, base_class):
         self.senal_lanzar_dados.emit()
         self.boton_lanzar_dados.setEnabled(False)
 
+    def comprar_carta_desarrollo(self):
+        self.senal_comprar_carta_desarrollo.emit()
+        self.boton_carta_desarrollo.setEnabled(False)
+
     def activar_interfaz_dados(self, bool):
         self.boton_lanzar_dados.setEnabled(bool)
 
@@ -197,3 +209,8 @@ class VentanaJuego(window_name, base_class):
         # Completar codigo para construcciones
     def realizar_accion(self):
         self.senal_accion_realizada.emit(True)
+
+    def realizar_monopolio(self):
+        self.dialogo_monopolio.exec()
+        materia_prima = self.dialogo_monopolio.materia_prima.currentText()
+        self.senal_monopolio_realizado.emit(materia_prima)

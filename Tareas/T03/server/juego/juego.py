@@ -1,5 +1,6 @@
 from juego.items.cartas import Mazo
 from juego.mapa.mapa import Mapa
+from juego.banco import Banco
 from threading import Thread
 import random
 import json
@@ -18,18 +19,21 @@ class Juego():
         self.puntos = {usuario: 0 for usuario in self.usuarios}
         self.mazos = {usuario: Mazo() for usuario in self.usuarios}
         self.mapa = Mapa()
+        self.banco = Banco(self.net)
         self.fase_inicio()
         self.__dados = [0, 0]
         self.__jugador_actual = ""
         self.dados_lanzados = False
+        self.accion_realizada = False
         self.ganador = None
         self.comandos = {
-            "lanzar_dados": self.lanzar_dados
+            "lanzar_dados": self.lanzar_dados,
+            "realizar_accion": self.realizar_accion,
+            "actualizar_materia_monopolio": self.set_materia_monopolio
         }
         self.thread_revisar_comandos = Thread(target=self.thread_revisar_comandos,
                                               daemon=True)
         self.thread_revisar_comandos.start()
-
 
     @property
     def dados(self):
@@ -82,7 +86,9 @@ class Juego():
             self.repartir_materias_primas(suma_dados)
 
         self.net.send_command("activar_interfaz", usuario, [True])
-        self.net.send_command("activar_interfaz", usuario, [False])
+        while not self.accion_realizada:
+            pass
+        self.accion_realizada = False
         self.dados_lanzados = False
 
     def actualizar_materias_primas(self):
@@ -95,6 +101,9 @@ class Juego():
             nodo = self.mapa.nodos[id_nodo]
             dict_nodo_construccion_usuario[id_nodo] = [nodo.construccion, nodo.usuario_presente]
         self.net.send_command_to_all("actualizar_construcciones", [dict_nodo_construccion_usuario])
+
+    def actualizar_puntos(self):
+        self.net.send_command_to_all("actualizar_puntos", [self.puntos])
 
     def asignar_casas_aleatorias(self):
         for usuario in self.usuarios:
@@ -115,7 +124,7 @@ class Juego():
         nodo.construccion = "choza"
         self.actualizar_construcciones()
         self.puntos[usuario] += 1
-        self.net.send_command_to_all("actualizar_puntos", [self.puntos])
+        self.actualizar_puntos()
         return True
 
     def asignar_construccion(self, id_nodo, usuario):
@@ -176,8 +185,6 @@ class Juego():
                         self.realizar_comando(comando)
             except IndexError:
                 print("Solicitud acoplada")
-            else:
-                pass
 
     def realizar_comando(self, comando):
         self.net.comando_realizado = True
@@ -190,3 +197,56 @@ class Juego():
             metodo()
 
         self.net.log("Server", "Realizado Comando", nombre_comando)
+
+    def realizar_accion(self, accion):
+        mazo_jugador = self.mazos[self.jugador_actual]
+        if accion == "carta_desarrollo":
+            carta_desarrollo = self.banco.comprar_desarrollo(mazo_jugador)
+            if carta_desarrollo:
+                accion_valida = True
+                if carta_desarrollo.tipo == "victoria":
+                    self.puntos[self.jugador_actual] += 1
+                    self.actualizar_puntos()
+                elif carta_desarrollo.tipo == "monopolio":
+                    self.realizar_monopolio()
+            else:
+                accion_valida = False
+        elif accion == "choza":
+            pass
+        elif accion == "ciudad":
+            pass
+        elif accion == "camino":
+            pass
+        elif accion == "intercambio":
+            pass
+        else:
+            raise KeyError("La accion pedida no existe")
+
+        if not accion_valida:
+            self.net.send_command("activar_interfaz", usuario, [False])
+        else:
+            self.accion_realizada = True
+
+    def notificar_compra_invalida(self, mensaje):
+        self.send_command("pop_up", [f"compra_inválida: {mensaje}"])
+
+    def set_materia_monopolio(self, valor):
+        self.materia_monopolio = valor
+
+    def realizar_monopolio(self):
+        self.materia_monopolio = None
+        self.net.send_command("realizar_monopolio", self.jugador_actual)
+        while not self.materia_monopolio:
+            pass
+        self.net.send_command_to_all("pop_up", [f"{jugador_actual} ha usado un monopolio"
+                                                f"robando {self.materia_monopolio}"])
+        cantidad_total_materia_prima = 0
+        for usuario in self.mazos:
+            cantidad_materia_prima = self.mazos[usuario].cartas[self.materia_monopolio]
+            self.mazos[usuario].cartas[self.materia_monopolio] = 0
+            cantidad_total_materia_prima += cantidad_materia_prima
+        self.mazos[self.jugador_actual].cartas[self.materia_monopolio]\
+            = cantidad_total_materia_prima
+        self.actualizar_materias_primas()
+        self.materia_monopolio = None
+        self.accion_realizada = True
