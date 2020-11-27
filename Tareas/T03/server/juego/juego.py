@@ -17,6 +17,7 @@ class Juego():
         self.net = net
         self.usuarios = usuarios
         self.puntos = {usuario: 0 for usuario in self.usuarios}
+        self.puntos_victoria = {usuario: 0 for usuario in self.usuarios}
         self.mazos = {usuario: Mazo() for usuario in self.usuarios}
         self.mapa = Mapa()
         self.banco = Banco(self.net)
@@ -29,7 +30,7 @@ class Juego():
         self.comandos = {
             "lanzar_dados": self.lanzar_dados,
             "realizar_accion": self.realizar_accion,
-            "actualizar_materia_monopolio": self.set_materia_monopolio
+            "actualizar_materia_monopolio": self.realizar_monopolio
         }
         self.thread_revisar_comandos = Thread(target=self.thread_revisar_comandos,
                                               daemon=True)
@@ -197,19 +198,21 @@ class Juego():
             metodo()
 
         self.net.log("Server", "Realizado Comando", nombre_comando)
+        self.net.log("-", "Parametros", str(parametros))
 
     def realizar_accion(self, accion):
         mazo_jugador = self.mazos[self.jugador_actual]
         if accion == "carta_desarrollo":
             carta_desarrollo = self.banco.comprar_desarrollo(mazo_jugador)
             if carta_desarrollo:
+                self.comprar(carta_desarrollo)
                 accion_valida = True
                 if carta_desarrollo.tipo == "victoria":
-                    self.puntos[self.jugador_actual] += 1
-                    self.actualizar_puntos()
+                    self.agregar_punto_victoria()
                 elif carta_desarrollo.tipo == "monopolio":
-                    self.realizar_monopolio()
+                    self.net.send_command("realizar_monopolio", self.jugador_actual)
             else:
+                mensaje = "No tienes materias primas para comprar esta carta de desarrollo"
                 accion_valida = False
         elif accion == "choza":
             pass
@@ -219,34 +222,47 @@ class Juego():
             pass
         elif accion == "intercambio":
             pass
+        elif accion == "pasar":
+            self.accion_realizada = True
+            accion_valida = True
         else:
             raise KeyError("La accion pedida no existe")
 
         if not accion_valida:
-            self.net.send_command("activar_interfaz", usuario, [False])
+            self.net.send_command("error_msg", self.jugador_actual, [mensaje])
+            self.net.send_command("activar_interfaz", self.jugador_actual, [True])
         else:
-            self.accion_realizada = True
+            pass
 
     def notificar_compra_invalida(self, mensaje):
         self.send_command("pop_up", [f"compra_inválida: {mensaje}"])
 
-    def set_materia_monopolio(self, valor):
-        self.materia_monopolio = valor
-
-    def realizar_monopolio(self):
-        self.materia_monopolio = None
-        self.net.send_command("realizar_monopolio", self.jugador_actual)
-        while not self.materia_monopolio:
-            pass
-        self.net.send_command_to_all("pop_up", [f"{jugador_actual} ha usado un monopolio"
-                                                f"robando {self.materia_monopolio}"])
+    def realizar_monopolio(self, materia_prima):
+        self.net.send_command_to_all("error_msg", [f"{self.jugador_actual} ha usado un monopolio"
+                                                f"robando {materia_prima}"])
         cantidad_total_materia_prima = 0
         for usuario in self.mazos:
-            cantidad_materia_prima = self.mazos[usuario].cartas[self.materia_monopolio]
-            self.mazos[usuario].cartas[self.materia_monopolio] = 0
+            cantidad_materia_prima = self.mazos[usuario].cartas[materia_prima]
+            self.mazos[usuario].cartas[materia_prima] = 0
             cantidad_total_materia_prima += cantidad_materia_prima
-        self.mazos[self.jugador_actual].cartas[self.materia_monopolio]\
+        self.mazos[self.jugador_actual].cartas[materia_prima]\
             = cantidad_total_materia_prima
         self.actualizar_materias_primas()
-        self.materia_monopolio = None
+        materia_prima = None
+
         self.accion_realizada = True
+
+    def agregar_punto_victoria(self):
+        self.puntos[self.jugador_actual] += 1
+        self.puntos_victoria[self.jugador_actual] += 1
+        puntos_victoria = self.puntos_victoria[self.jugador_actual]
+        self.actualizar_puntos()
+        self.net.send_command("actualizar_punto_victoria", self.jugador_actual, [puntos_victoria])
+        self.accion_realizada = True
+
+    def comprar(self, objeto):
+        for materia_prima in objeto.costo:
+            costo = objeto.costo[materia_prima]
+            self.mazos[self.jugador_actual].cartas[materia_prima] -= costo
+
+        self.actualizar_materias_primas()

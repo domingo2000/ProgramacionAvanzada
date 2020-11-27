@@ -55,7 +55,7 @@ class ServerNet():
             self.log(usuario, "conectado", "rechazado")
 
     def lleno(self):
-        if len(self.clientes) >= 1:
+        if len(self.clientes) >= 2:
             return True
         else:
             return False
@@ -92,7 +92,7 @@ class ServerNet():
             try:
                 data = self.recive_data(socket_cliente)
                 comando = pickle.loads(data)
-                self.añadir_comando(comando)
+                self.añadir_comando(comando, usuario)
             except ConnectionError:
                 self.desconectar_usuario(usuario)
                 break
@@ -156,10 +156,10 @@ class ServerNet():
         for usuario in self.clientes.copy():
             self.send_command(comando, usuario, parametros)
 
-    def añadir_comando(self, comando):
+    def añadir_comando(self, comando, usuario):
         self.stack_comandos.append(comando)
         self.comando_realizado = False
-        self.log("Server", "Añadido Comando", comando[0])
+        self.log(usuario, "Añadido Comando", comando[0])
 
     def recive_data(self, socket_cliente):
         """

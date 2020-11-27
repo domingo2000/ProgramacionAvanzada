@@ -24,6 +24,8 @@ class BackVentanaJuego(QObject):
     senal_abrir_ventana_juego = pyqtSignal()
     senal_cambiar_label_usuario = pyqtSignal(str, str)
     senal_realizar_monopolio = pyqtSignal()
+    senal_mensaje_error = pyqtSignal(str)
+    senal_actualizar_punto_victoria = pyqtSignal(int)
 
     senal_activar_boton_dados = pyqtSignal(bool)
     senal_activar_interfaz = pyqtSignal(bool)
@@ -52,7 +54,9 @@ class BackVentanaJuego(QObject):
             "open_game_room": self.senal_abrir_ventana_juego.emit,
             "throw_dices": self.notificar_tirar_dados,
             "activar_interfaz": self.senal_activar_interfaz.emit,
-            "realizar_monopolio": self.senal_realizar_monopolio.emit
+            "realizar_monopolio": self.senal_realizar_monopolio.emit,
+            "error_msg": self.senal_mensaje_error.emit,
+            "actualizar_punto_victoria": self.senal_actualizar_punto_victoria.emit
         }
         self.usuarios_id = {
             "nombre_0": "0",
@@ -158,6 +162,9 @@ class BackVentanaJuego(QObject):
 
     def notificar_tirar_dados(self):
         self.senal_activar_boton_dados.emit(True)
+
+    def pasar_turno(self):
+        self.enviar_accion_realizada("pasar")
 
     def alerta_servidor_lleno(self):
         mensaje = "El Servidor se encuentra lleno, espere a que haya terminado la partida"

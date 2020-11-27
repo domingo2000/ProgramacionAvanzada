@@ -1424,69 +1424,6 @@ font-size: 15px;</string>
 </string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QFrame" name="frame_carta_2">
-      <property name="maximumSize">
-       <size>
-        <width>149</width>
-        <height>133</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_11">
-       <item>
-        <layout class="QHBoxLayout" name="layoutcarta_2">
-         <item>
-          <widget class="QLabel" name="label_15">
-           <property name="maximumSize">
-            <size>
-             <width>88</width>
-             <height>111</height>
-            </size>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>sprites/Materias_primas/carta_arcilla.png</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="arcilla_j0">
-           <property name="maximumSize">
-            <size>
-             <width>33</width>
-             <height>111</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>: X</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="1" column="1">
      <widget class="QFrame" name="frame_carta_3">
       <property name="maximumSize">
@@ -1548,65 +1485,6 @@ font-size: 15px;</string>
         </layout>
        </item>
       </layout>
-     </widget>
-    </item>
-    <item row="1" column="4">
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>sprites/Construcciones/camino_azul_0.png</normaloff>sprites/Construcciones/camino_azul_0.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>80</width>
-        <height>80</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="5">
-     <widget class="QPushButton" name="boton_carta_desarrollo">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>sprites/Desarrollo/carta_reverso.png</normaloff>sprites/Desarrollo/carta_reverso.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>80</width>
-        <height>80</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="5">
-     <widget class="QPushButton" name="boton_lanzar_dados">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="text">
-       <string>Lanzar Dados</string>
-      </property>
      </widget>
     </item>
     <item row="1" column="3">
@@ -1695,6 +1573,82 @@ font-size: 15px;</string>
       </layout>
      </widget>
     </item>
+    <item row="1" column="0">
+     <widget class="QFrame" name="frame_carta_2">
+      <property name="maximumSize">
+       <size>
+        <width>149</width>
+        <height>133</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <layout class="QHBoxLayout" name="layoutcarta_2">
+         <item>
+          <widget class="QLabel" name="label_15">
+           <property name="maximumSize">
+            <size>
+             <width>88</width>
+             <height>111</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>sprites/Materias_primas/carta_arcilla.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="arcilla_j0">
+           <property name="maximumSize">
+            <size>
+             <width>33</width>
+             <height>111</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>: X</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="5">
+     <widget class="QPushButton" name="boton_lanzar_dados">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="text">
+       <string>Lanzar Dados</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="3" colspan="2">
      <widget class="QFrame" name="frame">
       <property name="styleSheet">
@@ -1747,6 +1701,65 @@ border-radius: 10px</string>
         </widget>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item row="1" column="5">
+     <widget class="QPushButton" name="boton_carta_desarrollo">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>sprites/Desarrollo/carta_reverso.png</normaloff>sprites/Desarrollo/carta_reverso.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>80</width>
+        <height>80</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="4">
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>sprites/Construcciones/camino_azul_0.png</normaloff>sprites/Construcciones/camino_azul_0.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>80</width>
+        <height>80</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="boton_pasar_turno">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="text">
+       <string>Pasar Turno</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -2623,9 +2636,26 @@ border-radius: 20px;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>boton_pasar_turno</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>pasar_turno()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>261</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>462</x>
+     <y>326</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>lanzar_dados()</slot>
   <slot>comprar_carta_desarrollo()</slot>
+  <slot>pasar_turno()</slot>
  </slots>
 </ui>

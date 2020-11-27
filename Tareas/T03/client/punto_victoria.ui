@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogMonopolio</class>
- <widget class="QDialog" name="DialogMonopolio">
+ <class>DialogPuntoVictoria</class>
+ <widget class="QDialog" name="DialogPuntoVictoria">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Monopolio</string>
+   <string>Punto Victoria</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #D3D7CF;
@@ -35,7 +35,7 @@ font-weight: bold;</string>
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>sprites/Desarrollo/monopolio_1.png</pixmap>
+        <pixmap>sprites/Desarrollo/victoria_1.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -60,22 +60,10 @@ font-weight: bold;</string>
       </spacer>
      </item>
      <item>
-      <widget class="QComboBox" name="materia_prima">
-       <item>
-        <property name="text">
-         <string>madera</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>arcilla</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>trigo</string>
-        </property>
-       </item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Has Ganado un punto de victoria!</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -98,7 +86,7 @@ font-weight: bold;</string>
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Activar Monopolio</string>
+        <string>Aceptar</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -120,7 +108,7 @@ font-weight: bold;</string>
   <connection>
    <sender>pushButton</sender>
    <signal>clicked()</signal>
-   <receiver>DialogMonopolio</receiver>
+   <receiver>DialogPuntoVictoria</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">

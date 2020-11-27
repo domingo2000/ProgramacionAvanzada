@@ -41,10 +41,12 @@ if __name__ == "__main__":
     back_juego.senal_activar_interfaz.connect(ventana_juego.activar_interfaz)
     back_juego.senal_activar_boton_dados.connect(ventana_juego.activar_interfaz_dados)
     back_juego.senal_realizar_monopolio.connect(ventana_juego.realizar_monopolio)
-
+    back_juego.senal_actualizar_punto_victoria.connect(ventana_juego.actualizar_puntos_victoria)
+    back_juego.senal_mensaje_error.connect(ventana_juego.error)
     #  De ventana a back6
     ventana_juego.senal_lanzar_dados.connect(back_juego.lanzar_dados)
     ventana_juego.senal_comprar_carta_desarrollo.connect(back_juego.comprar_carta_desarrollo)
     ventana_juego.senal_monopolio_realizado.connect(back_juego.enviar_info_monopolio)
+    ventana_juego.senal_pasar_turno.connect(back_juego.pasar_turno)
     ventana_espera.show()
     sys.exit(app.exec_())

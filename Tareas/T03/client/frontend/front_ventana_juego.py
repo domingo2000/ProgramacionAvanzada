@@ -1,9 +1,9 @@
-from PyQt5.QtWidgets import QLabel, QWidget
+from PyQt5.QtWidgets import QLabel, QWidget, QErrorMessage
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 from os import path
-from frontend.dialogs import DialogoMonopolio
+from frontend.dialogs import DialogoMonopolio, DialogPuntoVictoria
 import json
 
 window_name, base_class = uic.loadUiType("ventana_juego.ui")
@@ -18,6 +18,7 @@ class VentanaJuego(window_name, base_class):
     senal_monopolio_realizado = pyqtSignal(str)
     senal_accion_realizada = pyqtSignal(str)
     senal_comprar_carta_desarrollo = pyqtSignal()
+    senal_pasar_turno = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -119,6 +120,7 @@ class VentanaJuego(window_name, base_class):
 
     def init_dialogs(self):
         self.dialogo_monopolio = DialogoMonopolio(self)
+        self.dialogo_punto_victoria = DialogPuntoVictoria(self)
 
     def actualizar_num_ficha(self, id_ficha, numero_ficha):
         label_num_ficha = self.labels_num_fichas[id_ficha]
@@ -196,15 +198,20 @@ class VentanaJuego(window_name, base_class):
         self.senal_lanzar_dados.emit()
         self.boton_lanzar_dados.setEnabled(False)
 
+    def pasar_turno(self):
+        self.senal_pasar_turno.emit()
+        self.activar_interfaz(False)
+
     def comprar_carta_desarrollo(self):
         self.senal_comprar_carta_desarrollo.emit()
-        self.boton_carta_desarrollo.setEnabled(False)
+        self.activar_interfaz(False)
 
     def activar_interfaz_dados(self, bool):
         self.boton_lanzar_dados.setEnabled(bool)
 
     def activar_interfaz(self, bool):
         self.boton_carta_desarrollo.setEnabled(bool)
+        self.boton_pasar_turno.setEnabled(bool)
 
         # Completar codigo para construcciones
     def realizar_accion(self):
@@ -214,3 +221,11 @@ class VentanaJuego(window_name, base_class):
         self.dialogo_monopolio.exec()
         materia_prima = self.dialogo_monopolio.materia_prima.currentText()
         self.senal_monopolio_realizado.emit(materia_prima)
+
+    def error(self, mensaje):
+        self.error = QErrorMessage(self)
+        self.error.showMessage(mensaje)
+
+    def actualizar_puntos_victoria(self, int):
+        self.dialogo_punto_victoria.exec()
+        self.puntos_victoria.setText(f": {str(int)}")
