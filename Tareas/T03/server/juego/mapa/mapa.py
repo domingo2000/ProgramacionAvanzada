@@ -1,5 +1,6 @@
 import json
 from os import path
+from juego.mapa.generador_grilla import GeneradorGrillaHexagonal
 import random
 
 
@@ -10,6 +11,8 @@ class Nodo:
         self.estado = "libre"
         self.usuario_presente = None
         self.vecinos = lista_adyacencia
+        self.posicion = None
+        self.construccion = None
 
     def __repr__(self):
         return f"nodo_{self.id}: -> {self.vecinos}"
@@ -108,6 +111,12 @@ class Mapa:
         self.cargar_numeros()
         # Carga las materias primas
         self.cargar_materias_primas()
+        # Carga las posiciones de cada nodo en la grilla
+        generador_grilla = GeneradorGrillaHexagonal(56)
+        posiciones = generador_grilla.generar_grilla(self.dimensiones, 70, 30)
+        for id_nodo in posiciones:
+            self.nodos[id_nodo].posicion = posiciones[id_nodo]
+        print(self.nodos)
 
     def cargar_numeros(self):
         numeros = [2, 3, 4, 5, 6, 8, 9, 10, 11, 12]
@@ -148,22 +157,3 @@ if __name__ == "__main__":
     mapa = Mapa()
     mapa.cargar_mapa()
     print(mapa)
-    """
-    nodo_0 = Nodo("0", ["1", "4"])
-    nodo_1 = Nodo("1", ["5", "0"])
-    nodo_5 = Nodo("5", ["1", "10", "6"])
-    nodo_10 = Nodo("10", ["9", "5", "15"])
-    nodo_9 = Nodo("9", ["10", "14", "4"])
-    nodo_4 = Nodo("4", ["0", "9"])
-
-    hex_1 = Hexagono("1", [nodo_0,
-                         nodo_1,
-                         nodo_10,
-                         nodo_4,
-                         nodo_5,
-                         nodo_9])
-    print(hex_1)
-    for id_nodo in hex_1.nodos:
-        nodo = hex_1.nodos[id_nodo]
-        print(nodo)
-    """

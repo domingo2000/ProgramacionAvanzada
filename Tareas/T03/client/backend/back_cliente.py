@@ -1,5 +1,11 @@
 from PyQt5.QtCore import pyqtSignal, QObject, QTimer
+from PyQt5.QtGui import QPixmap
 from backend.networking import ClientNet
+from os import path
+import json
+
+with open("parametros.json") as file:
+    data = json.load(file)
 
 
 class BackVentanaJuego(QObject):
@@ -13,6 +19,8 @@ class BackVentanaJuego(QObject):
     senal_abrir_sala_espera = pyqtSignal()
     senal_abrir_ventana_juego = pyqtSignal()
     senal_cambiar_label_usuario = pyqtSignal(str, str)
+    senal_actualizar_dados = pyqtSignal(QPixmap, QPixmap)
+    senal_activar_interfaz = pyqtSignal(bool)
 
     def __init__(self, host, port):
         super().__init__()
@@ -24,7 +32,8 @@ class BackVentanaJuego(QObject):
             "test": self.test,
             "set_user": self.fijar_usuario,
             "actualizar_usuarios": self.actualizar_usuarios,
-            "actualizar_materias_primas": self.senal_actualizar_materias_primas.emit,
+            "actualizar_materias_primas": self.actualizar_materias_primas,
+            "actualizar_dados": self.actualizar_dados,
             "servidor_lleno": self.alerta_servidor_lleno,
             "close_wait_room": self.senal_cerrar_sala_espera.emit,
             "close_game_room": self.senal_cerrar_ventana_juego.emit,
@@ -119,6 +128,25 @@ class BackVentanaJuego(QObject):
         for usuario in self.usuarios_id:
             id = self.usuarios_id[usuario]
             self.senal_cambiar_label_usuario.emit(id, usuario)
+
+    def actualizar_dados(self, num_dado_1, num_dado_2):
+        ruta_pixmap_1 = path.join(data["rutas_sprites"][f"dado_{num_dado_1}"])
+        ruta_pixmap_2 = path.join(data["rutas_sprites"][f"dado_{num_dado_2}"])
+        pixmap_1 = QPixmap(ruta_pixmap_1)
+        pixmap_2 = QPixmap(ruta_pixmap_2)
+        self.senal_actualizar_dados.emit(pixmap_1, pixmap_2)
+
+    def activar_interfaz(self, bool):
+        self.senal_activar_interfaz.emit(bool)
+
+    def actualizar_construcciones(self, dict_nodo_construccion):
+        """
+        Recibe un diccionario de la forma
+        {"id_nodo": pixmap, "id_nodo_2": pixmap_2}
+        y asigna los pixmaps a cada nodo.
+        En caso de ser None el pixmap, esconde el label
+        """
+
 
 if __name__ == "__main__":
     import json

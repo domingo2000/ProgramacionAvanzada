@@ -64,14 +64,49 @@ class VentanaJuego(window_name, base_class):
         }
 
         self.labels_dados = {
-            "dado_1": self.dado_1,
-            "dado_2": self.dado_2
+            "1": self.dado_1,
+            "2": self.dado_2
         }
         self.labels_puntos = {
             "0": self.puntos_j0,
             "1": self.puntos_j1,
             "2": self.puntos_j2,
             "3": self.puntos_j3,
+        }
+        self.labels_nodos = {
+            "0": self.label_nodo_0,
+            "1": self.label_nodo_1,
+            "2": self.label_nodo_2,
+            "3": self.label_nodo_3,
+            "4": self.label_nodo_4,
+            "5": self.label_nodo_5,
+            "6": self.label_nodo_6,
+            "7": self.label_nodo_7,
+            "8": self.label_nodo_8,
+            "9": self.label_nodo_9,
+            "10": self.label_nodo_10,
+            "11": self.label_nodo_11,
+            "12": self.label_nodo_12,
+            "13": self.label_nodo_13,
+            "14": self.label_nodo_14,
+            "15": self.label_nodo_15,
+            "16": self.label_nodo_16,
+            "17": self.label_nodo_17,
+            "18": self.label_nodo_18,
+            "19": self.label_nodo_19,
+            "20": self.label_nodo_20,
+            "21": self.label_nodo_21,
+            "22": self.label_nodo_22,
+            "23": self.label_nodo_23,
+            "24": self.label_nodo_24,
+            "25": self.label_nodo_25,
+            "26": self.label_nodo_26,
+            "27": self.label_nodo_27,
+            "28": self.label_nodo_28,
+            "29": self.label_nodo_29,
+            "30": self.label_nodo_30,
+            "31": self.label_nodo_31,
+            "32": self.label_nodo_32,
         }
 
     def actualizar_num_ficha(self, id_ficha, numero_ficha):
@@ -98,13 +133,45 @@ class VentanaJuego(window_name, base_class):
         """
         Recibe un diccionario de la forma:
         {"id_jugador": {"madera": 0, "arcilla": 0, "trigo": 0},...}
-        y actualiza los labels de los puntos
+        y actualiza los labels de las materias primas
         """
         for id_jugador in dict_materias_primas:
             for materia_prima in dict_materias_primas[id_jugador]:
                 valor = dict_materias_primas[id_jugador][materia_prima]
-                self.labels_materias_primas[materia_prima][id_jugador].setText(valor)
-            self.labels_puntos[id_jugador].setText(dict_puntos[id_jugador])
+                self.labels_materias_primas[materia_prima][id_jugador].setText(str(valor))
+
+    def actualizar_construcciones(self, dict_nodos_pixmap):
+
+        """
+        Recibe un diccionario de la forma
+        {"id_nodo": pixmap, "id_nodo_2": pixmap_2}
+        y asigna los pixmaps a cada nodo.
+        En caso de ser None el pixmap, esconde el label
+        """
+        for id_nodo in dict_nodos_pixmap:
+            pixmap = dict_nodos_pixmap[id_nodo]
+            label_nodo = self.labels_nodos[id_nodo]
+            if pixmap:
+                if label_nodo.isHidden():
+                    label_nodo.show()
+                label_nodo.setPixmap(pixmap)
+            else:
+                label_nodo.hide()
 
     def actualizar_label_usuario(self, id, usuario):
         self.labels_usuarios[id].setText(usuario)
+
+    def actualizar_dados(self, pixmap_1, pixmap_2):
+        for id_dado in self.labels_dados:
+            label = self.labels_dados[id_dado]
+            label.setPixmap(pixmap_1)
+
+    def lanzar_dados(self):
+        self.senal_lanzar_dados.emit()
+        self.boton_lanzar_dados.setEnabled(False)
+
+    def activar_interfaz(self, bool):
+        self.boton_lanzar_dados.setEnbled(bool)
+        self.boton_carta_desarrollo.setEnabled(bool)
+
+        # Completar codigo para construcciones

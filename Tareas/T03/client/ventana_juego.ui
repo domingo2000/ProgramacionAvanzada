@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
+    <width>925</width>
     <height>654</height>
    </rect>
   </property>
@@ -22,10 +22,10 @@
   <widget class="QFrame" name="mapa">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>20</y>
-     <width>491</width>
-     <height>401</height>
+     <x>10</x>
+     <y>0</y>
+     <width>601</width>
+     <height>441</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -40,8 +40,8 @@
    <widget class="QLabel" name="label_ficha7">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>250</y>
+      <x>430</x>
+      <y>270</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -60,8 +60,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>310</y>
+      <x>300</x>
+      <y>340</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -79,8 +79,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>110</y>
+      <x>190</x>
+      <y>140</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -98,8 +98,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_ficha6">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>250</y>
+      <x>200</x>
+      <y>280</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -118,8 +118,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_ficha8">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>320</y>
+      <x>90</x>
+      <y>340</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -138,8 +138,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h8">
     <property name="geometry">
      <rect>
-      <x>-2</x>
-      <y>265</y>
+      <x>30</x>
+      <y>290</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -157,8 +157,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>180</y>
+      <x>80</x>
+      <y>210</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -176,8 +176,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>310</y>
+      <x>80</x>
+      <y>330</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -195,8 +195,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h1">
     <property name="geometry">
      <rect>
-      <x>222</x>
-      <y>5</y>
+      <x>254</x>
+      <y>30</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -214,8 +214,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_ficha5">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>190</y>
+      <x>310</x>
+      <y>220</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -234,8 +234,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h4">
     <property name="geometry">
      <rect>
-      <x>-2</x>
-      <y>135</y>
+      <x>30</x>
+      <y>160</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -253,8 +253,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_ficha9">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>320</y>
+      <x>310</x>
+      <y>350</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -273,8 +273,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>40</y>
+      <x>300</x>
+      <y>70</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -292,8 +292,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>40</y>
+      <x>80</x>
+      <y>70</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -311,8 +311,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h5">
     <property name="geometry">
      <rect>
-      <x>222</x>
-      <y>135</y>
+      <x>254</x>
+      <y>160</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -330,8 +330,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_ficha3">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>119</y>
+      <x>430</x>
+      <y>149</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -350,8 +350,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h7">
     <property name="geometry">
      <rect>
-      <x>334</x>
-      <y>200</y>
+      <x>366</x>
+      <y>225</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -369,8 +369,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>240</y>
+      <x>420</x>
+      <y>260</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -388,8 +388,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_ficha1">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>50</y>
+      <x>310</x>
+      <y>80</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -408,8 +408,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h3">
     <property name="geometry">
      <rect>
-      <x>334</x>
-      <y>70</y>
+      <x>366</x>
+      <y>95</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -427,8 +427,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_ficha2">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>120</y>
+      <x>200</x>
+      <y>150</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -447,8 +447,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h2">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>70</y>
+      <x>142</x>
+      <y>95</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -466,8 +466,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_ficha4">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>190</y>
+      <x>90</x>
+      <y>220</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -486,8 +486,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>180</y>
+      <x>300</x>
+      <y>210</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -505,8 +505,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_ficha0">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>50</y>
+      <x>90</x>
+      <y>80</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -525,8 +525,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h9">
     <property name="geometry">
      <rect>
-      <x>222</x>
-      <y>265</y>
+      <x>254</x>
+      <y>290</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -544,8 +544,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h0">
     <property name="geometry">
      <rect>
-      <x>-2</x>
-      <y>5</y>
+      <x>30</x>
+      <y>30</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -563,8 +563,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>110</y>
+      <x>420</x>
+      <y>140</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -582,8 +582,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_h6">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>200</y>
+      <x>142</x>
+      <y>225</y>
       <width>150</width>
       <height>130</height>
      </rect>
@@ -601,8 +601,8 @@ font-size: 15px;</string>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>240</y>
+      <x>190</x>
+      <y>270</y>
       <width>50</width>
       <height>50</height>
      </rect>
@@ -612,6 +612,732 @@ font-size: 15px;</string>
     </property>
     <property name="pixmap">
      <pixmap>sprites/Materias_primas/ficha_numero.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_0">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>20</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_1">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>20</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_2">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>20</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_3">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>20</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_5">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>80</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_6">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>80</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_7">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>80</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_8">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>80</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_9">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>140</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_10">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>140</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_11">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>140</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_12">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>140</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_13">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>140</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_14">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>210</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_15">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>210</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_16">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>210</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_17">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>210</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_18">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>210</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_19">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>270</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_20">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>270</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_21">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>270</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_22">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>270</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_23">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>270</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_24">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>340</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_25">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>340</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_26">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>340</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_27">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>340</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_28">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>340</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_29">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>400</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_30">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>400</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_31">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>400</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nodo_32">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>400</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>sprites/Construcciones/choza_azul.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -647,6 +1373,39 @@ font-size: 15px;</string>
    <zorder>label_ficha7</zorder>
    <zorder>label_ficha8</zorder>
    <zorder>label_ficha9</zorder>
+   <zorder>label_nodo_0</zorder>
+   <zorder>label_nodo_1</zorder>
+   <zorder>label_nodo_2</zorder>
+   <zorder>label_nodo_3</zorder>
+   <zorder>label_nodo_4</zorder>
+   <zorder>label_nodo_5</zorder>
+   <zorder>label_nodo_6</zorder>
+   <zorder>label_nodo_7</zorder>
+   <zorder>label_nodo_8</zorder>
+   <zorder>label_nodo_9</zorder>
+   <zorder>label_nodo_10</zorder>
+   <zorder>label_nodo_11</zorder>
+   <zorder>label_nodo_12</zorder>
+   <zorder>label_nodo_13</zorder>
+   <zorder>label_nodo_14</zorder>
+   <zorder>label_nodo_15</zorder>
+   <zorder>label_nodo_16</zorder>
+   <zorder>label_nodo_17</zorder>
+   <zorder>label_nodo_18</zorder>
+   <zorder>label_nodo_19</zorder>
+   <zorder>label_nodo_20</zorder>
+   <zorder>label_nodo_21</zorder>
+   <zorder>label_nodo_22</zorder>
+   <zorder>label_nodo_23</zorder>
+   <zorder>label_nodo_24</zorder>
+   <zorder>label_nodo_25</zorder>
+   <zorder>label_nodo_26</zorder>
+   <zorder>label_nodo_27</zorder>
+   <zorder>label_nodo_28</zorder>
+   <zorder>label_nodo_29</zorder>
+   <zorder>label_nodo_30</zorder>
+   <zorder>label_nodo_31</zorder>
+   <zorder>label_nodo_32</zorder>
   </widget>
   <widget class="QWidget" name="barra_usuario" native="true">
    <property name="geometry">
@@ -829,7 +1588,7 @@ font-size: 15px;</string>
      </widget>
     </item>
     <item row="0" column="5">
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="boton_lanzar_dados">
       <property name="styleSheet">
        <string notr="true">background-color: #D3D7CF</string>
       </property>
@@ -1817,4 +2576,7 @@ border-radius: 20px;</string>
  </widget>
  <resources/>
  <connections/>
+ <slots>
+  <slot>lanzar_dados()</slot>
+ </slots>
 </ui>
