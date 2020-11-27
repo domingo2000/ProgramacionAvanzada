@@ -74,6 +74,8 @@ class Juego():
         nodo.usuario_presente = usuario
         nodo.construccion = "choza"
         self.actualizar_construcciones()
+        self.puntos[usuario] += 1
+        self.net.send_command_to_all("actualizar_puntos", [self.puntos])
         return True
 
     def asignar_construccion(self, id_nodo, usuario):

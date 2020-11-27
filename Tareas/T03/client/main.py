@@ -26,6 +26,7 @@ if __name__ == "__main__":
 
     back_juego.senal_actualizar_usuarios.connect(ventana_espera.actualizar_usuarios)
     back_juego.senal_actualizar_materias_primas.connect(ventana_juego.actualizar_materias_primas)
+    back_juego.senal_actualizar_puntos.connect(ventana_juego.actualizar_labels_puntos)
     back_juego.senal_servidor_lleno.connect(ventana_espera.actualizar_label_sala_espera)
 
     back_juego.senal_actualizar_num_ficha.connect(ventana_juego.actualizar_num_ficha)

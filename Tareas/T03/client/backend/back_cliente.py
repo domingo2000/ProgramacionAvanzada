@@ -14,13 +14,15 @@ class BackVentanaJuego(QObject):
     senal_actualizar_materia_prima_hexagono = pyqtSignal(str, str)
     senal_actualizar_usuarios = pyqtSignal(list)
     senal_actualizar_construcciones = pyqtSignal(dict)
+    senal_actualizar_dados = pyqtSignal(QPixmap, QPixmap)
+    senal_actualizar_puntos = pyqtSignal(dict)
     senal_servidor_lleno = pyqtSignal(str)
     senal_cerrar_sala_espera = pyqtSignal()
     senal_cerrar_ventana_juego = pyqtSignal()
     senal_abrir_sala_espera = pyqtSignal()
     senal_abrir_ventana_juego = pyqtSignal()
     senal_cambiar_label_usuario = pyqtSignal(str, str)
-    senal_actualizar_dados = pyqtSignal(QPixmap, QPixmap)
+
     senal_activar_interfaz = pyqtSignal(bool)
 
     def __init__(self, host, port):
@@ -35,6 +37,7 @@ class BackVentanaJuego(QObject):
             "actualizar_usuarios": self.actualizar_usuarios,
             "actualizar_materias_primas": self.actualizar_materias_primas,
             "actualizar_construcciones": self.actualizar_construcciones,
+            "actualizar_puntos": self.actualizar_puntos,
             "actualizar_dados": self.actualizar_dados,
             "servidor_lleno": self.alerta_servidor_lleno,
             "close_wait_room": self.senal_cerrar_sala_espera.emit,
@@ -87,7 +90,6 @@ class BackVentanaJuego(QObject):
 
         for id_nodo in dict_nodo_construccion.copy():
             datos_nodo = dict_nodo_construccion[id_nodo]
-            print(datos_nodo)
             construccion = datos_nodo[0]
             if construccion:
                 usuario = datos_nodo[1]
@@ -110,6 +112,15 @@ class BackVentanaJuego(QObject):
             else:
                 self.usuarios_id[usuario] = str(id)
                 id += 1
+
+    def actualizar_puntos(self, dict_usuario_puntos):
+        """
+        Recibe un diccionario de la forma
+        {"usuario": puntos, "usuario2": puntos2} y envia la señal para
+        actualizar los puntos en la interfaz
+        """
+        dict_id_puntos = self.transformar_dict_usuario_id(dict_usuario_puntos)
+        self.senal_actualizar_puntos.emit(dict_id_puntos)
 
     def actualizar_dados(self, num_dado_1, num_dado_2):
         ruta_pixmap_1 = path.join(*data["rutas_sprites"][f"dado_{num_dado_1}"])
@@ -143,6 +154,11 @@ class BackVentanaJuego(QObject):
         self.senal_servidor_lleno.emit(mensaje)
 
     def transformar_dict_usuario_id(self, dict_usuario_contenido):
+        """
+        Recibe un dict de la forma
+        {"usuario": contenido, "usuario": contenido} y lo transforma en
+        {"id_usuario": contenido, "usuario": contenido}
+        """
         dict_id_contenido = {}
         for usuario in dict_usuario_contenido:
             id_usuario = self.usuarios_id[usuario]

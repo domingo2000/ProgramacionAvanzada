@@ -166,6 +166,16 @@ class VentanaJuego(window_name, base_class):
         else:
             self.labels_usuarios[id].setText(usuario)
 
+    def actualizar_labels_puntos(self, dict_id_puntos):
+        """
+        Recibe un diccionario de la forma
+        {"id_usuario": puntos, "id_usuario2": puntos2}
+        y actualiza los puntos en la interfaz
+        """
+        for id_usuario in dict_id_puntos:
+            puntos = dict_id_puntos[id_usuario]
+            self.labels_puntos[id_usuario].setText("Puntos: " + str(puntos))
+
     def actualizar_dados(self, pixmap_1, pixmap_2):
         self.labels_dados["1"].setPixmap(pixmap_1)
         self.labels_dados["2"].setPixmap(pixmap_2)
