@@ -161,7 +161,10 @@ class VentanaJuego(window_name, base_class):
                 label_nodo.hide()
 
     def actualizar_label_usuario(self, id, usuario):
-        self.labels_usuarios[id].setText(usuario)
+        if id == "0":
+            self.labels_usuarios[id].setText(f"{usuario} (Tú)")    
+        else:
+            self.labels_usuarios[id].setText(usuario)
 
     def actualizar_dados(self, pixmap_1, pixmap_2):
         self.labels_dados["1"].setPixmap(pixmap_1)
