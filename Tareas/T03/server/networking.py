@@ -4,6 +4,9 @@ import json
 import pickle
 from faker import Faker
 
+with open("parametros.json") as file:
+    data = json.load(file)
+
 
 class ServerNet():
 
@@ -11,6 +14,7 @@ class ServerNet():
         print("Inicializando Server")
         self.host = host
         self.port = port
+        self.cantidad_jugadores_partida = data["CANTIDAD_JUGADORES_PARTIDA"]
         self.stack_comandos = []
         self.comando_realizado = True
         self.faker = Faker()
@@ -55,7 +59,7 @@ class ServerNet():
             self.log(usuario, "conectado", "rechazado")
 
     def lleno(self):
-        if len(self.clientes) >= 2:
+        if len(self.clientes) >= self.cantidad_jugadores_partida:
             return True
         else:
             return False
