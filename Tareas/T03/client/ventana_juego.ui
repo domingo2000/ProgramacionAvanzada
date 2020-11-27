@@ -860,6 +860,9 @@ font-size: 15px;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_nodo_11">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -2575,7 +2578,24 @@ border-radius: 20px;</string>
   <zorder>informacion_juego</zorder>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>boton_lanzar_dados</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>lanzar_dados()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>555</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>462</x>
+     <y>326</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <slots>
   <slot>lanzar_dados()</slot>
  </slots>

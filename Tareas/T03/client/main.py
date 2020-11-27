@@ -18,6 +18,7 @@ if __name__ == "__main__":
     back_juego = BackVentanaJuego(data["host"], data["port"])
 
     #  CONEXIONES FRONT BACK
+    #  De back a ventanas
     back_juego.senal_abrir_sala_espera.connect(ventana_espera.show)
     back_juego.senal_abrir_ventana_juego.connect(ventana_juego.show)
     back_juego.senal_cerrar_sala_espera.connect(ventana_espera.hide)
@@ -34,5 +35,8 @@ if __name__ == "__main__":
     back_juego.senal_actualizar_dados.connect(ventana_juego.actualizar_dados)
 
     back_juego.senal_activar_interfaz.connect(ventana_juego.activar_interfaz)
+
+    #  De ventana a back
+    ventana_juego.senal_lanzar_dados.connect(back_juego.lanzar_dados)
     ventana_espera.show()
     sys.exit(app.exec_())

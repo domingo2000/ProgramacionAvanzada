@@ -29,13 +29,16 @@ class Server():
 
     def thread_revisar_comandos(self):
         while True:
-            if not self.net.comando_realizado:
-                index_ultimo_comando = len(self.net.stack_comandos) - 1
-                comando = self.net.stack_comandos[index_ultimo_comando]
-                nombre_comando = comando[0]
-                if nombre_comando in self.comandos:
-                    comando = self.net.stack_comandos.pop(index_ultimo_comando)
-                    self.realizar_comando(comando)
+            try:
+                if not self.net.comando_realizado:
+                    index_ultimo_comando = len(self.net.stack_comandos) - 1
+                    comando = self.net.stack_comandos[index_ultimo_comando]
+                    nombre_comando = comando[0]
+                    if nombre_comando in self.comandos:
+                        comando = self.net.stack_comandos.pop(index_ultimo_comando)
+                        self.realizar_comando(comando)
+            except IndexError:
+                print("Solicitud Acoplada")
 
             else:
                 pass

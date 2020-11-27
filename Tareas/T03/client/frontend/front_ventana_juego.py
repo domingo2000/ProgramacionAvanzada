@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QLabel, QWidget
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import pyqtSignal
 from os import path
 import json
 
@@ -11,6 +12,7 @@ with open("parametros.json") as file:
 
 
 class VentanaJuego(window_name, base_class):
+    senal_lanzar_dados = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -162,13 +164,12 @@ class VentanaJuego(window_name, base_class):
         self.labels_usuarios[id].setText(usuario)
 
     def actualizar_dados(self, pixmap_1, pixmap_2):
-        for id_dado in self.labels_dados:
-            label = self.labels_dados[id_dado]
-            label.setPixmap(pixmap_1)
+        self.labels_dados["1"].setPixmap(pixmap_1)
+        self.labels_dados["2"].setPixmap(pixmap_2)
 
     def lanzar_dados(self):
         self.senal_lanzar_dados.emit()
-        self.boton_lanzar_dados.setEnabled(False)
+        # self.boton_lanzar_dados.setEnabled(False)
 
     def activar_interfaz(self, bool):
         self.boton_lanzar_dados.setEnbled(bool)

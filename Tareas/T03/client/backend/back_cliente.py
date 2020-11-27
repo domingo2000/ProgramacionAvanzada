@@ -130,8 +130,8 @@ class BackVentanaJuego(QObject):
             self.senal_cambiar_label_usuario.emit(id, usuario)
 
     def actualizar_dados(self, num_dado_1, num_dado_2):
-        ruta_pixmap_1 = path.join(data["rutas_sprites"][f"dado_{num_dado_1}"])
-        ruta_pixmap_2 = path.join(data["rutas_sprites"][f"dado_{num_dado_2}"])
+        ruta_pixmap_1 = path.join(*data["rutas_sprites"][f"dado_{num_dado_1}"])
+        ruta_pixmap_2 = path.join(*data["rutas_sprites"][f"dado_{num_dado_2}"])
         pixmap_1 = QPixmap(ruta_pixmap_1)
         pixmap_2 = QPixmap(ruta_pixmap_2)
         self.senal_actualizar_dados.emit(pixmap_1, pixmap_2)
@@ -146,7 +146,8 @@ class BackVentanaJuego(QObject):
         y asigna los pixmaps a cada nodo.
         En caso de ser None el pixmap, esconde el label
         """
-
+    def lanzar_dados(self):
+        self.net.send_command("lanzar_dados")
 
 if __name__ == "__main__":
     import json
