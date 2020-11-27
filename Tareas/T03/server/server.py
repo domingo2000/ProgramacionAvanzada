@@ -60,6 +60,7 @@ class Server():
         self.juego = Juego(usuarios, self.net)
         self.net.send_command_to_all("close_wait_room")
         self.net.send_command_to_all("open_game_room")
+        self.juego.fase_juego()
 
     def test(self):
         self.net.log("Server", "Test", "None")

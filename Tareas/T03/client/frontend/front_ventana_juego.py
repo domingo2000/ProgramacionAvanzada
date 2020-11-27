@@ -13,6 +13,7 @@ with open("parametros.json") as file:
 
 class VentanaJuego(window_name, base_class):
     senal_lanzar_dados = pyqtSignal()
+    senal_accion_realizada = pyqtSignal(bool)
 
     def __init__(self):
         super().__init__()
@@ -162,7 +163,7 @@ class VentanaJuego(window_name, base_class):
 
     def actualizar_label_usuario(self, id, usuario):
         if id == "0":
-            self.labels_usuarios[id].setText(f"{usuario} (Tú)")    
+            self.labels_usuarios[id].setText(f"{usuario} (Tú)")
         else:
             self.labels_usuarios[id].setText(usuario)
 
@@ -176,16 +177,23 @@ class VentanaJuego(window_name, base_class):
             puntos = dict_id_puntos[id_usuario]
             self.labels_puntos[id_usuario].setText("Puntos: " + str(puntos))
 
+    def actualizar_label_jugador_actual(self, nombre_jugador):
+        self.jugador_actual.setText(nombre_jugador)
+
     def actualizar_dados(self, pixmap_1, pixmap_2):
         self.labels_dados["1"].setPixmap(pixmap_1)
         self.labels_dados["2"].setPixmap(pixmap_2)
 
     def lanzar_dados(self):
         self.senal_lanzar_dados.emit()
-        # self.boton_lanzar_dados.setEnabled(False)
+        self.boton_lanzar_dados.setEnabled(False)
+
+    def activar_interfaz_dados(self, bool):
+        self.boton_lanzar_dados.setEnabled(bool)
 
     def activar_interfaz(self, bool):
-        self.boton_lanzar_dados.setEnbled(bool)
         self.boton_carta_desarrollo.setEnabled(bool)
 
         # Completar codigo para construcciones
+    def realizar_accion(self):
+        self.senal_accion_realizada.emit(True)

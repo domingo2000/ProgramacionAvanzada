@@ -1552,6 +1552,9 @@ font-size: 15px;</string>
     </item>
     <item row="1" column="4">
      <widget class="QPushButton" name="pushButton_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: #D3D7CF</string>
       </property>
@@ -1571,7 +1574,10 @@ font-size: 15px;</string>
      </widget>
     </item>
     <item row="1" column="5">
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="boton_carta_desarrollo">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: #D3D7CF</string>
       </property>
@@ -1592,6 +1598,9 @@ font-size: 15px;</string>
     </item>
     <item row="0" column="5">
      <widget class="QPushButton" name="boton_lanzar_dados">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: #D3D7CF</string>
       </property>
@@ -1602,6 +1611,9 @@ font-size: 15px;</string>
     </item>
     <item row="1" column="3">
      <widget class="QPushButton" name="pushButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: #D3D7CF</string>
       </property>

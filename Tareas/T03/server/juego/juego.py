@@ -3,6 +3,8 @@ from juego.mapa.mapa import Mapa
 from threading import Thread
 import random
 import json
+import time
+
 
 with open("parametros.json") as file:
     data = json.load(file)
@@ -16,14 +18,18 @@ class Juego():
         self.puntos = {usuario: 0 for usuario in self.usuarios}
         self.mazos = {usuario: Mazo() for usuario in self.usuarios}
         self.mapa = Mapa()
+        self.fase_inicio()
         self.__dados = [0, 0]
-        self.iniciar_juego()
+        self.__jugador_actual = ""
+        self.dados_lanzados = False
+        self.ganador = None
         self.comandos = {
             "lanzar_dados": self.lanzar_dados
         }
         self.thread_revisar_comandos = Thread(target=self.thread_revisar_comandos,
                                               daemon=True)
         self.thread_revisar_comandos.start()
+
 
     @property
     def dados(self):
@@ -36,14 +42,42 @@ class Juego():
         dado_2 = valor[1]
         self.net.send_command_to_all("actualizar_dados", [dado_1, dado_2])
 
-    def iniciar_juego(self):
+    @property
+    def jugador_actual(self):
+        return self.__jugador_actual
+
+    @jugador_actual.setter
+    def jugador_actual(self, valor):
+        self.__jugador_actual = valor
+        self.net.send_command_to_all("actualizar_jugador_actual", [valor])
+
+    def fase_inicio(self):
+        self.ganador = None
         numeros, materias_primas = self.mapa.datos_mapa()
+        random.shuffle(self.usuarios)
         self.net.send_command_to_all("cargar_mapa", [numeros, materias_primas])
         self.net.send_command_to_all("cargar_usuarios")
         self.actualizar_materias_primas()
         self.actualizar_construcciones()
         self.asignar_casas_aleatorias()
         self.repartir_materias_primas()
+
+    def fase_juego(self):
+        self.net.log("Server", "Iniciando Juego")
+        while not self.ganador:
+            usuario = self.usuarios.pop()
+            self.usuarios.insert(0, usuario)
+            self.comenzar_turno(usuario)
+
+    def comenzar_turno(self, usuario):
+        self.jugador_actual = usuario
+        self.net.send_command("throw_dices", usuario)
+        while not self.dados_lanzados:
+            pass
+        self.net.send_command("activar_interfaz", usuario, [True])
+        time.sleep(5)
+        self.net.send_command("activar_interfaz", usuario, [False])
+        self.dados_lanzados = False
 
     def actualizar_materias_primas(self):
         dict_materias = {usuario: self.mazos[usuario].cartas for usuario in self.usuarios}
@@ -96,6 +130,7 @@ class Juego():
         dado_1 = random.randint(1, 6)
         dado_2 = random.randint(1, 6)
         self.dados = [dado_1, dado_2]
+        self.dados_lanzados = True
         self.net.log("server", "lanzando dados", f"{dado_1}, {dado_2}")
 
     def repartir_materias_primas(self):

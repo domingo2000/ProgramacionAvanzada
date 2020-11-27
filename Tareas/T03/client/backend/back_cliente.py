@@ -16,6 +16,7 @@ class BackVentanaJuego(QObject):
     senal_actualizar_construcciones = pyqtSignal(dict)
     senal_actualizar_dados = pyqtSignal(QPixmap, QPixmap)
     senal_actualizar_puntos = pyqtSignal(dict)
+    senal_actualizar_jugador_actual = pyqtSignal(str)
     senal_servidor_lleno = pyqtSignal(str)
     senal_cerrar_sala_espera = pyqtSignal()
     senal_cerrar_ventana_juego = pyqtSignal()
@@ -23,12 +24,15 @@ class BackVentanaJuego(QObject):
     senal_abrir_ventana_juego = pyqtSignal()
     senal_cambiar_label_usuario = pyqtSignal(str, str)
 
+    senal_activar_boton_dados = pyqtSignal(bool)
     senal_activar_interfaz = pyqtSignal(bool)
 
     def __init__(self, host, port):
         super().__init__()
         self.net = ClientNet(host, port)
         self.usuario_propio = None
+        self.accion_realizada = False
+        self.dados_lanzados = False
         self.comandos = {
             "cargar_mapa": self.cargar_mapa,
             "cargar_usuarios": self.cargar_labels_usuarios,
@@ -39,11 +43,14 @@ class BackVentanaJuego(QObject):
             "actualizar_construcciones": self.actualizar_construcciones,
             "actualizar_puntos": self.actualizar_puntos,
             "actualizar_dados": self.actualizar_dados,
+            "actualizar_jugador_actual": self.senal_actualizar_jugador_actual.emit,
             "servidor_lleno": self.alerta_servidor_lleno,
             "close_wait_room": self.senal_cerrar_sala_espera.emit,
             "close_game_room": self.senal_cerrar_ventana_juego.emit,
             "open_wait_room": self.senal_abrir_sala_espera.emit,
-            "open_game_room": self.senal_abrir_ventana_juego.emit
+            "open_game_room": self.senal_abrir_ventana_juego.emit,
+            "throw_dices": self.notificar_tirar_dados,
+            "activar_interfaz": self.senal_activar_interfaz.emit
         }
         self.usuarios_id = {
             "nombre_0": "0",
@@ -143,11 +150,14 @@ class BackVentanaJuego(QObject):
             id = self.usuarios_id[usuario]
             self.senal_cambiar_label_usuario.emit(id, usuario)
 
-    def activar_interfaz(self, bool):
-        self.senal_activar_interfaz.emit(bool)
-
     def lanzar_dados(self):
         self.net.send_command("lanzar_dados")
+        self.dados_lanzados = True
+
+    def notificar_tirar_dados(self):
+        self.senal_activar_boton_dados.emit(True)
+
+
 
     def alerta_servidor_lleno(self):
         mensaje = "El Servidor se encuentra lleno, espere a que haya terminado la partida"
@@ -182,6 +192,9 @@ class BackVentanaJuego(QObject):
                     metodo()
                 self.net.comando_realizado = True
                 self.net.log("Comando Realizado", comando)
+
+    def set_accion_realizada(self, bool):
+        self.accion_realizada = bool
 
 if __name__ == "__main__":
     import json
