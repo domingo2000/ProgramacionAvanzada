@@ -55,7 +55,7 @@ class ServerNet():
             self.log(usuario, "conectado", "rechazado")
 
     def lleno(self):
-        if len(self.clientes) >= 1:
+        if len(self.clientes) >= 4:
             return True
         else:
             return False
