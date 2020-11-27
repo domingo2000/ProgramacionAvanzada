@@ -2,6 +2,8 @@
     "host": "192.168.1.17",
     "port": 200,
 
+    "GANANCIA_MATERIA_PRIMA": 1,
+
     "costos": {
         "carta_desarrollo" : {
             "CANTIDAD_MADERA_CARTA_DESARROLLO" : 1,

@@ -2,6 +2,10 @@ from juego.items.cartas import Mazo
 from juego.mapa.mapa import Mapa
 from threading import Thread
 import random
+import json
+
+with open("parametros.json") as file:
+    data = json.load(file)
 
 
 class Juego():
@@ -39,7 +43,7 @@ class Juego():
         self.actualizar_materias_primas()
         self.actualizar_construcciones()
         self.asignar_casas_aleatorias()
-        print("Hola")
+        self.repartir_materias_primas()
 
     def actualizar_materias_primas(self):
         dict_materias = {usuario: self.mazos[usuario].cartas for usuario in self.usuarios}
@@ -91,6 +95,18 @@ class Juego():
         dado_2 = random.randint(1, 6)
         self.dados = [dado_1, dado_2]
         self.net.log("server", "lanzando dados", f"{dado_1}, {dado_2}")
+
+    def repartir_materias_primas(self):
+        for id_hexagono in self.mapa.hexagonos:
+            hexagono = self.mapa.hexagonos[id_hexagono]
+            materia_prima = hexagono.materia_prima
+            for id_nodo in hexagono.nodos:
+                nodo = hexagono.nodos[id_nodo]
+                if nodo.estado == "ocupado":
+                    usuario = nodo.usuario_presente
+                    mazo = self.mazos[usuario]
+                    mazo.cartas[materia_prima] += 1
+        self.actualizar_materias_primas()
 
     def thread_revisar_comandos(self):
         while True:
