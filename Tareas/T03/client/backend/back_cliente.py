@@ -13,6 +13,7 @@ class BackVentanaJuego(QObject):
     senal_actualizar_materias_primas = pyqtSignal(dict)
     senal_actualizar_materia_prima_hexagono = pyqtSignal(str, str)
     senal_actualizar_usuarios = pyqtSignal(list)
+    senal_actualizar_construcciones = pyqtSignal(dict)
     senal_servidor_lleno = pyqtSignal(str)
     senal_cerrar_sala_espera = pyqtSignal()
     senal_cerrar_ventana_juego = pyqtSignal()
@@ -33,6 +34,7 @@ class BackVentanaJuego(QObject):
             "set_user": self.fijar_usuario,
             "actualizar_usuarios": self.actualizar_usuarios,
             "actualizar_materias_primas": self.actualizar_materias_primas,
+            "actualizar_construcciones": self.actualizar_construcciones,
             "actualizar_dados": self.actualizar_dados,
             "servidor_lleno": self.alerta_servidor_lleno,
             "close_wait_room": self.senal_cerrar_sala_espera.emit,
@@ -142,12 +144,29 @@ class BackVentanaJuego(QObject):
     def actualizar_construcciones(self, dict_nodo_construccion):
         """
         Recibe un diccionario de la forma
-        {"id_nodo": pixmap, "id_nodo_2": pixmap_2}
+        {"id_nodo": [construccion, usuario], "id_nodo_2": [construccion, usuario]}
         y asigna los pixmaps a cada nodo.
         En caso de ser None el pixmap, esconde el label
         """
+
+        for id_nodo in dict_nodo_construccion.copy():
+            datos_nodo = dict_nodo_construccion[id_nodo]
+            print(datos_nodo)
+            construccion = datos_nodo[0]
+            if construccion:
+                usuario = datos_nodo[1]
+                id_usuario = self.usuarios_id[usuario]
+                ruta = path.join(*data["rutas_sprites"][f"{construccion}_j{id_usuario}"])
+                pixmap = QPixmap(ruta)
+                dict_nodo_construccion[id_nodo] = pixmap
+            else:
+                dict_nodo_construccion[id_nodo] = None
+
+        self.senal_actualizar_construcciones.emit(dict_nodo_construccion)
+
     def lanzar_dados(self):
         self.net.send_command("lanzar_dados")
+
 
 if __name__ == "__main__":
     import json

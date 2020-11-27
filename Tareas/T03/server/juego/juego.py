@@ -37,27 +37,49 @@ class Juego():
         self.net.send_command_to_all("cargar_mapa", [numeros, materias_primas])
         self.net.send_command_to_all("cargar_usuarios")
         self.actualizar_materias_primas()
+        self.actualizar_construcciones()
+        self.asignar_casas_aleatorias()
+        print("Hola")
 
     def actualizar_materias_primas(self):
         dict_materias = {usuario: self.mazos[usuario].cartas for usuario in self.usuarios}
         self.net.send_command_to_all("actualizar_materias_primas", [dict_materias])
 
     def actualizar_construcciones(self):
-        self.net.send_command_to_all("actualizar_construcciones")
+        dict_nodo_construccion_usuario = {}
+        for id_nodo in self.mapa.nodos:
+            nodo = self.mapa.nodos[id_nodo]
+            dict_nodo_construccion_usuario[id_nodo] = [nodo.construccion, nodo.usuario_presente]
+        self.net.send_command_to_all("actualizar_construcciones", [dict_nodo_construccion_usuario])
 
     def asignar_casas_aleatorias(self):
-        pass
+        for usuario in self.usuarios:
+            for _ in range(2):  # Pone dos casas por usuario
+                while True:
+                    id_nodo = random.choice(list(self.mapa.nodos))
+                    if self.validar_posicion_casa(id_nodo):
+                        self.asignar_casa(id_nodo, usuario)
+                        break
 
     def asignar_caminos_aleatorios(self):
         pass
 
     def asignar_casa(self, id_nodo, usuario):
-        self.mapa.nodos[id_nodo].estado = "ocupado"
-        self.mapa.nodos[id_nodo].usuario = usuario
-
+        nodo = self.mapa.nodos[id_nodo]
+        nodo.estado = "ocupado"
+        nodo.usuario_presente = usuario
+        nodo.construccion = "choza"
+        self.actualizar_construcciones()
         return True
 
+    def asignar_construccion(self, id_nodo, usuario):
+        pass
+
     def validar_posicion_casa(self, id_nodo):
+        # Revisa el nodo propio
+        if self.mapa.nodos[id_nodo].estado == "ocupado":
+            return False
+        # Revisa los nodos vecinos
         vecinos = self.mapa.vecinos(id_nodo)
         for id_nodo in vecinos:
             if self.mapa.nodos[id_nodo].estado == "ocupado":
