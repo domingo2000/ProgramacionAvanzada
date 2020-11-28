@@ -48,5 +48,6 @@ if __name__ == "__main__":
     ventana_juego.senal_comprar_carta_desarrollo.connect(back_juego.comprar_carta_desarrollo)
     ventana_juego.senal_monopolio_realizado.connect(back_juego.enviar_info_monopolio)
     ventana_juego.senal_pasar_turno.connect(back_juego.pasar_turno)
+    ventana_juego.senal_casa_dropeada.connect(back_juego.manejar_casa_dropeada)
     ventana_espera.show()
     sys.exit(app.exec_())

@@ -200,14 +200,17 @@ class BackVentanaJuego(QObject):
                 self.net.comando_realizado = True
                 self.net.log("Comando Realizado", comando)
 
-    def enviar_accion_realizada(self, str_accion):
-        self.net.send_command("realizar_accion", [str_accion])
+    def enviar_accion_realizada(self, str_accion, id=None):
+        self.net.send_command("realizar_accion", [str_accion, id])
 
     def comprar_carta_desarrollo(self):
         self.enviar_accion_realizada("carta_desarrollo")
 
     def enviar_info_monopolio(self, materia_prima):
         self.net.send_command("actualizar_materia_monopolio", [materia_prima])
+
+    def manejar_casa_dropeada(self, id_nodo):
+        self.enviar_accion_realizada("choza", id_nodo)
 
 
 if __name__ == "__main__":

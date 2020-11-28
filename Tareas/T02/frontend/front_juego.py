@@ -111,6 +111,7 @@ class VentanaJuego(window_name, base_class):
 
     def dragEnterEvent(self, event):
         event.acceptProposedAction()
+        pass
 
     def dropEvent(self, event):
         self.senal_pinguino_dropeado.emit(event)

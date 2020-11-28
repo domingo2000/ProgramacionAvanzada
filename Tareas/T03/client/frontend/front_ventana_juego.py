@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import QLabel, QWidget, QErrorMessage
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QEvent, QRect
 from os import path
 from frontend.dialogs import DialogoMonopolio, DialogPuntoVictoria
+from frontend.construcciones import Casa
 import json
 
 window_name, base_class = uic.loadUiType("ventana_juego.ui")
@@ -19,11 +20,13 @@ class VentanaJuego(window_name, base_class):
     senal_accion_realizada = pyqtSignal(str)
     senal_comprar_carta_desarrollo = pyqtSignal()
     senal_pasar_turno = pyqtSignal()
+    senal_casa_dropeada = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.init_dialogs()
+        self.init_gui()
 
         self.labels_num_fichas = {
             "0": self.label_ficha0,
@@ -122,6 +125,10 @@ class VentanaJuego(window_name, base_class):
         self.dialogo_monopolio = DialogoMonopolio(self)
         self.dialogo_punto_victoria = DialogPuntoVictoria(self)
 
+    def init_gui(self):
+        self.casa_interfaz = Casa(0, 0, self)
+        self.barra_usuario.layout().addWidget(self.casa_interfaz, 1, 3)
+
     def actualizar_num_ficha(self, id_ficha, numero_ficha):
         label_num_ficha = self.labels_num_fichas[id_ficha]
         label_num_ficha.setText(str(numero_ficha))
@@ -210,6 +217,7 @@ class VentanaJuego(window_name, base_class):
         self.boton_lanzar_dados.setEnabled(bool)
 
     def activar_interfaz(self, bool):
+        self.casa_interfaz.movible = True
         self.boton_carta_desarrollo.setEnabled(bool)
         self.boton_pasar_turno.setEnabled(bool)
 
@@ -229,3 +237,28 @@ class VentanaJuego(window_name, base_class):
     def actualizar_puntos_victoria(self, int):
         self.dialogo_punto_victoria.exec()
         self.puntos_victoria.setText(f": {str(int)}")
+
+    def dragEnterEvent(self, event):
+        event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        label_dropeado = event.source()
+        pos = event.pos()
+        x = pos.x()
+        y = pos.y()
+        if label_dropeado.tipo == "choza":
+            copia_choza = Casa(x, y, self)
+            colider_copia = QRect(copia_choza.x(), copia_choza.y(),
+                                  copia_choza.width(), copia_choza.height())
+            for id_label_nodo in self.labels_nodos:
+                label_nodo = self.labels_nodos[id_label_nodo]
+                colider_nodo = QRect(label_nodo.x(), label_nodo.y(),
+                                     label_nodo.width(), label_nodo.height())
+                if colider_copia.intersects(colider_nodo):
+                    self.senal_casa_dropeada.emit(id_label_nodo)
+                    copia_choza.hide()
+                    copia_choza.setParent(None)
+                    return
+
+        elif label_dropeado.tipo == "camino":
+            pass

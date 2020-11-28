@@ -1,5 +1,5 @@
 import json
-from funciones import crear_diccionario_costos
+from juego.items.funciones import crear_diccionario_costos
 with open("parametros.json") as file:
     data = json.load(file)
 costos = data["costos"]

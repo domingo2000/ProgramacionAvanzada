@@ -30,7 +30,8 @@ class Juego():
         self.comandos = {
             "lanzar_dados": self.lanzar_dados,
             "realizar_accion": self.realizar_accion,
-            "actualizar_materia_monopolio": self.realizar_monopolio
+            "actualizar_materia_monopolio": self.realizar_monopolio,
+            "casa_dropeada": self.revisar_casa_dropeada
         }
         self.thread_revisar_comandos = Thread(target=self.thread_revisar_comandos,
                                               daemon=True)
@@ -200,7 +201,7 @@ class Juego():
         self.net.log("Server", "Realizado Comando", nombre_comando)
         self.net.log("-", "Parametros", str(parametros))
 
-    def realizar_accion(self, accion):
+    def realizar_accion(self, accion, id=None):
         mazo_jugador = self.mazos[self.jugador_actual]
         if accion == "carta_desarrollo":
             carta_desarrollo = self.banco.comprar_desarrollo(mazo_jugador)
@@ -213,9 +214,10 @@ class Juego():
                     self.net.send_command("realizar_monopolio", self.jugador_actual)
             else:
                 mensaje = "No tienes materias primas para comprar esta carta de desarrollo"
+                self.net.send_command("error_msg", self.jugador_actual, [mensaje])
                 accion_valida = False
         elif accion == "choza":
-            pass
+            accion_valida = self.revisar_casa_dropeada(id)
         elif accion == "ciudad":
             pass
         elif accion == "camino":
@@ -229,7 +231,6 @@ class Juego():
             raise KeyError("La accion pedida no existe")
 
         if not accion_valida:
-            self.net.send_command("error_msg", self.jugador_actual, [mensaje])
             self.net.send_command("activar_interfaz", self.jugador_actual, [True])
         else:
             pass
@@ -266,3 +267,29 @@ class Juego():
             self.mazos[self.jugador_actual].cartas[materia_prima] -= costo
 
         self.actualizar_materias_primas()
+
+    def revisar_casa_dropeada(self, id_nodo):
+        id_vecinos = self.mapa.vecinos(id_nodo)
+        # Revisa el mismo nodo
+        nodo = self.mapa.nodos[id_nodo]
+        if nodo.estado == "ocupado":
+            self.net.send_command("error_msg", self.jugador_actual, ["Posición invalida"])
+            return False
+        # Revisa los vecinos
+        for id_vecino in id_vecinos:
+            nodo = self.mapa.nodos[id_vecino]
+            if nodo.estado == "ocupado":
+                self.net.send_command("error_msg", self.jugador_actual, ["Posición invalida"])
+                return False
+        # Caso si se puede poner la casa
+        choza = self.banco.comprar_choza(self.mazos[self.jugador_actual])
+        if choza:
+            self.comprar(choza)
+            self.net.send_command("activar_interfaz", self.jugador_actual, [False])
+            self.asignar_casa(id_nodo, self.jugador_actual)
+            self.accion_realizada = True
+            return True
+        else:
+            self.net.send_command("error_msg", self.jugador_actual, [
+                "no tienes suficientes materias primas"])
+            return False
