@@ -221,6 +221,21 @@ class Mapa:
             hexagono = self.hexagonos[id_hexagono]
             hexagono.materia_prima = materias_escogidas.pop()
 
+    def añadir_construccion(self, construccion, id_nodo):
+        nodo = self.nodos[id_nodo]
+        # Revisa que el mismo nodo no este construido
+        if nodo.construccion is not None:
+            print("Enviar comando posicion invalida")
+            return False
+        # Revisa que no hayan vecinos construidos
+        for id_nodo_vecino in nodo.vecinos:
+            nodo_vecino = self.nodos[id_nodo_vecino]
+            if nodo_vecino.construccion is not None:
+                print("Enviar comando posicion invalida")
+                return False
+        nodo.añadir_construccion(construccion, construccion.usuario)
+        return True
+
 
 if __name__ == "__main__":
     mapa = Mapa()
