@@ -1,6 +1,7 @@
 from os import path
 import json
 import random
+from networking import interfaz_network
 
 with open("parametros.json") as file:
     PARAMETROS = json.load(file)
@@ -60,7 +61,7 @@ class Nodo:
             print(f"Enviar comando eliminar construccion, id: {self.id}")
             self.__construccion = valor
 
-    def añadir_construccion(self, construccion, usuario):
+    def anadir_construccion(self, construccion, usuario):
         self.usuario = usuario
         self.construccion = construccion
 
@@ -107,7 +108,7 @@ class Hexagono:
         self.__num_ficha = valor
         print(f"Enviar Comando actualizar num_ficha: {self.id}: {self.num_ficha}")
 
-    def añadir_nodo(self, nodo):
+    def anadir_nodo(self, nodo):
         self.nodos[nodo.id] = nodo
 
     def __repr__(self):
@@ -190,7 +191,7 @@ class Mapa:
             # Agrega todos los nodos correspondientes al hexagono
             for id_nodo in id_nodos:
                 nodo = self.nodos[id_nodo]
-                hexagono.añadir_nodo(nodo)
+                hexagono.anadir_nodo(nodo)
             self.agregar_hexagono(hexagono)
 
         # Agrega los numeros a cada hexagono
@@ -221,7 +222,7 @@ class Mapa:
             hexagono = self.hexagonos[id_hexagono]
             hexagono.materia_prima = materias_escogidas.pop()
 
-    def añadir_construccion(self, construccion, id_nodo):
+    def anadir_construccion(self, construccion, id_nodo):
         nodo = self.nodos[id_nodo]
         # Revisa que el mismo nodo no este construido
         if nodo.construccion is not None:
@@ -233,7 +234,7 @@ class Mapa:
             if nodo_vecino.construccion is not None:
                 print("Enviar comando posicion invalida")
                 return False
-        nodo.añadir_construccion(construccion, construccion.usuario)
+        nodo.anadir_construccion(construccion, construccion.usuario)
         return True
 
 

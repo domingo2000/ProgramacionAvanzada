@@ -1,3 +1,6 @@
+from networking import interfaz_network
+
+
 class Mazo(dict):
 
     def __init__(self, nombre_usuario):
@@ -12,7 +15,8 @@ class Mazo(dict):
         if key not in keys:
             raise KeyError("No existe la materia prima dada")
 
-        print(f"Enviando Comando: {key}: {value}: {self.usuario}")
+        #print(f"Enviando Comando: {key}: {value}: {self.usuario}")
+        interfaz_network.send_command_to_all("update_resource", self.usuario, key, value)
         super().__setitem__(key, value)
         # Completar Enviar comando
 

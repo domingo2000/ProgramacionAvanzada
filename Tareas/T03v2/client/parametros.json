@@ -36,5 +36,8 @@
         "camino_120_j1": ["sprites", "Construcciones", "camino_violeta_120.png"],
         "camino_120_j2": ["sprites", "Construcciones", "camino_verde_120.png"],
         "camino_120_j3": ["sprites", "Construcciones", "camino_rojo_120.png"]
+    },
+    "rutas_uis": {
+        "sala_espera": ["frontend", "sala_espera.ui"]
     }
 }

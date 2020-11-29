@@ -4,23 +4,9 @@ import pickle
 from threading import Thread, Lock
 from collections import deque
 from faker import Faker
-
+from comando import Comando
 with open("parametros.json") as file:
     PARAMETROS = json.load(file)
-
-
-class Comando:
-
-    def __init__(self, nombre_comando, *args):
-        self.nombre = nombre_comando
-        if len(args) > 0:
-            self.parametros = args
-        else:
-            self.parametros = None
-
-    def __repr__(self):
-
-        return f"({self.nombre}: {self.parametros})"
 
 
 class ServerNet:
@@ -62,9 +48,14 @@ class ServerNet:
     def aceptar_cliente(self, nombre_usuario, socket_cliente):
         self.clientes[nombre_usuario] = socket_cliente
         self.send_command(nombre_usuario, "aceptar_cliente")
-        # Crea el thread de escucha de comandos para el cliente
+        # Envia el comando para darle el nombre de usuario al cliente
+        self.send_command(nombre_usuario, "set_user", nombre_usuario)
+
+        # Envia el comando para anadir el usuario en la sala de espera
+        self.send_command_to_all("update_users", self.nombres_usuarios)
 
         self.log("Server", "aceptando_cliente", nombre_usuario)
+        # Crea el thread de escucha de comandos para el cliente
         thread_escucha = Thread(target=self.thread_escucha_cliente,
                                 args=(socket_cliente, nombre_usuario, ),
                                 daemon=True)
@@ -76,7 +67,7 @@ class ServerNet:
             try:
                 data = self.recive_data(socket_cliente)
                 comando = pickle.loads(data)
-                self.añadir_comando(comando, nombre_usuario)
+                self.anadir_comando(comando, nombre_usuario)
             except ConnectionError:
                 self.desconectar_usuario(nombre_usuario)
                 break
@@ -151,10 +142,12 @@ class ServerNet:
         self.nombres_usuarios.remove(nombre_usuario)
         self.log("server", "desconectando usuario", nombre_usuario)
         # Completar comando actualizar usuarios
+        self.send_command_to_all("update_users", self.nombres_usuarios)
+        # Completar comando quitar de la cola del juego
 
     def send_command(self, nombre_usuario, nombre_comando, *args):
         """
-        Envia un comando serializado con un nombre,
+        Envia un comando serializado con un nombre al usuario especificado,
         *args recibe los parametros necesarios para realizar dicho comando
         y se envia un comando de la forma
         tupla: ("comando": (parametros))
@@ -166,13 +159,23 @@ class ServerNet:
         if comando.nombre != "":
             self.log("Server", f"enviando comando: {comando}", nombre_usuario)
 
-    def añadir_comando(self, comando, nombre_usuario):
+    def send_command_to_all(self, nombre_comando, *args):
+        """
+        Envia un comando serializado con un nombre a todos los clientes conectados,
+        *args recibe los parametros necesarios para realizar dicho comando
+        y se envia un comando de la forma
+        tupla: ("comando": (parametros))
+        """
+        for nombre_usuario in self.clientes:
+            self.send_command(nombre_usuario, nombre_comando, *args)
+
+    def anadir_comando(self, comando, nombre_usuario):
         self.cola_comandos.append(comando)
-        self.log("server", "añadiendo comando", f"{comando}, {nombre_usuario}")
+        self.log("server", "anadiendo comando", f"{comando}, {nombre_usuario}")
 
     def log(self, nombre_usuario="-", evento="-", detalles="-"):
         with self.lock_log:
-            print(f"{nombre_usuario: ^25} | {evento: ^25} | {detalles: ^25}")
+            print(f"{nombre_usuario: ^20} | {evento: ^50} | {detalles: ^50}")
 
     def lleno(self):
         if len(self.clientes) >= self.cantidad_usuarios_permitidos:
@@ -187,7 +190,7 @@ net_server = ServerNet()
 class InterfazServerNet:
     lock_envio_comandos = Lock()
     lock_sacar_comandos = Lock()
-    lock_añadir_comandos = Lock()
+    lock_anadir_comandos = Lock()
     network = net_server
 
     def __init__(self):
@@ -196,6 +199,10 @@ class InterfazServerNet:
     def send_command(self, nombre_usuario, nombre_comando, *args):
         with self.lock_envio_comandos:
             self.network.send_command(nombre_usuario, nombre_comando, *args)
+
+    def send_command_to_all(self, nombre_comando, *args):
+        with self.lock_envio_comandos:
+            self.network.send_command_to_all(nombre_comando, *args)
 
     def revisar_comando(self, dict_comandos):
         with self.lock_sacar_comandos:
@@ -208,9 +215,9 @@ class InterfazServerNet:
                     self.realizar_comando(comando, funcion)
                     self.network.log("server", "realizado comando", nombre_comando)
 
-    def añadir_comando(self, comando, nombre_usuario):
-        with self.lock_añadir_comandos:
-            self.network.añadir_comando(comando, nombre_usuario)
+    def anadir_comando(self, comando, nombre_usuario):
+        with self.lock_anadir_comandos:
+            self.network.anadir_comando(comando, nombre_usuario)
 
     def realizar_comando(self, comando, funcion):
         if comando.parametros is None:
@@ -223,12 +230,17 @@ class InterfazServerNet:
 interfaz_network = InterfazServerNet()
 
 
+def thread_revisar_comandos(dict_comandos):
+    while True:
+        interfaz_network.revisar_comando(dict_comandos)
+
+
 if __name__ == "__main__":
     import time
     comando = Comando("sumar", 1, 2, 3, 4)
     comando_none = Comando("none")
-    interfaz_network.añadir_comando(comando, "pepito")
-    interfaz_network.añadir_comando(comando_none, "pepito")
+    interfaz_network.anadir_comando(comando, "pepito")
+    interfaz_network.anadir_comando(comando_none, "pepito")
 
     class A:
 

@@ -22,4 +22,5 @@ class Juego:
         self.construir_construcciones_iniciales()
 
     def construir_construcciones_iniciales(self):
+        pass
         #  Construye las primeras casas

@@ -3,23 +3,10 @@ import json
 import pickle
 from threading import Thread, Lock, Event
 from collections import deque
+from comando import Comando
 
 with open("parametros.json") as file:
     PARAMETROS = json.load(file)
-
-
-class Comando:
-
-    def __init__(self, nombre_comando, *args):
-        self.nombre = nombre_comando
-        if len(args) > 0:
-            self.parametros = args
-        else:
-            self.parametros = None
-
-    def __repr__(self):
-
-        return f"({self.nombre}: {self.parametros})"
 
 
 class ClientNet:
@@ -60,7 +47,7 @@ class ClientNet:
             try:
                 data = self.recive_data()
                 comando = pickle.loads(data)
-                self.añadir_comando(comando)
+                self.anadir_comando(comando)
             except ConnectionError:
                 self.desconectarse(msg="El servidor se ha cerrado abruptamente")
                 break
@@ -148,9 +135,9 @@ class ClientNet:
         if comando.nombre != "":
             self.log(f"enviando comando: {comando}")
 
-    def añadir_comando(self, comando):
+    def anadir_comando(self, comando):
         self.cola_comandos.append(comando)
-        self.log("añadiendo comando", f"{comando}")
+        self.log("anadiendo comando", f"{comando}")
 
     def log(self, evento="-", detalles="-"):
         with self.lock_log:
@@ -167,7 +154,7 @@ net_cliente = ClientNet()
 class InterfazClientNet:
     lock_envio_comandos = Lock()
     lock_sacar_comandos = Lock()
-    lock_añadir_comandos = Lock()
+    lock_anadir_comandos = Lock()
     network = net_cliente
 
     def __init__(self):
@@ -186,10 +173,11 @@ class InterfazClientNet:
                     comando = self.network.cola_comandos.popleft()
                     funcion = dict_comandos[nombre_comando]
                     self.realizar_comando(comando, funcion)
+                    self.network.log("realizado comando", nombre_comando)
 
-    def añadir_comando(self, comando):
-        with self.lock_añadir_comandos:
-            self.network.añadir_comando(comando)
+    def anadir_comando(self, comando):
+        with self.lock_anadir_comandos:
+            self.network.anadir_comando(comando)
 
     def realizar_comando(self, comando, funcion):
         if comando.parametros is None:
@@ -201,12 +189,22 @@ class InterfazClientNet:
 
 interfaz_network = InterfazClientNet()
 
+
+def thread_revisar_comandos(dict_comandos):
+    while True:
+        interfaz_network.revisar_comando(dict_comandos)
+
+
+def revisar_comando(dict_comandos):
+    interfaz_network.revisar_comando(dict_comandos)
+
+
 if __name__ == "__main__":
     import time
     comando = Comando("sumar", 1, 2, 3, 4)
     comando_none = Comando("none")
-    interfaz_network.añadir_comando(comando)
-    interfaz_network.añadir_comando(comando_none)
+    interfaz_network.anadir_comando(comando)
+    interfaz_network.anadir_comando(comando_none)
 
     class A:
 
