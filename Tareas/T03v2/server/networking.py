@@ -36,6 +36,8 @@ class ServerNet:
         self.lock_log = Lock()
         # Crea el socket del servidor
         self.socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    def encender(self):
         # Conecta el socket al puerto y host
         self.bind_and_listen()
         # Crea el thread para aceptar clientes
@@ -61,11 +63,12 @@ class ServerNet:
         self.clientes[nombre_usuario] = socket_cliente
         self.send_command(nombre_usuario, "aceptar_cliente")
         # Crea el thread de escucha de comandos para el cliente
+
+        self.log("Server", "aceptando_cliente", nombre_usuario)
         thread_escucha = Thread(target=self.thread_escucha_cliente,
                                 args=(socket_cliente, nombre_usuario, ),
                                 daemon=True)
         thread_escucha.start()
-        self.log("Server", "aceptando_cliente", nombre_usuario)
 
     def thread_escucha_cliente(self, socket_cliente, nombre_usuario):
         self.log("server", "escuchando_usuario", nombre_usuario)
@@ -75,13 +78,12 @@ class ServerNet:
                 comando = pickle.loads(data)
                 self.añadir_comando(comando, nombre_usuario)
             except ConnectionError:
-                print("NO DEBERIA ESTAR AQUI")
                 self.desconectar_usuario(nombre_usuario)
                 break
 
     def rechazar_cliente(self, nombre_usuario, socket_cliente):
         self.clientes[nombre_usuario] = socket_cliente
-        self.send_command(nombre_usuario, "rechazar_cliente")
+        self.send_command(nombre_usuario, "rechazar_cliente", "lleno")
         self.desconectar_usuario(nombre_usuario)
         self.log("Server", "rechazando_cliente", nombre_usuario)
 
@@ -146,7 +148,8 @@ class ServerNet:
 
     def desconectar_usuario(self, nombre_usuario):
         del self.clientes[nombre_usuario]
-        self.nombres_usuarios.remove[nombre_usuario]
+        self.nombres_usuarios.remove(nombre_usuario)
+        self.log("server", "desconectando usuario", nombre_usuario)
         # Completar comando actualizar usuarios
 
     def send_command(self, nombre_usuario, nombre_comando, *args):
@@ -161,7 +164,7 @@ class ServerNet:
         self.send_bytes(comando_serializado, nombre_usuario)
 
         if comando.nombre != "":
-            self.log("Server", f"comando: {comando}", nombre_usuario)
+            self.log("Server", f"enviando comando: {comando}", nombre_usuario)
 
     def añadir_comando(self, comando, nombre_usuario):
         self.cola_comandos.append(comando)
@@ -190,9 +193,9 @@ class InterfazServerNet:
     def __init__(self):
         pass
 
-    def send_command(self, nombre_usuario, comando, *args):
+    def send_command(self, nombre_usuario, nombre_comando, *args):
         with self.lock_envio_comandos:
-            self.network.send_command(nombre_usuario, comando, *args)
+            self.network.send_command(nombre_usuario, nombre_comando, *args)
 
     def revisar_comando(self, dict_comandos):
         with self.lock_sacar_comandos:
@@ -203,6 +206,7 @@ class InterfazServerNet:
                     comando = self.network.cola_comandos.popleft()
                     funcion = dict_comandos[nombre_comando]
                     self.realizar_comando(comando, funcion)
+                    self.network.log("server", "realizado comando", nombre_comando)
 
     def añadir_comando(self, comando, nombre_usuario):
         with self.lock_añadir_comandos:
