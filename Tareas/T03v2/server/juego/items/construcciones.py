@@ -8,6 +8,7 @@ with open("parametros.json") as file:
 class Choza:
     costo = COSTOS["choza"]
     puntos = 1
+    cartas_entregadas = 1
 
     def __init__(self, usuario):
         self.__usuario = usuario
@@ -25,6 +26,7 @@ class Choza:
 class Ciudad:
     costo = COSTOS["ciudad"]
     puntos = 2
+    cartas_entregadas = 2
 
     def __init__(self, nombre_usuario):
         self.__usuario = str

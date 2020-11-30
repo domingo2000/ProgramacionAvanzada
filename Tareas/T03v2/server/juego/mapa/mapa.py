@@ -67,6 +67,7 @@ class Nodo:
     def anadir_construccion(self, construccion, usuario):
         self.usuario = usuario
         self.construccion = construccion
+        self.ocupado = True
 
     def eliminar_construccion(self):
         self.construccion = None
@@ -113,6 +114,16 @@ class Hexagono:
 
     def anadir_nodo(self, nodo):
         self.nodos[nodo.id] = nodo
+
+    def nodos_ocupados(self):
+        """
+        retorna los nodos ocupados alrededor del hexagono
+        """
+        nodos_ocupados = []
+        for nodo in self.nodos.values():
+            if nodo.ocupado:
+                nodos_ocupados.append(nodo)
+        return nodos_ocupados
 
     def __repr__(self):
         return f"Hexagono: id-{self.id}, ficha-{self.num_ficha}: {self.materia_prima}"
@@ -190,13 +201,14 @@ class Mapa:
         for id_hexagono in data_hexagonos:
             id_nodos = data_hexagonos[id_hexagono]
             hexagono = Hexagono(id_hexagono)
-
+            nodos = {}
             # Agrega todos los nodos correspondientes al hexagono
             for id_nodo in id_nodos:
                 nodo = self.nodos[id_nodo]
-                hexagono.anadir_nodo(nodo)
-            self.agregar_hexagono(hexagono)
+                nodos[id_nodo] = nodo
+            hexagono.nodos = nodos
 
+            self.agregar_hexagono(hexagono)
         # Agrega los numeros a cada hexagono
         self.cargar_numeros()
         # Carga las materias primas
