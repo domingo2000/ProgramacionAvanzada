@@ -12,7 +12,7 @@
         "carta_desarrollo" : {
             "CANTIDAD_MADERA_CARTA_DESARROLLO" : 1,
             "CANTIDAD_TRIGO_CARTA_DESARROLLO" : 1,
-            "CANTIDAD_ARCILLA_CARTA_DESARROLLO" : 0
+            "CANTIDAD_ARCILLA_CARTA_DESARROLLO" : 1
         },
         "camino": {
             "CANTIDAD_MADERA_CARTA_CARRETERA" : 1,
@@ -32,5 +32,8 @@
     },
     "rutas": {
         "grafo": ["juego", "mapa", "grafo.json"]
+    },
+    "rutas_sprites": {
+        "carta_desarrollo" : ["sprites", "Desarrollo"]
     }
 }

@@ -27,6 +27,7 @@ class BackCliente(QObject):
     senal_mensaje_sala_espera = pyqtSignal(str)
     senal_habilitar_dados = pyqtSignal()
     senal_actualizar_dados = pyqtSignal(QPixmap, QPixmap)
+    senal_alerta = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -49,8 +50,10 @@ class BackCliente(QObject):
             "add_building": self.anadir_construccion,
             "msg_wait_room": self.senal_mensaje_sala_espera.emit,
             "enable_dice_throw": self.senal_habilitar_dados.emit,
+            "enable_interface": self.senal_habilitar_interfaz.emit,
             "update_current_player": self.senal_actualizar_jugador_actual.emit,
-            "update_dices": self.actualizar_dados
+            "update_dices": self.actualizar_dados,
+            "pop_up": self.senal_alerta.emit
         }
 
         self.thread_comandos = QTimer()

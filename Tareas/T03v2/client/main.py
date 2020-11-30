@@ -24,6 +24,7 @@ if __name__ == "__main__":
     # Conexion back a front ventana juego
     back_cliente.senal_cerrar_ventana_juego.connect(ventana_juego.hide)
     back_cliente.senal_abrir_ventana_juego.connect(ventana_juego.show)
+    back_cliente.senal_alerta.connect(ventana_juego.alerta)
 
     # Senales de carga de juego
     back_cliente.senal_cargar_hexagono.connect(ventana_juego.actualizar_materia_prima_hexagono)

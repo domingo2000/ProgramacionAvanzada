@@ -17,10 +17,12 @@ class Juego:
     def __init__(self, nombres_usuarios):
         self.usuarios = [Usuario(nombre_usuario) for nombre_usuario in nombres_usuarios]
         self.cola_turnos = deque()
+        self.jugador_actual = None
         for usuario in self.usuarios:
             self.cola_turnos.append(usuario)
         self.dados = [int, int]
         self.event_dados_lanzados = Event()
+        self.event_accion_realizada = Event()
         self.banco = Banco()
         self.mapa = Mapa()
         # Empieza a revisar los comandos de los usuarios
@@ -59,16 +61,18 @@ class Juego:
             ganador = self.ganador()
 
     def comenzar_turno(self):
-        jugador_actual = self.cola_turnos.popleft()
-        interfaz_network.send_command_to_all("update_current_player", jugador_actual.nombre)
-        interfaz_network.send_command(jugador_actual.nombre, "enable_dice_throw")
+        self.jugador_actual = self.cola_turnos.popleft()
+        interfaz_network.send_command_to_all("update_current_player", self.jugador_actual.nombre)
+        interfaz_network.send_command(self.jugador_actual.nombre, "enable_dice_throw")
         # Espera a que se lanzen los dados y resetea el evento
         self.event_dados_lanzados.wait()
         self.event_dados_lanzados.clear()
-
         # Reparte las cartas y lo deja jugar
         self.banco.repartir_cartas(self.mapa, self.suma_dados())
-        self.cola_turnos.append(jugador_actual)
+        interfaz_network.send_command(self.jugador_actual, "enable_interface")
+        self.event_accion_realizada.wait()
+        self.event_accion_realizada.clear()
+        self.cola_turnos.append(self.jugador_actual)
 
     def lanzar_dados(self):
         dado_1 = random.randint(1, 6)
@@ -81,6 +85,14 @@ class Juego:
     def suma_dados(self):
         suma = self.dados[0] + self.dados[1]
         return suma
+
+    def comprar_carta_desarrollo(self):
+        carta_desarrollo = self.banco.comprar_carta_desarrollo(self.jugador_actual)
+        if carta_desarrollo:
+            carta_desarrollo.activar()
+            self.event_accion_realizada.set()
+        else:
+            interfaz_network.send_command(self.jugador_actual, "enable_interface")
 
     def ganador(self):
         for usuario in self.cola_turnos:

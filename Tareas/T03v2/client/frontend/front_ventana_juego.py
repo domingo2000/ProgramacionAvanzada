@@ -223,9 +223,9 @@ class VentanaJuego(window_name, base_class):
         materia_prima = self.dialogo_monopolio.materia_prima.currentText()
         self.senal_monopolio_realizado.emit(materia_prima)
 
-    def error(self, mensaje):
-        self.error = QErrorMessage(self)
-        self.error.showMessage(mensaje)
+    def alerta(self, mensaje):
+        self.q_error_message = QErrorMessage(self)
+        self.q_error_message.showMessage(mensaje)
 
     def actualizar_puntos_victoria(self, int):
         self.dialogo_punto_victoria.exec()
