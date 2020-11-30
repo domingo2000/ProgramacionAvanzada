@@ -33,6 +33,10 @@ if __name__ == "__main__":
     # Senales actualizar datos juego
     back_cliente.senal_actualizar_materia_prima.connect(ventana_juego.actualizar_materia_prima)
     back_cliente.senal_actualizar_puntos_usuario.connect(ventana_juego.actualizar_puntos_usuario)
+
+    # Senales construccion
+    back_cliente.senal_eliminar_construccion.connect(ventana_juego.eliminar_construccion)
+    back_cliente.senal_anadir_construccion.connect(ventana_juego.anadir_construccion)
     net_cliente.encender()
     ventana_espera.show()
     ventana_juego.show()

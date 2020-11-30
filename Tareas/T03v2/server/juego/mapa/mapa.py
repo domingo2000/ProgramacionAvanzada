@@ -55,7 +55,10 @@ class Nodo:
             self.__construccion = valor
             puntos = valor.puntos
             self.usuario.puntos += puntos
-            print(f"Enviar Comando Construccion: {self.id}, {self.construccion.nombre}, {self.usuario.nombre}")
+            interfaz_network.send_command_to_all("add_building",
+                                                 self.id,
+                                                 self.construccion.nombre,
+                                                 self.usuario.nombre)
         else:
             self.usuario.puntos -= self.construccion.puntos
             print(f"Enviar comando eliminar construccion, id: {self.id}")
@@ -70,7 +73,7 @@ class Nodo:
         self.usuario = None
 
     def init_nodo(self):
-        print(f"Enviar comando eliminar construccion {self.id}")
+        interfaz_network.send_command_to_all("del_construccion", self.id)
 
     def __repr__(self):
         nodos_conectados = set()
@@ -222,17 +225,19 @@ class Mapa:
             hexagono = self.hexagonos[id_hexagono]
             hexagono.materia_prima = materias_escogidas.pop()
 
-    def anadir_construccion(self, construccion, id_nodo):
+    def anadir_construccion(self, construccion, id_nodo, inicial=False):
         nodo = self.nodos[id_nodo]
         # Revisa que el mismo nodo no este construido
         if nodo.construccion is not None:
-            print("Enviar comando posicion invalida")
+            if not inicial:
+                print("Enviar comando posicion invalida")
             return False
         # Revisa que no hayan vecinos construidos
         for id_nodo_vecino in nodo.vecinos:
             nodo_vecino = self.nodos[id_nodo_vecino]
             if nodo_vecino.construccion is not None:
-                print("Enviar comando posicion invalida")
+                if not inicial:
+                    print("Enviar comando posicion invalida")
                 return False
         nodo.anadir_construccion(construccion, construccion.usuario)
         return True

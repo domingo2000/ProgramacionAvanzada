@@ -173,6 +173,14 @@ class VentanaJuego(window_name, base_class):
             else:
                 label_nodo.hide()
 
+    def eliminar_construccion(self, id_nodo):
+        self.labels_nodos[id_nodo].hide()
+
+    def anadir_construccion(self, id_nodo, pixmap):
+        label = self.labels_nodos[id_nodo]
+        label.setPixmap(pixmap)
+        label.show()
+
     def actualizar_label_usuario(self, id, usuario):
         if id == "0":
             self.labels_usuarios[id].setText(f"{usuario} (Tú)")

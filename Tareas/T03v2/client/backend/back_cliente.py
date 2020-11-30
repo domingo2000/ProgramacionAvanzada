@@ -6,6 +6,7 @@ import json
 
 with open("parametros.json") as file:
     PARAMETROS = json.load(file)
+    RUTAS_SPRITES = PARAMETROS["rutas_sprites"]
 
 
 class BackCliente(QObject):
@@ -20,6 +21,8 @@ class BackCliente(QObject):
     senal_cargar_nombre_usuario = pyqtSignal(str, str)
     senal_actualizar_materia_prima = pyqtSignal(str, str, int)
     senal_actualizar_puntos_usuario = pyqtSignal(str, int)
+    senal_eliminar_construccion = pyqtSignal(str)
+    senal_anadir_construccion = pyqtSignal(str, QPixmap)
 
     def __init__(self):
         super().__init__()
@@ -37,7 +40,9 @@ class BackCliente(QObject):
             "load_num_ficha": self.senal_cargar_num_ficha.emit,
             "update_resource": self.actualizar_materia_prima,
             "update_points": self.actualizar_puntos_usuario,
-            "load_user_name": self.cargar_nombre_usuario
+            "load_user_name": self.cargar_nombre_usuario,
+            "del_construccion": self.senal_eliminar_construccion.emit,
+            "add_building": self.anadir_construccion
         }
 
         self.thread_comandos = QTimer()
@@ -79,3 +84,9 @@ class BackCliente(QObject):
     def cargar_nombre_usuario(self, nombre_usuario):
         id_usuario = self.usuarios[nombre_usuario]
         self.senal_cargar_nombre_usuario.emit(id_usuario, nombre_usuario)
+
+    def anadir_construccion(self, id_nodo, nombre_construccion, nombre_usuario):
+        id_usuario = self.usuarios[nombre_usuario]
+        ruta_pixmap = path.join(*RUTAS_SPRITES[f"{nombre_construccion}_j{id_usuario}"])
+        pixmap = QPixmap(ruta_pixmap)
+        self.senal_anadir_construccion.emit(id_nodo, pixmap)
