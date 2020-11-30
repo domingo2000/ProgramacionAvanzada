@@ -22,7 +22,6 @@ class Juego:
         self.dados = [int, int]
         self.event_dados_lanzados = Event()
         self.banco = Banco()
-        self.suma_dados = int
         self.mapa = Mapa()
         # Empieza a revisar los comandos de los usuarios
         self.comandos = {
@@ -68,7 +67,7 @@ class Juego:
         self.event_dados_lanzados.clear()
 
         # Reparte las cartas y lo deja jugar
-        self.banco.repartir_cartas(self.mapa, self.suma_dados)
+        self.banco.repartir_cartas(self.mapa, self.suma_dados())
         self.cola_turnos.append(jugador_actual)
 
     def lanzar_dados(self):

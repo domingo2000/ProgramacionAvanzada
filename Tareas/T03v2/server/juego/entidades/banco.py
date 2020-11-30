@@ -23,4 +23,4 @@ class Banco:
                 for nodo in nodos_ocupados:
                     cartas_entregadas = nodo.construccion.cartas_entregadas
                     usuario = nodo.usuario
-                    usuaro.mazo[materia_prima] += cartas_entregadas
+                    usuario.mazo[materia_prima] += cartas_entregadas
