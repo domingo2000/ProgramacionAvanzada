@@ -30,7 +30,8 @@ class Juego:
         self.comandos = {
             "throw_dices": self.lanzar_dados,
             "buy_development_card": self.comprar_carta_desarrollo,
-            "activate_development_card": self.activar_carta_desarrollo
+            "activate_development_card": self.activar_carta_desarrollo,
+            "pass_turn": self.pasar_turno
         }
         self.thread_comandos = Thread(name="thread_revisar_comandos",
                                       target=thread_revisar_comandos,
@@ -102,13 +103,17 @@ class Juego:
                                               "open_monopoly_dialog",
                                               self.carta_desarrollo.ruta_label)
         else:
-            interfaz_network.send_command(self.jugador_actual, "enable_interface")
+            interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
 
     def activar_carta_desarrollo(self, materia_prima=None):
         if self.carta_desarrollo.tipo == "punto_victoria":
             self.carta_desarrollo.activar(self.jugador_actual)
         elif self.carta_desarrollo.tipo == "monopolio":
             self.carta_desarrollo.activar(self.jugador_actual, materia_prima, self.usuarios)
+        self.carta_desarrollo = None
+        self.event_accion_realizada.set()
+
+    def pasar_turno(self):
         self.event_accion_realizada.set()
 
     def ganador(self):

@@ -40,7 +40,7 @@ class Usuario:
     @puntos_victoria.setter
     def puntos_victoria(self, valor):
         self.__puntos_victoria = valor
-        interfaz_network.send_command(self.nombre, "update_victory_points", self.nombre, valor)
+        interfaz_network.send_command(self.nombre, "update_victory_points", valor)
         print(f"Enviar Comando cambiar puntos: {valor}, {self.nombre}")
 
     def __repr__(self):

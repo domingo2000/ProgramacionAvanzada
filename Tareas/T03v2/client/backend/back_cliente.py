@@ -100,8 +100,15 @@ class BackCliente(QObject):
         id_usuario = self.usuarios[nombre_usuario]
         self.senal_actualizar_puntos_usuario.emit(id_usuario, puntos)
 
-    def actualizar_puntos_victoria_usuario(self, nombre_usuario, puntos):
+    def actualizar_puntos_victoria_usuario(self, puntos):
         self.senal_actualizar_puntos_victoria_usuario.emit(puntos)
+
+    def actualizar_dados(self, dado_1, dado_2):
+        ruta_dado_1 = path.join(*RUTAS_SPRITES[f"dado_{dado_1}"])
+        ruta_dado_2 = path.join(*RUTAS_SPRITES[f"dado_{dado_2}"])
+        pixmap_1 = QPixmap(ruta_dado_1)
+        pixmap_2 = QPixmap(ruta_dado_2)
+        self.senal_actualizar_dados.emit(pixmap_1, pixmap_2)
 
     def cargar_nombre_usuario(self, nombre_usuario):
         id_usuario = self.usuarios[nombre_usuario]
@@ -116,13 +123,10 @@ class BackCliente(QObject):
     def activar_carta_desarrollo(self, materia_prima):
         interfaz_network.send_command("activate_development_card", materia_prima)
 
+    def pasar_turno(self):
+        interfaz_network.send_command("pass_turn")
 
-    def actualizar_dados(self, dado_1, dado_2):
-        ruta_dado_1 = path.join(*RUTAS_SPRITES[f"dado_{dado_1}"])
-        ruta_dado_2 = path.join(*RUTAS_SPRITES[f"dado_{dado_2}"])
-        pixmap_1 = QPixmap(ruta_dado_1)
-        pixmap_2 = QPixmap(ruta_dado_2)
-        self.senal_actualizar_dados.emit(pixmap_1, pixmap_2)
+
 
     def anadir_construccion(self, id_nodo, nombre_construccion, nombre_usuario):
         id_usuario = self.usuarios[nombre_usuario]

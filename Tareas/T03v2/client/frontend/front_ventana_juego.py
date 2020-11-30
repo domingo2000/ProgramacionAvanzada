@@ -144,7 +144,7 @@ class VentanaJuego(window_name, base_class):
         self.labels_puntos[id_usuario].setText("Puntos: " + str(puntos))
 
     def actualizar_puntos_victoria_usuario(self, puntos_victoria):
-        self.puntos_victoria.setText(f": {str(int)}")
+        self.puntos_victoria.setText(f": {str(puntos_victoria)}")
 
     def activar_dialogo_puntos_victoria(self, ruta_label_punto_victoria):
         ruta_pixmap = path.join(*ruta_label_punto_victoria)
@@ -209,7 +209,7 @@ class VentanaJuego(window_name, base_class):
 
     def pasar_turno(self):
         self.senal_pasar_turno.emit()
-        self.activar_interfaz(False)
+        self.deshabilitar_interfaz()
 
     def comprar_carta_desarrollo(self):
         self.senal_comprar_carta_desarrollo.emit()
