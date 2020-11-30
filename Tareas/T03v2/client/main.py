@@ -10,9 +10,7 @@ import time
 if __name__ == "__main__":
     app = QApplication([])
     ventana_espera = VentanaEspera()
-    a = time.time()
     ventana_juego = VentanaJuego()
-    print(time.time() - a)
     back_cliente = BackCliente()
 
     # Conexion senales de back a front sala espera
@@ -25,6 +23,9 @@ if __name__ == "__main__":
     back_cliente.senal_cerrar_ventana_juego.connect(ventana_juego.hide)
     back_cliente.senal_abrir_ventana_juego.connect(ventana_juego.show)
     back_cliente.senal_alerta.connect(ventana_juego.alerta)
+    back_cliente.senal_abrir_dialogo_punto_victoria.connect(
+        ventana_juego.activar_dialogo_puntos_victoria
+    )
 
     # Senales de carga de juego
     back_cliente.senal_cargar_hexagono.connect(ventana_juego.actualizar_materia_prima_hexagono)
@@ -34,6 +35,8 @@ if __name__ == "__main__":
     # Senales actualizar datos juego
     back_cliente.senal_actualizar_materia_prima.connect(ventana_juego.actualizar_materia_prima)
     back_cliente.senal_actualizar_puntos_usuario.connect(ventana_juego.actualizar_puntos_usuario)
+    back_cliente.senal_actualizar_puntos_victoria_usuario.connect(
+        ventana_juego.actualizar_puntos_victoria_usuario)
     back_cliente.senal_actualizar_jugador_actual.connect(
         ventana_juego.actualizar_label_jugador_actual)
     back_cliente.senal_actualizar_dados.connect(ventana_juego.actualizar_dados)
@@ -43,10 +46,11 @@ if __name__ == "__main__":
 
     # Senales habilitar interfaz
     back_cliente.senal_habilitar_dados.connect(ventana_juego.habilitar_boton_dados)
+    back_cliente.senal_habilitar_interfaz.connect(ventana_juego.habilitar_interfaz)
 
     # senales front a back
     ventana_juego.senal_lanzar_dados.connect(back_cliente.lanzar_dados)
-
+    ventana_juego.senal_comprar_carta_desarrollo.connect(back_cliente.comprar_carta_desarrollo)
     net_cliente.encender()
     ventana_espera.show()
     sys.exit(app.exec_())

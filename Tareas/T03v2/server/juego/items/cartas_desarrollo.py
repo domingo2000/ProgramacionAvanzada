@@ -1,10 +1,12 @@
 import json
 from funciones import generar_dict_costos
+from os import path
+from networking import interfaz_network
 
 with open("parametros.json") as file:
     PARAMETROS = json.load(file)
     COSTOS = PARAMETROS["costos"]
-    COSTO_DESARROLLO = COSTOS["carta desarrollo"]
+    COSTO_DESARROLLO = COSTOS["carta_desarrollo"]
     RUTAS_SPRITES = PARAMETROS["rutas_sprites"]
     RUTA_CARTA_DESARROLLO = RUTAS_SPRITES["carta_desarrollo"]
 
@@ -14,8 +16,9 @@ class CartaDesarrollo:
 
     def __init__(self, tipo, ruta_label_relativa):
         self.tipo = None
-        lista_ruta = RUTA_CARTA_DESARROLLO.extend(ruta_label_relativa)
-        self.ruta_label = path.join(*lista_ruta)
+        ruta_label = RUTA_CARTA_DESARROLLO.copy()
+        ruta_label.append(ruta_label_relativa)
+        self.ruta_label = ruta_label
 
 
 class CartaPuntoVictoria(CartaDesarrollo):
@@ -25,10 +28,11 @@ class CartaPuntoVictoria(CartaDesarrollo):
         super().__init__("punto_victoria", ruta_label_relativa)
 
     def activar(self, usuario):
-        self.usuario.puntos_victoria += self.puntos
-        self.usuario.puntos += self.puntos
+        usuario.puntos_victoria += self.puntos
+        usuario.puntos += self.puntos
         print("ACTIVANDO PUNTO VICTORIA")
         # Completar activar punto victoria ##
+        interfaz_network.send_command(usuario.nombre, "open_victory_dialog", self.ruta_label)
 
 
 class CartaMonopolio(CartaDesarrollo):

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>229</width>
+    <width>337</width>
     <height>388</height>
    </rect>
   </property>
@@ -24,7 +24,7 @@ font-weight: bold;</string>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_carta">
        <property name="maximumSize">
         <size>
          <width>121</width>

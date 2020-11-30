@@ -143,12 +143,15 @@ class VentanaJuego(window_name, base_class):
         label_hexagono.setPixmap(pixmap_materia_prima)
 
     def actualizar_puntos_usuario(self, id_usuario, puntos):
-        """
-        Recibe un diccionario de la forma:
-        {"id_jugador": puntos, "id_jugador_2": puntos,...}
-        y actualiza los labels de los puntos
-        """
         self.labels_puntos[id_usuario].setText("Puntos: " + str(puntos))
+
+    def actualizar_puntos_victoria_usuario(self, puntos_victoria):
+        self.puntos_victoria.setText(f": {str(int)}")
+
+    def activar_dialogo_puntos_victoria(self, ruta_label_punto_victoria):
+        ruta_pixmap = path.join(*ruta_label_punto_victoria)
+        self.dialogo_punto_victoria.label_carta.setPixmap(QPixmap(ruta_pixmap))
+        self.dialogo_punto_victoria.exec()
 
     def actualizar_materia_prima(self, id_jugador, materia_prima, valor):
         """
@@ -204,17 +207,21 @@ class VentanaJuego(window_name, base_class):
 
     def comprar_carta_desarrollo(self):
         self.senal_comprar_carta_desarrollo.emit()
-        self.activar_interfaz(False)
+        self.deshabilitar_interfaz()
 
     def activar_interfaz_dados(self, bool):
         self.boton_lanzar_dados.setEnabled(bool)
 
-    def activar_interfaz(self, bool):
+    def habilitar_interfaz(self):
         self.casa_interfaz.movible = True
-        self.boton_carta_desarrollo.setEnabled(bool)
-        self.boton_pasar_turno.setEnabled(bool)
+        self.boton_carta_desarrollo.setEnabled(True)
+        self.boton_pasar_turno.setEnabled(True)
 
-        # Completar codigo para construcciones
+    def deshabilitar_interfaz(self):
+        self.casa_interfaz.movible = False
+        self.boton_carta_desarrollo.setEnabled(False)
+        self.boton_pasar_turno.setEnabled(False)
+
     def realizar_accion(self):
         self.senal_accion_realizada.emit(True)
 
@@ -226,10 +233,6 @@ class VentanaJuego(window_name, base_class):
     def alerta(self, mensaje):
         self.q_error_message = QErrorMessage(self)
         self.q_error_message.showMessage(mensaje)
-
-    def actualizar_puntos_victoria(self, int):
-        self.dialogo_punto_victoria.exec()
-        self.puntos_victoria.setText(f": {str(int)}")
 
     def dragEnterEvent(self, event):
         event.acceptProposedAction()

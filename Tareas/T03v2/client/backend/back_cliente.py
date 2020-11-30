@@ -14,6 +14,7 @@ class BackCliente(QObject):
     senal_cerrar_ventana_juego = pyqtSignal()
     senal_abrir_sala_espera = pyqtSignal()
     senal_abrir_ventana_juego = pyqtSignal()
+    senal_abrir_dialogo_punto_victoria = pyqtSignal(list)
     senal_anadir_usuario = pyqtSignal(str)
     senal_actualizar_usuarios = pyqtSignal(list)
     senal_cargar_hexagono = pyqtSignal(str, str)
@@ -21,11 +22,13 @@ class BackCliente(QObject):
     senal_cargar_nombre_usuario = pyqtSignal(str, str)
     senal_actualizar_materia_prima = pyqtSignal(str, str, int)
     senal_actualizar_puntos_usuario = pyqtSignal(str, int)
+    senal_actualizar_puntos_victoria_usuario = pyqtSignal(int)
     senal_actualizar_jugador_actual = pyqtSignal(str)
     senal_eliminar_construccion = pyqtSignal(str)
     senal_anadir_construccion = pyqtSignal(str, QPixmap)
     senal_mensaje_sala_espera = pyqtSignal(str)
     senal_habilitar_dados = pyqtSignal()
+    senal_habilitar_interfaz = pyqtSignal()
     senal_actualizar_dados = pyqtSignal(QPixmap, QPixmap)
     senal_alerta = pyqtSignal(str)
 
@@ -38,21 +41,24 @@ class BackCliente(QObject):
             "close_game_window": self.senal_cerrar_ventana_juego.emit,
             "open_wait_window": self.senal_abrir_sala_espera.emit,
             "open_game_window": self.senal_abrir_ventana_juego.emit,
+            "open_victory_dialog": self.senal_abrir_dialogo_punto_victoria.emit,
             "add_user": self.anadir_usuario,
             "update_users": self.actualizar_usuarios,
+            "update_resource": self.actualizar_materia_prima,
+            "update_points": self.actualizar_puntos_usuario,
+            "update_current_player": self.senal_actualizar_jugador_actual.emit,
+            "update_dices": self.actualizar_dados,
+            "update_victory_points": self.actualizar_puntos_victoria_usuario,
             "set_user": self.set_usuario,
             "load_hexagon_resource": self.senal_cargar_hexagono.emit,
             "load_num_ficha": self.senal_cargar_num_ficha.emit,
-            "update_resource": self.actualizar_materia_prima,
-            "update_points": self.actualizar_puntos_usuario,
             "load_user_name": self.cargar_nombre_usuario,
             "del_construccion": self.senal_eliminar_construccion.emit,
             "add_building": self.anadir_construccion,
             "msg_wait_room": self.senal_mensaje_sala_espera.emit,
             "enable_dice_throw": self.senal_habilitar_dados.emit,
             "enable_interface": self.senal_habilitar_interfaz.emit,
-            "update_current_player": self.senal_actualizar_jugador_actual.emit,
-            "update_dices": self.actualizar_dados,
+
             "pop_up": self.senal_alerta.emit
         }
 
@@ -92,12 +98,18 @@ class BackCliente(QObject):
         id_usuario = self.usuarios[nombre_usuario]
         self.senal_actualizar_puntos_usuario.emit(id_usuario, puntos)
 
+    def actualizar_puntos_victoria_usuario(self, nombre_usuario, puntos):
+        self.senal_actualizar_puntos_victoria_usuario.emit(puntos)
+
     def cargar_nombre_usuario(self, nombre_usuario):
         id_usuario = self.usuarios[nombre_usuario]
         self.senal_cargar_nombre_usuario.emit(id_usuario, nombre_usuario)
 
     def lanzar_dados(self):
         interfaz_network.send_command("throw_dices")
+
+    def comprar_carta_desarrollo(self):
+        interfaz_network.send_command("buy_development_card")
 
     def actualizar_dados(self, dado_1, dado_2):
         ruta_dado_1 = path.join(*RUTAS_SPRITES[f"dado_{dado_1}"])

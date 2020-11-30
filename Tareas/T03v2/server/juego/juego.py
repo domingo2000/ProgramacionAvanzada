@@ -27,7 +27,8 @@ class Juego:
         self.mapa = Mapa()
         # Empieza a revisar los comandos de los usuarios
         self.comandos = {
-            "throw_dices": self.lanzar_dados
+            "throw_dices": self.lanzar_dados,
+            "buy_development_card": self.comprar_carta_desarrollo
         }
         self.thread_comandos = Thread(target=thread_revisar_comandos,
                                       args=(self.comandos, ),
@@ -69,7 +70,7 @@ class Juego:
         self.event_dados_lanzados.clear()
         # Reparte las cartas y lo deja jugar
         self.banco.repartir_cartas(self.mapa, self.suma_dados())
-        interfaz_network.send_command(self.jugador_actual, "enable_interface")
+        interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
         self.event_accion_realizada.wait()
         self.event_accion_realizada.clear()
         self.cola_turnos.append(self.jugador_actual)
@@ -89,7 +90,7 @@ class Juego:
     def comprar_carta_desarrollo(self):
         carta_desarrollo = self.banco.comprar_carta_desarrollo(self.jugador_actual)
         if carta_desarrollo:
-            carta_desarrollo.activar()
+            carta_desarrollo.activar(self.jugador_actual)
             self.event_accion_realizada.set()
         else:
             interfaz_network.send_command(self.jugador_actual, "enable_interface")

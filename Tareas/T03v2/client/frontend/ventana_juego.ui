@@ -1463,42 +1463,6 @@ font-size: 15px;</string>
 </string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="5">
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>../sprites/Construcciones/camino_azul_0.png</normaloff>../sprites/Construcciones/camino_azul_0.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>80</width>
-        <height>80</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="6">
-     <widget class="QPushButton" name="boton_lanzar_dados">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="text">
-       <string>Lanzar Dados</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="3" colspan="3">
      <widget class="QFrame" name="frame">
       <property name="styleSheet">
@@ -1553,10 +1517,10 @@ border-radius: 10px</string>
       </layout>
      </widget>
     </item>
-    <item row="1" column="6">
-     <widget class="QPushButton" name="boton_carta_desarrollo">
+    <item row="1" column="5">
+     <widget class="QPushButton" name="pushButton_2">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: #D3D7CF</string>
@@ -1566,7 +1530,7 @@ border-radius: 10px</string>
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../sprites/Desarrollo/carta_reverso.png</normaloff>../sprites/Desarrollo/carta_reverso.png</iconset>
+        <normaloff>../sprites/Construcciones/camino_azul_0.png</normaloff>../sprites/Construcciones/camino_azul_0.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -1576,67 +1540,17 @@ border-radius: 10px</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
-     <widget class="QFrame" name="frame_carta_4">
-      <property name="maximumSize">
-       <size>
-        <width>149</width>
-        <height>133</height>
-       </size>
+    <item row="0" column="6">
+     <widget class="QPushButton" name="boton_lanzar_dados">
+      <property name="enabled">
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: #D3D7CF</string>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+      <property name="text">
+       <string>Lanzar Dados</string>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_13">
-       <item>
-        <layout class="QHBoxLayout" name="layoutcarta_4">
-         <item>
-          <widget class="QLabel" name="label_19">
-           <property name="maximumSize">
-            <size>
-             <width>88</width>
-             <height>111</height>
-            </size>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>../sprites/Materias_primas/carta_trigo.png</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="trigo_j0">
-           <property name="maximumSize">
-            <size>
-             <width>33</width>
-             <height>111</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>: X</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
      </widget>
     </item>
     <item row="1" column="0">
@@ -1765,19 +1679,6 @@ border-radius: 10px</string>
       </layout>
      </widget>
     </item>
-    <item row="0" column="2">
-     <widget class="QPushButton" name="boton_pasar_turno">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="text">
-       <string>Pasar Turno</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="4">
      <widget class="QLabel" name="label_11">
       <property name="maximumSize">
@@ -1794,6 +1695,105 @@ border-radius: 10px</string>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QFrame" name="frame_carta_4">
+      <property name="maximumSize">
+       <size>
+        <width>149</width>
+        <height>133</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_13">
+       <item>
+        <layout class="QHBoxLayout" name="layoutcarta_4">
+         <item>
+          <widget class="QLabel" name="label_19">
+           <property name="maximumSize">
+            <size>
+             <width>88</width>
+             <height>111</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../sprites/Materias_primas/carta_trigo.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="trigo_j0">
+           <property name="maximumSize">
+            <size>
+             <width>33</width>
+             <height>111</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>: X</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="boton_pasar_turno">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="text">
+       <string>Pasar Turno</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="6">
+     <widget class="QPushButton" name="boton_carta_desarrollo">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../sprites/Desarrollo/carta_reverso.png</normaloff>../sprites/Desarrollo/carta_reverso.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>80</width>
+        <height>80</height>
+       </size>
       </property>
      </widget>
     </item>

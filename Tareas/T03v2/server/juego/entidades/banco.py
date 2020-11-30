@@ -36,17 +36,18 @@ class Banco:
 
     def comprar_carta_desarrollo(self, usuario):
         costo_carta = CartaDesarrollo.costo
-        if compra_valida(costo_carta, usuario):
+        if self.compra_valida(costo_carta, usuario):
             tupla_carta_desarrollo = sacar_cartas(1).pop()
             tipo_carta = tupla_carta_desarrollo[0]
-            tupla_ruta_label = tupla_carta_desarrollo
+            ruta_label = "_".join(tupla_carta_desarrollo)
+            ruta_label += ".png"
             if tipo_carta == "victoria":
-                carta_desarrollo = CartaPuntoVictoria(tupla_ruta_label)
+                carta_desarrollo = CartaPuntoVictoria(ruta_label)
             elif tipo_carta == "monopolio":
-                carta_desarrollo = CartaMonopolio(tupla_ruta_label)
+                carta_desarrollo = CartaMonopolio(ruta_label)
             return carta_desarrollo
 
-    def compra_valida(dict_costo, usuario):
+    def compra_valida(self, dict_costo, usuario):
         mazo_jugador = usuario.mazo
         for materia_prima in dict_costo:
             cantidad_necesaria = dict_costo[materia_prima]
