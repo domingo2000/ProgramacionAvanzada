@@ -27,7 +27,9 @@ class ServerNet:
         # Conecta el socket al puerto y host
         self.bind_and_listen()
         # Crea el thread para aceptar clientes
-        thread_aceptar_clientes = Thread(target=self.thread_aceptar_clientes, daemon=True)
+        thread_aceptar_clientes = Thread(name="thread_aceptar_clientes",
+                                         target=self.thread_aceptar_clientes,
+                                         daemon=True)
         thread_aceptar_clientes.start()
 
     def bind_and_listen(self):
@@ -56,7 +58,8 @@ class ServerNet:
 
         self.log("Server", "aceptando_cliente", nombre_usuario)
         # Crea el thread de escucha de comandos para el cliente
-        thread_escucha = Thread(target=self.thread_escucha_cliente,
+        thread_escucha = Thread(name=f"thread_escucha_usuario {nombre_usuario}",
+                                target=self.thread_escucha_cliente,
                                 args=(socket_cliente, nombre_usuario, ),
                                 daemon=True)
         thread_escucha.start()

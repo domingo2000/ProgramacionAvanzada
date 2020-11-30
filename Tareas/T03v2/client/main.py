@@ -26,6 +26,7 @@ if __name__ == "__main__":
     back_cliente.senal_abrir_dialogo_punto_victoria.connect(
         ventana_juego.activar_dialogo_puntos_victoria
     )
+    back_cliente.senal_abrir_dialogo_monopolio.connect(ventana_juego.activar_dialogo_monopolio)
 
     # Senales de carga de juego
     back_cliente.senal_cargar_hexagono.connect(ventana_juego.actualizar_materia_prima_hexagono)
@@ -51,6 +52,7 @@ if __name__ == "__main__":
     # senales front a back
     ventana_juego.senal_lanzar_dados.connect(back_cliente.lanzar_dados)
     ventana_juego.senal_comprar_carta_desarrollo.connect(back_cliente.comprar_carta_desarrollo)
+    ventana_juego.senal_activar_carta_desarrollo.connect(back_cliente.activar_carta_desarrollo)
     net_cliente.encender()
     ventana_espera.show()
     sys.exit(app.exec_())

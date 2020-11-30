@@ -15,6 +15,7 @@ class BackCliente(QObject):
     senal_abrir_sala_espera = pyqtSignal()
     senal_abrir_ventana_juego = pyqtSignal()
     senal_abrir_dialogo_punto_victoria = pyqtSignal(list)
+    senal_abrir_dialogo_monopolio = pyqtSignal(list)
     senal_anadir_usuario = pyqtSignal(str)
     senal_actualizar_usuarios = pyqtSignal(list)
     senal_cargar_hexagono = pyqtSignal(str, str)
@@ -42,6 +43,7 @@ class BackCliente(QObject):
             "open_wait_window": self.senal_abrir_sala_espera.emit,
             "open_game_window": self.senal_abrir_ventana_juego.emit,
             "open_victory_dialog": self.senal_abrir_dialogo_punto_victoria.emit,
+            "open_monopoly_dialog": self.senal_abrir_dialogo_monopolio.emit,
             "add_user": self.anadir_usuario,
             "update_users": self.actualizar_usuarios,
             "update_resource": self.actualizar_materia_prima,
@@ -110,6 +112,10 @@ class BackCliente(QObject):
 
     def comprar_carta_desarrollo(self):
         interfaz_network.send_command("buy_development_card")
+
+    def activar_carta_desarrollo(self, materia_prima):
+        interfaz_network.send_command("activate_development_card", materia_prima)
+
 
     def actualizar_dados(self, dado_1, dado_2):
         ruta_dado_1 = path.join(*RUTAS_SPRITES[f"dado_{dado_1}"])

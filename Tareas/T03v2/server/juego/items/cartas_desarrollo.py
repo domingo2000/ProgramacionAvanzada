@@ -15,7 +15,7 @@ class CartaDesarrollo:
     costo = generar_dict_costos(COSTO_DESARROLLO)
 
     def __init__(self, tipo, ruta_label_relativa):
-        self.tipo = None
+        self.tipo = tipo
         ruta_label = RUTA_CARTA_DESARROLLO.copy()
         ruta_label.append(ruta_label_relativa)
         self.ruta_label = ruta_label
@@ -30,9 +30,8 @@ class CartaPuntoVictoria(CartaDesarrollo):
     def activar(self, usuario):
         usuario.puntos_victoria += self.puntos
         usuario.puntos += self.puntos
-        print("ACTIVANDO PUNTO VICTORIA")
-        # Completar activar punto victoria ##
-        interfaz_network.send_command(usuario.nombre, "open_victory_dialog", self.ruta_label)
+        msg = f"{usuario.nombre} ha ganado un punto de victoria"
+        interfaz_network.send_command_to_all("pop_up", msg)
 
 
 class CartaMonopolio(CartaDesarrollo):
@@ -40,6 +39,17 @@ class CartaMonopolio(CartaDesarrollo):
     def __init__(self, ruta_label_relativa):
         super().__init__("monopolio", ruta_label_relativa)
 
-    def activar(self, usuario):
-        print("ACTIVANDO MONOPOLIO")
-        ## Completar activar carta monopolio ##
+    def activar(self, usuario_monopolio, materia_prima, usuarios):
+        msg = f"{usuario_monopolio.nombre} ha usado un monopolio robando {materia_prima}"
+        interfaz_network.send_command_to_all("pop_up", msg)
+        mazo_usuario_monopolio = usuario_monopolio.mazo
+        for usuario in usuarios:
+            if usuario == usuario_monopolio:
+                pass
+            else:
+                mazo_usuario = usuario.mazo
+                # Le quita las materias primas al contrincante
+                cantidad_cartas_materia_prima = mazo_usuario[materia_prima]
+                mazo_usuario[materia_prima] = 0
+                # Se las agrega al jugador
+                mazo_usuario_monopolio[materia_prima] += cantidad_cartas_materia_prima

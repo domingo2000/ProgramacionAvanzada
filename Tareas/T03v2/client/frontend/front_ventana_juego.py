@@ -17,9 +17,7 @@ window_name, base_class = uic.loadUiType(path.join(*RUTAS_UIS["ventana_juego"]))
 
 class VentanaJuego(window_name, base_class):
     senal_lanzar_dados = pyqtSignal()
-    senal_accion_realizada = pyqtSignal(bool)
-    senal_monopolio_realizado = pyqtSignal(str)
-    senal_accion_realizada = pyqtSignal(str)
+    senal_activar_carta_desarrollo = pyqtSignal(str)
     senal_comprar_carta_desarrollo = pyqtSignal()
     senal_pasar_turno = pyqtSignal()
     senal_casa_dropeada = pyqtSignal(str)
@@ -152,6 +150,14 @@ class VentanaJuego(window_name, base_class):
         ruta_pixmap = path.join(*ruta_label_punto_victoria)
         self.dialogo_punto_victoria.label_carta.setPixmap(QPixmap(ruta_pixmap))
         self.dialogo_punto_victoria.exec()
+        self.senal_activar_carta_desarrollo.emit("")
+
+    def activar_dialogo_monopolio(self, ruta_label_monopolio):
+        ruta_pixmap = path.join(*ruta_label_monopolio)
+        self.dialogo_monopolio.label_carta.setPixmap(QPixmap(ruta_pixmap))
+        self.dialogo_monopolio.exec()
+        materia_prima = self.dialogo_monopolio.materia_prima.currentText()
+        self.senal_activar_carta_desarrollo.emit(materia_prima)
 
     def actualizar_materia_prima(self, id_jugador, materia_prima, valor):
         """
@@ -221,14 +227,6 @@ class VentanaJuego(window_name, base_class):
         self.casa_interfaz.movible = False
         self.boton_carta_desarrollo.setEnabled(False)
         self.boton_pasar_turno.setEnabled(False)
-
-    def realizar_accion(self):
-        self.senal_accion_realizada.emit(True)
-
-    def realizar_monopolio(self):
-        self.dialogo_monopolio.exec()
-        materia_prima = self.dialogo_monopolio.materia_prima.currentText()
-        self.senal_monopolio_realizado.emit(materia_prima)
 
     def alerta(self, mensaje):
         self.q_error_message = QErrorMessage(self)

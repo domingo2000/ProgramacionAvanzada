@@ -23,14 +23,17 @@ class Juego:
         self.dados = [int, int]
         self.event_dados_lanzados = Event()
         self.event_accion_realizada = Event()
+        self.event_monopolio = Event()
         self.banco = Banco()
         self.mapa = Mapa()
         # Empieza a revisar los comandos de los usuarios
         self.comandos = {
             "throw_dices": self.lanzar_dados,
-            "buy_development_card": self.comprar_carta_desarrollo
+            "buy_development_card": self.comprar_carta_desarrollo,
+            "activate_development_card": self.activar_carta_desarrollo
         }
-        self.thread_comandos = Thread(target=thread_revisar_comandos,
+        self.thread_comandos = Thread(name="thread_revisar_comandos",
+                                      target=thread_revisar_comandos,
                                       args=(self.comandos, ),
                                       daemon=True)
         self.thread_comandos.start()
@@ -88,12 +91,25 @@ class Juego:
         return suma
 
     def comprar_carta_desarrollo(self):
-        carta_desarrollo = self.banco.comprar_carta_desarrollo(self.jugador_actual)
-        if carta_desarrollo:
-            carta_desarrollo.activar(self.jugador_actual)
-            self.event_accion_realizada.set()
+        self.carta_desarrollo = self.banco.comprar_carta_desarrollo(self.jugador_actual)
+        if self.carta_desarrollo:
+            if self.carta_desarrollo.tipo == "punto_victoria":
+                interfaz_network.send_command(self.jugador_actual.nombre,
+                                              "open_victory_dialog",
+                                              self.carta_desarrollo.ruta_label)
+            elif self.carta_desarrollo.tipo == "monopolio":
+                interfaz_network.send_command(self.jugador_actual.nombre,
+                                              "open_monopoly_dialog",
+                                              self.carta_desarrollo.ruta_label)
         else:
             interfaz_network.send_command(self.jugador_actual, "enable_interface")
+
+    def activar_carta_desarrollo(self, materia_prima=None):
+        if self.carta_desarrollo.tipo == "punto_victoria":
+            self.carta_desarrollo.activar(self.jugador_actual)
+        elif self.carta_desarrollo.tipo == "monopolio":
+            self.carta_desarrollo.activar(self.jugador_actual, materia_prima, self.usuarios)
+        self.event_accion_realizada.set()
 
     def ganador(self):
         for usuario in self.cola_turnos:
