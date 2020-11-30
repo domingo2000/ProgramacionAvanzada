@@ -2557,7 +2557,7 @@ border-radius: 20px;</string>
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>sprites/Desarrollo/victoria_2.png</pixmap>
+                 <pixmap>../sprites/Desarrollo/victoria_1.png</pixmap>
                 </property>
                 <property name="scaledContents">
                  <bool>true</bool>
