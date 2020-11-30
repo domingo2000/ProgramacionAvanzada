@@ -4,6 +4,8 @@ import pickle
 from threading import Thread, Lock, Event
 from collections import deque
 from comando import Comando
+import time
+
 
 with open("parametros.json") as file:
     PARAMETROS = json.load(file)
@@ -146,6 +148,7 @@ class ClientNet:
     def thread_revisar_comandos(self):
         while True:
             interfaz_network.revisar_comando(self.comandos)
+            time.sleep(0)
 
 
 net_cliente = ClientNet()
@@ -235,4 +238,3 @@ if __name__ == "__main__":
     a = A()
     time.sleep(1)
     net_cliente.socket_cliente.close()
- 

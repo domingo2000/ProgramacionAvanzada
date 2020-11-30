@@ -15,10 +15,16 @@ class BackCliente(QObject):
     senal_abrir_ventana_juego = pyqtSignal()
     senal_anadir_usuario = pyqtSignal(str)
     senal_actualizar_usuarios = pyqtSignal(list)
+    senal_cargar_hexagono = pyqtSignal(str, str)
+    senal_cargar_num_ficha = pyqtSignal(str, int)
+    senal_cargar_nombre_usuario = pyqtSignal(str, str)
+    senal_actualizar_materia_prima = pyqtSignal(str, str, int)
+    senal_actualizar_puntos_usuario = pyqtSignal(str, int)
 
     def __init__(self):
         super().__init__()
         self.usuario_propio = str
+        self.usuarios = {}
         self.comandos = {
             "close_wait_window": self.senal_cerrar_sala_espera.emit,
             "close_game_window": self.senal_cerrar_ventana_juego.emit,
@@ -26,8 +32,14 @@ class BackCliente(QObject):
             "open_game_window": self.senal_abrir_ventana_juego.emit,
             "add_user": self.anadir_usuario,
             "update_users": self.actualizar_usuarios,
-            "set_user": self.set_usuario
+            "set_user": self.set_usuario,
+            "load_hexagon_resource": self.senal_cargar_hexagono.emit,
+            "load_num_ficha": self.senal_cargar_num_ficha.emit,
+            "update_resource": self.actualizar_materia_prima,
+            "update_points": self.actualizar_puntos_usuario,
+            "load_user_name": self.cargar_nombre_usuario
         }
+
         self.thread_comandos = QTimer()
         self.thread_comandos.setInterval(0)
         self.thread_comandos.timeout.connect(self.revisar_comandos)
@@ -37,6 +49,14 @@ class BackCliente(QObject):
         self.senal_anadir_usuario.emit(nombre_usuario)
 
     def actualizar_usuarios(self, nombres_usuarios):
+        id = 1
+        for nombre_usuario in nombres_usuarios:
+            if nombre_usuario == self.usuario_propio:
+                self.usuarios[nombre_usuario] = "0"
+            else:
+                self.usuarios[nombre_usuario] = str(id)
+                id += 1
+
         self.senal_actualizar_usuarios.emit(nombres_usuarios)
 
     def revisar_comandos(self):
@@ -44,3 +64,18 @@ class BackCliente(QObject):
 
     def set_usuario(self, nombre_usuario):
         self.usuario_propio = nombre_usuario
+
+    def do_none(self, *args):
+        pass
+
+    def actualizar_materia_prima(self, nombre_usuario, materia_prima, valor):
+        id_usuario = self.usuarios[nombre_usuario]
+        self.senal_actualizar_materia_prima.emit(id_usuario, materia_prima, valor)
+
+    def actualizar_puntos_usuario(self, nombre_usuario, puntos):
+        id_usuario = self.usuarios[nombre_usuario]
+        self.senal_actualizar_puntos_usuario.emit(id_usuario, puntos)
+
+    def cargar_nombre_usuario(self, nombre_usuario):
+        id_usuario = self.usuarios[nombre_usuario]
+        self.senal_cargar_nombre_usuario.emit(id_usuario, nombre_usuario)

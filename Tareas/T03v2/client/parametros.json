@@ -38,6 +38,9 @@
         "camino_120_j3": ["sprites", "Construcciones", "camino_rojo_120.png"]
     },
     "rutas_uis": {
-        "sala_espera": ["frontend", "sala_espera.ui"]
+        "sala_espera": ["frontend", "sala_espera.ui"],
+        "ventana_juego": ["frontend", "ventana_juego.ui"],
+        "monopolio": ["frontend", "monopolio.ui"],
+        "punto_victoria": ["frontend", "punto_victoria.ui"]
     }
 }

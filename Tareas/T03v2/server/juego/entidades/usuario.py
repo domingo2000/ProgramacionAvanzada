@@ -1,5 +1,6 @@
 from juego.items.mazo import Mazo
 from faker import Faker
+from networking import interfaz_network
 
 faker = Faker()
 
@@ -20,6 +21,7 @@ class Usuario:
     @nombre.setter
     def nombre(self, valor):
         self.__nombre = valor
+        interfaz_network.send_command_to_all("load_user_name", self.nombre)
         print(f"Enviar Comando Fijar nombre usuario {self.nombre}")
 
     @property

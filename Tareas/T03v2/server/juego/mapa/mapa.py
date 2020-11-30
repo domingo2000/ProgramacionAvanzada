@@ -97,7 +97,7 @@ class Hexagono:
     @materia_prima.setter
     def materia_prima(self, valor):
         self.__materia_prima = valor
-        print(f"Enviar Comando actualizar materia Prima: {self.id}: {self.materia_prima}")
+        interfaz_network.send_command_to_all("load_hexagon_resource", self.id, self.materia_prima)
 
     @property
     def num_ficha(self):
@@ -106,7 +106,7 @@ class Hexagono:
     @num_ficha.setter
     def num_ficha(self, valor):
         self.__num_ficha = valor
-        print(f"Enviar Comando actualizar num_ficha: {self.id}: {self.num_ficha}")
+        interfaz_network.send_command_to_all("load_num_ficha", self.id, self.num_ficha)
 
     def anadir_nodo(self, nodo):
         self.nodos[nodo.id] = nodo
