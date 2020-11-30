@@ -6,11 +6,14 @@ with open("parametros.json") as file:
 
 
 class Choza:
+    num = 0
     costo = COSTOS["choza"]
     puntos = 1
     cartas_entregadas = 1
 
     def __init__(self, usuario):
+        Choza.num += 1
+        self.num = Choza.num
         self.__usuario = usuario
         self.nombre = "choza"
 

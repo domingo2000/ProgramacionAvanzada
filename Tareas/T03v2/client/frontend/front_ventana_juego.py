@@ -255,3 +255,6 @@ class VentanaJuego(window_name, base_class):
 
         elif label_dropeado.tipo == "camino":
             pass
+
+    def habilitar_boton_dados(self):
+        self.boton_lanzar_dados.setEnabled(True)

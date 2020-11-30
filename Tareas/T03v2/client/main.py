@@ -20,7 +20,7 @@ if __name__ == "__main__":
     back_cliente.senal_cerrar_sala_espera.connect(ventana_espera.hide)
     back_cliente.senal_anadir_usuario.connect(ventana_espera.anadir_usuario)
     back_cliente.senal_actualizar_usuarios.connect(ventana_espera.actualizar_usuarios)
-
+    back_cliente.senal_mensaje_sala_espera.connect(ventana_espera.actualizar_label_sala_espera)
     # Conexion back a front ventana juego
     back_cliente.senal_cerrar_ventana_juego.connect(ventana_juego.hide)
     back_cliente.senal_abrir_ventana_juego.connect(ventana_juego.show)
@@ -33,11 +33,19 @@ if __name__ == "__main__":
     # Senales actualizar datos juego
     back_cliente.senal_actualizar_materia_prima.connect(ventana_juego.actualizar_materia_prima)
     back_cliente.senal_actualizar_puntos_usuario.connect(ventana_juego.actualizar_puntos_usuario)
-
+    back_cliente.senal_actualizar_jugador_actual.connect(
+        ventana_juego.actualizar_label_jugador_actual)
+    back_cliente.senal_actualizar_dados.connect(ventana_juego.actualizar_dados)
     # Senales construccion
     back_cliente.senal_eliminar_construccion.connect(ventana_juego.eliminar_construccion)
     back_cliente.senal_anadir_construccion.connect(ventana_juego.anadir_construccion)
+
+    # Senales habilitar interfaz
+    back_cliente.senal_habilitar_dados.connect(ventana_juego.habilitar_boton_dados)
+
+    # senales front a back
+    ventana_juego.senal_lanzar_dados.connect(back_cliente.lanzar_dados)
+
     net_cliente.encender()
     ventana_espera.show()
-    ventana_juego.show()
     sys.exit(app.exec_())

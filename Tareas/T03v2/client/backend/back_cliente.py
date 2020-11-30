@@ -21,8 +21,12 @@ class BackCliente(QObject):
     senal_cargar_nombre_usuario = pyqtSignal(str, str)
     senal_actualizar_materia_prima = pyqtSignal(str, str, int)
     senal_actualizar_puntos_usuario = pyqtSignal(str, int)
+    senal_actualizar_jugador_actual = pyqtSignal(str)
     senal_eliminar_construccion = pyqtSignal(str)
     senal_anadir_construccion = pyqtSignal(str, QPixmap)
+    senal_mensaje_sala_espera = pyqtSignal(str)
+    senal_habilitar_dados = pyqtSignal()
+    senal_actualizar_dados = pyqtSignal(QPixmap, QPixmap)
 
     def __init__(self):
         super().__init__()
@@ -42,7 +46,11 @@ class BackCliente(QObject):
             "update_points": self.actualizar_puntos_usuario,
             "load_user_name": self.cargar_nombre_usuario,
             "del_construccion": self.senal_eliminar_construccion.emit,
-            "add_building": self.anadir_construccion
+            "add_building": self.anadir_construccion,
+            "msg_wait_room": self.senal_mensaje_sala_espera.emit,
+            "enable_dice_throw": self.senal_habilitar_dados.emit,
+            "update_current_player": self.senal_actualizar_jugador_actual.emit,
+            "update_dices": self.actualizar_dados
         }
 
         self.thread_comandos = QTimer()
@@ -84,6 +92,16 @@ class BackCliente(QObject):
     def cargar_nombre_usuario(self, nombre_usuario):
         id_usuario = self.usuarios[nombre_usuario]
         self.senal_cargar_nombre_usuario.emit(id_usuario, nombre_usuario)
+
+    def lanzar_dados(self):
+        interfaz_network.send_command("throw_dices")
+
+    def actualizar_dados(self, dado_1, dado_2):
+        ruta_dado_1 = path.join(*RUTAS_SPRITES[f"dado_{dado_1}"])
+        ruta_dado_2 = path.join(*RUTAS_SPRITES[f"dado_{dado_2}"])
+        pixmap_1 = QPixmap(ruta_dado_1)
+        pixmap_2 = QPixmap(ruta_dado_2)
+        self.senal_actualizar_dados.emit(pixmap_1, pixmap_2)
 
     def anadir_construccion(self, id_nodo, nombre_construccion, nombre_usuario):
         id_usuario = self.usuarios[nombre_usuario]

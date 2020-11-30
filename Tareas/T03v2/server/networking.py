@@ -74,7 +74,10 @@ class ServerNet:
 
     def rechazar_cliente(self, nombre_usuario, socket_cliente):
         self.clientes[nombre_usuario] = socket_cliente
+        self.send_command(nombre_usuario, "msg_wait_room",
+                          "Servidor LLeno, Cierre el programa y intente mas tarde")
         self.send_command(nombre_usuario, "rechazar_cliente", "lleno")
+
         self.desconectar_usuario(nombre_usuario)
         self.log("Server", "rechazando_cliente", nombre_usuario)
 
