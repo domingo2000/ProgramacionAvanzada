@@ -14,6 +14,7 @@ class BackCliente(QObject):
     senal_cerrar_ventana_juego = pyqtSignal()
     senal_abrir_sala_espera = pyqtSignal()
     senal_abrir_ventana_juego = pyqtSignal()
+    senal_abrir_ventana_termino = pyqtSignal()
     senal_abrir_dialogo_punto_victoria = pyqtSignal(list)
     senal_abrir_dialogo_monopolio = pyqtSignal(list)
     senal_anadir_usuario = pyqtSignal(str)
@@ -32,6 +33,8 @@ class BackCliente(QObject):
     senal_habilitar_interfaz = pyqtSignal()
     senal_actualizar_dados = pyqtSignal(QPixmap, QPixmap)
     senal_alerta = pyqtSignal(str)
+    senal_anadir_jugador_sala_termino = pyqtSignal(str, int)
+    senal_actualizar_label_ganador = pyqtSignal(str, bool)
 
     def __init__(self):
         super().__init__()
@@ -60,8 +63,9 @@ class BackCliente(QObject):
             "msg_wait_room": self.senal_mensaje_sala_espera.emit,
             "enable_dice_throw": self.senal_habilitar_dados.emit,
             "enable_interface": self.senal_habilitar_interfaz.emit,
-
-            "pop_up": self.senal_alerta.emit
+            "pop_up": self.senal_alerta.emit,
+            "update_winner_window": self.actualizar_ventana_ganadores,
+            "open_winner_window": self.senal_abrir_ventana_termino.emit
         }
 
         self.thread_comandos = QTimer()
@@ -82,6 +86,17 @@ class BackCliente(QObject):
                 id += 1
 
         self.senal_actualizar_usuarios.emit(nombres_usuarios)
+
+    def actualizar_ventana_ganadores(self, lista_jugadores_puntos):
+        nombre_ganador = lista_jugadores_puntos[0][0]
+        if nombre_ganador == self.usuario_propio:
+            self.senal_actualizar_label_ganador.emit(nombre_ganador, True)
+        else:
+            self.senal_actualizar_label_ganador.emit(nombre_ganador, False)
+        for tupla in lista_jugadores_puntos:
+            nombre_jugador = tupla[0]
+            puntos = tupla[1]
+            self.senal_anadir_jugador_sala_termino.emit(nombre_jugador, puntos)
 
     def revisar_comandos(self):
         revisar_comando(self.comandos)

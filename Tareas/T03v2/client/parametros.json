@@ -39,6 +39,7 @@
     },
     "rutas_uis": {
         "sala_espera": ["frontend", "sala_espera.ui"],
+        "sala_termino": ["frontend", "sala_termino.ui"],
         "ventana_juego": ["frontend", "ventana_juego.ui"],
         "monopolio": ["frontend", "monopolio.ui"],
         "punto_victoria": ["frontend", "punto_victoria.ui"]

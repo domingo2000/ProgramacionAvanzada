@@ -6,7 +6,7 @@
     "CANTIDAD_JUGADORES_PARTIDA": 2,
     "CANTIDAD_CHOZAS_INICIALES": 2,
     "CANTIDAD_CAMINOS_INCIALES": 2,
-    "PUNTOS_VICTORIA_FINALES": 10,
+    "PUNTOS_VICTORIA_FINALES": 3,
 
     "costos": {
         "carta_desarrollo" : {
@@ -20,9 +20,9 @@
             "CANTIDAD_ARCILLA_CARRETERA" : 1
         },
         "choza": {
-            "CANTIDAD_MADERA_CHOZA" : 1,
-            "CANTIDAD_TRIGO_CHOZA" : 1,
-            "CANTIDAD_ARCILLA_CHOZA" : 1
+            "CANTIDAD_MADERA_CHOZA" : 0,
+            "CANTIDAD_TRIGO_CHOZA" : 0,
+            "CANTIDAD_ARCILLA_CHOZA" : 0
         },
         "ciudad": {
             "CANTIDAD_MADERA_CIUDAD" : 2,

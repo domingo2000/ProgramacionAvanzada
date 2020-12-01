@@ -18,6 +18,7 @@ class Juego:
         self.usuarios = [Usuario(nombre_usuario) for nombre_usuario in nombres_usuarios]
         self.cola_turnos = deque()
         self.jugador_actual = None
+        self.ganador = None
         for usuario in self.usuarios:
             self.cola_turnos.append(usuario)
         self.dados = [int, int]
@@ -41,6 +42,7 @@ class Juego:
         self.thread_comandos.start()
         self.fase_inicio()
         self.fase_juego()
+        self.fase_termino()
 
     def fase_inicio(self):
         random.shuffle(self.cola_turnos)
@@ -61,10 +63,9 @@ class Juego:
     def fase_juego(self):
         interfaz_network.send_command_to_all("close_wait_window")
         interfaz_network.send_command_to_all("open_game_window")
-        ganador = self.ganador()
-        while not ganador:
+        while not self.ganador:
             self.comenzar_turno()
-            ganador = self.ganador()
+        print("TERMINANDO PARTIDA")
 
     def comenzar_turno(self):
         self.jugador_actual = self.cola_turnos.popleft()
@@ -78,6 +79,7 @@ class Juego:
         interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
         self.event_accion_realizada.wait()
         self.event_accion_realizada.clear()
+        self.chequear_ganador(self.jugador_actual)
         self.cola_turnos.append(self.jugador_actual)
 
     def lanzar_dados(self):
@@ -132,7 +134,19 @@ class Juego:
     def ganador(self):
         for usuario in self.cola_turnos:
             if usuario.puntos >= PARAMETROS["PUNTOS_VICTORIA_FINALES"]:
+                #interfaz_network.send_command_to_all("open_winner_window")
                 print("Enviar comando notificar ganador")
                 print("Enviar comando abrir popup de volver a jugar")
                 return usuario.nombre
         return False
+
+    def chequear_ganador(self, usuario):
+        if usuario.puntos >= PARAMETROS["PUNTOS_VICTORIA_FINALES"]:
+            self.ganador = usuario
+
+    def fase_termino(self):
+        lista_nombres_puntos = [(usuario.nombre, usuario.puntos) for usuario in self.usuarios]
+        lista_nombres_puntos.sort(key=lambda tupla: tupla[1], reverse=True)
+        interfaz_network.send_command_to_all("update_winner_window", lista_nombres_puntos)
+        interfaz_network.send_command_to_all("close_game_window")
+        interfaz_network.send_command_to_all("open_winner_window")

@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QApplication
 from backend.back_cliente import BackCliente
 from frontend.front_sala_espera import VentanaEspera
 from frontend.front_ventana_juego import VentanaJuego
+from frontend.front_sala_termino import VentanaTermino
 from backend.networking import net_cliente
 import sys
 import time
@@ -11,6 +12,7 @@ if __name__ == "__main__":
     app = QApplication([])
     ventana_espera = VentanaEspera()
     ventana_juego = VentanaJuego()
+    ventana_termino = VentanaTermino()
     back_cliente = BackCliente()
 
     # Conexion senales de back a front sala espera
@@ -55,6 +57,12 @@ if __name__ == "__main__":
     ventana_juego.senal_activar_carta_desarrollo.connect(back_cliente.activar_carta_desarrollo)
     ventana_juego.senal_pasar_turno.connect(back_cliente.pasar_turno)
     ventana_juego.senal_casa_dropeada.connect(back_cliente.enviar_choza_dropeada)
+
+    # Senales back ventana termino
+    back_cliente.senal_anadir_jugador_sala_termino.connect(ventana_termino.anadir_usuario)
+    back_cliente.senal_actualizar_label_ganador.connect(ventana_termino.actualizar_label_ganador)
+    back_cliente.senal_abrir_ventana_termino.connect(ventana_termino.show)
+
     net_cliente.encender()
     ventana_espera.show()
     sys.exit(app.exec_())
