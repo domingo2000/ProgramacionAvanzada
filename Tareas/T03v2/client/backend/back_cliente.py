@@ -126,7 +126,8 @@ class BackCliente(QObject):
     def pasar_turno(self):
         interfaz_network.send_command("pass_turn")
 
-
+    def manejar_drop(self, drop_event):
+        pass
 
     def anadir_construccion(self, id_nodo, nombre_construccion, nombre_usuario):
         id_usuario = self.usuarios[nombre_usuario]

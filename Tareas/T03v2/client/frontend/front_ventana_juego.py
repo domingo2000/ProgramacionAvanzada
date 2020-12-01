@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QLabel, QWidget, QErrorMessage
 from PyQt5 import uic
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QDropEvent
 from PyQt5.QtCore import pyqtSignal, QEvent, QRect
 from os import path
 from frontend.dialogs import DialogoMonopolio, DialogPuntoVictoria
-from frontend.construcciones import Casa
+from frontend.construcciones import Choza
 import json
 
 with open("parametros.json") as file:
@@ -21,6 +21,7 @@ class VentanaJuego(window_name, base_class):
     senal_comprar_carta_desarrollo = pyqtSignal()
     senal_pasar_turno = pyqtSignal()
     senal_casa_dropeada = pyqtSignal(str)
+    senal_label_dropeado = pyqtSignal(QLabel, QDropEvent)
 
     def __init__(self):
         super().__init__()
@@ -126,7 +127,7 @@ class VentanaJuego(window_name, base_class):
         self.dialogo_punto_victoria = DialogPuntoVictoria(self)
 
     def init_gui(self):
-        self.casa_interfaz = Casa(0, 0, self)
+        self.casa_interfaz = Choza(0, 0, self)
         self.barra_usuario.layout().addWidget(self.casa_interfaz, 1, 3)
 
     def actualizar_num_ficha(self, id_ficha, numero_ficha):
@@ -237,23 +238,16 @@ class VentanaJuego(window_name, base_class):
 
     def dropEvent(self, event):
         label_dropeado = event.source()
+        #self.senal_label_dropeado.emit(label_dropeado, event_drop)
         pos = event.pos()
         x = pos.x()
         y = pos.y()
+        colider = QRect(x, y, label_dropeado.height(), label_dropeado.width())
+        print(colider)
         if label_dropeado.tipo == "choza":
-            copia_choza = Casa(x, y, self)
-            colider_copia = QRect(copia_choza.x(), copia_choza.y(),
-                                  copia_choza.width(), copia_choza.height())
-            for id_label_nodo in self.labels_nodos:
-                label_nodo = self.labels_nodos[id_label_nodo]
-                colider_nodo = QRect(label_nodo.x(), label_nodo.y(),
-                                     label_nodo.width(), label_nodo.height())
-                if colider_copia.intersects(colider_nodo):
-                    self.senal_casa_dropeada.emit(id_label_nodo)
-                    copia_choza.hide()
-                    copia_choza.setParent(None)
-                    return
-
+            pass
+        elif label_dropeado == "ciudad":
+            pass
         elif label_dropeado.tipo == "camino":
             pass
 

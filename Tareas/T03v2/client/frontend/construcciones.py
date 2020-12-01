@@ -9,7 +9,7 @@ with open("parametros.json") as file:
     rutas = data["rutas_sprites"]
 
 
-class Casa(QLabel):
+class Choza(QLabel):
 
     def __init__(self, pos_x, pos_y, parent):
         super().__init__(parent)
@@ -20,7 +20,7 @@ class Casa(QLabel):
         self.setMaximumSize(50, 50)
         self.setStyleSheet("background-color: transparent;")
         self.tipo = "choza"
-        self.movible = False
+        self.movible = True
 
     def mouseMoveEvent(self, event):
         if not self.movible:
@@ -30,5 +30,5 @@ class Casa(QLabel):
         mimedata = QMimeData()
         drag.setMimeData(mimedata)
         drag.setPixmap(self.grab())
-        drag.setHotSpot(QPoint(0, 0))
+        drag.setHotSpot(event.pos())
         drag.exec_(Qt.CopyAction | Qt.MoveAction)
