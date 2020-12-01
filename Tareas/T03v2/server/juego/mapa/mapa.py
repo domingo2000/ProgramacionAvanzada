@@ -184,7 +184,7 @@ class Mapa:
         # Setea las dimensiones
         self.dimensiones = data_grafo["dimensiones_mapa"]
 
-        # Instancia y agrega todos los nodos
+        # Instancia y agrega todos los nodos y conexiones
         data_nodos = data_grafo["nodos"]
         for id_nodo in data_nodos:
             lista_adyacencia = data_nodos[id_nodo]
