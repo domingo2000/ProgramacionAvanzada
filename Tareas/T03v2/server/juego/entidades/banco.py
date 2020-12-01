@@ -57,4 +57,17 @@ class Banco:
                 interfaz_network.send_command(usuario.nombre, "pop_up",
                                               "No tienes las materias primas suficientes")
                 return False
+        self.realizar_compra(dict_costo, usuario)
         return True
+
+    def realizar_compra(self, dict_costo, usuario):
+        mazo = usuario.mazo
+        for materia_prima in dict_costo:
+            cantidad_necesaria = dict_costo[materia_prima]
+            mazo[materia_prima] -= cantidad_necesaria
+
+    def comprar_choza(self, usuario):
+        costo_choza = Choza.costo
+        if self.compra_valida(costo_choza, usuario):
+            choza = Choza(usuario)
+            return choza

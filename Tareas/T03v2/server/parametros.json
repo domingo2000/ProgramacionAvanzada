@@ -11,23 +11,23 @@
     "costos": {
         "carta_desarrollo" : {
             "CANTIDAD_MADERA_CARTA_DESARROLLO" : 0,
-            "CANTIDAD_TRIGO_CARTA_DESARROLLO" : 0,
-            "CANTIDAD_ARCILLA_CARTA_DESARROLLO" : 0
+            "CANTIDAD_TRIGO_CARTA_DESARROLLO" : 1,
+            "CANTIDAD_ARCILLA_CARTA_DESARROLLO" : 1
         },
         "camino": {
-            "CANTIDAD_MADERA_CARTA_CARRETERA" : 1,
-            "CANTIDAD_TRIGO_CARTA_CARRETERA" : 0,
-            "CANTIDAD_ARCILLA_CARTA_CARRETERA" : 1
+            "CANTIDAD_MADERA_CARRETERA" : 1,
+            "CANTIDAD_TRIGO_CARRETERA" : 0,
+            "CANTIDAD_ARCILLA_CARRETERA" : 1
         },
         "choza": {
-            "CANTIDAD_MADERA_CARTA_CHOZA" : 0,
-            "CANTIDAD_TRIGO_CARTA_CHOZA" : 0,
-            "CANTIDAD_ARCILLA_CARTA_CHOZA" : 0
+            "CANTIDAD_MADERA_CHOZA" : 1,
+            "CANTIDAD_TRIGO_CHOZA" : 1,
+            "CANTIDAD_ARCILLA_CHOZA" : 1
         },
         "ciudad": {
-            "CANTIDAD_MADERA_CARTA_CIUDAD" : 2,
-            "CANTIDAD_TRIGO_CARTA_CIUDAD" : 2,
-            "CANTIDAD_ARCILLA_CARTA_CIUDAD" : 2
+            "CANTIDAD_MADERA_CIUDAD" : 2,
+            "CANTIDAD_TRIGO_CIUDAD" : 2,
+            "CANTIDAD_ARCILLA_CIUDAD" : 2
         }
     },
     "rutas": {

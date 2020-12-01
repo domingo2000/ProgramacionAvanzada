@@ -31,7 +31,8 @@ class Juego:
             "throw_dices": self.lanzar_dados,
             "buy_development_card": self.comprar_carta_desarrollo,
             "activate_development_card": self.activar_carta_desarrollo,
-            "pass_turn": self.pasar_turno
+            "pass_turn": self.pasar_turno,
+            "buy_house": self.comprar_choza
         }
         self.thread_comandos = Thread(name="thread_revisar_comandos",
                                       target=thread_revisar_comandos,
@@ -103,6 +104,18 @@ class Juego:
                                               "open_monopoly_dialog",
                                               self.carta_desarrollo.ruta_label)
         else:
+            interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
+
+    def comprar_choza(self, id_nodo):
+        choza = self.banco.comprar_choza(self.jugador_actual)
+        if choza:
+            if self.mapa.anadir_construccion(choza, id_nodo):  # Chequea los adyacentes
+                msg = f"{self.jugador_actual.nombre} ha construido una choza"
+                interfaz_network.send_command_to_all("pop_up", msg)
+                self.event_accion_realizada.set()
+            else:  # Si no se pudo construir se activa la interfaz
+                interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")    
+        else: # Si no se pudo comprar se activa la itnerfaz
             interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
 
     def activar_carta_desarrollo(self, materia_prima=None):

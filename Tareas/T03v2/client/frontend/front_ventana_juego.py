@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QLabel, QWidget, QErrorMessage
 from PyQt5 import uic
 from PyQt5.QtGui import QPixmap, QDropEvent
-from PyQt5.QtCore import pyqtSignal, QEvent, QRect
+from PyQt5.QtCore import pyqtSignal, QEvent, QRect, QPoint
 from os import path
 from frontend.dialogs import DialogoMonopolio, DialogPuntoVictoria
 from frontend.construcciones import Choza
@@ -238,18 +238,21 @@ class VentanaJuego(window_name, base_class):
 
     def dropEvent(self, event):
         label_dropeado = event.source()
-        #self.senal_label_dropeado.emit(label_dropeado, event_drop)
-        pos = event.pos()
-        x = pos.x()
-        y = pos.y()
-        colider = QRect(x, y, label_dropeado.height(), label_dropeado.width())
-        print(colider)
+        pos_global = label_dropeado.mapToGlobal(QPoint(0, 0))
+        pos_global_drop = self.mapToGlobal(event.pos())
+        colider_drop = QRect(pos_global_drop, label_dropeado.size())
+        #print(f"colider_drop: {colider_drop}")
         if label_dropeado.tipo == "choza":
-            pass
-        elif label_dropeado == "ciudad":
-            pass
-        elif label_dropeado.tipo == "camino":
-            pass
+            for id_nodo in self.labels_nodos:
+                label_nodo = self.labels_nodos[id_nodo]
+                pos_global_nodo = label_nodo.mapToGlobal(QPoint(0, 0))
+                #print(f"Pos Global nodo: {pos_global_nodo}")
+                colider_nodo = QRect(pos_global_nodo, label_nodo.size())
+                if colider_drop.intersects(colider_nodo):
+                    self.senal_casa_dropeada.emit(id_nodo)
+                    self.deshabilitar_interfaz()
+                    return
+            self.alerta("Posicion invalida")
 
     def habilitar_boton_dados(self):
         self.boton_lanzar_dados.setEnabled(True)

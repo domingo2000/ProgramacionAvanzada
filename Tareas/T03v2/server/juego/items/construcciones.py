@@ -1,4 +1,6 @@
 import json
+from funciones import generar_dict_costos
+
 
 with open("parametros.json") as file:
     PARAMETROS = json.load(file)
@@ -7,7 +9,7 @@ with open("parametros.json") as file:
 
 class Choza:
     num = 0
-    costo = COSTOS["choza"]
+    costo = generar_dict_costos(COSTOS["choza"], "choza")
     puntos = 1
     cartas_entregadas = 1
 

@@ -54,6 +54,7 @@ if __name__ == "__main__":
     ventana_juego.senal_comprar_carta_desarrollo.connect(back_cliente.comprar_carta_desarrollo)
     ventana_juego.senal_activar_carta_desarrollo.connect(back_cliente.activar_carta_desarrollo)
     ventana_juego.senal_pasar_turno.connect(back_cliente.pasar_turno)
+    ventana_juego.senal_casa_dropeada.connect(back_cliente.enviar_choza_dropeada)
     net_cliente.encender()
     ventana_espera.show()
     sys.exit(app.exec_())

@@ -12,7 +12,7 @@ with open("parametros.json") as file:
 
 
 class CartaDesarrollo:
-    costo = generar_dict_costos(COSTO_DESARROLLO)
+    costo = generar_dict_costos(COSTO_DESARROLLO, "carta_desarrollo")
 
     def __init__(self, tipo, ruta_label_relativa):
         self.tipo = tipo

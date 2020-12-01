@@ -13,14 +13,14 @@ class Choza(QLabel):
 
     def __init__(self, pos_x, pos_y, parent):
         super().__init__(parent)
-        self.setGeometry(pos_x, pos_y, 50, 50)
+        self.setGeometry(pos_x, pos_y, 31, 31)
         self.pixmap = QPixmap(path.join(*rutas["choza_j0"]))
         self.setPixmap(self.pixmap)
         self.setScaledContents(True)
-        self.setMaximumSize(50, 50)
+        self.setMaximumSize(31, 31)
         self.setStyleSheet("background-color: transparent;")
         self.tipo = "choza"
-        self.movible = True
+        self.movible = False
 
     def mouseMoveEvent(self, event):
         if not self.movible:

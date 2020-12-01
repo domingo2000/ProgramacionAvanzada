@@ -1,11 +1,12 @@
-def generar_dict_costos(parametro_costo):
+def generar_dict_costos(parametro_costo, nombre):
     dict_costo = {"madera": int, "arcilla": int, "trigo": int}
+    nombre = nombre.upper()
     for key in parametro_costo:
-        if key == "CANTIDAD_MADERA_CARTA_DESARROLLO":
+        if key == f"CANTIDAD_MADERA_{nombre}":
             dict_costo["madera"] = parametro_costo[key]
-        elif key == "CANTIDAD_TRIGO_CARTA_DESARROLLO":
+        elif key == f"CANTIDAD_TRIGO_{nombre}":
             dict_costo["trigo"] = parametro_costo[key]
-        elif key == "CANTIDAD_ARCILLA_CARTA_DESARROLLO":
+        elif key == f"CANTIDAD_ARCILLA_{nombre}":
             dict_costo["arcilla"] = parametro_costo[key]
 
     return dict_costo

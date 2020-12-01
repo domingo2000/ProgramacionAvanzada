@@ -129,6 +129,10 @@ class BackCliente(QObject):
     def manejar_drop(self, drop_event):
         pass
 
+    def enviar_choza_dropeada(self, id_nodo):
+        interfaz_network.send_command("buy_house", id_nodo)
+        pass
+
     def anadir_construccion(self, id_nodo, nombre_construccion, nombre_usuario):
         id_usuario = self.usuarios[nombre_usuario]
         ruta_pixmap = path.join(*RUTAS_SPRITES[f"{nombre_construccion}_j{id_usuario}"])
