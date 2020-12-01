@@ -1,8 +1,14 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QApplication, QPushButton
 from PyQt5 import uic
+import json
+from os import path
 import sys
 
-window_name, base_class = uic.loadUiType("monopolio.ui")
+with open("parametros.json") as file:
+    PARAMETROS = json.load(file)
+    RUTAS_UIS = PARAMETROS["rutas_uis"]
+
+window_name, base_class = uic.loadUiType(path.join(*RUTAS_UIS["monopolio"]))
 
 
 class DialogoMonopolio(window_name, base_class):
@@ -12,7 +18,7 @@ class DialogoMonopolio(window_name, base_class):
         self.setupUi(self)
 
 
-window_name, base_class = uic.loadUiType("punto_victoria.ui")
+window_name, base_class = uic.loadUiType(path.join(*RUTAS_UIS["punto_victoria"]))
 
 
 class DialogPuntoVictoria(window_name, base_class):

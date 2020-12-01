@@ -1,9 +1,15 @@
-from server import Server
-from networking import ServerNet
-import json
+from networking import net_server
+from juego.juego import Juego
 import time
+net_server.encender()
 
-if __name__ == "__main__":
-    with open("parametros.json") as file:
-        data = json.load(file)
-    server = Server(data["host"], data["port"])
+try:
+    while not net_server.lleno():
+        pass
+
+    net_server.send_command_to_all("msg_wait_room", "Comenzando Partida")
+    time.sleep(2)
+    juego = Juego(net_server.nombres_usuarios)
+
+finally:
+    net_server.socket_server.close()

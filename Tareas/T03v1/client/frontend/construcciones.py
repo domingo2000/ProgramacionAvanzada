@@ -9,15 +9,15 @@ with open("parametros.json") as file:
     rutas = data["rutas_sprites"]
 
 
-class Choza(QLabel):
+class Casa(QLabel):
 
     def __init__(self, pos_x, pos_y, parent):
         super().__init__(parent)
-        self.setGeometry(pos_x, pos_y, 31, 31)
+        self.setGeometry(pos_x, pos_y, 50, 50)
         self.pixmap = QPixmap(path.join(*rutas["choza_j0"]))
         self.setPixmap(self.pixmap)
         self.setScaledContents(True)
-        self.setMaximumSize(31, 31)
+        self.setMaximumSize(50, 50)
         self.setStyleSheet("background-color: transparent;")
         self.tipo = "choza"
         self.movible = False
@@ -30,5 +30,5 @@ class Choza(QLabel):
         mimedata = QMimeData()
         drag.setMimeData(mimedata)
         drag.setPixmap(self.grab())
-        drag.setHotSpot(event.pos())
+        drag.setHotSpot(QPoint(0, 0))
         drag.exec_(Qt.CopyAction | Qt.MoveAction)

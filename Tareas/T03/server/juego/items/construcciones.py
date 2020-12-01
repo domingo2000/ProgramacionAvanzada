@@ -1,36 +1,70 @@
 import json
-from juego.items.funciones import crear_diccionario_costos
+from funciones import generar_dict_costos
+
+
 with open("parametros.json") as file:
-    data = json.load(file)
-costos = data["costos"]
+    PARAMETROS = json.load(file)
+    COSTOS = PARAMETROS["costos"]
 
 
-class Construccion:
+class Choza:
+    num = 0
+    costo = generar_dict_costos(COSTOS["choza"], "choza")
+    puntos = 1
+    cartas_entregadas = 1
 
-    def __init__(self, nombre, puntos, data_costo):
-        self.nombre = nombre
-        self.puntos = puntos
-        self.costo = crear_diccionario_costos(data_costo)
+    def __init__(self, usuario):
+        Choza.num += 1
+        self.num = Choza.num
+        self.__usuario = usuario
+        self.nombre = "choza"
 
-    def __repr__(self):
-        return f"{self.__class__}: Puntos: {self.puntos}"
+    @property
+    def usuario(self):
+        return self.__usuario
+
+    @usuario.setter
+    def usuario(self, valor):
+        self.__usuario = valor
 
 
-class Carretera(Construccion):
+class Ciudad:
+    costo = COSTOS["ciudad"]
+    puntos = 2
+    cartas_entregadas = 2
 
-    def __init__(self):
-        super().__init__("carretera", 1, costos["carretera"])
+    def __init__(self, nombre_usuario):
+        self.__usuario = str
+        self.nombre = "ciudad"
 
 
-class Choza(Construccion):
+    @property
+    def usuario(self):
+        return self.__usuario
 
-    def __init__(self):
-        super().__init__("choza", 1, costos["choza"])
+    @usuario.setter
+    def usuario(self, valor):
+        self.__usuario = valor
+
+
+class Camino:
+    costo = COSTOS["camino"]
+    puntos = 1
+
+    def __init__(self, usuario):
+        self.__usuario = usuario
+        self.nombre = "camino"
+
+    @property
+    def usuario(self):
+        return self.__usuario
+
+    @usuario.setter
+    def usuario(self, valor):
+        self.__usuario = valor
+
 
 
 if __name__ == "__main__":
-    choza = Choza()
-    camino = Carretera()
-
-    print(choza)
-    print(camino)
+    choza = Choza("pepito")
+    print(choza.costo)

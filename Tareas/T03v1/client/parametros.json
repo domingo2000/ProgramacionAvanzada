@@ -1,5 +1,5 @@
 {
-    "host": "DESKTOP-R7SMU9A",
+    "host": "192.168.1.17",
     "port": 200,
 
     "rutas_sprites": {
@@ -36,12 +36,5 @@
         "camino_120_j1": ["sprites", "Construcciones", "camino_violeta_120.png"],
         "camino_120_j2": ["sprites", "Construcciones", "camino_verde_120.png"],
         "camino_120_j3": ["sprites", "Construcciones", "camino_rojo_120.png"]
-    },
-    "rutas_uis": {
-        "sala_espera": ["frontend", "sala_espera.ui"],
-        "sala_termino": ["frontend", "sala_termino.ui"],
-        "ventana_juego": ["frontend", "ventana_juego.ui"],
-        "monopolio": ["frontend", "monopolio.ui"],
-        "punto_victoria": ["frontend", "punto_victoria.ui"]
     }
 }

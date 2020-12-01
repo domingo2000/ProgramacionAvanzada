@@ -1,10 +1,7 @@
-
 \sprites
-\diagramas
-
+temp.py
+temp2.py
+.vscode
+grafo.json
 generador_de_cartas.py
 generador_grilla.py
-grafo.json
-temp.py
-
-*.pdf

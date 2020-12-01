@@ -1,295 +1,152 @@
-from juego.items.cartas import Mazo
+from juego.entidades.usuario import Usuario
+from juego.entidades.banco import Banco
+from juego.items.construcciones import Choza, Ciudad
 from juego.mapa.mapa import Mapa
-from juego.banco import Banco
-from threading import Thread
+from networking import interfaz_network, thread_revisar_comandos
+from threading import Event, Thread
+from collections import deque
 import random
 import json
-import time
-
 
 with open("parametros.json") as file:
-    data = json.load(file)
+    PARAMETROS = json.load(file)
 
 
-class Juego():
+class Juego:
 
-    def __init__(self, usuarios, net):
-        self.net = net
-        self.usuarios = usuarios
-        self.puntos = {usuario: 0 for usuario in self.usuarios}
-        self.puntos_victoria = {usuario: 0 for usuario in self.usuarios}
-        self.mazos = {usuario: Mazo() for usuario in self.usuarios}
-        self.mapa = Mapa()
-        self.banco = Banco(self.net)
-        self.fase_inicio()
-        self.__dados = [0, 0]
-        self.__jugador_actual = ""
-        self.dados_lanzados = False
-        self.accion_realizada = False
+    def __init__(self, nombres_usuarios):
+        self.usuarios = [Usuario(nombre_usuario) for nombre_usuario in nombres_usuarios]
+        self.cola_turnos = deque()
+        self.jugador_actual = None
         self.ganador = None
+        for usuario in self.usuarios:
+            self.cola_turnos.append(usuario)
+        self.dados = [int, int]
+        self.event_dados_lanzados = Event()
+        self.event_accion_realizada = Event()
+        self.event_monopolio = Event()
+        self.banco = Banco()
+        self.mapa = Mapa()
+        # Empieza a revisar los comandos de los usuarios
         self.comandos = {
-            "lanzar_dados": self.lanzar_dados,
-            "realizar_accion": self.realizar_accion,
-            "actualizar_materia_monopolio": self.realizar_monopolio,
-            "casa_dropeada": self.revisar_casa_dropeada
+            "throw_dices": self.lanzar_dados,
+            "buy_development_card": self.comprar_carta_desarrollo,
+            "activate_development_card": self.activar_carta_desarrollo,
+            "pass_turn": self.pasar_turno,
+            "buy_house": self.comprar_choza
         }
-        self.thread_revisar_comandos = Thread(target=self.thread_revisar_comandos,
-                                              daemon=True)
-        self.thread_revisar_comandos.start()
-
-    @property
-    def dados(self):
-        return self.__dados
-
-    @dados.setter
-    def dados(self, valor):
-        self.__dados = valor
-        dado_1 = valor[0]
-        dado_2 = valor[1]
-        self.net.send_command_to_all("actualizar_dados", [dado_1, dado_2])
-
-    @property
-    def jugador_actual(self):
-        return self.__jugador_actual
-
-    @jugador_actual.setter
-    def jugador_actual(self, valor):
-        self.__jugador_actual = valor
-        self.net.send_command_to_all("actualizar_jugador_actual", [valor])
+        self.thread_comandos = Thread(name="thread_revisar_comandos",
+                                      target=thread_revisar_comandos,
+                                      args=(self.comandos, ),
+                                      daemon=True)
+        self.thread_comandos.start()
+        self.fase_inicio()
+        self.fase_juego()
+        self.fase_termino()
 
     def fase_inicio(self):
-        self.ganador = None
-        numeros, materias_primas = self.mapa.datos_mapa()
-        random.shuffle(self.usuarios)
-        self.net.send_command_to_all("cargar_mapa", [numeros, materias_primas])
-        self.net.send_command_to_all("cargar_usuarios")
-        self.actualizar_materias_primas()
-        self.actualizar_construcciones()
-        self.asignar_casas_aleatorias()
-        self.repartir_materias_primas_iniciales()
+        random.shuffle(self.cola_turnos)
+        self.mapa.cargar_mapa()
+        self.construir_construcciones_iniciales()
+        self.banco.repartir_cartas_iniciales(self.mapa)
 
-    def fase_juego(self):
-        self.net.log("Server", "Iniciando Juego")
-        while not self.ganador:
-            usuario = self.usuarios.pop()
-            self.usuarios.insert(0, usuario)
-            self.comenzar_turno(usuario)
-
-    def comenzar_turno(self, usuario):
-        self.jugador_actual = usuario
-        self.net.send_command("throw_dices", usuario)
-        while not self.dados_lanzados:
-            pass
-        # Reparte las masterias primas
-        suma_dados = self.dados[0] + self.dados[1]
-        if suma_dados == 7:
-            pass
-        else:
-            self.repartir_materias_primas(suma_dados)
-
-        self.net.send_command("activar_interfaz", usuario, [True])
-        while not self.accion_realizada:
-            pass
-        self.accion_realizada = False
-        self.dados_lanzados = False
-
-    def actualizar_materias_primas(self):
-        dict_materias = {usuario: self.mazos[usuario].cartas for usuario in self.usuarios}
-        self.net.send_command_to_all("actualizar_materias_primas", [dict_materias])
-
-    def actualizar_construcciones(self):
-        dict_nodo_construccion_usuario = {}
-        for id_nodo in self.mapa.nodos:
-            nodo = self.mapa.nodos[id_nodo]
-            dict_nodo_construccion_usuario[id_nodo] = [nodo.construccion, nodo.usuario_presente]
-        self.net.send_command_to_all("actualizar_construcciones", [dict_nodo_construccion_usuario])
-
-    def actualizar_puntos(self):
-        self.net.send_command_to_all("actualizar_puntos", [self.puntos])
-
-    def asignar_casas_aleatorias(self):
+    def construir_construcciones_iniciales(self):
+        lista_nodos = list(self.mapa.nodos.keys())
         for usuario in self.usuarios:
-            for _ in range(2):  # Pone dos casas por usuario
+            for _ in range(PARAMETROS["CANTIDAD_CHOZAS_INICIALES"]):
+                choza = Choza(usuario)
                 while True:
-                    id_nodo = random.choice(list(self.mapa.nodos))
-                    if self.validar_posicion_casa(id_nodo):
-                        self.asignar_casa(id_nodo, usuario)
+                    id_nodo = random.choice(lista_nodos)
+                    if self.mapa.anadir_construccion(choza, id_nodo, inicial=True):
                         break
 
-    def asignar_caminos_aleatorios(self):
-        pass
+    def fase_juego(self):
+        interfaz_network.send_command_to_all("close_wait_window")
+        interfaz_network.send_command_to_all("open_game_window")
+        while not self.ganador:
+            self.comenzar_turno()
+        print("TERMINANDO PARTIDA")
 
-    def asignar_casa(self, id_nodo, usuario):
-        nodo = self.mapa.nodos[id_nodo]
-        nodo.estado = "ocupado"
-        nodo.usuario_presente = usuario
-        nodo.construccion = "choza"
-        self.actualizar_construcciones()
-        self.puntos[usuario] += 1
-        self.actualizar_puntos()
-        return True
-
-    def asignar_construccion(self, id_nodo, usuario):
-        pass
-
-    def validar_posicion_casa(self, id_nodo):
-        # Revisa el nodo propio
-        if self.mapa.nodos[id_nodo].estado == "ocupado":
-            return False
-        # Revisa los nodos vecinos
-        vecinos = self.mapa.vecinos(id_nodo)
-        for id_nodo in vecinos:
-            if self.mapa.nodos[id_nodo].estado == "ocupado":
-                return False
-        return True
+    def comenzar_turno(self):
+        self.jugador_actual = self.cola_turnos.popleft()
+        interfaz_network.send_command_to_all("update_current_player", self.jugador_actual.nombre)
+        interfaz_network.send_command(self.jugador_actual.nombre, "enable_dice_throw")
+        # Espera a que se lanzen los dados y resetea el evento
+        self.event_dados_lanzados.wait()
+        self.event_dados_lanzados.clear()
+        # Reparte las cartas y lo deja jugar
+        self.banco.repartir_cartas(self.mapa, self.suma_dados())
+        interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
+        self.event_accion_realizada.wait()
+        self.event_accion_realizada.clear()
+        self.chequear_ganador(self.jugador_actual)
+        self.cola_turnos.append(self.jugador_actual)
 
     def lanzar_dados(self):
         dado_1 = random.randint(1, 6)
         dado_2 = random.randint(1, 6)
-        self.dados = [dado_1, dado_2]
-        self.dados_lanzados = True
-        self.net.log("server", "lanzando dados", f"{dado_1}, {dado_2}")
+        self.dados[0] = dado_1
+        self.dados[1] = dado_2
+        interfaz_network.send_command_to_all("update_dices", dado_1, dado_2)
+        self.event_dados_lanzados.set()
 
-    def repartir_materias_primas_iniciales(self):
-        for id_hexagono in self.mapa.hexagonos:
-            hexagono = self.mapa.hexagonos[id_hexagono]
-            materia_prima = hexagono.materia_prima
-            for id_nodo in hexagono.nodos:
-                nodo = hexagono.nodos[id_nodo]
-                if nodo.estado == "ocupado":
-                    usuario = nodo.usuario_presente
-                    mazo = self.mazos[usuario]
-                    mazo.cartas[materia_prima] += 1
-        self.actualizar_materias_primas()
+    def suma_dados(self):
+        suma = self.dados[0] + self.dados[1]
+        return suma
 
-    def repartir_materias_primas(self, suma_dados):
-        for id_hexagono in self.mapa.hexagonos:
-            hexagono = self.mapa.hexagonos[id_hexagono]
-            if hexagono.num_ficha == suma_dados:
-                materia_prima = hexagono.materia_prima
-                for id_nodo in hexagono.nodos:
-                    nodo = hexagono.nodos[id_nodo]
-                    if nodo.estado == "ocupado":
-                        usuario = nodo.usuario_presente
-                        mazo = self.mazos[usuario]
-                        mazo.cartas[materia_prima] += 1
-        self.actualizar_materias_primas()
-
-    def thread_revisar_comandos(self):
-        while True:
-            try:
-                if not self.net.comando_realizado:
-                    index_ultimo_comando = len(self.net.stack_comandos) - 1
-                    comando = self.net.stack_comandos[index_ultimo_comando]
-                    nombre_comando = comando[0]
-                    if nombre_comando in self.comandos:
-                        comando = self.net.stack_comandos.pop(index_ultimo_comando)
-                        self.realizar_comando(comando)
-            except IndexError:
-                print("Solicitud acoplada")
-
-    def realizar_comando(self, comando):
-        self.net.comando_realizado = True
-        nombre_comando = comando[0]
-        parametros = comando[1]
-        metodo = self.comandos[nombre_comando]
-        if parametros:
-            metodo(*parametros)
+    def comprar_carta_desarrollo(self):
+        self.carta_desarrollo = self.banco.comprar_carta_desarrollo(self.jugador_actual)
+        if self.carta_desarrollo:
+            if self.carta_desarrollo.tipo == "punto_victoria":
+                interfaz_network.send_command(self.jugador_actual.nombre,
+                                              "open_victory_dialog",
+                                              self.carta_desarrollo.ruta_label)
+            elif self.carta_desarrollo.tipo == "monopolio":
+                interfaz_network.send_command(self.jugador_actual.nombre,
+                                              "open_monopoly_dialog",
+                                              self.carta_desarrollo.ruta_label)
         else:
-            metodo()
+            interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
 
-        self.net.log("Server", "Realizado Comando", nombre_comando)
-        self.net.log("-", "Parametros", str(parametros))
-
-    def realizar_accion(self, accion, id=None):
-        mazo_jugador = self.mazos[self.jugador_actual]
-        if accion == "carta_desarrollo":
-            carta_desarrollo = self.banco.comprar_desarrollo(mazo_jugador)
-            if carta_desarrollo:
-                self.comprar(carta_desarrollo)
-                accion_valida = True
-                if carta_desarrollo.tipo == "victoria":
-                    self.agregar_punto_victoria()
-                elif carta_desarrollo.tipo == "monopolio":
-                    self.net.send_command("realizar_monopolio", self.jugador_actual)
-            else:
-                mensaje = "No tienes materias primas para comprar esta carta de desarrollo"
-                self.net.send_command("error_msg", self.jugador_actual, [mensaje])
-                accion_valida = False
-        elif accion == "choza":
-            accion_valida = self.revisar_casa_dropeada(id)
-        elif accion == "ciudad":
-            pass
-        elif accion == "camino":
-            pass
-        elif accion == "intercambio":
-            pass
-        elif accion == "pasar":
-            self.accion_realizada = True
-            accion_valida = True
-        else:
-            raise KeyError("La accion pedida no existe")
-
-        if not accion_valida:
-            self.net.send_command("activar_interfaz", self.jugador_actual, [True])
-        else:
-            pass
-
-    def notificar_compra_invalida(self, mensaje):
-        self.send_command("pop_up", [f"compra_inválida: {mensaje}"])
-
-    def realizar_monopolio(self, materia_prima):
-        self.net.send_command_to_all("error_msg", [f"{self.jugador_actual} ha usado un monopolio"
-                                                f"robando {materia_prima}"])
-        cantidad_total_materia_prima = 0
-        for usuario in self.mazos:
-            cantidad_materia_prima = self.mazos[usuario].cartas[materia_prima]
-            self.mazos[usuario].cartas[materia_prima] = 0
-            cantidad_total_materia_prima += cantidad_materia_prima
-        self.mazos[self.jugador_actual].cartas[materia_prima]\
-            = cantidad_total_materia_prima
-        self.actualizar_materias_primas()
-        materia_prima = None
-
-        self.accion_realizada = True
-
-    def agregar_punto_victoria(self):
-        self.puntos[self.jugador_actual] += 1
-        self.puntos_victoria[self.jugador_actual] += 1
-        puntos_victoria = self.puntos_victoria[self.jugador_actual]
-        self.actualizar_puntos()
-        self.net.send_command("actualizar_punto_victoria", self.jugador_actual, [puntos_victoria])
-        self.accion_realizada = True
-
-    def comprar(self, objeto):
-        for materia_prima in objeto.costo:
-            costo = objeto.costo[materia_prima]
-            self.mazos[self.jugador_actual].cartas[materia_prima] -= costo
-
-        self.actualizar_materias_primas()
-
-    def revisar_casa_dropeada(self, id_nodo):
-        id_vecinos = self.mapa.vecinos(id_nodo)
-        # Revisa el mismo nodo
-        nodo = self.mapa.nodos[id_nodo]
-        if nodo.estado == "ocupado":
-            self.net.send_command("error_msg", self.jugador_actual, ["Posición invalida"])
-            return False
-        # Revisa los vecinos
-        for id_vecino in id_vecinos:
-            nodo = self.mapa.nodos[id_vecino]
-            if nodo.estado == "ocupado":
-                self.net.send_command("error_msg", self.jugador_actual, ["Posición invalida"])
-                return False
-        # Caso si se puede poner la casa
-        choza = self.banco.comprar_choza(self.mazos[self.jugador_actual])
+    def comprar_choza(self, id_nodo):
+        choza = self.banco.comprar_choza(self.jugador_actual)
         if choza:
-            self.comprar(choza)
-            self.net.send_command("activar_interfaz", self.jugador_actual, [False])
-            self.asignar_casa(id_nodo, self.jugador_actual)
-            self.accion_realizada = True
-            return True
-        else:
-            self.net.send_command("error_msg", self.jugador_actual, [
-                "no tienes suficientes materias primas"])
-            return False
+            if self.mapa.anadir_construccion(choza, id_nodo):  # Chequea los adyacentes
+                msg = f"{self.jugador_actual.nombre} ha construido una choza"
+                interfaz_network.send_command_to_all("pop_up", msg)
+                self.event_accion_realizada.set()
+            else:  # Si no se pudo construir se activa la interfaz
+                interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")    
+        else: # Si no se pudo comprar se activa la itnerfaz
+            interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
+
+    def activar_carta_desarrollo(self, materia_prima=None):
+        if self.carta_desarrollo.tipo == "punto_victoria":
+            self.carta_desarrollo.activar(self.jugador_actual)
+        elif self.carta_desarrollo.tipo == "monopolio":
+            self.carta_desarrollo.activar(self.jugador_actual, materia_prima, self.usuarios)
+        self.carta_desarrollo = None
+        self.event_accion_realizada.set()
+
+    def pasar_turno(self):
+        self.event_accion_realizada.set()
+
+    def ganador(self):
+        for usuario in self.cola_turnos:
+            if usuario.puntos >= PARAMETROS["PUNTOS_VICTORIA_FINALES"]:
+                #interfaz_network.send_command_to_all("open_winner_window")
+                print("Enviar comando notificar ganador")
+                print("Enviar comando abrir popup de volver a jugar")
+                return usuario.nombre
+        return False
+
+    def chequear_ganador(self, usuario):
+        if usuario.puntos >= PARAMETROS["PUNTOS_VICTORIA_FINALES"]:
+            self.ganador = usuario
+
+    def fase_termino(self):
+        lista_nombres_puntos = [(usuario.nombre, usuario.puntos) for usuario in self.usuarios]
+        lista_nombres_puntos.sort(key=lambda tupla: tupla[1], reverse=True)
+        interfaz_network.send_command_to_all("update_winner_window", lista_nombres_puntos)
+        interfaz_network.send_command_to_all("close_game_window")
+        interfaz_network.send_command_to_all("open_winner_window")

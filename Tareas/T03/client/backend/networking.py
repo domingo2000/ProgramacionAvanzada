@@ -1,111 +1,77 @@
 import socket
-from threading import Thread
 import json
 import pickle
+from threading import Thread, Lock, Event
+from collections import deque
+from comando import Comando
+import time
 
 
-class ClientNet():
+with open("parametros.json") as file:
+    PARAMETROS = json.load(file)
 
-    def __init__(self, host, port):
-        print("Inicializando Cliente")
-        super().__init__()
-        self.host = host
-        self.port = port
+
+class ClientNet:
+
+    def __init__(self):
+        self.host = PARAMETROS["host"]
+        self.port = PARAMETROS["port"]
+        self.cola_comandos = deque()
+        self.lock_log = Lock()
+        self.comandos = {
+            "aceptar_cliente": self.notificar_conexion_exitosa,
+            "rechazar_cliente": self.desconectarse
+        }
+        # Crea el socket del servidor
         self.socket_cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.stack_comandos = []
-        self.comando_realizado = True
-        try:
-            conexion_exitosa = self.connect_to_server()
-            if conexion_exitosa:
-                self.listen()
-            else:
-                self.socket_cliente.close()
-                self.log("cerrando socket")
-        except ConnectionError:
-            print("No debería estar aquí")
-            self.socket_cliente.close()
-            self.log("Socket Cerrado", "inicializando Cliente")
 
-    def connect_to_server(self):
-        """
-        Crea la conexion al servidor retorna un booleano
-        True: En caso de ser exitosa
-        False: En caso de estar lleno el servidor o no estar disponible el
-        servidor
-        """
+    def encender(self):
+        self.log("Inicializando")
+        self.connect()
+
+    def connect(self):
         try:
-            print("Tratando de conectar al servidor")
             self.socket_cliente.connect((self.host, self.port))
-
-            # Revisa si se logro conectar
-            respuesta = self.recive_message()
-            print(respuesta)
-            if respuesta == "aceptado":
-                print("Cliente conectado exitosamente al servidor.")
-                return True
-            elif respuesta == "rechazado":
-                print("Servidor Lleno")
-                return True
-
+            #  Comienza a escuchar al servidor
+            thread_escucha = Thread(target=self.thread_escucha_servidor,
+                                    daemon=True)
+            thread_escucha.start()
+            # Comienza a revisar los comandos de su misma cola
+            thread_revisar_comandos = Thread(target=self.thread_revisar_comandos,
+                                             daemon=True)
+            thread_revisar_comandos.start()
         except ConnectionError:
-            print("No se ha podido conectar al servidor")
-            self.socket_cliente.close()
-            return False
+            self.desconectarse(msg="Servidor no disponible")
 
-    def listen(self):
-        """ Inicializa el thread que escucha datos desde el servidor """
-        thread = Thread(target=self.listen_thread, daemon=True)
-        thread.start()
-
-    def listen_thread(self):
-        """
-        Crea un thread que espera los datos del servidor en forma de
-        comandos
-        """
+    def thread_escucha_servidor(self):
+        self.log("escuchando Servidor", f"{self.host};{self.port}")
         while True:
             try:
                 data = self.recive_data()
                 comando = pickle.loads(data)
-                self.añadir_comando(comando)
+                self.anadir_comando(comando)
             except ConnectionError:
-                self.log("Servidor Desconectado", "listen_thread")
-                self.socket_cliente.close()
-                self.log("Socket Cerrado", "listen_thread")
+                self.desconectarse(msg="El servidor se ha cerrado abruptamente")
                 break
+            except OSError:
+                print("El Socket ya habia sido desconectado")
+                break
+                pass
 
-    def recive_data(self):
-        # Protocolo de informacion
-        data = bytearray()
-        bytes_largo = self.socket_cliente.recv(4)
-        largo_bytes = int.from_bytes(bytes_largo, byteorder="big")
-        numero_chunks = (largo_bytes // 60) + 1
-        for i in range(numero_chunks):
-            numero_bloque = self.socket_cliente.recv(4)
-            data_bloque = self.socket_cliente.recv(60)
-            if i == (numero_chunks - 1):
-                data_bloque = data_bloque[0: (largo_bytes % 60)]
-            data.extend(data_bloque)
-
-        if data == "":
-            pass
+    def desconectarse(self, msg=None):
+        self.socket_cliente.close()
+        if msg is not None:
+            self.log("rechazado por el server", msg)
         else:
-            return data
+            self.log("desconectandose")
 
-    def añadir_comando(self, comando):
-        if comando[0] != "":
-            self.stack_comandos.append(comando)
-            self.comando_realizado = False
-            self.log("comando recibido", comando[0])
-
-    def recive_message(self):
-        data = self.recive_data()
-        return data.decode("utf-8")
+    def notificar_conexion_exitosa(self):
+        self.log("Cliente aceptado por el servidor")
 
     def send_bytes(self, bytes):
         """
-        Envía mensajes al servidor.
+        Envía bytes con el protocolo del enunciado al usuario dado
 
-        Implementa el protocolo del enunciado
         """
         bytes = bytes
         largo_mensaje = len(bytes)
@@ -125,32 +91,150 @@ class ClientNet():
             chunk_bytes = bytes[i * 60: (i + 1) * 60]
             data.extend(chunk_bytes)
 
-        self.socket_cliente.sendall(data)
+        try:
+            self.socket_cliente.sendall(data)
+        except ConnectionError:
+            self.desconectarse(msg="Servidor cerrado abruptamente")
+        except OSError:
+            print("El socket ya habia sido desconectado")
 
-    def send_command(self, comando, parametros=None):
+    def recive_data(self):
+        try:
+            """
+            Recibe datos con el protocolo del enunciado, en caso de ser
+            un byte vacio pasa, si otra cosa ejecuta el comando.
+            """
+            # Protocolo de informacion
+            data = bytearray()
+            bytes_largo = self.socket_cliente.recv(4)
+            largo_bytes = int.from_bytes(bytes_largo, byteorder="big")
+            numero_chunks = (largo_bytes // 60) + 1
+            for i in range(numero_chunks):
+                numero_bloque = self.socket_cliente.recv(4)
+                data_bloque = self.socket_cliente.recv(60)
+                if i == (numero_chunks - 1):
+                    data_bloque = data_bloque[0: (largo_bytes % 60)]
+                data.extend(data_bloque)
+
+            if data == "":
+                pass
+            else:
+                return data
+        except ConnectionError:
+            pass
+
+    def send_command(self, nombre_comando, *args):
         """
-        Envia un comando serializado al usuario de la forma
+        Envia un comando serializado con un nombre,
+        *args recibe los parametros necesarios para realizar dicho comando
+        y se envia un comando de la forma
         tupla: ("comando": (parametros))
-
-        los parametros son recibidos como una lista de parametros
         """
-        tupla = (comando, parametros)
-        tupla_serializado = pickle.dumps(tupla)
-        self.send_bytes(tupla_serializado)
+        comando = Comando(nombre_comando, *args)
+        comando_serializado = pickle.dumps(comando)
+        self.send_bytes(comando_serializado)
 
-        if comando != "":
-            self.log("enviando comando", comando)
+        if comando.nombre != "":
+            self.log(f"enviando comando: {comando}")
+
+    def anadir_comando(self, comando):
+        self.cola_comandos.append(comando)
+        self.log("anadiendo comando", f"{comando}")
 
     def log(self, evento="-", detalles="-"):
+        with self.lock_log:
             print(f"{evento: ^25} | {detalles: ^25}")
+
+    def thread_revisar_comandos(self):
+        while True:
+            interfaz_network.revisar_comando(self.comandos)
+            time.sleep(0)
+
+
+net_cliente = ClientNet()
+
+
+class InterfazClientNet:
+    lock_envio_comandos = Lock()
+    lock_sacar_comandos = Lock()
+    lock_anadir_comandos = Lock()
+    network = net_cliente
+
+    def __init__(self):
+        pass
+
+    def send_command(self, nombre_comando, *args):
+        with self.lock_envio_comandos:
+            self.network.send_command(nombre_comando, *args)
+
+    def revisar_comando(self, dict_comandos):
+        with self.lock_sacar_comandos:
+            if len(self.network.cola_comandos) > 0:
+                comando = self.network.cola_comandos[0]
+                nombre_comando = comando.nombre
+                if nombre_comando in dict_comandos:
+                    comando = self.network.cola_comandos.popleft()
+                    funcion = dict_comandos[nombre_comando]
+                    self.realizar_comando(comando, funcion)
+                    self.network.log("realizado comando", nombre_comando)
+
+    def anadir_comando(self, comando):
+        with self.lock_anadir_comandos:
+            self.network.anadir_comando(comando)
+
+    def realizar_comando(self, comando, funcion):
+        if comando.parametros is None:
+            funcion()
+        else:
+            parametros = comando.parametros
+            funcion(*parametros)
+
+
+interfaz_network = InterfazClientNet()
+
+
+def thread_revisar_comandos(dict_comandos):
+    while True:
+        interfaz_network.revisar_comando(dict_comandos)
+
+
+def revisar_comando(dict_comandos):
+    interfaz_network.revisar_comando(dict_comandos)
 
 
 if __name__ == "__main__":
     import time
-    cliente = ClientNet()
-    while True:
-        comando = input("Ingrese el nombre del comando: ")
-        parametros = []
-        entrada = input("Ingrese un string para parametro: ")
-        parametros.append(entrada)
-        cliente.send_command(comando, parametros)
+    comando = Comando("sumar", 1, 2, 3, 4)
+    comando_none = Comando("none")
+    interfaz_network.anadir_comando(comando)
+    interfaz_network.anadir_comando(comando_none)
+
+    class A:
+
+        def __init__(self):
+            self.comandos = {
+                "sumar": self.sumar,
+                "none": self.none
+            }
+            self.thread_revisar_comandos()
+
+        def none(self):
+            print("nonees")
+
+        def sumar(self, *args):
+            suma = 0
+            for i in args:
+                suma += 1
+            print(suma)
+
+        def thread_revisar_comandos(self):
+            a = 0
+            while True:
+                print("Revisando comandos")
+                interfaz_network.revisar_comando(self.comandos)
+                if a == 5:
+                    break
+                a += 1
+    a = A()
+    time.sleep(1)
+    net_cliente.socket_cliente.close()

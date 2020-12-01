@@ -1,27 +1,26 @@
 from PyQt5.QtWidgets import QLabel, QWidget, QErrorMessage
 from PyQt5 import uic
-from PyQt5.QtGui import QPixmap, QDropEvent
-from PyQt5.QtCore import pyqtSignal, QEvent, QRect, QPoint
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import pyqtSignal, QEvent, QRect
 from os import path
 from frontend.dialogs import DialogoMonopolio, DialogPuntoVictoria
-from frontend.construcciones import Choza
+from frontend.construcciones import Casa
 import json
 
+window_name, base_class = uic.loadUiType("ventana_juego.ui")
 with open("parametros.json") as file:
-    PARAMETROS = json.load(file)
-    RUTAS_UIS = PARAMETROS["rutas_uis"]
-    RUTAS_SPRITES = PARAMETROS["rutas_sprites"]
-
-window_name, base_class = uic.loadUiType(path.join(*RUTAS_UIS["ventana_juego"]))
+    data = json.load(file)
+    rutas_sprites = data["rutas_sprites"]
 
 
 class VentanaJuego(window_name, base_class):
     senal_lanzar_dados = pyqtSignal()
-    senal_activar_carta_desarrollo = pyqtSignal(str)
+    senal_accion_realizada = pyqtSignal(bool)
+    senal_monopolio_realizado = pyqtSignal(str)
+    senal_accion_realizada = pyqtSignal(str)
     senal_comprar_carta_desarrollo = pyqtSignal()
     senal_pasar_turno = pyqtSignal()
     senal_casa_dropeada = pyqtSignal(str)
-    senal_label_dropeado = pyqtSignal(QLabel, QDropEvent)
 
     def __init__(self):
         super().__init__()
@@ -127,7 +126,7 @@ class VentanaJuego(window_name, base_class):
         self.dialogo_punto_victoria = DialogPuntoVictoria(self)
 
     def init_gui(self):
-        self.casa_interfaz = Choza(0, 0, self)
+        self.casa_interfaz = Casa(0, 0, self)
         self.barra_usuario.layout().addWidget(self.casa_interfaz, 1, 3)
 
     def actualizar_num_ficha(self, id_ficha, numero_ficha):
@@ -135,35 +134,31 @@ class VentanaJuego(window_name, base_class):
         label_num_ficha.setText(str(numero_ficha))
 
     def actualizar_materia_prima_hexagono(self, id_hexagono, materia_prima):
-        datos_ruta_pixmap = RUTAS_SPRITES[f"hex_{materia_prima}"]
+        datos_ruta_pixmap = rutas_sprites[f"hex_{materia_prima}"]
         ruta_materia_prima = path.join(*datos_ruta_pixmap)
         pixmap_materia_prima = QPixmap(ruta_materia_prima)
         label_hexagono = self.labels_hexagonos[id_hexagono]
         label_hexagono.setPixmap(pixmap_materia_prima)
 
-    def actualizar_puntos_usuario(self, id_usuario, puntos):
-        self.labels_puntos[id_usuario].setText("Puntos: " + str(puntos))
-
-    def actualizar_puntos_victoria_usuario(self, puntos_victoria):
-        self.puntos_victoria.setText(f": {str(puntos_victoria)}")
-
-    def activar_dialogo_puntos_victoria(self, ruta_label_punto_victoria):
-        ruta_pixmap = path.join(*ruta_label_punto_victoria)
-        self.dialogo_punto_victoria.label_carta.setPixmap(QPixmap(ruta_pixmap))
-        self.dialogo_punto_victoria.exec()
-        self.senal_activar_carta_desarrollo.emit("")
-
-    def activar_dialogo_monopolio(self, ruta_label_monopolio):
-        ruta_pixmap = path.join(*ruta_label_monopolio)
-        self.dialogo_monopolio.label_carta.setPixmap(QPixmap(ruta_pixmap))
-        self.dialogo_monopolio.exec()
-        materia_prima = self.dialogo_monopolio.materia_prima.currentText()
-        self.senal_activar_carta_desarrollo.emit(materia_prima)
-
-    def actualizar_materia_prima(self, id_jugador, materia_prima, valor):
+    def actualizar_puntos(self, dict_puntos):
         """
+        Recibe un diccionario de la forma:
+        {"id_jugador": puntos, "id_jugador_2": puntos,...}
+        y actualiza los labels de los puntos
         """
-        self.labels_materias_primas[materia_prima][id_jugador].setText(str(valor))
+        for id_jugador in dict_puntos:
+            self.labels_puntos[id_jugador].setText(dict_puntos[id_jugador])
+
+    def actualizar_materias_primas(self, dict_materias_primas):
+        """
+        Recibe un diccionario de la forma:
+        {"id_jugador": {"madera": 0, "arcilla": 0, "trigo": 0},...}
+        y actualiza los labels de las materias primas
+        """
+        for id_jugador in dict_materias_primas:
+            for materia_prima in dict_materias_primas[id_jugador]:
+                valor = dict_materias_primas[id_jugador][materia_prima]
+                self.labels_materias_primas[materia_prima][id_jugador].setText(str(valor))
 
     def actualizar_construcciones(self, dict_nodos_pixmap):
 
@@ -183,19 +178,21 @@ class VentanaJuego(window_name, base_class):
             else:
                 label_nodo.hide()
 
-    def eliminar_construccion(self, id_nodo):
-        self.labels_nodos[id_nodo].hide()
-
-    def anadir_construccion(self, id_nodo, pixmap):
-        label = self.labels_nodos[id_nodo]
-        label.setPixmap(pixmap)
-        label.show()
-
     def actualizar_label_usuario(self, id, usuario):
         if id == "0":
             self.labels_usuarios[id].setText(f"{usuario} (Tú)")
         else:
             self.labels_usuarios[id].setText(usuario)
+
+    def actualizar_labels_puntos(self, dict_id_puntos):
+        """
+        Recibe un diccionario de la forma
+        {"id_usuario": puntos, "id_usuario2": puntos2}
+        y actualiza los puntos en la interfaz
+        """
+        for id_usuario in dict_id_puntos:
+            puntos = dict_id_puntos[id_usuario]
+            self.labels_puntos[id_usuario].setText("Puntos: " + str(puntos))
 
     def actualizar_label_jugador_actual(self, nombre_jugador):
         self.jugador_actual.setText(nombre_jugador)
@@ -210,49 +207,58 @@ class VentanaJuego(window_name, base_class):
 
     def pasar_turno(self):
         self.senal_pasar_turno.emit()
-        self.deshabilitar_interfaz()
+        self.activar_interfaz(False)
 
     def comprar_carta_desarrollo(self):
         self.senal_comprar_carta_desarrollo.emit()
-        self.deshabilitar_interfaz()
+        self.activar_interfaz(False)
 
     def activar_interfaz_dados(self, bool):
         self.boton_lanzar_dados.setEnabled(bool)
 
-    def habilitar_interfaz(self):
+    def activar_interfaz(self, bool):
         self.casa_interfaz.movible = True
-        self.boton_carta_desarrollo.setEnabled(True)
-        self.boton_pasar_turno.setEnabled(True)
+        self.boton_carta_desarrollo.setEnabled(bool)
+        self.boton_pasar_turno.setEnabled(bool)
 
-    def deshabilitar_interfaz(self):
-        self.casa_interfaz.movible = False
-        self.boton_carta_desarrollo.setEnabled(False)
-        self.boton_pasar_turno.setEnabled(False)
+        # Completar codigo para construcciones
+    def realizar_accion(self):
+        self.senal_accion_realizada.emit(True)
 
-    def alerta(self, mensaje):
-        self.q_error_message = QErrorMessage(self)
-        self.q_error_message.showMessage(mensaje)
+    def realizar_monopolio(self):
+        self.dialogo_monopolio.exec()
+        materia_prima = self.dialogo_monopolio.materia_prima.currentText()
+        self.senal_monopolio_realizado.emit(materia_prima)
+
+    def error(self, mensaje):
+        self.error = QErrorMessage(self)
+        self.error.showMessage(mensaje)
+
+    def actualizar_puntos_victoria(self, int):
+        self.dialogo_punto_victoria.exec()
+        self.puntos_victoria.setText(f": {str(int)}")
 
     def dragEnterEvent(self, event):
         event.acceptProposedAction()
 
     def dropEvent(self, event):
         label_dropeado = event.source()
-        pos_global = label_dropeado.mapToGlobal(QPoint(0, 0))
-        pos_global_drop = self.mapToGlobal(event.pos())
-        colider_drop = QRect(pos_global_drop, label_dropeado.size())
-        #print(f"colider_drop: {colider_drop}")
+        pos = event.pos()
+        x = pos.x()
+        y = pos.y()
         if label_dropeado.tipo == "choza":
-            for id_nodo in self.labels_nodos:
-                label_nodo = self.labels_nodos[id_nodo]
-                pos_global_nodo = label_nodo.mapToGlobal(QPoint(0, 0))
-                #print(f"Pos Global nodo: {pos_global_nodo}")
-                colider_nodo = QRect(pos_global_nodo, label_nodo.size())
-                if colider_drop.intersects(colider_nodo):
-                    self.senal_casa_dropeada.emit(id_nodo)
-                    self.deshabilitar_interfaz()
+            copia_choza = Casa(x, y, self)
+            colider_copia = QRect(copia_choza.x(), copia_choza.y(),
+                                  copia_choza.width(), copia_choza.height())
+            for id_label_nodo in self.labels_nodos:
+                label_nodo = self.labels_nodos[id_label_nodo]
+                colider_nodo = QRect(label_nodo.x(), label_nodo.y(),
+                                     label_nodo.width(), label_nodo.height())
+                if colider_copia.intersects(colider_nodo):
+                    self.senal_casa_dropeada.emit(id_label_nodo)
+                    copia_choza.hide()
+                    copia_choza.setParent(None)
                     return
-            self.alerta("Posicion invalida")
 
-    def habilitar_boton_dados(self):
-        self.boton_lanzar_dados.setEnabled(True)
+        elif label_dropeado.tipo == "camino":
+            pass
