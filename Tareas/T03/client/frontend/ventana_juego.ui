@@ -1433,159 +1433,6 @@ font-size: 15px;</string>
 </string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="5">
-     <widget class="QPushButton" name="boton_lanzar_dados">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="text">
-       <string>Lanzar Dados</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3" colspan="2">
-     <widget class="QFrame" name="frame">
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF;
-border-radius: 10px</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_10">
-       <item>
-        <widget class="QLabel" name="dado_1">
-         <property name="maximumSize">
-          <size>
-           <width>61</width>
-           <height>61</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap>../sprites/Dados/dado_1.png</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="dado_2">
-         <property name="maximumSize">
-          <size>
-           <width>61</width>
-           <height>61</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap>../sprites/Dados/dado_1.png</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QFrame" name="frame_carta_3">
-      <property name="maximumSize">
-       <size>
-        <width>149</width>
-        <height>133</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_12">
-       <item>
-        <layout class="QHBoxLayout" name="layoutcarta_3">
-         <item>
-          <widget class="QLabel" name="label_17">
-           <property name="maximumSize">
-            <size>
-             <width>88</width>
-             <height>111</height>
-            </size>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>../sprites/Materias_primas/carta_madera.png</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="madera_j0">
-           <property name="maximumSize">
-            <size>
-             <width>33</width>
-             <height>111</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>: X</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="4">
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #D3D7CF</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>../sprites/Construcciones/camino_azul_0.png</normaloff>../sprites/Construcciones/camino_azul_0.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>80</width>
-        <height>80</height>
-       </size>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="5">
      <widget class="QPushButton" name="boton_carta_desarrollo">
       <property name="enabled">
@@ -1609,67 +1456,27 @@ border-radius: 10px</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
-     <widget class="QFrame" name="frame_carta_4">
-      <property name="maximumSize">
-       <size>
-        <width>149</width>
-        <height>133</height>
-       </size>
+    <item row="1" column="4">
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="enabled">
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: #D3D7CF</string>
       </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+      <property name="text">
+       <string/>
       </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+      <property name="icon">
+       <iconset>
+        <normaloff>../sprites/Construcciones/camino_azul_0.png</normaloff>../sprites/Construcciones/camino_azul_0.png</iconset>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_13">
-       <item>
-        <layout class="QHBoxLayout" name="layoutcarta_4">
-         <item>
-          <widget class="QLabel" name="label_19">
-           <property name="maximumSize">
-            <size>
-             <width>88</width>
-             <height>111</height>
-            </size>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>../sprites/Materias_primas/carta_trigo.png</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="trigo_j0">
-           <property name="maximumSize">
-            <size>
-             <width>33</width>
-             <height>111</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>: X</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+      <property name="iconSize">
+       <size>
+        <width>80</width>
+        <height>80</height>
+       </size>
+      </property>
      </widget>
     </item>
     <item row="1" column="0">
@@ -1735,6 +1542,82 @@ border-radius: 10px</string>
       </layout>
      </widget>
     </item>
+    <item row="1" column="2">
+     <widget class="QFrame" name="frame_carta_4">
+      <property name="maximumSize">
+       <size>
+        <width>149</width>
+        <height>133</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_13">
+       <item>
+        <layout class="QHBoxLayout" name="layoutcarta_4">
+         <item>
+          <widget class="QLabel" name="label_19">
+           <property name="maximumSize">
+            <size>
+             <width>88</width>
+             <height>111</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../sprites/Materias_primas/carta_trigo.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="trigo_j0">
+           <property name="maximumSize">
+            <size>
+             <width>33</width>
+             <height>111</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>: X</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="5">
+     <widget class="QPushButton" name="boton_lanzar_dados">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="text">
+       <string>Lanzar Dados</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="2">
      <widget class="QPushButton" name="boton_pasar_turno">
       <property name="enabled">
@@ -1745,6 +1628,146 @@ border-radius: 10px</string>
       </property>
       <property name="text">
        <string>Pasar Turno</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QFrame" name="frame_carta_3">
+      <property name="maximumSize">
+       <size>
+        <width>149</width>
+        <height>133</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <layout class="QHBoxLayout" name="layoutcarta_3">
+         <item>
+          <widget class="QLabel" name="label_17">
+           <property name="maximumSize">
+            <size>
+             <width>88</width>
+             <height>111</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../sprites/Materias_primas/carta_madera.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="madera_j0">
+           <property name="maximumSize">
+            <size>
+             <width>33</width>
+             <height>111</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>: X</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="3" colspan="2">
+     <widget class="QFrame" name="frame">
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF;
+border-radius: 10px</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="QLabel" name="dado_1">
+         <property name="maximumSize">
+          <size>
+           <width>61</width>
+           <height>61</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../sprites/Dados/dado_1.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="dado_2">
+         <property name="maximumSize">
+          <size>
+           <width>61</width>
+           <height>61</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../sprites/Dados/dado_1.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="6">
+     <widget class="QPushButton" name="boton_intercambio">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #D3D7CF</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../sprites/exchange_icon.png</normaloff>../sprites/exchange_icon.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>80</width>
+        <height>80</height>
+       </size>
       </property>
      </widget>
     </item>
@@ -2638,10 +2661,27 @@ border-radius: 20px;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>boton_intercambio</sender>
+   <signal>clicked()</signal>
+   <receiver>VentanaJuego</receiver>
+   <slot>abrir_ventana_intercambio()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>570</x>
+     <y>592</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>462</x>
+     <y>326</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>lanzar_dados()</slot>
   <slot>comprar_carta_desarrollo()</slot>
   <slot>pasar_turno()</slot>
+  <slot>abrir_ventana_intercambio()</slot>
  </slots>
 </ui>

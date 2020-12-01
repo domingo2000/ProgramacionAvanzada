@@ -3,7 +3,8 @@ from PyQt5 import uic
 from PyQt5.QtGui import QPixmap, QDropEvent
 from PyQt5.QtCore import pyqtSignal, QEvent, QRect, QPoint
 from os import path
-from frontend.dialogs import DialogoMonopolio, DialogPuntoVictoria
+from frontend.dialogs import (DialogoMonopolio, DialogPuntoVictoria, 
+                              DialogIntercambio1, DialogIntercambio2)
 from frontend.construcciones import Choza
 import json
 
@@ -125,6 +126,8 @@ class VentanaJuego(window_name, base_class):
     def init_dialogs(self):
         self.dialogo_monopolio = DialogoMonopolio(self)
         self.dialogo_punto_victoria = DialogPuntoVictoria(self)
+        self.dialogo_intercambio_1 = DialogIntercambio1(self)
+        self.dialogo_intercambio_2 = DialogIntercambio2(self)
 
     def init_gui(self):
         self.casa_interfaz = Choza(0, 0, self)
@@ -159,6 +162,10 @@ class VentanaJuego(window_name, base_class):
         self.dialogo_monopolio.exec()
         materia_prima = self.dialogo_monopolio.materia_prima.currentText()
         self.senal_activar_carta_desarrollo.emit(materia_prima)
+
+    def abrir_ventana_intercambio(self):
+        self.dialogo_intercambio_1.exec()
+        
 
     def actualizar_materia_prima(self, id_jugador, materia_prima, valor):
         """
@@ -223,11 +230,13 @@ class VentanaJuego(window_name, base_class):
         self.casa_interfaz.movible = True
         self.boton_carta_desarrollo.setEnabled(True)
         self.boton_pasar_turno.setEnabled(True)
+        self.boton_intercambio.setEnabled(True)
 
     def deshabilitar_interfaz(self):
         self.casa_interfaz.movible = False
         self.boton_carta_desarrollo.setEnabled(False)
         self.boton_pasar_turno.setEnabled(False)
+        self.boton_intercambio.setEnabled(False)
 
     def alerta(self, mensaje):
         self.q_error_message = QErrorMessage(self)
