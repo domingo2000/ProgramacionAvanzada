@@ -33,7 +33,9 @@ class Juego:
             "buy_development_card": self.comprar_carta_desarrollo,
             "activate_development_card": self.activar_carta_desarrollo,
             "pass_turn": self.pasar_turno,
-            "buy_house": self.comprar_choza
+            "buy_house": self.comprar_choza,
+            "propose_exchange": self.proponer_intercambio,
+            "do_exchange": self.realizar_intercambio
         }
         self.thread_comandos = Thread(name="thread_revisar_comandos",
                                       target=thread_revisar_comandos,
@@ -150,3 +152,59 @@ class Juego:
         interfaz_network.send_command_to_all("update_winner_window", lista_nombres_puntos)
         interfaz_network.send_command_to_all("close_game_window")
         interfaz_network.send_command_to_all("open_winner_window")
+
+    def proponer_intercambio(self, materia_ofrecida, materia_pedida,
+                             cant_materia_ofrecida, cant_materia_pedida, jugador_elegido):
+        for usuario in self.usuarios:
+            if usuario.nombre == jugador_elegido:
+                usuario_jugador_elegido = usuario
+        mazo_jugador = self.jugador_actual.mazo
+        mazo_jugador_elegido = usuario_jugador_elegido.mazo
+        if mazo_jugador[materia_ofrecida] < cant_materia_ofrecida:
+            msg = "No tienes materias primas para realizar dicho intercambio!"
+            interfaz_network.send_command(self.jugador_actual.nombre, "pop_up", msg)
+            interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
+        elif mazo_jugador_elegido[materia_pedida] < cant_materia_pedida:
+            msg = "El jugador solicitado no tiene la cantidad de materias primas pedidas"
+            interfaz_network.send_command(self.jugador_actual.nombre, "pop_up", msg)
+            interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
+        else:
+            interfaz_network.send_command(usuario_jugador_elegido.nombre, "see_exchange", 
+                                          materia_ofrecida, materia_pedida, cant_materia_ofrecida,
+                                          cant_materia_pedida, self.jugador_actual.nombre)
+            self.jugador_oferente_intercambio = self.jugador_actual
+            self.jugador_elegido_intercambio = usuario_jugador_elegido
+            self.materia_ofrecida = materia_ofrecida
+            self.materia_pedida = materia_pedida
+            self.cant_materia_ofrecida = cant_materia_ofrecida
+            self.cant_materia_pedida = cant_materia_pedida
+
+    def realizar_intercambio(self, aceptado):
+        if aceptado:
+            # Da la materia ofrecida
+            self.jugador_oferente_intercambio.mazo[self.materia_ofrecida]\
+                -= self.cant_materia_ofrecida
+            self.jugador_elegido_intercambio.mazo[self.materia_ofrecida]\
+                += self.cant_materia_ofrecida
+            # Quita la materia pedida
+            self.jugador_oferente_intercambio.mazo[self.materia_pedida]\
+                += self.cant_materia_pedida
+            self.jugador_elegido_intercambio.mazo[self.materia_pedida]\
+                -= self.cant_materia_pedida
+            # Notifica el intercambio
+            msg = f"Se ha realizado un intercambio entre\
+                {self.jugador_oferente_intercambio.nombre} \
+                    y {self.jugador_elegido_intercambio.nombre}"
+            interfaz_network.send_command_to_all("pop_up", msg)
+            # setea none todos los datos del intercambio
+            self.jugador_oferente_intercambio = None
+            self.jugador_elegido_intercambio = None
+            self.materia_ofrecida = None
+            self.materia_pedida = None
+            self.cant_materia_ofrecida = None
+            self.cant_materia_pedida = None
+        else:
+            msg = "Se ha rechazado el intercambio"
+            interfaz_network.send_command(self.jugador_oferente_intercambio.nombre, 
+                                          "pop_up", msg)
+        self.event_accion_realizada.set()

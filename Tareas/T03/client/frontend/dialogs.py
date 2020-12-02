@@ -30,7 +30,7 @@ class DialogPuntoVictoria(window_name, base_class):
 window_name, base_class = uic.loadUiType(path.join(*RUTAS_UIS["intercambio_1"]))
 
 
-class DialogIntercambio1():
+class DialogIntercambio1(window_name, base_class):
     def __init__(self, parent):
         super().__init__()
         self.setupUi(self)
@@ -39,7 +39,7 @@ class DialogIntercambio1():
 window_name, base_class = uic.loadUiType(path.join(*RUTAS_UIS["intercambio_2"]))
 
 
-class DialogIntercambio2():
+class DialogIntercambio2(window_name, base_class):
     def __init__(self, parent):
         super().__init__()
         self.setupUi(self)
@@ -50,6 +50,6 @@ if __name__ == "__main__":
     ventana = QWidget()
     ventana.setGeometry(50, 50, 500, 500)
     ventana.show()
-    dialog = DialogPuntoVictoria(ventana)
+    dialog = DialogIntercambio1(ventana)
     dialog.exec()
     sys.exit(app.exec_())

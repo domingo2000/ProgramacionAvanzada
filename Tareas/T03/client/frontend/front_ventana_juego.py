@@ -3,7 +3,7 @@ from PyQt5 import uic
 from PyQt5.QtGui import QPixmap, QDropEvent
 from PyQt5.QtCore import pyqtSignal, QEvent, QRect, QPoint
 from os import path
-from frontend.dialogs import (DialogoMonopolio, DialogPuntoVictoria, 
+from frontend.dialogs import (DialogoMonopolio, DialogPuntoVictoria,
                               DialogIntercambio1, DialogIntercambio2)
 from frontend.construcciones import Choza
 import json
@@ -23,6 +23,9 @@ class VentanaJuego(window_name, base_class):
     senal_pasar_turno = pyqtSignal()
     senal_casa_dropeada = pyqtSignal(str)
     senal_label_dropeado = pyqtSignal(QLabel, QDropEvent)
+    senal_proponer_intercambio = pyqtSignal(str, str, int, int, str)
+    senal_realizar_intercambio = pyqtSignal(bool)
+    senal_pedir_usuarios_intercambio = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -163,9 +166,34 @@ class VentanaJuego(window_name, base_class):
         materia_prima = self.dialogo_monopolio.materia_prima.currentText()
         self.senal_activar_carta_desarrollo.emit(materia_prima)
 
-    def abrir_ventana_intercambio(self):
+    def pedir_usuarios_intercambio(self):
+        self.senal_pedir_usuarios_intercambio.emit()
+        self.deshabilitar_interfaz()
+
+    def abrir_ventana_intercambio_1(self, lista_nombres):
+        for nombre in lista_nombres:
+            self.dialogo_intercambio_1.jugador_elegido.addItem(nombre)
         self.dialogo_intercambio_1.exec()
-        
+        materia_ofrecida = self.dialogo_intercambio_1.materia_ofrecida.currentText()
+        materia_pedida = self.dialogo_intercambio_1.materia_pedida.currentText()
+        cantidad_materia_ofrecida = self.dialogo_intercambio_1.cantidad_materia_ofrecida.value()
+        cantidad_materia_pedida = self.dialogo_intercambio_1.cantidad_materia_pedida.value()
+        jugador_elegido = self.dialogo_intercambio_1.jugador_elegido.currentText()
+        self.senal_proponer_intercambio.emit(materia_ofrecida, materia_pedida,
+                                             cantidad_materia_ofrecida, cantidad_materia_pedida,
+                                             jugador_elegido)
+        self.dialogo_intercambio_1.jugador_elegido.clear()
+
+    def abrir_ventana_intercambio_2(self, materia_recibida, materia_pedida,
+                                    cant_materia_recibida, cant_materia_pedida, nombre_oferente):
+        self.dialogo_intercambio_2.materia_recibida.setText(materia_recibida)
+        self.dialogo_intercambio_2.materia_pedida.setText(materia_pedida)
+        self.dialogo_intercambio_2.cantidad_materia_recibida.setText(str(cant_materia_recibida))
+        self.dialogo_intercambio_2.cantidad_materia_pedida.setText(str(cant_materia_pedida))
+        self.dialogo_intercambio_2.nombre_oferente.setText(nombre_oferente)
+        aceptado = self.dialogo_intercambio_2.exec()
+        aceptado = bool(aceptado)
+        self.senal_realizar_intercambio.emit(aceptado)
 
     def actualizar_materia_prima(self, id_jugador, materia_prima, valor):
         """
@@ -250,12 +278,10 @@ class VentanaJuego(window_name, base_class):
         pos_global = label_dropeado.mapToGlobal(QPoint(0, 0))
         pos_global_drop = self.mapToGlobal(event.pos())
         colider_drop = QRect(pos_global_drop, label_dropeado.size())
-        #print(f"colider_drop: {colider_drop}")
         if label_dropeado.tipo == "choza":
             for id_nodo in self.labels_nodos:
                 label_nodo = self.labels_nodos[id_nodo]
                 pos_global_nodo = label_nodo.mapToGlobal(QPoint(0, 0))
-                #print(f"Pos Global nodo: {pos_global_nodo}")
                 colider_nodo = QRect(pos_global_nodo, label_nodo.size())
                 if colider_drop.intersects(colider_nodo):
                     self.senal_casa_dropeada.emit(id_nodo)

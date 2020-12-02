@@ -2665,7 +2665,7 @@ border-radius: 20px;</string>
    <sender>boton_intercambio</sender>
    <signal>clicked()</signal>
    <receiver>VentanaJuego</receiver>
-   <slot>abrir_ventana_intercambio()</slot>
+   <slot>pedir_usuarios_intercambio()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>570</x>
@@ -2682,6 +2682,6 @@ border-radius: 20px;</string>
   <slot>lanzar_dados()</slot>
   <slot>comprar_carta_desarrollo()</slot>
   <slot>pasar_turno()</slot>
-  <slot>abrir_ventana_intercambio()</slot>
+  <slot>pedir_usuarios_intercambio()</slot>
  </slots>
 </ui>

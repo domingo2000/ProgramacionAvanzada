@@ -30,17 +30,13 @@
 font-weight: bold;
 border-radius: 20px;</string>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="label">
-      <property name="styleSheet">
-       <string notr="true">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true">
   border: none;
   color: black;
   padding: 15px 32px;
@@ -48,14 +44,16 @@ border-radius: 20px;</string>
   text-decoration: none;
   display: inline-block;
   font-size: 16px;</string>
-      </property>
-      <property name="text">
-       <string>Intercambio</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
+        </property>
+        <property name="text">
+         <string>Intercambio</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -238,6 +236,12 @@ border-radius: 20px;</string>
         <property name="text">
          <string>Intercambiar</string>
         </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item>
@@ -259,5 +263,22 @@ border-radius: 20px;</string>
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>boton_intercambiar</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>159</x>
+     <y>339</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>159</x>
+     <y>200</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

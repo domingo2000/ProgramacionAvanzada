@@ -35,6 +35,8 @@ class BackCliente(QObject):
     senal_alerta = pyqtSignal(str)
     senal_anadir_jugador_sala_termino = pyqtSignal(str, int)
     senal_actualizar_label_ganador = pyqtSignal(str, bool)
+    senal_abrir_dialogo_intercambio_2 = pyqtSignal(str, str, int, int, str)
+    senal_dar_usuarios_intercambio = pyqtSignal(list)
 
     def __init__(self):
         super().__init__()
@@ -65,7 +67,8 @@ class BackCliente(QObject):
             "enable_interface": self.senal_habilitar_interfaz.emit,
             "pop_up": self.senal_alerta.emit,
             "update_winner_window": self.actualizar_ventana_ganadores,
-            "open_winner_window": self.senal_abrir_ventana_termino.emit
+            "open_winner_window": self.senal_abrir_ventana_termino.emit,
+            "see_exchange": self.senal_abrir_dialogo_intercambio_2.emit
         }
 
         self.thread_comandos = QTimer()
@@ -153,3 +156,18 @@ class BackCliente(QObject):
         ruta_pixmap = path.join(*RUTAS_SPRITES[f"{nombre_construccion}_j{id_usuario}"])
         pixmap = QPixmap(ruta_pixmap)
         self.senal_anadir_construccion.emit(id_nodo, pixmap)
+
+    def proponer_intercambio(self, materia_ofrecida, materia_pedida,
+                             cant_materia_ofrecida, cant_materia_pedida, jugador_elegido):
+        materia_ofrecida = materia_ofrecida.lower()
+        materia_pedida = materia_pedida.lower()
+        interfaz_network.send_command("propose_exchange", materia_ofrecida, materia_pedida,
+                                      cant_materia_ofrecida, cant_materia_pedida, jugador_elegido)
+
+    def dar_usuarios_intercambio(self):
+        nombres_usuarios = list(self.usuarios.keys())
+        nombres_usuarios.remove(self.usuario_propio)
+        self.senal_dar_usuarios_intercambio.emit(nombres_usuarios)
+
+    def realizar_intercambio(self, bool):
+        interfaz_network.send_command("do_exchange", bool)

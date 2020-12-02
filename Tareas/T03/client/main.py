@@ -50,14 +50,18 @@ if __name__ == "__main__":
     # Senales habilitar interfaz
     back_cliente.senal_habilitar_dados.connect(ventana_juego.habilitar_boton_dados)
     back_cliente.senal_habilitar_interfaz.connect(ventana_juego.habilitar_interfaz)
-
+    back_cliente.senal_dar_usuarios_intercambio.connect(ventana_juego.abrir_ventana_intercambio_1)
+    back_cliente.senal_abrir_dialogo_intercambio_2.connect(
+        ventana_juego.abrir_ventana_intercambio_2)
     # senales front a back
     ventana_juego.senal_lanzar_dados.connect(back_cliente.lanzar_dados)
     ventana_juego.senal_comprar_carta_desarrollo.connect(back_cliente.comprar_carta_desarrollo)
     ventana_juego.senal_activar_carta_desarrollo.connect(back_cliente.activar_carta_desarrollo)
     ventana_juego.senal_pasar_turno.connect(back_cliente.pasar_turno)
     ventana_juego.senal_casa_dropeada.connect(back_cliente.enviar_choza_dropeada)
-
+    ventana_juego.senal_pedir_usuarios_intercambio.connect(back_cliente.dar_usuarios_intercambio)
+    ventana_juego.senal_proponer_intercambio.connect(back_cliente.proponer_intercambio)
+    ventana_juego.senal_realizar_intercambio.connect(back_cliente.realizar_intercambio)
     # Senales back ventana termino
     back_cliente.senal_anadir_jugador_sala_termino.connect(ventana_termino.anadir_usuario)
     back_cliente.senal_actualizar_label_ganador.connect(ventana_termino.actualizar_label_ganador)
