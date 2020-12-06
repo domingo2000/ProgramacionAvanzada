@@ -37,7 +37,8 @@ class Juego:
             "propose_exchange": self.proponer_intercambio,
             "do_exchange": self.realizar_intercambio,
             "put_thief": self.poner_ladron,
-            "steal_resource": self.robar_recursos
+            "steal_resource": self.robar_recursos,
+            "send_chat": self.enviar_chat
         }
         self.thread_comandos = Thread(name="thread_revisar_comandos",
                                       target=thread_revisar_comandos,
@@ -257,3 +258,6 @@ class Juego:
         interfaz_network.send_command(jugador_elegido.nombre, "pop_up", msg)
         msg = f"Le has robado {materia_robada} a {jugador_elegido.nombre}"
         interfaz_network.send_command(self.jugador_actual.nombre, "pop_up", msg)
+
+    def enviar_chat(self, nombre, texto):
+        interfaz_network.send_command_to_all("add_chat_line", nombre, texto)

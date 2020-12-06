@@ -29,6 +29,7 @@ class VentanaJuego(window_name, base_class):
     senal_realizar_intercambio = pyqtSignal(bool)
     senal_pedir_usuarios_intercambio = pyqtSignal()
     senal_robar_recursos_jugador = pyqtSignal(str)
+    senal_enviar_chat = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -325,3 +326,14 @@ class VentanaJuego(window_name, base_class):
         self.ladron.setParent(label_hexagono)
         self.ladron.move(20, 20)
         self.ladron.show()
+
+    def enviar_chat(self):
+        texto = self.texto_a_enviar.text()
+        self.texto_a_enviar.setText("")
+        self.senal_enviar_chat.emit(texto)
+
+    def anadir_linea_chat(self, nombre_usuario, texto):
+        string = f"{nombre_usuario}: {texto}"
+        label = QLabel(string)
+        layout = self.scroll_chat.layout()
+        layout.insertWidget(layout.count() - 1, label)

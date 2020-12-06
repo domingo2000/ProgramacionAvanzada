@@ -47,6 +47,7 @@ if __name__ == "__main__":
         back_cliente.senal_actualizar_jugador_actual.connect(
             ventana_juego.actualizar_label_jugador_actual)
         back_cliente.senal_actualizar_dados.connect(ventana_juego.actualizar_dados)
+        back_cliente.senal_anadir_linea_chat.connect(ventana_juego.anadir_linea_chat)
         # Senales construccion
         back_cliente.senal_eliminar_construccion.connect(ventana_juego.eliminar_construccion)
         back_cliente.senal_anadir_construccion.connect(ventana_juego.anadir_construccion)
@@ -71,11 +72,13 @@ if __name__ == "__main__":
         ventana_juego.senal_proponer_intercambio.connect(back_cliente.proponer_intercambio)
         ventana_juego.senal_realizar_intercambio.connect(back_cliente.realizar_intercambio)
         ventana_juego.senal_robar_recursos_jugador.connect(back_cliente.robar_recursos_jugador)
+        ventana_juego.senal_enviar_chat.connect(back_cliente.enviar_chat)
         # Senales back ventana termino
         back_cliente.senal_anadir_jugador_sala_termino.connect(ventana_termino.anadir_usuario)
         back_cliente.senal_actualizar_label_ganador.connect(
             ventana_termino.actualizar_label_ganador)
         back_cliente.senal_abrir_ventana_termino.connect(ventana_termino.show)
+
 
         net_cliente.encender()
         ventana_espera.show()
