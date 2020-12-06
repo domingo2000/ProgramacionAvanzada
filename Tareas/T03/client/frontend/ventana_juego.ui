@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1166</width>
-    <height>762</height>
+    <height>716</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -27,7 +27,7 @@
     <widget class="QFrame" name="mapa">
      <property name="minimumSize">
       <size>
-       <width>601</width>
+       <width>645</width>
        <height>441</height>
       </size>
      </property>
@@ -1424,8 +1424,8 @@ font-size: 15px;</string>
     <widget class="QFrame" name="informacion_juego">
      <property name="minimumSize">
       <size>
-       <width>281</width>
-       <height>621</height>
+       <width>311</width>
+       <height>651</height>
       </size>
      </property>
      <property name="styleSheet">
@@ -2259,7 +2259,7 @@ border-radius: 20px;</string>
      <property name="minimumSize">
       <size>
        <width>180</width>
-       <height>744</height>
+       <height>641</height>
       </size>
      </property>
      <property name="styleSheet">
@@ -2297,7 +2297,7 @@ background-color: #D3D7CF</string>
            <x>0</x>
            <y>0</y>
            <width>158</width>
-           <height>672</height>
+           <height>626</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2350,8 +2350,8 @@ background-color: white;</string>
     <widget class="QWidget" name="barra_usuario" native="true">
      <property name="minimumSize">
       <size>
-       <width>601</width>
-       <height>201</height>
+       <width>645</width>
+       <height>251</height>
       </size>
      </property>
      <property name="styleSheet">
