@@ -93,6 +93,7 @@ class Hexagono:
         self.nodos = nodos
         self.__materia_prima = None
         self.__num_ficha = 0
+        self.ladron = False
 
     @property
     def materia_prima(self):
@@ -300,7 +301,6 @@ class Mapa:
                 # Si no es un endpoint sigue avanzando por el grafo
                 else:
                     print(f"Visitando Nodo: {nodo_actual}")
-                    #print("Sumando camino")
                     largo_rama += 1
                     vecinos = self.vecinos_conectados(nodo_actual)
                     vecino = vecinos.pop()
@@ -314,7 +314,6 @@ class Mapa:
             while True:
                 nodo_actual = stack.pop()
                 if self.is_end_point(nodo_actual, visitados):
-                    #print(f"Hechando hacia atras {nodo_actual}")
                     largo_rama -= 1
 
                     # Si es que se devuelve hasta el nodo inicial retorna los largos encontrados
@@ -377,9 +376,6 @@ if __name__ == "__main__":
     mapa.conexiones[("18", "17")].camino = True
     mapa.conexiones[("17", "22")].camino = True
 
-
-    #usuario = Usuario("juanito")
-    #camino = Camino(usuario)
     """
     mapa.anadir_camino("0", "1")
     #mapa.anadir_camino("1", "5")
@@ -388,8 +384,3 @@ if __name__ == "__main__":
     #mapa.anadir_camino("9", "10")
     #mapa.anadir_camino("10", "5")
     """
-    #a = set(back_track_mapa(mapa, "0"))
-
-
-
-    

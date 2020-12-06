@@ -6,6 +6,7 @@ from os import path
 from frontend.dialogs import (DialogoMonopolio, DialogPuntoVictoria,
                               DialogIntercambio1, DialogIntercambio2)
 from frontend.construcciones import Choza
+from frontend.ladron import Ladron
 import json
 
 with open("parametros.json") as file:
@@ -23,6 +24,7 @@ class VentanaJuego(window_name, base_class):
     senal_pasar_turno = pyqtSignal()
     senal_casa_dropeada = pyqtSignal(str)
     senal_label_dropeado = pyqtSignal(QLabel, QDropEvent)
+    senal_ladron_dropeado = pyqtSignal(str)
     senal_proponer_intercambio = pyqtSignal(str, str, int, int, str)
     senal_realizar_intercambio = pyqtSignal(bool)
     senal_pedir_usuarios_intercambio = pyqtSignal()
@@ -135,6 +137,8 @@ class VentanaJuego(window_name, base_class):
     def init_gui(self):
         self.casa_interfaz = Choza(0, 0, self)
         self.barra_usuario.layout().addWidget(self.casa_interfaz, 1, 3)
+        self.ladron = Ladron(0, 0, self)
+        self.barra_usuario.layout().addWidget(self.ladron, 0, 0)
 
     def actualizar_num_ficha(self, id_ficha, numero_ficha):
         label_num_ficha = self.labels_num_fichas[id_ficha]
@@ -262,9 +266,13 @@ class VentanaJuego(window_name, base_class):
 
     def deshabilitar_interfaz(self):
         self.casa_interfaz.movible = False
+        self.ladron.movible = False
         self.boton_carta_desarrollo.setEnabled(False)
         self.boton_pasar_turno.setEnabled(False)
         self.boton_intercambio.setEnabled(False)
+
+    def habilitar_ladron(self):
+        self.ladron.movible = True
 
     def alerta(self, mensaje):
         self.q_error_message = QErrorMessage(self)
@@ -288,6 +296,22 @@ class VentanaJuego(window_name, base_class):
                     self.deshabilitar_interfaz()
                     return
             self.alerta("Posicion invalida")
+        elif label_dropeado.tipo == "ladron":
+            for id_hexagono in self.labels_hexagonos:
+                label_hexagono = self.labels_hexagonos[id_hexagono]
+                pos_global_hexagono = label_hexagono.mapToGlobal(QPoint(0, 0))
+                colider_hexagono = QRect(pos_global_hexagono, label_hexagono.size())
+                if colider_drop.intersects(colider_hexagono):
+                    self.senal_ladron_dropeado.emit(id_hexagono)
+                    self.ladron.movible = False
+                    return
+            self.alerta("Posicion invalida")
 
     def habilitar_boton_dados(self):
         self.boton_lanzar_dados.setEnabled(True)
+
+    def poner_ladron(self, id_hexagono):
+        label_hexagono = self.labels_hexagonos[id_hexagono]
+        self.ladron.setParent(label_hexagono)
+        self.ladron.move(20, 20)
+        self.ladron.show()

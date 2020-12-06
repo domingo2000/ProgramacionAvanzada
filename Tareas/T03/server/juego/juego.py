@@ -35,7 +35,8 @@ class Juego:
             "pass_turn": self.pasar_turno,
             "buy_house": self.comprar_choza,
             "propose_exchange": self.proponer_intercambio,
-            "do_exchange": self.realizar_intercambio
+            "do_exchange": self.realizar_intercambio,
+            "put_thief": self.poner_ladron
         }
         self.thread_comandos = Thread(name="thread_revisar_comandos",
                                       target=thread_revisar_comandos,
@@ -79,6 +80,7 @@ class Juego:
         # Reparte las cartas y lo deja jugar
         if self.suma_dados() == 7:
             self.quitar_materias_primas()
+            interfaz_network.send_command(self.jugador_actual.nombre, "enable_thief")
         else:
             self.banco.repartir_cartas(self.mapa, self.suma_dados())
         interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
@@ -138,8 +140,8 @@ class Juego:
                 interfaz_network.send_command_to_all("pop_up", msg)
                 self.event_accion_realizada.set()
             else:  # Si no se pudo construir se activa la interfaz
-                interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")    
-        else: # Si no se pudo comprar se activa la itnerfaz
+                interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
+        else:  # Si no se pudo comprar se activa la itnerfaz
             interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
 
     def activar_carta_desarrollo(self, materia_prima=None):
@@ -150,13 +152,24 @@ class Juego:
         self.carta_desarrollo = None
         self.event_accion_realizada.set()
 
+    def poner_ladron(self, id_hexagono):
+        if self.mapa.hexagonos[id_hexagono].ladron == True:
+            msg = "Posicion Invalida, ya hay un ladron en ese Hexagono"
+            interfaz_network.send_command(self.jugador_actual.nombre, "pop_up", msg)
+        else:
+            print(f"Poniendo Ladron en id: {id_hexagono}")
+            self.mapa.hexagonos[id_hexagono].ladron = True
+            msg = f"{self.jugador_actual.nombre} ha usado el ladron"
+            interfaz_network.send_command_to_all("put_thief", id_hexagono)
+            interfaz_network.send_command_to_all("pop_up", msg)
+            pass
+
     def pasar_turno(self):
         self.event_accion_realizada.set()
 
     def ganador(self):
         for usuario in self.cola_turnos:
             if usuario.puntos >= PARAMETROS["PUNTOS_VICTORIA_FINALES"]:
-                #interfaz_network.send_command_to_all("open_winner_window")
                 print("Enviar comando notificar ganador")
                 print("Enviar comando abrir popup de volver a jugar")
                 return usuario.nombre
@@ -189,7 +202,7 @@ class Juego:
             interfaz_network.send_command(self.jugador_actual.nombre, "pop_up", msg)
             interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
         else:
-            interfaz_network.send_command(usuario_jugador_elegido.nombre, "see_exchange", 
+            interfaz_network.send_command(usuario_jugador_elegido.nombre, "see_exchange",
                                           materia_ofrecida, materia_pedida, cant_materia_ofrecida,
                                           cant_materia_pedida, self.jugador_actual.nombre)
             self.jugador_oferente_intercambio = self.jugador_actual
@@ -225,6 +238,6 @@ class Juego:
             self.cant_materia_pedida = None
         else:
             msg = "Se ha rechazado el intercambio"
-            interfaz_network.send_command(self.jugador_oferente_intercambio.nombre, 
+            interfaz_network.send_command(self.jugador_oferente_intercambio.nombre,
                                           "pop_up", msg)
         self.event_accion_realizada.set()

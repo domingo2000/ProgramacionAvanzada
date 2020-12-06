@@ -31,12 +31,14 @@ class BackCliente(QObject):
     senal_mensaje_sala_espera = pyqtSignal(str)
     senal_habilitar_dados = pyqtSignal()
     senal_habilitar_interfaz = pyqtSignal()
+    senal_habilitar_ladron = pyqtSignal()
     senal_actualizar_dados = pyqtSignal(QPixmap, QPixmap)
     senal_alerta = pyqtSignal(str)
     senal_anadir_jugador_sala_termino = pyqtSignal(str, int)
     senal_actualizar_label_ganador = pyqtSignal(str, bool)
     senal_abrir_dialogo_intercambio_2 = pyqtSignal(str, str, int, int, str)
     senal_dar_usuarios_intercambio = pyqtSignal(list)
+    senal_poner_ladron = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -65,10 +67,12 @@ class BackCliente(QObject):
             "msg_wait_room": self.senal_mensaje_sala_espera.emit,
             "enable_dice_throw": self.senal_habilitar_dados.emit,
             "enable_interface": self.senal_habilitar_interfaz.emit,
+            "enable_thief": self.senal_habilitar_ladron.emit,
             "pop_up": self.senal_alerta.emit,
             "update_winner_window": self.actualizar_ventana_ganadores,
             "open_winner_window": self.senal_abrir_ventana_termino.emit,
-            "see_exchange": self.senal_abrir_dialogo_intercambio_2.emit
+            "see_exchange": self.senal_abrir_dialogo_intercambio_2.emit,
+            "put_thief": self.senal_poner_ladron.emit
         }
 
         self.thread_comandos = QTimer()
@@ -149,6 +153,10 @@ class BackCliente(QObject):
 
     def enviar_choza_dropeada(self, id_nodo):
         interfaz_network.send_command("buy_house", id_nodo)
+        pass
+
+    def enviar_ladron_dropeado(self, id_hexagono):
+        interfaz_network.send_command("put_thief", id_hexagono)
         pass
 
     def anadir_construccion(self, id_nodo, nombre_construccion, nombre_usuario):

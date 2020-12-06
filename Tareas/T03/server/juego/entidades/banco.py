@@ -26,6 +26,8 @@ class Banco:
 
     def repartir_cartas(self, mapa, suma_dados):
         for hexagono in mapa.hexagonos.values():
+            if hexagono.ladron:
+                continue
             if hexagono.num_ficha == suma_dados:
                 materia_prima = hexagono.materia_prima
                 nodos_ocupados = hexagono.nodos_ocupados()

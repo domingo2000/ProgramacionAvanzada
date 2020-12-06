@@ -9,17 +9,17 @@ with open("parametros.json") as file:
     rutas = data["rutas_sprites"]
 
 
-class Choza(QLabel):
+class Ladron(QLabel):
 
     def __init__(self, pos_x, pos_y, parent):
         super().__init__(parent)
-        self.setGeometry(pos_x, pos_y, 31, 31)
-        self.pixmap = QPixmap(path.join(*rutas["choza_j0"]))
+        self.setGeometry(pos_x, pos_y, 50, 50)
+        self.pixmap = QPixmap(path.join(*rutas["ladron"]))
         self.setPixmap(self.pixmap)
         self.setScaledContents(True)
         self.setMaximumSize(31, 31)
         self.setStyleSheet("background-color: transparent;")
-        self.tipo = "choza"
+        self.tipo = "ladron"
         self.movible = False
 
     def mouseMoveEvent(self, event):
@@ -32,3 +32,15 @@ class Choza(QLabel):
         drag.setPixmap(self.grab())
         drag.setHotSpot(event.pos())
         drag.exec_(Qt.CopyAction | Qt.MoveAction)
+
+
+if __name__ == "__main__":
+    from PyQt5.QtWidgets import QWidget, QApplication
+    import sys
+    app = QApplication([])
+    ventana = QWidget()
+    ventana.setGeometry(50, 50, 500, 500)
+    ladron = Ladron(50, 50, ventana)
+    ladron.show()
+    ventana.show()
+    sys.exit(app.exec_())
