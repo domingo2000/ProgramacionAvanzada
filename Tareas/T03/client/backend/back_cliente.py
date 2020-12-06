@@ -39,6 +39,7 @@ class BackCliente(QObject):
     senal_abrir_dialogo_intercambio_2 = pyqtSignal(str, str, int, int, str)
     senal_dar_usuarios_intercambio = pyqtSignal(list)
     senal_poner_ladron = pyqtSignal(str)
+    senal_abrir_robo_cartas = pyqtSignal(list)
 
     def __init__(self):
         super().__init__()
@@ -72,7 +73,8 @@ class BackCliente(QObject):
             "update_winner_window": self.actualizar_ventana_ganadores,
             "open_winner_window": self.senal_abrir_ventana_termino.emit,
             "see_exchange": self.senal_abrir_dialogo_intercambio_2.emit,
-            "put_thief": self.senal_poner_ladron.emit
+            "put_thief": self.senal_poner_ladron.emit,
+            "steal_cards": self.robar_cartas
         }
 
         self.thread_comandos = QTimer()
@@ -177,5 +179,13 @@ class BackCliente(QObject):
         nombres_usuarios.remove(self.usuario_propio)
         self.senal_dar_usuarios_intercambio.emit(nombres_usuarios)
 
+    def robar_cartas(self):
+        nombres_usuarios = list(self.usuarios.keys())
+        nombres_usuarios.remove(self.usuario_propio)
+        self.senal_abrir_robo_cartas.emit(nombres_usuarios)
+
     def realizar_intercambio(self, bool):
         interfaz_network.send_command("do_exchange", bool)
+
+    def robar_recursos_jugador(self, nombre_jugador):
+        interfaz_network.send_command("steal_resource", nombre_jugador)

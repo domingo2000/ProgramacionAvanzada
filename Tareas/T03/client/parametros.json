@@ -46,6 +46,7 @@
         "monopolio": ["frontend", "monopolio.ui"],
         "punto_victoria": ["frontend", "punto_victoria.ui"],
         "intercambio_1": ["frontend", "intercambio_1.ui"],
-        "intercambio_2": ["frontend", "intercambio_2.ui"]
+        "intercambio_2": ["frontend", "intercambio_2.ui"],
+        "robo_cartas": ["frontend", "robo_cartas.ui"]
     }
 }

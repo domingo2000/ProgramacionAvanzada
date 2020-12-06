@@ -36,7 +36,8 @@ class Juego:
             "buy_house": self.comprar_choza,
             "propose_exchange": self.proponer_intercambio,
             "do_exchange": self.realizar_intercambio,
-            "put_thief": self.poner_ladron
+            "put_thief": self.poner_ladron,
+            "steal_resource": self.robar_recursos
         }
         self.thread_comandos = Thread(name="thread_revisar_comandos",
                                       target=thread_revisar_comandos,
@@ -162,6 +163,7 @@ class Juego:
             msg = f"{self.jugador_actual.nombre} ha usado el ladron"
             interfaz_network.send_command_to_all("put_thief", id_hexagono)
             interfaz_network.send_command_to_all("pop_up", msg)
+            interfaz_network.send_command(self.jugador_actual.nombre, "steal_cards")
             pass
 
     def pasar_turno(self):
@@ -241,3 +243,17 @@ class Juego:
             interfaz_network.send_command(self.jugador_oferente_intercambio.nombre,
                                           "pop_up", msg)
         self.event_accion_realizada.set()
+
+    def robar_recursos(self, nombre_usuario):
+        for usuario in self.usuarios:
+            if usuario.nombre == nombre_usuario:
+                jugador_elegido = usuario
+        materias_primas = ["madera", "trigo", "arcilla"]
+        materia_robada = random.choice(materias_primas)
+        while jugador_elegido.mazo[materia_robada] <= 0:
+            materia_robada = materia_robada = random.choice(materias_primas)
+        jugador_elegido.mazo[materia_robada] -= 1
+        msg = f"{self.jugador_actual.nombre} te ha robado {materia_robada}"
+        interfaz_network.send_command(jugador_elegido.nombre, "pop_up", msg)
+        msg = f"Le has robado {materia_robada} a {jugador_elegido.nombre}"
+        interfaz_network.send_command(self.jugador_actual.nombre, "pop_up", msg)

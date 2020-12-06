@@ -45,6 +45,15 @@ class DialogIntercambio2(window_name, base_class):
         self.setupUi(self)
 
 
+window_name, base_class = uic.loadUiType(path.join(*RUTAS_UIS["robo_cartas"]))
+
+
+class DialogRoboCartas(window_name, base_class):
+    def __init__(self, parent):
+        super().__init__()
+        self.setupUi(self)
+
+
 if __name__ == "__main__":
     app = QApplication([])
     ventana = QWidget()

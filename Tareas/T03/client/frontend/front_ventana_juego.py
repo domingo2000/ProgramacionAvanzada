@@ -4,7 +4,7 @@ from PyQt5.QtGui import QPixmap, QDropEvent
 from PyQt5.QtCore import pyqtSignal, QEvent, QRect, QPoint
 from os import path
 from frontend.dialogs import (DialogoMonopolio, DialogPuntoVictoria,
-                              DialogIntercambio1, DialogIntercambio2)
+                              DialogIntercambio1, DialogIntercambio2, DialogRoboCartas)
 from frontend.construcciones import Choza
 from frontend.ladron import Ladron
 import json
@@ -28,6 +28,7 @@ class VentanaJuego(window_name, base_class):
     senal_proponer_intercambio = pyqtSignal(str, str, int, int, str)
     senal_realizar_intercambio = pyqtSignal(bool)
     senal_pedir_usuarios_intercambio = pyqtSignal()
+    senal_robar_recursos_jugador = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -133,6 +134,7 @@ class VentanaJuego(window_name, base_class):
         self.dialogo_punto_victoria = DialogPuntoVictoria(self)
         self.dialogo_intercambio_1 = DialogIntercambio1(self)
         self.dialogo_intercambio_2 = DialogIntercambio2(self)
+        self.dialogo_robo_cartas = DialogRoboCartas(self)
 
     def init_gui(self):
         self.casa_interfaz = Choza(0, 0, self)
@@ -198,6 +200,14 @@ class VentanaJuego(window_name, base_class):
         aceptado = self.dialogo_intercambio_2.exec()
         aceptado = bool(aceptado)
         self.senal_realizar_intercambio.emit(aceptado)
+
+    def abrir_ventana_robo_cartas(self, lista_nombres):
+        for nombre in lista_nombres:
+            self.dialogo_robo_cartas.jugador_elegido.addItem(nombre)
+        self.dialogo_robo_cartas.exec()
+        jugador_elegido = self.dialogo_robo_cartas.jugador_elegido.currentText()
+        self.senal_robar_recursos_jugador.emit(jugador_elegido)
+        self.dialogo_robo_cartas.jugador_elegido.clear()
 
     def actualizar_materia_prima(self, id_jugador, materia_prima, valor):
         """

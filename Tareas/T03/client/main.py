@@ -31,6 +31,7 @@ if __name__ == "__main__":
         )
         back_cliente.senal_abrir_dialogo_monopolio.connect(ventana_juego.activar_dialogo_monopolio)
         back_cliente.senal_poner_ladron.connect(ventana_juego.poner_ladron)
+        back_cliente.senal_abrir_robo_cartas.connect(ventana_juego.abrir_ventana_robo_cartas)
 
         # Senales de carga de juego
         back_cliente.senal_cargar_hexagono.connect(ventana_juego.actualizar_materia_prima_hexagono)
@@ -69,6 +70,7 @@ if __name__ == "__main__":
             back_cliente.dar_usuarios_intercambio)
         ventana_juego.senal_proponer_intercambio.connect(back_cliente.proponer_intercambio)
         ventana_juego.senal_realizar_intercambio.connect(back_cliente.realizar_intercambio)
+        ventana_juego.senal_robar_recursos_jugador.connect(back_cliente.robar_recursos_jugador)
         # Senales back ventana termino
         back_cliente.senal_anadir_jugador_sala_termino.connect(ventana_termino.anadir_usuario)
         back_cliente.senal_actualizar_label_ganador.connect(
