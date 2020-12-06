@@ -125,4 +125,7 @@ font-size: 15pt;</string>
  </widget>
  <resources/>
  <connections/>
+ <slots>
+  <slot>volver_sala_espera()</slot>
+ </slots>
 </ui>
