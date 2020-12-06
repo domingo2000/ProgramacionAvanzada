@@ -77,7 +77,10 @@ class Juego:
         self.event_dados_lanzados.wait()
         self.event_dados_lanzados.clear()
         # Reparte las cartas y lo deja jugar
-        self.banco.repartir_cartas(self.mapa, self.suma_dados())
+        if self.suma_dados() == 7:
+            self.quitar_materias_primas()
+        else:
+            self.banco.repartir_cartas(self.mapa, self.suma_dados())
         interfaz_network.send_command(self.jugador_actual.nombre, "enable_interface")
         self.event_accion_realizada.wait()
         self.event_accion_realizada.clear()
@@ -91,6 +94,23 @@ class Juego:
         self.dados[1] = dado_2
         interfaz_network.send_command_to_all("update_dices", dado_1, dado_2)
         self.event_dados_lanzados.set()
+
+    def quitar_materias_primas(self):
+        tipo_materia = ["madera", "arcilla", "trigo"]
+        for usuario in self.usuarios:
+            cantidad_madera = usuario.mazo["madera"]
+            cantidad_trigo = usuario.mazo["trigo"]
+            cantidad_arcilla = usuario.mazo["arcilla"]
+            cantidad_cartas = cantidad_arcilla + cantidad_madera + cantidad_trigo
+            if cantidad_cartas >= 7:
+                cantidad_botadas = int(cantidad_cartas / 2)
+                for _ in range(cantidad_botadas):
+                    materia = random.choice(tipo_materia)
+                    while usuario.mazo[materia] <= 0:
+                        materia = random.choice(tipo_materia)
+                    usuario.mazo[materia] -= 1
+                msg = "Has perdido la mitad de tus cartas"
+                interfaz_network.send_command(usuario.nombre, "pop_up", msg)
 
     def suma_dados(self):
         suma = self.dados[0] + self.dados[1]
