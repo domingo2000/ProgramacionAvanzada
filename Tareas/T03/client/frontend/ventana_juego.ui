@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1116</width>
+    <width>1146</width>
     <height>653</height>
    </rect>
   </property>
@@ -1424,7 +1424,7 @@ font-size: 15px;</string>
     <widget class="QFrame" name="informacion_juego">
      <property name="minimumSize">
       <size>
-       <width>251</width>
+       <width>300</width>
        <height>591</height>
       </size>
      </property>
